@@ -1,5 +1,5 @@
 Villagecraft::Application.routes.draw do
-  get "pages/home"
+  get 'about' => 'Pages#about'
   root :to => 'Pages#home'
 
   # The priority is based upon order of creation:
