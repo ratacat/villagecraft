@@ -1,4 +1,6 @@
 Villagecraft::Application.routes.draw do
+  devise_for :users
+
   get 'about' => 'Pages#about'
   root :to => 'Pages#home'
 
