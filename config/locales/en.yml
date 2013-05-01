@@ -3,3 +3,7 @@
 
 en:
   hello: "Hello world"
+
+en:
+  date:
+    datepicker: "mm/dd/yyyy"

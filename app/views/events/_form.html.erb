@@ -1,7 +1,16 @@
 <%= simple_form_for(@event, html: {class: "form-horizontal"}) do |f| %>
   <%= f.error_notification %>
 
-    <%= f.input :description, as: :text, input_html: {rows: "3"} %>
+  	<%= f.input :title %>
+  		<script type="text/javascript">
+  $(function() {
+    $('#datetimepicker1').datetimepicker({
+      pickTime: false
+    });
+  });
+</script>
+	<%= f.input :date, as: :custom %>
+    <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
     <%= f.button :submit, class: "btn btn-primary" %>

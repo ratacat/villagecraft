@@ -1,7 +1,13 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
+  before_filter :checkDate, :only => [:create, :update]
   # GET /events
   # GET /events.json
+  def checkDate
+    @events.date = DateTime.civil(@events.date[6..9], @events.date[0..1], @events.date[3..4])
+    @events.save
+  end
+
   def index
     @events = Event.all
 
