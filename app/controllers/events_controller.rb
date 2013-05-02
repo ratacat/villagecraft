@@ -1,12 +1,12 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index]
-  before_filter :checkDate, :only => [:create, :update]
+  #before_filter :checkDate, :only => [:create, :update]
   # GET /events
   # GET /events.json
-  def checkDate
-    @events.date = DateTime.civil(@events.date[6..9], @events.date[0..1], @events.date[3..4])
-    @events.save
-  end
+ # def checkDate
+  #  @events.date = DateTime.strptime(Event.date, "%Y-%m-%d")
+  #  @events.save
+ # end
 
   def index
     @events = Event.all
@@ -48,6 +48,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = current_user.events.new(params[:event])
+    Rails.logger.info ("debug:" + @event.to_yaml)
 
     respond_to do |format|
       if @event.save

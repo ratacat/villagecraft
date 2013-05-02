@@ -3,7 +3,6 @@ class CustomInput < SimpleForm::Inputs::Base
   def input
     text_field_options = input_html_options.dup
     hidden_field_options = input_html_options.dup
-    #hidden_field_options[:class] = input_html_options[:class].dup # so they won't work with same array object
      
     text_field_options[:id] = "datetimepicker1"
     text_field_options[:class] = 'input-append date form-horizontal'
