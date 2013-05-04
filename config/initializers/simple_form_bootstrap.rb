@@ -37,13 +37,6 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :basic do |b|
-    b.use :placeholder
-    b.use :label_input
-    #component.use :hint,  :wrap_with => { :tag => :span, :class => :hint }
-    #component.use :error, :wrap_with => { :tag => :span, :class => :error }
-  end
-
   # Wrappers for forms and inputs using the Twitter Bootstrap toolkit.
   # Check the Bootstrap docs (http://twitter.github.com/bootstrap)
   # to learn about the different styles for forms and inputs,

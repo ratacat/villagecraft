@@ -48,7 +48,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = current_user.events.new(params[:event])
-    Rails.logger.info ("debug:" + @event.to_yaml)
+    Rails.logger.info ("debug:" + params.to_yaml)
 
     respond_to do |format|
       if @event.save

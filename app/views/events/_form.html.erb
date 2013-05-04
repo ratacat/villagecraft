@@ -2,14 +2,6 @@
   <%= f.error_notification %>
 
   	<%= f.input :title %>
-  		<script type="text/javascript">
-  $(function() {
-    $('#datetimepicker1').datetimepicker({
-      pickTime: false
-    });
-  });
-</script>
-	<%= f.input :date, as: :custom %>
     <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
