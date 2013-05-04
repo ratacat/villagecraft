@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+<<<<<<< HEAD
+=======
+
+>>>>>>> removed bootstrap js require
