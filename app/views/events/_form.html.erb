@@ -2,6 +2,8 @@
   <%= f.error_notification %>
 
   	<%= f.input :title %>
+    <%= f.input :date, as: :date_select %>
+    <%= f.input :time, as: :time_select %>
     <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
