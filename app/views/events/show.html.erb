@@ -1,7 +1,16 @@
+<h1><%= @event.title %></h1>
+
+<div class="well">
 <p>
   <b>Description:</b>
   <%= @event.description %>
 </p>
+
+<p>
+  <b>Date:</b>
+  <%= l @event.datetime, format: :long %>
+</p>
+</div>
 
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
