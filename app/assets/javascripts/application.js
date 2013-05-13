@@ -13,8 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-datetimepicker.min
 //= require_tree .
-<<<<<<< HEAD
-=======
-
->>>>>>> removed bootstrap js require
