@@ -15,3 +15,18 @@
 //= require bootstrap
 //= require bootstrap-datetimepicker.min
 //= require_tree .
+
+jQuery(function($){
+
+  $('.date-select-component').datetimepicker({
+    language: 'en',
+    pickTime: false
+  });
+
+  $('.time-select-component').datetimepicker({
+    pickDate: false,
+    pick12HourFormat: true,
+    pickSeconds: false
+  });
+
+});
