@@ -11,21 +11,67 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513070553) do
+ActiveRecord::Schema.define(:version => 20130611055105) do
+
+  create_table "courses", :force => true do |t|
+    t.integer  "vclass_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "courses", ["vclass_id"], :name => "index_courses_on_vclass_id"
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.string   "description"
-    t.string   "location"
-    t.string   "attendance_type"
-    t.integer  "group_size"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.integer  "user_id"
-    t.datetime "datetime"
+    t.text     "description",   :limit => 255
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "course_id"
+    t.integer  "host_id"
+    t.integer  "location_id"
+    t.integer  "min_attendees"
+    t.integer  "max_attendees"
+    t.boolean  "open"
+    t.integer  "max_observers"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "secret"
+    t.string   "short_title"
   end
 
-  add_index "events", ["user_id"], :name => "index_events_on_user_id"
+  create_table "events_users", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.boolean "confirmed"
+    t.integer "guests"
+  end
+
+  add_index "events_users", ["event_id"], :name => "index_events_users_on_event_id"
+  add_index "events_users", ["user_id"], :name => "index_events_users_on_user_id"
+
+  create_table "locations", :force => true do |t|
+    t.string   "street"
+    t.string   "city"
+    t.string   "zip"
+    t.string   "state"
+    t.integer  "owner_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "locations", ["owner_id"], :name => "index_locations_on_owner_id"
+
+  create_table "reviews", :force => true do |t|
+    t.integer  "vclass_id"
+    t.integer  "author_id"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "reviews", ["author_id"], :name => "index_reviews_on_author_id"
+  add_index "reviews", ["vclass_id"], :name => "index_reviews_on_vclass_id"
 
   create_table "users", :force => true do |t|
     t.string   "name_first"
@@ -51,5 +97,13 @@ ActiveRecord::Schema.define(:version => 20130513070553) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "vclasses", :force => true do |t|
+    t.integer  "admin_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "vclasses", ["admin_id"], :name => "index_vclasses_on_admin_id"
 
 end
