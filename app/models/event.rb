@@ -1,7 +1,11 @@
 class Event < ActiveRecord::Base
   attr_accessible :description, :title, :date, :time
 
-  belongs_to :user
+  belongs_to :host, :class_name => 'User'
+  belongs_to :course
+  belongs_to :location
+  has_and_belongs_to_many :attendees, :class_name => 'User'
+  
   validates :user_id, presence: true
 
   def date

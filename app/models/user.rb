@@ -10,4 +10,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :events, dependent: :destroy
+  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
+  has_and_belongs_to_many :attends, :class_name => 'Event'
+  has_many :reviews
 end
