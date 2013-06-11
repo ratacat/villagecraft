@@ -11,12 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611055105) do
+ActiveRecord::Schema.define(:version => 20130611191656) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
   add_index "courses", ["vclass_id"], :name => "index_courses_on_vclass_id"
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20130611055105) do
     t.integer  "admin_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
   add_index "vclasses", ["admin_id"], :name => "index_vclasses_on_admin_id"
