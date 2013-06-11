@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  attr_accessible :description, :title, :date, :time
+  attr_accessible :host, :course, :title, :description, :start_time, :end_time
 
   belongs_to :host, :class_name => 'User'
   belongs_to :course
@@ -9,21 +9,8 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :course_id, presence: true
   validates :title, presence: true
+
+  validates_datetime :start_time
+  validates_datetime :end_time, :after => :start_time
   
-  def date
-    datetime && datetime.strftime("%Y-%m-%d")
-  end
-
-  def time
-    datetime && datetime.strftime("%I:%M %p")
-  end
-
-  def date=(date)
-    self.datetime = Time.zone.parse(date, datetime || Time.now)
-  end
-
-  def time=(time)
-    self.datetime = Time.zone.parse(time, datetime || Time.now)
-  end
-
 end
