@@ -6,8 +6,10 @@ class Event < ActiveRecord::Base
   belongs_to :location
   has_and_belongs_to_many :attendees, :class_name => 'User'
   
-  validates :user_id, presence: true
-
+  validates :host_id, presence: true
+  validates :course_id, presence: true
+  validates :title, presence: true
+  
   def date
     datetime && datetime.strftime("%Y-%m-%d")
   end
