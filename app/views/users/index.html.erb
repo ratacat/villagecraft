@@ -1,0 +1,27 @@
+<div class="page-header">
+  <%= link_to new_user_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New User
+  <% end %>
+  <h1>Listing users</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @users.each do |user| %>
+    <tr>
+      <td><%= link_to 'Show', user %></td>
+      <td><%= link_to 'Edit', edit_user_path(user) %></td>
+      <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
