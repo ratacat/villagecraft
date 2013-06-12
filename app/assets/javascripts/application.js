@@ -14,19 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-datetimepicker.min
+//= require moment
+//= require livestamp
 //= require_tree .
-
-jQuery(function($){
-
-  $('.date-select-component').datetimepicker({
-    language: 'en',
-    pickTime: false
-  });
-
-  $('.time-select-component').datetimepicker({
-    pickDate: false,
-    pick12HourFormat: true,
-    pickSeconds: false
-  });
-
-});

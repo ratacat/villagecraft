@@ -1,14 +1,16 @@
 <div class="page-header">
   <%= link_to users_path, :class => 'btn' do %>
     <i class="icon-list-alt"></i>
-    Back
+    View Users
   <% end %>
   <%= link_to edit_user_path(@user), :class => 'btn btn-primary' do %>
     <i class="icon-pencil icon-white"></i>
     Edit
   <% end %>
-  <h1>Listing users</h1>
+  <h1><%= @user.name_first + " " + @user.name_last%></h1>
+  <h4><i class="user-city">Berkeley, CA</i></h4><br>
+  Account was created <span data-livestamp="<%= @user.created_at %>"></span>.<br>
+  Hosted <%= @user.number_of_events_hosted %> events.<br>
+  Attended <%= @user.number_of_events_attended %> events.<br>
+  Velocity: 100   
 </div>
-
-<dl>
-</dl>
