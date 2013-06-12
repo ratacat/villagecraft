@@ -9,6 +9,10 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Sign Ins</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,7 +22,11 @@
   <tbody>
 <% @users.each do |user| %>
     <tr>
-      <td><%= link_to 'Show', user %></td>
+      <td><%= user.id %></td>
+      <td><%= user.name_first + " " + user.name_last %></td>
+      <td><%= user.email %></td>
+      <td><%= user.sign_in_count.to_s + " sign ins" %></td>
+      <td><%= link_to 'View Profile', user %></td>
       <td><%= link_to 'Edit', edit_user_path(user) %></td>
       <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
     </tr>
