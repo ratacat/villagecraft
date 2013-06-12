@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611191656) do
+ActiveRecord::Schema.define(:version => 20130612060436) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20130611191656) do
   create_table "events_users", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "event_id"
-    t.boolean "confirmed"
+    t.boolean "confirmed", :default => false
     t.integer "guests"
   end
 
