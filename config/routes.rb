@@ -2,6 +2,7 @@ Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
   resources :events
+  resources :users
 
 
   devise_for :users
