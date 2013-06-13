@@ -8,6 +8,15 @@ class EventsController < ApplicationController
   #  @events.save
  # end
 
+  def my_events
+    @events = current_user.events
+    
+    respond_to do |format|
+      format.html # my_events.html.erb
+      format.json { render json: @events }
+    end
+  end
+
   def index
     @events = Event.all
 
@@ -32,7 +41,8 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = current_user.events.new
-
+    @event.host = current_user
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }

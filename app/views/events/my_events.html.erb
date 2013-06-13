@@ -1,0 +1,18 @@
+<%= link_to 'New Event', new_event_path, :class => 'btn btn-success pull-right' %>
+
+<h1>Events</h1>
+
+<h2>Hosting</h2>
+<p>
+  <%= render 'index', :events => @events %>  
+</p>
+
+<h2>Attending</h2>
+<p>
+  <%= render 'index', :events => [] %>  
+</p>
+
+<h2>Attended</h2>
+<p>
+  <%= render 'index', :events => [] %>  
+</p>
