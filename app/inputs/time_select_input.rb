@@ -1,6 +1,6 @@
 class TimeSelectInput < SimpleForm::Inputs::Base
   def input
-    input_html_options ||= {}
+    input_html_options = options[:input_html_options] || {}
     input_html_options['data-format'] = "HH:mm PP"
     %{
       <div class="input-append time-select-component">
