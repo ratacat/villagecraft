@@ -3,7 +3,7 @@ Villagecraft::Application.routes.draw do
 
   resources :events
   resources :users
-
+  get 'my_events' => 'events#my_events', :as => :my_events
 
   devise_for :users
 

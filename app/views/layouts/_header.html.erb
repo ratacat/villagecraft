@@ -10,22 +10,18 @@
       </a>
  
       <!-- Be sure to leave the brand out there if you want it shown -->
-      <a class="brand" href="#">Villagecraft</a>
+      <a class="brand" href="/">Villagecraft</a>
  
       <!-- Everything you want hidden at 940px or less, place within here -->
       <div class="nav-collapse collapse">
       	<ul class="nav">
-      		<li><%= link_to "Classes", root_path %></li>
-      		<li><%= link_to "Projects", root_path %></li>
-      		<li><%= link_to "Experiments", root_path %></li>
-      		<li><%= link_to "Paid Work", root_path %></li>
-      		<li><%= link_to "Community", root_path %></li>
       	</ul>
       	<ul class="nav pull-right">
           <% if not user_signed_in? %>
             <li><%= link_to "Sign Up", new_user_registration_path %></li>
             <li><%= link_to "Log In", new_user_session_path %></li>
           <% else %>
+            <li><%= link_to "My Events", my_events_path %></li>
             <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
             <li><%= link_to "Log Out", destroy_user_session_path, method: :delete %></li>
           <% end %>
