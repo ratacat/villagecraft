@@ -13,7 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require bootstrap-datetimepicker.min
-//= require moment
-//= require livestamp
+//= require vendor_javascripts
 //= require_tree .
