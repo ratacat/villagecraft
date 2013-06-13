@@ -2,10 +2,11 @@ Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
   resources :events
+
+  devise_for :users
   resources :users
   get 'my_events' => 'events#my_events', :as => :my_events
 
-  devise_for :users
 
   get 'about' => 'Pages#about'
   root :to => 'Pages#home'
