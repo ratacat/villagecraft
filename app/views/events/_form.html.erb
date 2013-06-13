@@ -3,7 +3,8 @@
 
   	<%= f.input :title %>
     <%= f.input :date, as: :date_select %>
-    <%= f.input :time, as: :time_select %>
+    <%= f.input :start_time_time, as: :time_select, label: 'Start Time' %>
+    <%= f.input :end_time_time, as: :time_select, label: 'End Time' %>
     <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
