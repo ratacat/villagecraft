@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  attr_accessible :host, :course, :title, :description, :date, :start_time_time, :end_time_time
+  attr_accessible :host, :course, :title, :description, :date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
   attr_accessor :date, :start_time_time, :end_time_time
 
   belongs_to :host, :class_name => 'User'
@@ -12,13 +12,23 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :course_id, presence: true
   validates :title, presence: true
+  validates :short_title, presence: true
+  validates :min_attendees, :numericality => { :greater_than => 0, :less_than_or_equal_to => :max_attendees, :message => "must be less than or equal to max attendees" }, :presence => true
+  validates :max_attendees, :numericality => { :greater_than => 0, :greater_than_or_equal_to => :min_attendees, :message => "must be greater than or equal to min attendees" }, :presence => true
 
   validates_datetime :start_time
   validates_datetime :end_time, :after => :start_time
+
+  validates :date, :presence => true
+  validates_date :date
   
+  validates :start_time_time, :presence => true
   validates_time :start_time_time
+  
+  validates :end_time_time, :presence => true
   validates_time :end_time_time, :after => :start_time_time
   
+  validates :description, :presence => true
   
   def date
    @date || self.start_time.try(:to_date)
