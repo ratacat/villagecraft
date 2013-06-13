@@ -9,8 +9,7 @@ class EventsController < ApplicationController
  # end
 
   def my_events
-    @events = current_user.events
-    
+    @hosted_events = current_user.hostings.order('start_time DESC')
     respond_to do |format|
       format.html # my_events.html.erb
       format.json { render json: @events }
