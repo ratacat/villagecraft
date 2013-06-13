@@ -9,10 +9,6 @@ jQuery(function($){
     pickTime: false
   });
 
-  $('.time-select-component').datetimepicker({
-    pickDate: false,
-    pick12HourFormat: true,
-    pickSeconds: false
-  });
+  $('.bootstrap-timepicker input').timepicker();
 
 });
