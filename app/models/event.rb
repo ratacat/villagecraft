@@ -16,6 +16,10 @@ class Event < ActiveRecord::Base
   validates_datetime :start_time
   validates_datetime :end_time, :after => :start_time
   
+  validates_time :start_time_time
+  validates_time :end_time_time, :after => :start_time_time
+  
+  
   def date
    @date || self.start_time.try(:to_date)
   end
@@ -33,6 +37,9 @@ class Event < ActiveRecord::Base
   def derive_times
     self.start_time ||= Timeliness.parse("#{self.date} #{self.start_time_time}") unless self.date.blank? or self.start_time_time.blank?
     self.end_time ||= Timeliness.parse("#{self.date} #{self.end_time_time}") unless self.date.blank? or self.end_time_time.blank?
+    
+    self.start_time_time = Timeliness.parse(self.start_time_time)
+    self.end_time_time = Timeliness.parse(self.end_time_time)
   end
   
   def create_course_and_vclass_if_missing
