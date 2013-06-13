@@ -2,9 +2,12 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :name_first, label: 'First Name' %>
+    <%= f.input :name_last, label: 'Last Name' %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, :class => "btn-primary" %>
   </div>
 <% end %>
+<%= link_to "Change Password or Email", edit_user_registration_path %>
