@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    @event = current_user.events.new
+    @event = Event.new
     @event.host = current_user
     
     respond_to do |format|
@@ -56,8 +56,8 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = current_user.events.new(params[:event])
-    Rails.logger.info ("debug:" + params.to_yaml)
+    @event = Event.new(params[:event])
+    @event.host = current_user
 
     respond_to do |format|
       if @event.save
@@ -73,7 +73,7 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = current_user.events.find(params[:id])
+    @event = Event.find(params[:id])
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
@@ -89,7 +89,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event = current_user.events.find(params[:id])
+    @event = Event.find(params[:id])
     @event.destroy
 
     respond_to do |format|
