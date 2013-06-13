@@ -3,10 +3,6 @@
     <i class="icon-list-alt"></i>
     View Users
   <% end %>
-  <%= link_to edit_user_path(@user), :class => 'btn btn-primary' do %>
-    <i class="icon-pencil icon-white"></i>
-    Edit
-  <% end %>
   <h1><%= @user.name_first + " " + @user.name_last%></h1>
   <h4><i class="user-city">Berkeley, CA</i></h4><br>
   Account was created <span data-livestamp="<%= @user.created_at %>"></span>.<br>
