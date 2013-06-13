@@ -3,7 +3,7 @@
     <i class="icon-list-alt"></i>
     View Users
   <% end %>
-  <h1><%= @user.name_first + " " + @user.name_last%></h1>
+  <h1><%= @user.name %></h1>
   <h4><i class="user-city">Berkeley, CA</i></h4><br>
   Account was created <span data-livestamp="<%= @user.created_at %>"></span>.<br>
   Hosted <%= @user.number_of_events_hosted %> events.<br>
