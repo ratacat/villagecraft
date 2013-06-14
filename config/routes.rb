@@ -6,6 +6,7 @@ Villagecraft::Application.routes.draw do
   devise_for :users
   resources :users
   post 'attend/:id(.:format)' => 'events#attend', :as => :attend
+  post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_events' => 'events#my_events', :as => :my_events
 
 

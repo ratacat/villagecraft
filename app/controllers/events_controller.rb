@@ -113,6 +113,23 @@ class EventsController < ApplicationController
     
   end
   
+  # POST /cancel_attend/1
+  # POST /cancel_attend/1.json
+  def cancel_attend
+    unless current_user.attends.exists?(@event)
+      render_error(:message => "Attendence not found.", :status => 404)
+      return
+    end
+
+    current_user.attends.delete(@event)
+        
+    respond_to do |format|
+      format.html { redirect_to @event, notice: 'Your attendence has been canceled' }
+      format.json { head :no_content }
+    end
+    
+  end
+  
   protected
   def find_event
     begin

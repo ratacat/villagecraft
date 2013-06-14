@@ -13,7 +13,7 @@
 <% else %>
   <% if user_signed_in? %>
     <% if current_user.attends.exists?(@event) %>
-      <i class="icon-check icon-large text-success"> </i> You plan to attend
+      <i class="icon-check icon-large text-success"> </i> You plan to attend | <%= link_to 'cancel', cancel_attend_path, :method => :post %> 
     <% else %>
       <%= link_to '<i class="icon-check"></i> Attend'.html_safe, attend_path(@event), :class => 'btn btn-success', :method => :post %>
     <% end %>
