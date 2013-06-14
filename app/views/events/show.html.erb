@@ -1,17 +1,13 @@
 <h1><%= @event.title %></h1>
-
-<div class="well">
 <p>
-  <b>Description:</b>
+  <%= l @event.start_time, format: :long %> - <%= l @event.end_time, format: :long %><br/>
+  <b>host:</b> <%= link_to @event.host.name, @event.host %>
+</p>
+
+<p>
   <%= @event.description %>
 </p>
-
-<p>
-  <b>Date:</b>
-  <%= l @event.datetime, format: :long %>
-</p>
-</div>
-
-
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Attend', attend_path(@event), :class => 'btn btn-success', :method => :post %>
+<% if @event.host === current_user %>
+  <%= link_to 'Edit', edit_event_path(@event) %>
+<% end %>

@@ -93,6 +93,18 @@ class EventsController < ApplicationController
     end
   end
   
+  # POST /attend/1
+  # POST /attend/1.json
+  def attend
+    current_user.attends << @event
+    
+    respond_to do |format|
+      format.html { redirect_to @event, notice: 'You will attend!' }
+      format.json { head :no_content }
+    end
+    
+  end
+  
   protected
   def find_event
     begin
