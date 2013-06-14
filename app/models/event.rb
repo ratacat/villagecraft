@@ -41,6 +41,10 @@ class Event < ActiveRecord::Base
   def end_time_time
    @end_time_time || self.end_time.try(:to_time)
   end
+  
+  def occurred? 
+    self.start_time - Time.now < 0
+  end
 
   protected
 

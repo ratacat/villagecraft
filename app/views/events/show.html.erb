@@ -7,7 +7,21 @@
 <p>
   <%= @event.description %>
 </p>
-<%= link_to 'Attend', attend_path(@event), :class => 'btn btn-success', :method => :post %>
+
+<% if @event.occurred? %>
+  Event occurred.
+<% else %>
+  <% if user_signed_in? %>
+    <% if current_user.attends.exists?(@event) %>
+      <i class="icon-check icon-large text-success"> </i> You plan to attend
+    <% else %>
+      <%= link_to '<i class="icon-check"></i> Attend'.html_safe, attend_path(@event), :class => 'btn btn-success', :method => :post %>
+    <% end %>
+  <% else %>
+    Sign in or sign up to attend!
+  <% end %>
+<% end %>
+
 <% if @event.host === current_user %>
   <%= link_to 'Edit', edit_event_path(@event) %>
 <% end %>
