@@ -12,5 +12,6 @@
  *
  *= require_self
  *= require vendor_stylesheets
+ *= require _font-awesome
  *= require_tree .
  */
