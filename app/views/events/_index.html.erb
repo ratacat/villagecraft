@@ -1,23 +1,30 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>When</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Activity</th>
+      <th>Proximity</th>
+      <th>Time</th>
+      <th>Day</th>
+      <th>Rating</th>
+      <th>Spots</th>
+      <th>Where</th>
+      <th>Price</th>
+      <th>Host</th>
     </tr>
   </thead>
 
   <tbody>
   <% events.each do |event| %>
     <tr>
-      <td><%= event.title %></td>
-      <td><%= event.description %></td>
-      <td><%= link_to 'Show', event %></td>
-      <td><%= link_to 'Edit', edit_event_path(event) %></td>
-      <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= link_to event.short_title, event %></td>
+      <td></td>
+      <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %></td>
+      <td><%= l event.start_time.to_date, format: :short %></td>
+      <td></td>
+      <td><%= event.attendees.count %> (<%= event.min_attendees %> - <%= event.max_attendees %>)</td>
+      <td></td>
+      <td></td>
+      <td><%= link_to event.host.name, event.host %></td>
     </tr>
   <% end %>
   </tbody>

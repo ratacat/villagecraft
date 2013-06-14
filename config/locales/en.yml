@@ -7,3 +7,9 @@ en:
 en:
   date:
     datepicker: "mm/dd/yyyy"
+
+en:
+  time:
+    formats:
+      short_time: "%l:%M %p"
+      
