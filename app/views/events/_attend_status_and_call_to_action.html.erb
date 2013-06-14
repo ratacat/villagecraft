@@ -1,0 +1,26 @@
+<% event ||= @event %>
+
+<% if user_signed_in? %>
+  <% if event.occurred? %>
+    Event occurred 
+    <% if current_user.attends.exists?(event) %>
+      <% if current_user.confirmed_attends.exists?(event) %>
+        and your attendance was confirmed.
+      <% else %>
+        (<%= link_to 'confirm your attendence', '#' %>)
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if current_user.attends.exists?(event) %>
+      <i class="icon-check icon-large text-success"> </i> You plan to attend (<%= link_to 'cancel', cancel_attend_path, :method => :post %>)
+    <% else %>
+      <%= link_to '<i class="icon-check"></i> Attend'.html_safe, attend_path(event), :class => 'btn btn-success', :method => :post %>
+    <% end %>
+  <% end %>
+<% else %>
+  <% if event.occurred? %>
+    Event occurred
+  <% else %>
+    <%= link_to "Sign In", new_user_session_path %></li> or <%= link_to "Sign Up", new_user_registration_path %> to attend
+  <% end %>
+<% end %>
