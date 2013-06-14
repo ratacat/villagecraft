@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612060436) do
+ActiveRecord::Schema.define(:version => 20130614070935) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20130612060436) do
     t.integer "guests"
   end
 
+  add_index "events_users", ["event_id", "user_id"], :name => "index_events_users_on_event_id_and_user_id", :unique => true
   add_index "events_users", ["event_id"], :name => "index_events_users_on_event_id"
   add_index "events_users", ["user_id"], :name => "index_events_users_on_user_id"
 

@@ -96,7 +96,15 @@ class EventsController < ApplicationController
   # POST /attend/1
   # POST /attend/1.json
   def attend
-    current_user.attends << @event
+    begin
+      current_user.attends << @event
+    rescue Exception => e
+      respond_to do |format|
+        format.html { redirect_to @event, notice: "You are already attending this event" }
+        format.json { head :no_content }
+      end
+      return
+    end
     
     respond_to do |format|
       format.html { redirect_to @event, notice: 'You will attend!' }

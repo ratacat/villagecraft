@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name_first, :name_last
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
-  has_and_belongs_to_many :attends, :class_name => 'Event'
+  has_and_belongs_to_many :attends, :class_name => 'Event', :uniq => true
   has_many :reviews
   
   validates :name_first, :presence => true
