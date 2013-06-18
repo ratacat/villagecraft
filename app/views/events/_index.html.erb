@@ -23,7 +23,7 @@
       <td></td>
       <td><%= event.attendees.count %> (<%= event.min_attendees %> - <%= event.max_attendees %>)</td>
       <td></td>
-      <td></td>
+      <td><%= number_to_currency(event.price) %></td>
       <td><%= link_to event.host.name, event.host %></td>
     </tr>
   <% end %>
