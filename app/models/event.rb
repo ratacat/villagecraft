@@ -7,6 +7,8 @@ class Event < ActiveRecord::Base
   belongs_to :location
   has_and_belongs_to_many :attendees, :class_name => 'User', :uniq => true
   
+  scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
+  
   before_validation :derive_times, :create_course_and_vclass_if_missing
   
   validates :host_id, presence: true

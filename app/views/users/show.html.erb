@@ -6,8 +6,8 @@
   <h1><%= @user.name %></h1>
   <h4><i class="user-city">Berkeley, CA</i></h4><br>
   Account was created <span data-livestamp="<%= @user.created_at %>"></span>.<br>
-  Hosted <%= @user.number_of_events_hosted %> events.<br>
-  Attended <%= @user.number_of_events_attended %> events.<br>
+  Hosted <%= @user.hostings.completed.count %> events.<br>
+  Attended <%= @user.confirmed_attends.completed.count %> events.<br>
   Velocity: 100   
 </div>
 <% if current_user === @user %>
