@@ -12,6 +12,7 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :course_id, presence: true
   validates :title, presence: true
+  validates :short_title, :format => { :with => /^\w+(\W\w+)?$/, :message => "must contain only one or two words" }
   validates :short_title, presence: true
   validates :min_attendees, :numericality => { :greater_than => 0, :less_than_or_equal_to => :max_attendees, :message => "must be less than or equal to max attendees" }, :presence => true
   validates :max_attendees, :numericality => { :greater_than => 0, :greater_than_or_equal_to => :min_attendees, :message => "must be greater than or equal to min attendees" }, :presence => true
