@@ -23,4 +23,20 @@ class User < ActiveRecord::Base
   def name
     "#{self.name_first} #{self.name_last}"
   end
+  
+  # FIXME: stub
+  def profile_img_src(size = :thumb)
+    "/assets/homunculus.png"
+  end
+  
+  # FIXME: stub
+  def velocity
+    100
+  end
+
+  # FIXME: stub
+  def city
+    "Berkeley, CA"
+  end
+  
 end

@@ -1,15 +1,23 @@
 <div class="page-header">
-  <%= link_to users_path, :class => 'btn' do %>
-    <i class="icon-list-alt"></i>
-    View Users
+  <div class="well well-small" style="float: right;">
+    <dl class="dl-horizontal">
+      <dt>Events Hosted</dt>
+      <dd><%= @user.hostings.completed.count %></dd>
+
+      <dt>Events Attended</dt>
+      <dd><%= @user.confirmed_attends.completed.count %></dd>
+
+      <dt>Velocity</dt>
+      <dd><span class="badge badge-success"><%= @user.velocity %></span></dd>
+
+      <dt>Joined Villagecraft</dt>
+      <dd><span data-livestamp="<%= @user.created_at %>"></span></dd>
+    </dl>  
+  </div>
+  <img src="<%= @user.profile_img_src %>" class="img-rounded">
+  <h1><%= @user.name %><br/><small><%= @user.city %></small></h1>
+  <% if current_user === @user %>
+    <%= link_to "Edit Profile", edit_user_path(:id => current_user.id) %>
   <% end %>
-  <h1><%= @user.name %></h1>
-  <h4><i class="user-city">Berkeley, CA</i></h4><br>
-  Account was created <span data-livestamp="<%= @user.created_at %>"></span>.<br>
-  Hosted <%= @user.hostings.completed.count %> events.<br>
-  Attended <%= @user.confirmed_attends.completed.count %> events.<br>
-  Velocity: 100   
 </div>
-<% if current_user === @user %>
-  <%= link_to "Edit Profile", edit_user_path(:id => current_user.id) %>
-<% end %>
+
