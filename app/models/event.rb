@@ -23,7 +23,6 @@ class Event < ActiveRecord::Base
   validates_datetime :end_time, :after => :start_time
 
   validates :date, :presence => true
-  validate :date_in_future
   validates_date :date
   
   validates :start_time_time, :presence => true
@@ -64,12 +63,6 @@ class Event < ActiveRecord::Base
     if self.course.blank?
       vclass = Vclass.create(:title => self.title, :admin => self.host)
       self.course = Course.create(:title => self.title, :vclass => vclass)
-    end
-  end
-
-  def date_in_future
-    if date < Date.today.to_s
-      errors.add(:date, "Date can't be in the past" )
     end
   end
 end
