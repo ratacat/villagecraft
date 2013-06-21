@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
   validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   validates :short_title, presence: true
-  validates :min_attendees, :numericality => { :greater_than => 0, :less_than_or_equal_to => :max_attendees, :message => "must be less than or equal to max attendees" }, :presence => true
+  validates :min_attendees, :numericality => { :greater_than_or_equal_to => 0, :less_than_or_equal_to => :max_attendees, :message => "must be less than or equal to max attendees" }, :presence => true
   validates :max_attendees, :numericality => { :greater_than => 0, :greater_than_or_equal_to => :min_attendees, :message => "must be greater than or equal to min attendees" }, :presence => true
 
   validates_datetime :start_time
