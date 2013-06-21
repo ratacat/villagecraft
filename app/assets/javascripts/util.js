@@ -22,5 +22,4 @@ jQuery(function($){
     }
   });
   */
-  
 });
