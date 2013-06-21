@@ -21,7 +21,7 @@
       <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %></td>
       <td><%= l event.start_time.to_date, format: :short %></td>
       <td></td>
-      <td><%= render :partial => 'attends_meter', :locals => { :event => event } %></td>
+      <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td></td>
       <td><%= number_to_currency(event.price) %></td>
       <td><%= link_to event.host.name, event.host %></td>
