@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -28,6 +28,16 @@ end
 gem 'awesome_print'
 
 gem 'jquery-rails'
+
+group :development do
+  gem 'rspec-rails', '~> 2.13'
+end
+
+group :test do
+  gem 'factory_girl', '2.6.4'
+  gem 'capybara', '1.1.2'
+  gem 'simplecov', :require => false
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
