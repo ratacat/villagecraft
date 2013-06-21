@@ -6,7 +6,8 @@ jQuery(function($){
 
   $('.date-select-component').datetimepicker({
     language: 'en',
-    pickTime: false
+    pickTime: false,
+    startDate: '0d'
   });
 
   $('.bootstrap-timepicker input').timepicker();

@@ -14,7 +14,7 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :course_id, presence: true
   validates :title, presence: true
-  validates :short_title, :format => { :with => /^\w+(\W\w+)?$/, :message => "must contain only one or two words" }
+  validates :short_title, :format => { :with => /\A^[A-Z]?[a-z]+\s?([A-Z]?[a-z]+)?$\z/, :message => "must contain only one or two words" }
   validates :short_title, presence: true
   validates :min_attendees, :numericality => { :greater_than => 0, :less_than_or_equal_to => :max_attendees, :message => "must be less than or equal to max attendees" }, :presence => true
   validates :max_attendees, :numericality => { :greater_than => 0, :greater_than_or_equal_to => :min_attendees, :message => "must be greater than or equal to min attendees" }, :presence => true
@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   validates_datetime :end_time, :after => :start_time
 
   validates :date, :presence => true
+  validate :date_in_future
   validates_date :date
   
   validates :start_time_time, :presence => true
@@ -65,5 +66,10 @@ class Event < ActiveRecord::Base
       self.course = Course.create(:title => self.title, :vclass => vclass)
     end
   end
-  
+
+  def date_in_future
+    if date < Date.today.to_s
+      errors.add(:date, "Date can't be in the past" )
+    end
+  end
 end
