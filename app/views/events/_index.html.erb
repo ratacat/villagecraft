@@ -23,7 +23,7 @@
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td></td>
-      <td><%= number_to_currency(event.price) %></td>
+      <td><%= event_price(event) %></td>
       <td><%= link_to event.host.name, event.host %></td>
     </tr>
   <% end %>
