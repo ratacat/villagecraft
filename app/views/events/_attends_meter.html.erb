@@ -1,0 +1,30 @@
+<% 
+  event ||= @event
+  unit_width = 12
+  unit_margin = 2
+  max_units_to_display = 10
+  min = event.min_attendees
+  max = event.max_attendees
+  attends = event.attendees.count 
+  attends_per_unit = (max / max_units_to_display.to_f).ceil
+  max_units = max / attends_per_unit
+  min_units = min / attends_per_unit
+
+  bar_width = unit_width * max_units
+  attends_width = attends * bar_width / max
+  under_attends_width = bar_width * [(min - attends), 0].max / max
+  capacity_over_min_width = bar_width * [(max - min), (max - attends)].min / max
+  
+  attends_unit_remainder = attends_width.remainder(unit_width)
+  min_unit_remainder = (attends_width + under_attends_width).remainder(unit_width)
+  
+  attendees_tip = pluralize(attends, 'attendee')
+  capacity_tip = (attends < min) ? "minimum is #{min}" : "#{max - attends} slots available"
+%>
+<div class="quantized_progress tooltipify" style="width: <%= bar_width %>px;" title="<%= attendees_tip %> (<%= capacity_tip %>)">
+  <div class="progress">
+    <div class="bar over on" style="width: <%=  attends_width %>px;"></div>
+    <div class="bar under off" style="width: <%= under_attends_width %>px; background-position-x: <%= -attends_unit_remainder %>px"></div>
+    <div class="bar over off" style="width: <%= capacity_over_min_width - unit_margin %>px; background-position-x: <%= -min_unit_remainder %>px"></div>
+  </div>
+</div>

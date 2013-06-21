@@ -7,3 +7,34 @@ body {
 }
 
 .user-city {}
+
+div.quantized_progress {
+  margin-bottom: 20px;
+  div.progress {
+    margin: 1px 0px;
+    height: 11px;
+    @include box-shadow(none);
+    @include border-radius(0px);
+    background-image: none;
+    background-color: white;
+    div.bar {
+      background-image: url('unit.png');
+      background-repeat: repeat;
+      @include box-shadow(none);
+    }
+    div.bar.under.off {
+      background-color: #dd514b;
+    }
+    div.bar.over.off {
+      background-color: #afb9af;
+    }
+    div.bar.under.on {
+      background-color: #dd514b;
+    }
+    div.bar.over.on {
+      background-color: #5db95d;
+    }
+  }
+}
+
+
