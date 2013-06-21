@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618070756) do
+ActiveRecord::Schema.define(:version => 20130621192042) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -61,6 +61,10 @@ ActiveRecord::Schema.define(:version => 20130618070756) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "address"
+    t.string   "country"
   end
 
   add_index "locations", ["owner_id"], :name => "index_locations_on_owner_id"
