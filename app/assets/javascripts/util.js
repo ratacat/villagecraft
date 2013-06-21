@@ -12,6 +12,8 @@ jQuery(function($){
 
   $('.bootstrap-timepicker input').timepicker();
   
+  $(".tooltipify").tooltip();
+  
   /* FIXME: Incomplete B-list code to constrain a pair of timepickers
   $("input.constrain-other-datetime[data-constrain-start-datetime-id]").timepicker().on('changeTime.timepicker', function(e) {
     var start_id = $(this).data('constrain-start-datetime-id'),
