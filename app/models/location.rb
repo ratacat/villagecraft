@@ -1,4 +1,4 @@
 class Location < ActiveRecord::Base
-  belongs_to :owner
+  has_many :venues
   attr_accessible :city, :name, :state, :street, :zip
 end

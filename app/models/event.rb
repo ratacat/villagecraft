@@ -4,7 +4,8 @@ class Event < ActiveRecord::Base
 
   belongs_to :host, :class_name => 'User'
   belongs_to :course
-  belongs_to :location
+  belongs_to :venue
+  has_one :location, :through => :venue
   has_and_belongs_to_many :attendees, :class_name => 'User', :uniq => true
   
   scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }

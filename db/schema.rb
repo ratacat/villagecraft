@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621192042) do
+ActiveRecord::Schema.define(:version => 20130621235352) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -39,7 +39,10 @@ ActiveRecord::Schema.define(:version => 20130621192042) do
     t.string   "secret"
     t.string   "short_title"
     t.decimal  "price",                        :precision => 10, :scale => 2
+    t.integer  "venue_id"
   end
+
+  add_index "events", ["venue_id"], :name => "index_events_on_venue_id"
 
   create_table "events_users", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -57,7 +60,6 @@ ActiveRecord::Schema.define(:version => 20130621192042) do
     t.string   "city"
     t.string   "zip"
     t.string   "state"
-    t.integer  "owner_id"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -66,8 +68,6 @@ ActiveRecord::Schema.define(:version => 20130621192042) do
     t.string   "address"
     t.string   "country"
   end
-
-  add_index "locations", ["owner_id"], :name => "index_locations_on_owner_id"
 
   create_table "reviews", :force => true do |t|
     t.integer  "vclass_id"
@@ -113,5 +113,16 @@ ActiveRecord::Schema.define(:version => 20130621192042) do
   end
 
   add_index "vclasses", ["admin_id"], :name => "index_vclasses_on_admin_id"
+
+  create_table "venues", :force => true do |t|
+    t.string   "name"
+    t.integer  "owner_id"
+    t.integer  "location_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "venues", ["location_id"], :name => "index_venues_on_location_id"
+  add_index "venues", ["owner_id"], :name => "index_venues_on_owner_id"
 
 end
