@@ -7,6 +7,8 @@ class Location < ActiveRecord::Base
     if geo = results.first
       obj.street = geo.street_address
       obj.city = geo.city
+      obj.state = geo.state
+      obj.state_code = geo.state_code
       obj.zip = geo.postal_code
       obj.country = geo.country_code
     end
