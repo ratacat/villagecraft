@@ -13,6 +13,8 @@ class Location < ActiveRecord::Base
       obj.country = geo.country_code
     end
   end
-  after_validation :geocode, :reverse_geocode
-
+  before_validation :geocode, :reverse_geocode
+  
+  validates :country, :inclusion => { :in => %w(US), :message => "is not the United States" }
+  
 end
