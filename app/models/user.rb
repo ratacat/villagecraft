@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
            :source => :event, 
            :conditions => ['events_users.confirmed = ?',true]
   has_many :reviews
+  belongs_to :location
   
   strip_attributes :only => [:name_first, :name_last, :email]
   
