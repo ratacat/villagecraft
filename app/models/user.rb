@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name_first, :name_last
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :name_first, :name_last, :city, :state
+  attr_writer :city, :state
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
   has_and_belongs_to_many :attends, :class_name => 'Event', :uniq => true
@@ -18,10 +19,14 @@ class User < ActiveRecord::Base
   has_many :reviews
   belongs_to :location
   
-  strip_attributes :only => [:name_first, :name_last, :email]
+  strip_attributes :only => [:name_first, :name_last, :email, :address]
+  
+  before_validation :find_or_create_location_from_address
   
   validates :name_first, :presence => true
   validates :name_last, :presence => true
+  validates :location, :presence => true
+  validates_associated :location
   
   def name
     "#{self.name_first} #{self.name_last}"
@@ -37,9 +42,17 @@ class User < ActiveRecord::Base
     100
   end
 
-  # FIXME: stub
   def city
-    "Berkeley, CA"
+    @city || self.location.try(:city)
+  end
+
+  def state
+    @state || self.location.try(:state_code)
+  end
+  
+  protected
+  def find_or_create_location_from_address
+    self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state)
   end
   
 end
