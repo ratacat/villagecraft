@@ -85,7 +85,7 @@ class Location < ActiveRecord::Base
   protected
   
   def sythesize_address
-    self.address = "#{self.street} #{self.city}, #{self.state_code} #{self.zip}".strip
+    self.address = "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
   end
   
 end
