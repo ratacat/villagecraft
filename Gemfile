@@ -14,6 +14,7 @@ gem 'sass-rails',   '~> 3.2.3'
 
 gem "strip_attributes", "~> 1.2"
 gem 'geocoder'
+gem 'uuidtools'
 
 # Gems used only for assets and not required
 # in production environments by default.
