@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name_first, :name_last, :city, :state
   attr_writer :city, :state
+  has_uuid(:length => 8)
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
   has_and_belongs_to_many :attends, :class_name => 'Event', :uniq => true

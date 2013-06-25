@@ -1,6 +1,7 @@
 class Venue < ActiveRecord::Base
   attr_accessible :name, :street, :city, :state
   attr_writer :street, :city, :state
+  has_uuid(:length => 8)
 
   belongs_to :owner, :class_name => 'User'
   belongs_to :location

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130622003047) do
+ActiveRecord::Schema.define(:version => 20130625074339) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20130622003047) do
     t.string   "short_title"
     t.decimal  "price",                        :precision => 10, :scale => 2
     t.integer  "venue_id"
+    t.string   "uuid"
   end
 
   add_index "events", ["venue_id"], :name => "index_events_on_venue_id"
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20130622003047) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.integer  "location_id"
+    t.string   "uuid"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -123,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20130622003047) do
     t.integer  "location_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "uuid"
   end
 
   add_index "venues", ["location_id"], :name => "index_venues_on_location_id"

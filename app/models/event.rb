@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   attr_accessible :host, :course, :title, :description, :date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
   attr_accessor :date, :start_time_time, :end_time_time
+  has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
   belongs_to :course

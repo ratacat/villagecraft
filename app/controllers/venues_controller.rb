@@ -83,7 +83,7 @@ class VenuesController < ApplicationController
   protected
   def find_venue
     begin
-      @venue = Venue.find(params["id"])
+      @venue = Venue.find_by_uuid(params["id"])
     rescue Exception => e
       render_error(:message => "Venue not found.", :status => 404) if @venue.blank?
     end
