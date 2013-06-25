@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :find_venue, :only => [:create, :update]
   #before_filter :checkDate, :only => [:create, :update]
   # GET /events
   # GET /events.json
@@ -139,4 +140,8 @@ class EventsController < ApplicationController
     end
   end  
   
+  def find_venue
+    @event.venue = Venue.find_by_uuid(params[:event][:venue_id])
+    params[:event].delete(:venue_id)
+  end
 end

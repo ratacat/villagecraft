@@ -3,7 +3,7 @@
 
   	<%= f.input :title %>
   	<%= f.input :short_title, label: 'Short Title' %>
-  	<%# f.input :location %>
+  	<%= f.association :venue, collection: current_user.venues, label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid) %>
   	<%= f.input :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
     <%= f.input :date, as: :date_select %>

@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_uuid(:length => 8)
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
+  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id
   has_and_belongs_to_many :attends, :class_name => 'Event', :uniq => true
   has_many :events_users
   has_many :confirmed_attends, :through => :events_users, 
