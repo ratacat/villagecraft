@@ -1,0 +1,19 @@
+<div class="page-header">
+  <%= link_to venues_path, :class => 'btn' do %>
+    <i class="icon-list-alt"></i>
+    Back
+  <% end %>
+  <%= link_to edit_venue_path(@venue), :class => 'btn btn-primary' do %>
+    <i class="icon-pencil icon-white"></i>
+    Edit
+  <% end %>
+  <h1><%= @venue.name %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Owner</dt>
+  <dd><%= link_to @venue.owner.name, @venue.owner %></dd>
+
+  <dt>Location</dt>
+  <dd><%= link_to_google_maps(@venue.location) %></dd>
+</dl>  

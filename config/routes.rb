@@ -9,6 +9,7 @@ Villagecraft::Application.routes.draw do
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_events' => 'events#my_events', :as => :my_events
 
+  resources :venues
 
   get 'about' => 'Pages#about'
   root :to => 'Pages#home'
