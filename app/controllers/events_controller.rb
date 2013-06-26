@@ -57,7 +57,8 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     @event.host = current_user
-
+    @event.venue = @venue
+    
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -72,6 +73,8 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
+    @event.venue = @venue
+    
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
@@ -141,7 +144,7 @@ class EventsController < ApplicationController
   end  
   
   def find_venue
-    @event.venue = Venue.find_by_uuid(params[:event][:venue_id])
+    @venue = Venue.find_by_uuid(params[:event][:venue_id])
     params[:event].delete(:venue_id)
   end
 end
