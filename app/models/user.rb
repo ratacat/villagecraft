@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name_first, :name_last, :city, :state
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -21,17 +21,17 @@ class User < ActiveRecord::Base
   has_many :reviews
   belongs_to :location
   
-  strip_attributes :only => [:name_first, :name_last, :email, :address]
+  strip_attributes :only => [:first_name, :last_name, :email, :address]
   
   before_validation :find_or_create_location_from_address
   
-  validates :name_first, :presence => true
-  validates :name_last, :presence => true
+  validates :first_name, :presence => true
+  validates :last_name, :presence => true
   validates :location, :presence => true
   validates_associated :location
   
   def name
-    "#{self.name_first} #{self.name_last}"
+    "#{self.first_name} #{self.last_name}"
   end
   
   # FIXME: stub

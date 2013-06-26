@@ -2,8 +2,8 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name_first, label: 'First Name' %>
-    <%= f.input :name_last, label: 'Last Name' %>
+    <%= f.input :first_name, label: 'First Name' %>
+    <%= f.input :last_name, label: 'Last Name' %>
     <%= f.input :city, label: 'City' %>
     <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
   </div>
