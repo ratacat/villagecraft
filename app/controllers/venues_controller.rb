@@ -35,7 +35,6 @@ class VenuesController < ApplicationController
 
   # GET /venues/1/edit
   def edit
-    @venue = Venue.find(params[:id])
   end
 
   # POST /venues
