@@ -6,6 +6,8 @@
   <%= f.input :email %>
   <%= f.input :first_name, label: 'First Name' %>
   <%= f.input :last_name, label: 'Last Name' %>
+  <%= f.input :city, label: 'City' %>
+  <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
   <%= f.input :password %>
   <%= f.input :password_confirmation %>
 
