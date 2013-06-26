@@ -18,8 +18,8 @@
     <tr>
       <td><%= link_to event.short_title, event %></td>
       <td></td>
-      <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %></td>
-      <td><%= l event.start_time.to_date, format: :short %></td>
+      <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></td>
+      <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %></td>
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td></td>
