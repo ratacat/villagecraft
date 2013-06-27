@@ -8,12 +8,12 @@
     Edit
   <% end %>
   <h1><%= @venue.name %></h1>
+  <p>
+    owner: <%= link_to @venue.owner.name, @venue.owner %>
+  </p>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Owner</dt>
-  <dd><%= link_to @venue.owner.name, @venue.owner %></dd>
+<address>
+  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @venue.location} %>
+</address>
 
-  <dt>Location</dt>
-  <dd><%= link_to_google_maps(@venue.location) %></dd>
-</dl>  
