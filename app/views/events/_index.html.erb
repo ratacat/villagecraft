@@ -24,7 +24,7 @@
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td><%= link_to event.venue.name, event.venue %></td>
       <td><%= event_price(event) %></td>
-      <td><%= link_to event.host.name, event.host %></td>
+      <td><%= link_to event.host.name, event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span></td>
     </tr>
   <% end %>
   </tbody>
