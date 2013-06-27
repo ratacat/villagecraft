@@ -56,6 +56,12 @@ class User < ActiveRecord::Base
     l = o.is_a?(Location) ? o : o.location
     Geocoder::Calculations.distance_between(self.location, l).round(2)
   end
+
+  # FIXME: stub
+  def rating_as_host
+    generator = Random.new # You need to instance it
+    generator.rand(1.0..10.0).round(1)
+  end
   
   protected
   def find_or_create_location_from_address
