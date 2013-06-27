@@ -1,11 +1,19 @@
 <h1><%= @event.title %></h1>
-<p>
-  <%= l @event.start_time, format: :long %> - <%= l @event.end_time, format: :long %><br/>
-  <b>host:</b> <%= link_to @event.host.name, @event.host %>
-</p>
+<h4>
+  <%= l @event.start_time, format: :short_time %> - <%= l @event.end_time, format: :short_time %> <%= @event.start_time.to_date.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
+</h4>
+
+<address>
+  <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
+  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
+</address>
 
 <p>
   <%= @event.description %>
+</p>
+
+<p>
+  hosted by: <%= link_to @event.host.name, @event.host %>
 </p>
 
 <%= render :partial => 'events/attend_status_and_call_to_action' %>
