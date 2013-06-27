@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
     @state || self.location.try(:state_code)
   end
   
+  def distance_to(o)
+    l = o.is_a?(Location) ? o : o.location
+    Geocoder::Calculations.distance_between(self.location, l).round(2)
+  end
+  
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state)
