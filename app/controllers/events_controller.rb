@@ -22,7 +22,7 @@ class EventsController < ApplicationController
 
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @events = Event.where("start_time > ?", Time.now).order(:start_time).limit(EVENTS_PER_PAGE)
+    @events = Event.future.order(:start_time).limit(EVENTS_PER_PAGE)
 
     respond_to do |format|
       format.html # index.html.erb
