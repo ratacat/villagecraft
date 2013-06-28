@@ -10,6 +10,7 @@
       <th>Where</th>
       <th>Price</th>
       <th>Host</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -25,6 +26,7 @@
       <td><%= link_to event.venue.name, event.venue %></td>
       <td><%= event_price(event) %></td>
       <td><%= link_to event.host.name, event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span></td>
+      <td><%= render :partial => 'events/status_wrt_current_user', :locals => {:event => event} %></td>
     </tr>
   <% end %>
   </tbody>

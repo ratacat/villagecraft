@@ -63,6 +63,14 @@ class User < ActiveRecord::Base
     generator.rand(1.0..10.0).round(1)
   end
   
+  def attending_event?(e)
+    self.attends.where("'events_users'.'event_id'=?", e.id).exists?
+  end
+
+  def confirmed_attend_at_event?(e)
+    self.confirmed_attends.where("'events_users'.'event_id'=?", e.id).exists?
+  end
+  
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state)

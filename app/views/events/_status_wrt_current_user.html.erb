@@ -1,0 +1,24 @@
+<% if user_signed_in? %>
+  <% if event.host === current_user %>
+    <% if event.occurred? %>
+      hosted
+    <% else %>
+      hosting
+    <% end %>
+  <% else %>
+    <% if current_user.attending_event?(event) %>
+      <% if event.occurred? %>
+        <% if confirmed_attend_at_event?(e) %>
+          confirmed attend
+        <% else %>
+          did you attend? <%# FIXME: link to AJAXified confirm dialog that prompts for the secret %>
+        <% end %>
+      <% else %>
+        attending
+      <% end %>
+    <% else %>
+      <%# NEITHER ATTENDING NOR HOSTING %>
+      <%# FIXME: put a click-to-attend link here??? %>
+    <% end %>
+  <% end %>
+<% end %>
