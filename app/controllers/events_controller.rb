@@ -19,7 +19,7 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.all
+    @events = Event.where("start_time > ?", Time.now).order(:start_time)
 
     respond_to do |format|
       format.html # index.html.erb
