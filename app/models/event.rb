@@ -10,7 +10,6 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :attendees, :class_name => 'User', :uniq => true
   
   scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
-  scope :future, lambda { where('"events"."end_time" > ?', Time.now ) }
 
   before_validation :derive_times, :create_course_and_vclass_if_missing
   strip_attributes :only => [:title, :short_title, :description]
@@ -53,6 +52,26 @@ class Event < ActiveRecord::Base
     self.start_time - Time.now < 0
   end
 
+  def Event.starting_after(t)
+    where('"events"."start_time" < ?', t )
+  end
+
+  def Event.starting_before(t)
+    where('"events"."start_time" > ?', t )
+  end
+
+  def Event.ending_after(t)
+    where('"events"."end_time" < ?', t )
+  end
+
+  def Event.ending_before(t)
+    where('"events"."end_time" > ?', t )
+  end
+
+  def Event.future
+    starting_after(Time.now)
+  end
+  
   protected
 
   def derive_times
