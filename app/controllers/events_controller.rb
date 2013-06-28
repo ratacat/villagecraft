@@ -9,6 +9,8 @@ class EventsController < ApplicationController
   #  @events.date = DateTime.strptime(Event.date, "%Y-%m-%d")
   #  @events.save
  # end
+ 
+  EVENTS_PER_PAGE = 20
 
   def my_events
     @hosted_events = current_user.hostings.order('start_time DESC')
@@ -19,7 +21,8 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.where("start_time > ?", Time.now).order(:start_time)
+    # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
+    @events = Event.where("start_time > ?", Time.now).order(:start_time).limit(EVENTS_PER_PAGE)
 
     respond_to do |format|
       format.html # index.html.erb
