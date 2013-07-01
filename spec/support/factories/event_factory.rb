@@ -3,9 +3,8 @@ FactoryGirl.define do
     title "My new Event"
     short_title "event"
     description "this is an event for testing purposes or porpoises"
-    date "2199-01-01"
-    start_time_time "12:15 PM"
-    end_time_time  "1:15 PM"
+    start_time { Timeliness.parse("#{(rand(60) + 1).days.from_now.to_date} #{(7..21).to_a.sample}:00") }
+    end_time { start_time + [30, 60, 90, 120].sample.minutes }
     min_attendees 10
     max_attendees 20
   end
