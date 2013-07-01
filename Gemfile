@@ -34,11 +34,12 @@ gem 'awesome_print'
 gem 'jquery-rails'
 
 group :development do
+  gem 'factory_girl_rails', :require => false
   gem 'rspec-rails', '~> 2.13'
 end
 
 group :test do
-  gem 'factory_girl', '2.6.4'
+  gem 'factory_girl_rails'
   gem 'capybara', '1.1.2'
   gem 'simplecov', :require => false
 end

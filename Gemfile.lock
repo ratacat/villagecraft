@@ -61,8 +61,11 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    factory_girl (2.6.4)
-      activesupport (>= 2.3.9)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     ffi (1.9.0)
     font-awesome-sass-rails (3.0.2.2)
       railties (>= 3.1.1)
@@ -176,7 +179,7 @@ DEPENDENCIES
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
   devise
-  factory_girl (= 2.6.4)
+  factory_girl_rails
   font-awesome-sass-rails
   geocoder
   jquery-rails
