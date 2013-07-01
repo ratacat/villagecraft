@@ -10,7 +10,6 @@ FactoryGirl.define do
    password "foobar11"
    password_confirmation "foobar11"
    location
-   uuid {User.generate_uuid}
   end
   
 end
