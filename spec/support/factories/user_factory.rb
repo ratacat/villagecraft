@@ -1,9 +1,16 @@
 FactoryGirl.define do
+  sequence :email do |n|
+    "seed#{n}@example.com"
+  end
+
   factory :user do
-   email "test@villiagecraft.com"
+   email
    first_name "Test"
-   last_name "user"
+   last_name "User"
    password "foobar11"
    password_confirmation "foobar11"
+   location
+   uuid {User.generate_uuid}
   end
+  
 end
