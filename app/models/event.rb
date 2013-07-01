@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
   validates_time :start_time_time
   
   validates :end_time_time, :presence => true
-  validates_time :end_time_time, :after => :start_time_time
+#  validates_time :end_time_time, :after => :start_time_time  # this is a dumb constraint, since at the model level, events should be allowed to cross midnight
   
   validates :description, :presence => true
   
