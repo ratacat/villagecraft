@@ -33,10 +33,10 @@ if Rails.env.development?
   dna_lounge = FactoryGirl.create(:venue, :name => "DNA Lounge", :owner => jwz, :location => dna_lounge_loc)
   
   # Some Events
-  sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Making", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 10)
+  sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Making", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 10, :price => 5)
   parkour = FactoryGirl.create(:event, :title => "Parkour", :host => jared, :venue => sproul, :min_attendees => 5)
-  throwies = FactoryGirl.create(:event, :title => "Build Your Own LED Throwies", :short_title => "LED throwies", :host => ben, :venue => bens_house, :min_attendees => 3)
-  eff = FactoryGirl.create(:event, :title => "EFF Prism Smashing Fundraiser", :host => jwz, :venue => dna_lounge, :min_attendees => 0, :max_attendees => 1000)
+  throwies = FactoryGirl.create(:event, :title => "Build Your Own LED Throwies", :short_title => "LED throwies", :host => ben, :venue => bens_house, :min_attendees => 3, :price => 5)
+  eff = FactoryGirl.create(:event, :title => "EFF Prism Smashing Fundraiser", :host => jwz, :venue => dna_lounge, :min_attendees => 0, :max_attendees => 1000, :price => 35)
   typewriter = FactoryGirl.create(:event, :title => "History of the Typewriter", :short_title => "typewriters", :host => ben, :venue => bens_house, :start_time => 3.weeks.ago, :end_time => (3.weeks.ago + 1.hour))
   
   # Some Attends
