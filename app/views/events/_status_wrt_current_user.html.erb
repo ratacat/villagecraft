@@ -8,7 +8,7 @@
   <% else %>
     <% if current_user.attending_event?(event) %>
       <% if event.occurred? %>
-        <% if confirmed_attend_at_event?(e) %>
+        <% if current_user.confirmed_attend_at_event?(event) %>
           confirmed attend
         <% else %>
           did you attend? <%# FIXME: link to AJAXified confirm dialog that prompts for the secret %>
