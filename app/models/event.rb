@@ -53,19 +53,19 @@ class Event < ActiveRecord::Base
   end
 
   def Event.starting_after(t)
-    where('"events"."start_time" < ?', t )
-  end
-
-  def Event.starting_before(t)
     where('"events"."start_time" > ?', t )
   end
 
+  def Event.starting_before(t)
+    where('"events"."start_time" < ?', t )
+  end
+
   def Event.ending_after(t)
-    where('"events"."end_time" < ?', t )
+    where('"events"."end_time" > ?', t )
   end
 
   def Event.ending_before(t)
-    where('"events"."end_time" > ?', t )
+    where('"events"."end_time" < ?', t )
   end
 
   def Event.future
