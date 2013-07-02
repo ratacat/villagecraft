@@ -2,7 +2,9 @@
   <thead>
     <tr>
       <th>Activity</th>
-      <th>Proximity</th>
+      <% if user_signed_in? %>
+        <th>Proximity</th>
+      <% end %>
       <th>Time</th>
       <th>Day</th>
       <th>Rating</th>
@@ -10,7 +12,9 @@
       <th>Where</th>
       <th>Price</th>
       <th>Host</th>
-      <th></th>
+      <% if user_signed_in? %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -18,7 +22,9 @@
   <% events.each do |event| %>
     <tr>
       <td><%= link_to event.short_title, event %></td>
-      <td><%= current_user.distance_to(event.venue) %> mi</td>
+      <% if user_signed_in? %>
+        <td><%= current_user.distance_to(event.venue) %> mi</td>
+      <% end %>
       <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></td>
       <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %></td>
       <td></td>
@@ -26,7 +32,9 @@
       <td><%= link_to event.venue.name, event.venue %></td>
       <td><%= event_price(event) %></td>
       <td><%= link_to event.host.name, event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span></td>
-      <td><%= render :partial => 'events/status_wrt_current_user', :locals => {:event => event} %></td>
+      <% if user_signed_in? %>
+        <td><%= render :partial => 'events/status_wrt_current_user', :locals => {:event => event} %></td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>
