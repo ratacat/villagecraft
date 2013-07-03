@@ -3,7 +3,7 @@
 
   	<%= f.input :title %>
   	<%= f.input :short_title, label: 'Short Title' %>
-  	<%= f.association :venue, collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid) %>
+  	<%= f.association :venue, collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
   	<%= f.input :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
     <%= f.input :date, as: :date_select %>
@@ -15,3 +15,25 @@
     <%= f.button :submit, class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<div id="add_venue_dialog" class="modal hide fade" tabindex="-1" data-backdrop="static" data-keyboard="true" role="dialog" aria-hidden="true" >
+  <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Add Venue</h3>
+    </div>
+  <div class="modal-body">
+    <%= render :partial => 'venues/form', :locals => { :remote => true } %>
+  </div>
+</div>
+
+<% ready_script do  -%>
+  $("#event_venue_id").change(function(e) {
+    if ($(this).find("option:selected").text() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
+      $('select.venues_select').val(null);
+      $('#add_venue_dialog').modal('show');
+    };
+  });
+  $('#new_venue').on('ajax:success', function(event, data, status, xhr) {
+    $('#add_venue_dialog').modal('hide');
+  });
+<% end -%>

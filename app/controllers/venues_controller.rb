@@ -45,9 +45,11 @@ class VenuesController < ApplicationController
     
     respond_to do |format|
       if @venue.save
+        format.js { render :refresh_venues_select }
         format.html { redirect_to @venue, notice: 'Venue was successfully created.' }
         format.json { render json: @venue, status: :created, location: @venue }
       else
+        format.js { render :replace_form }
         format.html { render action: "new" }
         format.json { render json: @venue.errors, status: :unprocessable_entity }
       end

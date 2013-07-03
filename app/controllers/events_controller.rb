@@ -48,6 +48,7 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
+    @venue = Venue.new
     @event.host = current_user
     
     respond_to do |format|
@@ -58,6 +59,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @venue = Venue.new
   end
 
   # POST /events

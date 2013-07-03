@@ -1,0 +1,2 @@
+$('select.venues_select').html("<%= escape_javascript(render :partial => 'select_options') %>");
+$('select.venues_select').val('<%= @venue.uuid %>');
