@@ -11,6 +11,11 @@ class Venue < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :owner, :presence => true
+
+  validates :street, :presence => true
+  validates :city, :presence => true
+  validates :state, :presence => true
+  
   validates :location, :presence => true
   validates_associated :location
 
