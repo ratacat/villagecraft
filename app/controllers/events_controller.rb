@@ -13,7 +13,12 @@ class EventsController < ApplicationController
   EVENTS_PER_PAGE = 20
 
   def my_events
-    @hosted_events = current_user.hostings.order('start_time DESC')
+    @upcomings_attends = current_user.attends.future.limit(EVENTS_PER_PAGE)
+    @attended_events = current_user.attends.completed.limit(EVENTS_PER_PAGE)
+    @upcoming_hostings = current_user.hostings.future.limit(EVENTS_PER_PAGE)
+    @hosted_events = current_user.hostings.completed.limit(EVENTS_PER_PAGE)
+    @recommended_events = []
+
     respond_to do |format|
       format.html # my_events.html.erb
       format.json { render json: @events }

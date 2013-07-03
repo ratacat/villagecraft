@@ -1,18 +1,47 @@
-<%= link_to 'New Event', new_event_path, :class => 'btn btn-success pull-right' %>
+<%= link_to 'New Event', new_event_path, :class => 'btn btn-success pull-right' %>  
 
-<h1>Events</h1>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#attending" data-toggle="tab">Attending</a></li>
+  <li><a href="#attended" data-toggle="tab">Attended</a></li>
+  <li><a href="#hosting" data-toggle="tab">Hosting</a></li>
+  <li><a href="#hosted" data-toggle="tab">Hosted</a></li>
+  <li><a href="#recommended" data-toggle="tab">Recommended</a></li>
+</ul>
 
-<h2>Hosting</h2>
-<p>
-  <%= render 'index', :events => @hosted_events %>
-</p>
-
-<h2>Attending</h2>
-<p>
-  <%= render 'index', :events => [] %>  
-</p>
-
-<h2>Attended</h2>
-<p>
-  <%= render 'index', :events => [] %>  
-</p>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane active" id="attending">
+    <% if @upcomings_attends.blank? %>
+      You are attending no upcoming events.
+    <% else %>
+      <%= render 'index', :events => @upcomings_attends %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="attended">
+    <% if @attended_events.blank? %>
+      You have not yet attended an event.
+    <% else %>
+      <%= render 'index', :events => @attended_events %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="hosting">
+    <% if @upcoming_hostings.blank? %>
+      You have hosting no upcoming events.
+    <% else %>
+      <%= render 'index', :events => @upcoming_hostings %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="hosted">
+    <% if @hosted_events.blank? %>
+      You have not yet hosted an event.
+    <% else %>
+      <%= render 'index', :events => @hosted_events %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="recommended">
+    <% if @recommended_events.blank? %>
+      No recommendations for you right now.  Come back soon.
+    <% else %>
+      <%= render 'index', :events => @recommended_events %>
+    <% end %>
+  </div>
+</div>
