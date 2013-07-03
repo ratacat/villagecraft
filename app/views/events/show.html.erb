@@ -3,10 +3,14 @@
   <%= l @event.start_time, format: :short_time %> - <%= l @event.end_time, format: :short_time %> <%= @event.start_time.to_date.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
 </h4>
 
-<address>
-  <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
-</address>
+<% if @event.venue.blank? %>
+  location: TBD
+<% else %>
+  <address>
+    <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
+    <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
+  </address>
+<% end %>
 
 <p>
   <%= @event.description %>

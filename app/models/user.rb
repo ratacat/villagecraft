@@ -56,6 +56,11 @@ class User < ActiveRecord::Base
     l = o.is_a?(Location) ? o : o.location
     Geocoder::Calculations.distance_between(self.location, l).round(2)
   end
+  
+  def venue_options
+    tbd = Venue.new(:name => "TBD")
+    [tbd] + self.venues
+  end
 
   # FIXME: stub
   def rating_as_host
