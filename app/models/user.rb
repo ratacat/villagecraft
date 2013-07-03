@@ -57,11 +57,6 @@ class User < ActiveRecord::Base
     Geocoder::Calculations.distance_between(self.location, l).round(2)
   end
   
-  def venue_options
-    tbd = Venue.new(:name => "TBD")
-    [tbd] + self.venues
-  end
-
   # FIXME: stub
   def rating_as_host
     generator = Random.new # You need to instance it
