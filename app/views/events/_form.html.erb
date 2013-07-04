@@ -28,7 +28,7 @@
 
 <% ready_script do  -%>
   $("#event_venue_id").change(function(e) {
-    if ($(this).find("option:selected").text() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
+    if ($("#event_venue_id option:selected")[0] === $("#event_venue_id option:last")[0]) {
       $('select.venues_select').val(null);
       $('#add_venue_dialog').modal('show');
     };
