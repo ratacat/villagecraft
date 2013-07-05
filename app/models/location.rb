@@ -13,7 +13,7 @@ class Location < ActiveRecord::Base
       obj.country = geo.country_code
     end
   end
-  before_validation :geocode, :sythesize_address
+  before_validation :geocode, :sythesize_address, :lookup_time_zone
   
   def Location.us_states
     @US_STATES ||= us_states_select_collection.map(&:first)
@@ -86,6 +86,13 @@ class Location < ActiveRecord::Base
   
   def sythesize_address
     self.address = "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
+  end
+  
+  def lookup_time_zone
+    tz_lookup_result = GoogleTimezone.fetch(self.latitude, self.longitude)
+    if tz_lookup_result.success?
+      self.time_zone = tz_lookup_result.time_zone_id
+    end
   end
   
 end

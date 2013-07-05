@@ -14,6 +14,7 @@ gem 'sass-rails',   '~> 3.2.3'
 
 gem 'attribute_normalizer'
 gem 'geocoder'
+gem 'google_timezone'
 gem 'uuidtools'
 
 # Gems used only for assets and not required

@@ -72,6 +72,7 @@ GEM
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
     geocoder (1.1.8)
+    google_timezone (0.0.1)
     hike (1.2.3)
     i18n (0.6.1)
     journey (1.0.4)
@@ -182,6 +183,7 @@ DEPENDENCIES
   factory_girl_rails
   font-awesome-sass-rails
   geocoder
+  google_timezone
   jquery-rails
   rails (= 3.2.13)
   rspec-rails (~> 2.13)
