@@ -72,6 +72,10 @@ class Event < ActiveRecord::Base
     starting_after(Time.now)
   end
   
+  def time_zone
+    self.location.try(:time_zone) || self.host.location.time_zone
+  end
+  
   protected
 
   def derive_times
