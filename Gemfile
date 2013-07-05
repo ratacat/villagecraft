@@ -12,7 +12,7 @@ gem 'validates_timeliness', '~> 3.0'
 gem 'bootstrap-generators', '~> 2.3'
 gem 'sass-rails',   '~> 3.2.3'
 
-gem "strip_attributes", "~> 1.2"
+gem 'attribute_normalizer'
 gem 'geocoder'
 gem 'uuidtools'
 

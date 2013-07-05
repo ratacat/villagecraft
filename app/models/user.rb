@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :reviews
   belongs_to :location
   
-  strip_attributes :only => [:first_name, :last_name, :email, :address]
+  normalize_attributes :first_name, :last_name, :email, :address
   
   before_validation :find_or_create_location_from_address
   
