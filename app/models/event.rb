@@ -80,9 +80,6 @@ class Event < ActiveRecord::Base
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.end_time_time.blank?
-    
-    self.start_time_time = Timeliness.parse(self.start_time_time)
-    self.end_time_time = Timeliness.parse(self.end_time_time)
   end
   
   def create_course_and_vclass_if_missing
