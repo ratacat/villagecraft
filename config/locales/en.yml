@@ -11,5 +11,5 @@ en:
 en:
   time:
     formats:
-      short_time: "%l:%M%p"
+      short_time: "%l:%M %p"
       
