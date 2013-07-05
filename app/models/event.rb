@@ -68,14 +68,18 @@ class Event < ActiveRecord::Base
   end
   
   def time_zone
-    self.location.try(:time_zone) || self.host.location.time_zone
+    self.location.try(:time_zone) || self.host.location.time_zone || Time.zone
+  end
+  
+  def formatted_tz_offset
+    Time.find_zone(self.time_zone).formatted_offset
   end
   
   protected
 
   def derive_times
-    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}") unless self.start_time_date.blank? or self.start_time_time.blank?
-    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}") unless self.start_time_date.blank? or self.end_time_time.blank?
+    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.start_time_time.blank?
+    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.end_time_time.blank?
     
     self.start_time_time = Timeliness.parse(self.start_time_time)
     self.end_time_time = Timeliness.parse(self.end_time_time)
