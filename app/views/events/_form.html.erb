@@ -3,12 +3,18 @@
 
   	<%= f.input :title %>
   	<%= f.input :short_title, label: 'Short Title' %>
-  	<%= f.association :venue, collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
+
+    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row'} do %>
+      <%= f.input_field :start_time_date, as: :date_select %>
+      <%= f.input_field :start_time_time, :as => :timepicker %> to 
+      <%= f.input_field :end_time_date, as: :date_select %>
+      <%= f.input_field :end_time_time, as: :timepicker %>
+    <% end %>
+    
+  	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
   	<%= f.input :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
-    <%= f.input :date, as: :date_select %>
-    <%= f.input :start_time_time, as: :timepicker, label: 'Start Time' %>
-    <%= f.input :end_time_time, as: :timepicker, label: 'End Time' %>
+  	
     <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
@@ -26,7 +32,9 @@
   </div>
 </div>
 
-<% ready_script do  -%>
+<% ready_script do -%>
+  <%= render :partial => 'events/init_datetime_pickers.js' %>
+  
   $("#event_venue_id").change(function(e) {
     if ($("#event_venue_id option:selected")[0] === $("#event_venue_id option:last")[0]) {
       $('select.venues_select').val(null);
