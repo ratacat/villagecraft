@@ -44,11 +44,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_time_time
-    @start_time_time || self.localized_start_time.strftime("%H:%M")
+    @start_time_time || self.localized_start_time.strftime("%l:%M %p")
   end
 
   def end_time_time
-    @end_time_time || self.localized_end_time.strftime("%H:%M")
+    @end_time_time || self.localized_end_time.strftime("%l:%M %p")
   end
   
   def occurred? 
@@ -88,7 +88,6 @@ class Event < ActiveRecord::Base
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
-    debugger
   end
   
   def create_course_and_vclass_if_missing
