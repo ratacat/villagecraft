@@ -1,6 +1,6 @@
 <h1><%= @event.title %></h1>
 <h4>
-  <%= l @event.start_time, format: :short_time %> - <%= l @event.end_time, format: :short_time %> <%= @event.start_time.to_date.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
+  <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
 </h4>
 
 <% if @event.venue.blank? %>

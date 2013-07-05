@@ -27,20 +27,28 @@ class Event < ActiveRecord::Base
   
   validates :description, :presence => true
   
+  def localized_start_time
+    self.start_time.in_time_zone(self.time_zone)
+  end
+
+  def localized_end_time
+    self.end_time.in_time_zone(self.time_zone)
+  end
+  
   def start_time_date
-    self.read_attribute(:start_time_date) || self.start_time.try(:to_date)
+    @start_time_date || self.localized_start_time.strftime("%F")
   end
 
   def end_time_date
-    self.read_attribute(:end_time_date) || self.end_time.try(:to_date)
+    @end_time_date || self.localized_end_time.strftime("%F")
   end
 
   def start_time_time
-    self.read_attribute(:start_time_time) || self.start_time.try(:to_time)
+    @start_time_time || self.localized_start_time.strftime("%H:%M")
   end
 
   def end_time_time
-    self.read_attribute(:end_time_time) || self.end_time.try(:to_time)
+    @end_time_time || self.localized_end_time.strftime("%H:%M")
   end
   
   def occurred? 
@@ -78,8 +86,9 @@ class Event < ActiveRecord::Base
   protected
 
   def derive_times
-    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.start_time_time.blank?
-    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time} #{self.formatted_tz_offset}") unless self.start_time_date.blank? or self.end_time_time.blank?
+    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
+    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+    debugger
   end
   
   def create_course_and_vclass_if_missing
