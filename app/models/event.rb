@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
-  attr_accessible :host, :course, :title, :description, :date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
-  attr_accessor :date, :start_time_time, :end_time_time
+  attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
+  attr_writer :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
@@ -25,9 +25,12 @@ class Event < ActiveRecord::Base
   validates_datetime :start_time
   validates_datetime :end_time, :after => :start_time
 
-  validates :date, :presence => true
-  validates_date :date
-  
+  validates :start_time_date, :presence => true
+  validates_date :start_time_date
+
+  validates :end_time_date, :presence => true
+  validates_date :start_time_date
+
   validates :start_time_time, :presence => true
   validates_time :start_time_time
   
@@ -36,16 +39,20 @@ class Event < ActiveRecord::Base
   
   validates :description, :presence => true
   
-  def date
-   @date || self.start_time.try(:to_date)
+  def start_time_date
+    self.read_attribute(:start_time_date) || self.start_time.try(:to_date)
+  end
+
+  def end_time_date
+    self.read_attribute(:end_time_date) || self.end_time.try(:to_date)
   end
 
   def start_time_time
-   @start_time_time || self.start_time.try(:to_time)
+    self.read_attribute(:start_time_time) || self.start_time.try(:to_time)
   end
 
   def end_time_time
-   @end_time_time || self.end_time.try(:to_time)
+    self.read_attribute(:end_time_time) || self.end_time.try(:to_time)
   end
   
   def occurred? 
@@ -79,8 +86,8 @@ class Event < ActiveRecord::Base
   protected
 
   def derive_times
-    self.start_time ||= Timeliness.parse("#{self.date} #{self.start_time_time}") unless self.date.blank? or self.start_time_time.blank?
-    self.end_time ||= Timeliness.parse("#{self.date} #{self.end_time_time}") unless self.date.blank? or self.end_time_time.blank?
+    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}") unless self.start_time_date.blank? or self.start_time_time.blank?
+    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}") unless self.start_time_date.blank? or self.end_time_time.blank?
     
     self.start_time_time = Timeliness.parse(self.start_time_time)
     self.end_time_time = Timeliness.parse(self.end_time_time)
