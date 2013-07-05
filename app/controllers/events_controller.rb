@@ -74,6 +74,7 @@ class EventsController < ApplicationController
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
+        collate_when_errors
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -90,6 +91,7 @@ class EventsController < ApplicationController
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else
+        collate_when_errors
         format.html { render action: "edit" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -154,7 +156,16 @@ class EventsController < ApplicationController
   end  
   
   def find_venue
-    @venue = Venue.find_by_uuid(params[:event][:venue_id])
+    @venue = (Venue.find_by_uuid(params[:event][:venue_id]) || Venue.new)
     params[:event].delete(:venue_id)
+  end
+  
+  def collate_when_errors
+    when_errors = []
+    [:start_date, :start_time, :end_date, :end_time].each do |attr|
+      when_errors << @event.errors.full_message(attr, @event.errors[attr].join(', ')) unless @event.errors[attr].blank?
+    end
+    when_errors = when_errors.flatten.compact
+    @event.errors.add(:when, when_errors.flatten.join('; ')) unless when_errors.blank?
   end
 end
