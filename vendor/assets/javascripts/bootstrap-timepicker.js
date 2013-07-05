@@ -723,7 +723,7 @@
     },
 
     updateFromElementVal: function() {
-			var val = this.$element.val();
+			var val = this.$element.val().trim();
 
 			if (val) {
 				this.setTime(val);
