@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
 
   before_validation :derive_times, :create_course_and_vclass_if_missing
-  strip_attributes :only => [:title, :short_title, :description]
+  normalize_attributes :title, :short_title, :description, :start_date, :end_date
   
   validates :host_id, presence: true
   validates :course_id, presence: true
