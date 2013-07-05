@@ -1,6 +1,6 @@
 class Venue < ActiveRecord::Base
-  attr_accessible :name, :street, :city, :state
-  attr_writer :street, :city, :state
+  attr_accessible :name, :street, :city, :state_code
+  attr_writer :street, :city, :state_code
   has_uuid(:length => 8)
 
   belongs_to :owner, :class_name => 'User'
@@ -14,7 +14,7 @@ class Venue < ActiveRecord::Base
 
   validates :street, :presence => true
   validates :city, :presence => true
-  validates :state, :presence => true
+  validates :state_code, :presence => true
   
   validates :location, :presence => true
   validates_associated :location
@@ -27,13 +27,13 @@ class Venue < ActiveRecord::Base
     @city || self.location.try(:city)
   end
 
-  def state
-    @state || self.location.try(:state_code)
+  def state_code
+    @state_code || self.location.try(:state_code)
   end
   
   protected
   def find_or_create_location_from_address
-    self.location = Location.find_or_create_by_street_and_city_and_state_code(:street => self.street, :city => self.city, :state_code => self.state)
+    self.location = Location.find_or_create_by_street_and_city_and_state_code(:street => self.street, :city => self.city, :state_code => self.state_code)
   end
   
 end
