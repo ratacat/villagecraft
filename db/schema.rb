@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626001845) do
+ActiveRecord::Schema.define(:version => 20130705171421) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20130626001845) do
     t.string   "address"
     t.string   "country"
     t.string   "state_code"
+    t.string   "time_zone"
   end
 
   create_table "reviews", :force => true do |t|
