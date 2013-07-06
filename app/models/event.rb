@@ -36,19 +36,19 @@ class Event < ActiveRecord::Base
   end
   
   def start_time_date
-    @start_time_date || self.localized_start_time.strftime("%F")
+    @start_time_date || self.localized_start_time.strftime("%-m/%-d/%Y")
   end
 
   def end_time_date
-    @end_time_date || self.localized_end_time.strftime("%F")
+    @end_time_date || self.localized_end_time.strftime("%-m/%-d/%Y")
   end
 
   def start_time_time
-    @start_time_time || self.localized_start_time.strftime("%l:%M %p")
+    @start_time_time || self.localized_start_time.strftime("%l:%M%P")
   end
 
   def end_time_time
-    @end_time_time || self.localized_end_time.strftime("%l:%M %p")
+    @end_time_time || self.localized_end_time.strftime("%l:%M%P")
   end
   
   def occurred? 

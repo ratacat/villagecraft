@@ -4,11 +4,11 @@
   	<%= f.input :title %>
   	<%= f.input :short_title, label: 'Short Title' %>
 
-    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row'} do %>
-      <%= f.input_field :start_time_date, as: :date_select %>
-      <%= f.input_field :start_time_time, :as => :timepicker %> to 
-      <%= f.input_field :end_time_date, as: :date_select %>
-      <%= f.input_field :end_time_time, as: :timepicker %>
+    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
+      <%= f.input_field :start_time_date, :as => :date_select, :class => "start date" %>
+      <%= f.input_field :start_time_time, :as => :time_select, :class => "start time" %> to 
+      <%= f.input_field :end_time_time, :as => :time_select, :class => "end time" %>
+      <%= f.input_field :end_time_date, :as => :date_select, :class => "end date" %>
     <% end %>
     
   	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
