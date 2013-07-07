@@ -1,0 +1,3 @@
+<% @attendees.each do |user| %>
+  <%= render :partial => 'users/inline_user_summary', :locals => {:user => user} %><br/>
+<% end %>

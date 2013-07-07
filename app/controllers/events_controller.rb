@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show, :attendees]
   before_filter :find_venue, :only => [:create, :update]
   #before_filter :checkDate, :only => [:create, :update]
   # GET /events
@@ -144,6 +144,17 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
     
+  end
+  
+  # GET /events/1/attendees
+  # GET /events/1/attendees.json
+  def attendees
+    @attendees = @event.attendees
+    
+    respond_to do |format|
+      format.html { render :partial => 'attendees' }
+      format.json { render json: @attendees }
+    end
   end
   
   protected

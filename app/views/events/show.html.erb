@@ -5,7 +5,9 @@
 <h4>
   <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
 </h4>
-<%= render :partial => 'events/attends_meter', :locals => { :event => @event } %>
+<p>
+  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
+</p>
 
 <% if @event.venue.blank? %>
   location: TBD
@@ -30,3 +32,5 @@
 <% unless @event.host === current_user %>
   <%= render :partial => 'events/attend_status_and_call_to_action' %>  
 <% end %>
+
+<%= render :partial => 'attendees_modal' %>

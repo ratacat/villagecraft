@@ -1,6 +1,7 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
+  get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   resources :events
 
   devise_for :users
