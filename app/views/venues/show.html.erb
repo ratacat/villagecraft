@@ -17,3 +17,6 @@
   <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @venue.location} %>
 </address>
 
+<p>
+  <%= linked_map_image(@venue.location) %>      
+</p>
