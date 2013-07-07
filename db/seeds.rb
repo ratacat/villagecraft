@@ -17,6 +17,7 @@ if Rails.env.development?
   jareds_house_loc = FactoryGirl.create(:location, :street => "200 Vernon Street", :city => "Oakland", :state_code => "CA")
   bens_house_loc = FactoryGirl.create(:location, :street => "1006 Rose Ave", :city => "Piedmont", :state_code => "CA")
   dna_lounge_loc = FactoryGirl.create(:location, :street => "375 Eleventh St", :city => "San Francisco", :state_code => "CA", :zip => "94103")
+  carnegie_hall_loc = FactoryGirl.create(:location, :street => "881 7th Ave", :city => "New York", :state_code => "NY", :zip => "10019")
   Location.find_each(&:save!) # forces 
 
   # Some Users
@@ -31,6 +32,7 @@ if Rails.env.development?
   jareds_house = FactoryGirl.create(:venue, :name => "Jared's House", :owner => jared, :location => jareds_house_loc)
   bens_house = FactoryGirl.create(:venue, :name => "Ben's House", :owner => ben, :location => bens_house_loc)
   dna_lounge = FactoryGirl.create(:venue, :name => "DNA Lounge", :owner => jwz, :location => dna_lounge_loc)
+  carnegie_hall = FactoryGirl.create(:venue, :name => "Carnegie Hall", :owner => ben, :location => carnegie_hall_loc)
   
   # Some Events
   sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Making", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 10, :price => 5)
