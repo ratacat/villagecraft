@@ -37,6 +37,14 @@ $('.datepair input.time').each(function() {
 
 $('.datepair').each(initDatepair);
 
+$(".date-select-component span.add-on").on('click', function() {
+  $(this).siblings().datepicker('show');
+});
+
+$(".time-select-component span.add-on").on('click', function() {
+  $(this).siblings().timepicker('show');
+});
+
 function initDatepair()
 {
 	var container = $(this);
