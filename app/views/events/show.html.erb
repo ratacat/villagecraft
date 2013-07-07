@@ -1,3 +1,6 @@
+<% if @event.host === current_user %>
+  <%= link_to 'Edit', edit_event_path(@event), :class => 'btn pull-right' %>    
+<% end %>
 <h1><%= @event.title %></h1>
 <h4>
   <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
@@ -23,8 +26,6 @@
   hosted by: <%= link_to @event.host.name, @event.host %>
 </p>
 
-<%= render :partial => 'events/attend_status_and_call_to_action' %>
-
-<% if @event.host === current_user %>
-  <%= link_to 'Edit', edit_event_path(@event) %>
+<% unless @event.host === current_user %>
+  <%= render :partial => 'events/attend_status_and_call_to_action' %>  
 <% end %>
