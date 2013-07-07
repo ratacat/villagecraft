@@ -23,7 +23,7 @@
 </p>
 
 <p>
-  hosted by: <%= link_to @event.host.name, @event.host %>
+  hosted by: <%= contextualized_user_link @event.host %>
 </p>
 
 <% unless @event.host === current_user %>
