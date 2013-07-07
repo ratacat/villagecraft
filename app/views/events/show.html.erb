@@ -5,6 +5,7 @@
 <h4>
   <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
 </h4>
+<%= render :partial => 'events/attends_meter', :locals => { :event => @event } %>
 
 <% if @event.venue.blank? %>
   location: TBD
