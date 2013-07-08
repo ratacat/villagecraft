@@ -2,14 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
-
-en:
-  date:
-    datepicker: "mm/dd/yyyy"
-
-en:
   time:
     formats:
       short_time: "%l:%M %p"
+      time_picker_time_format: "%l:%M%P"
+      date_picker_date_format: "%-m/%-d/%Y"
+      php_style_time_picker_time_format: 'm/d/yyyy'
+      php_style_date_picker_date_format: 'g:ia'
+      php_style_date_format: 'n/j/Y'
       

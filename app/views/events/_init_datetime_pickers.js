@@ -1,7 +1,3 @@
-var DATEPICKER_FORMAT = 'm/d/yyyy';
-var TIMEPICKER_FORMAT = 'g:ia';
-var DATE_FORMAT = 'n/j/Y'; // for this format see http://php.net/manual/function.date.php
-
 $('.datepair input.date').each(function(){
 	var $this = $(this);
 

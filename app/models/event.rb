@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
-  attr_writer :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
 
   before_validation :derive_times, :create_course_and_vclass_if_missing
-  normalize_attributes :title, :short_title, :description, :start_date, :end_date
+  normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
   
   validates :host_id, presence: true
   validates :course_id, presence: true
@@ -33,22 +33,6 @@ class Event < ActiveRecord::Base
 
   def localized_end_time
     self.end_time.in_time_zone(self.time_zone)
-  end
-  
-  def start_time_date
-    @start_time_date || self.localized_start_time.strftime("%-m/%-d/%Y").strip
-  end
-
-  def end_time_date
-    @end_time_date || self.localized_end_time.strftime("%-m/%-d/%Y").strip
-  end
-
-  def start_time_time
-    @start_time_time || self.localized_start_time.strftime("%l:%M%P").strip
-  end
-
-  def end_time_time
-    @end_time_time || self.localized_end_time.strftime("%l:%M%P").strip
   end
   
   def occurred? 
