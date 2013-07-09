@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
            :conditions => ['events_users.confirmed = ?',true]
   has_many :reviews
   belongs_to :location
+  has_many :images, :dependent => :destroy
+  belongs_to :profile_image, :class_name => 'Image'
   
   normalize_attributes :first_name, :last_name, :email, :address
   
@@ -34,10 +36,18 @@ class User < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
   
-  # FIXME: stub
-  def profile_img_src(size = :thumb)
-    "/assets/homunculus.png"
+  def profile_img_src(size = :medium)
+    if self.profile_image.blank?
+      "/assets/homunculus.png"
+    else
+      self.profile_image.img.url(size)
+    end
   end
+  
+  def profile_image=(f)
+    i = Image.create(:img => f, :user => self)
+    self.profile_image_id = i.id
+  end  
   
   # FIXME: stub
   def velocity
