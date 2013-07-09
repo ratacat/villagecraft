@@ -28,11 +28,11 @@ class Event < ActiveRecord::Base
   validates :description, :presence => true
   
   def localized_start_time
-    self.start_time.in_time_zone(self.time_zone)
+    self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
   end
 
   def localized_end_time
-    self.end_time.in_time_zone(self.time_zone)
+    self.end_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 9:00pm", :zone => self.time_zone)
   end
   
   def occurred? 
@@ -60,15 +60,19 @@ class Event < ActiveRecord::Base
   end
   
   def time_zone
-    self.location.try(:time_zone) || self.host.location.time_zone || Time.zone
+    self.location.try(:time_zone) || self.host.location.time_zone
+  end
+  
+  def find_zone
+    Time.find_zone(self.time_zone)
   end
   
   def formatted_tz_offset
-    Time.find_zone(self.time_zone).formatted_offset
+    self.find_zone.formatted_offset
   end
   
   protected
-
+  
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
