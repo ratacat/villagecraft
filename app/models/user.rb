@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   
   validates :first_name, :presence => true
   validates :last_name, :presence => true
+  validates :city, :presence => true
+  validates :state, :presence => true
   validates :location, :presence => true
   validates_associated :location
   
@@ -83,7 +85,7 @@ class User < ActiveRecord::Base
   
   protected
   def find_or_create_location_from_address
-    self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state)
+    self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
   end
   
 end
