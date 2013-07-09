@@ -21,9 +21,10 @@ if Rails.env.development?
   Location.find_each(&:save!) # forces 
 
   # Some Users
-  jared = FactoryGirl.create(:user, :first_name => "Jared", :last_name => "Smith", :email => "jared@example.com", :location => berkeley)
-  ben = FactoryGirl.create(:user, :first_name => "Ben", :last_name => "Teitelbaum", :email => "ben@example.com", :location => oakland)
-  jwz = FactoryGirl.create(:user, :first_name => "Jamie", :last_name => "Zawinski", :email => "jwz@example.com", :location => sf)
+  images_path = Rails.root.join('spec', 'support', 'images')
+  jared = FactoryGirl.create(:user, :first_name => "Jared", :last_name => "Smith", :email => "jared@example.com", :location => berkeley, :profile_image => File.open(images_path.join('jared.jpg')))
+  ben = FactoryGirl.create(:user, :first_name => "Ben", :last_name => "Teitelbaum", :email => "ben@example.com", :location => oakland, :profile_image => File.open(images_path.join('ben.jpg')))
+  jwz = FactoryGirl.create(:user, :first_name => "Jamie", :last_name => "Zawinski", :email => "jwz@example.com", :location => sf, :profile_image => File.open(images_path.join('jamie.jpg')))
   drones = []
   (1..20).each { drones << FactoryGirl.create(:random_user, :location => [berkeley, oakland, sf].sample) }
 
