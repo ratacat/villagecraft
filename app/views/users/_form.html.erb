@@ -1,7 +1,17 @@
 <%= simple_form_for(@user, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
+  
 
   <div class="form-inputs">
+
+    <div class="control-group">
+      <%= f.label "Profile Image" %>
+      <div class="controls">
+        <%= image_tag @user.profile_img_src(:large), :class => "img-rounded" %>
+        <%= f.file_field :profile_image %><br/>
+      </div>
+    </div>
+
     <%= f.input :first_name, label: 'First Name' %>
     <%= f.input :last_name, label: 'Last Name' %>
     <%= f.input :city, label: 'City' %>
@@ -13,3 +23,14 @@
   </div>
 <% end %>
 <%= link_to "Change Password or Email", edit_user_registration_path %>
+<%= ready_script do -%>
+  $(":file").filestyle({ 
+    textField: false,
+    buttonText: "Choose photo",
+    icon: true 
+  });
+  $("#user_profile_image").change(function() {
+      $(this).closest("form").submit();
+    }
+  );
+<% end -%>
