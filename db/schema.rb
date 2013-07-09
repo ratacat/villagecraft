@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130705171421) do
+ActiveRecord::Schema.define(:version => 20130709033637) do
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -55,6 +55,17 @@ ActiveRecord::Schema.define(:version => 20130705171421) do
   add_index "events_users", ["event_id", "user_id"], :name => "index_events_users_on_event_id_and_user_id", :unique => true
   add_index "events_users", ["event_id"], :name => "index_events_users_on_event_id"
   add_index "events_users", ["user_id"], :name => "index_events_users_on_user_id"
+
+  create_table "images", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "uuid"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "img_file_name"
+    t.string   "img_content_type"
+    t.integer  "img_file_size"
+    t.datetime "img_updated_at"
+  end
 
   create_table "locations", :force => true do |t|
     t.string   "street"
@@ -105,10 +116,12 @@ ActiveRecord::Schema.define(:version => 20130705171421) do
     t.datetime "updated_at",                                :null => false
     t.integer  "location_id"
     t.string   "uuid"
+    t.integer  "profile_image_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["location_id"], :name => "index_users_on_location_id"
+  add_index "users", ["profile_image_id"], :name => "index_users_on_profile_image_id"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "vclasses", :force => true do |t|
