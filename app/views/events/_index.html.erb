@@ -23,13 +23,13 @@
     <tr>
       <td><%= link_to event.short_title, event %></td>
       <% if user_signed_in? %>
-        <td><%= current_user.distance_to(event.venue) %> mi</td>
+        <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
       <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></td>
       <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %></td>
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
-      <td><%= link_to event.venue.name, event.venue %></td>
+      <td><%= link_to(event.venue.name, event.venue) unless event.venue.blank? %></td>
       <td><%= event_price(event) %></td>
       <td><%= link_to event.host.name, event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span></td>
       <% if user_signed_in? %>

@@ -167,7 +167,7 @@ class EventsController < ApplicationController
   end  
   
   def find_venue
-    @venue = (Venue.find_by_uuid(params[:event][:venue_id]) || Venue.new)
+    @venue = Venue.find_by_uuid(params[:event][:venue_id])
     params[:event].delete(:venue_id)
   end
   
