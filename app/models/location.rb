@@ -13,8 +13,12 @@ class Location < ActiveRecord::Base
       obj.country = geo.country_code
     end
   end
-  before_validation :sythesize_address
-  after_validation :geocode, :lookup_time_zone
+  before_validation :sythesize_address, :geocode
+  
+  validates :latitude, :presence => true
+  validates :longitude, :presence => true
+  
+  after_validation :lookup_time_zone
   
   def Location.us_states
     @US_STATES ||= us_states_select_collection.map(&:first)
