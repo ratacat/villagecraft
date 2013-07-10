@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   
   scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
 
-  before_validation :derive_times, :create_course_and_vclass_if_missing
+  before_validation :derive_times, :create_course_and_vclass_if_missing, :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
   
   validates :host_id, presence: true
@@ -72,6 +72,19 @@ class Event < ActiveRecord::Base
   end
   
   protected
+
+  def Event.random_secret
+    # FIXME: this is just a placeholder
+    web_colors = %w(black silver gray white maroon red purple fuchsia green lime olive yellow navy blue teal aqua)
+    zodiac_animals = %w(rat ox tiger rabbit dragon snake horse goat monkey rooster dog pig)
+    "#{web_colors.sample} #{zodiac_animals.sample}"
+  end
+  
+  def generate_secret_if_missing
+    if self.secret.blank?
+      self.secret = Event.random_secret
+    end
+  end
   
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
