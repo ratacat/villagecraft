@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   end
   
   def profile_image=(f)
-    i = Image.create(:img => f, :user => self)
+    i = Image.create!(:img => f, :user => self)
     self.profile_image_id = i.id
   end  
   
