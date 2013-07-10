@@ -1,1 +1,4 @@
+<% flash[:notice] = notice unless notice.blank? %>
+<% flash[:alert] = alert unless alert.blank? %>
 $("#alerts").html('<%= bootstrap_flash %>');
+<% flash.discard %>
