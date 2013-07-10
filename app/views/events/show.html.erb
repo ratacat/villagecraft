@@ -1,36 +1,55 @@
-<% if @event.host === current_user %>
-  <%= link_to 'Edit', edit_event_path(@event), :class => 'btn pull-right' %>    
-<% end %>
 <h1><%= @event.title %></h1>
 <h4>
   <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
 </h4>
-<p>
-  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
-</p>
-
-<% if @event.venue.blank? %>
-  location: TBD
-<% else %>
-  <address>
-    <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-    <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
+<div class="row">
+  <div class="span8">
     <p>
-      <%= linked_map_image(@event.venue.location) %>      
+      <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
     </p>
-  </address>
-<% end %>
 
-<p>
-  <%= @event.description %>
-</p>
+    <% if @event.venue.blank? %>
+      location: TBD
+    <% else %>
+      <address>
+        <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
+        <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
+        <p>
+          <%= linked_map_image(@event.venue.location) %>      
+        </p>
+      </address>
+    <% end %>
 
-<p>
-  hosted by: <%= contextualized_user_link @event.host %>
-</p>
+    <p>
+      <%= @event.description %>
+    </p>
 
-<% unless @event.host === current_user %>
-  <%= render :partial => 'events/attend_status_and_call_to_action' %>  
-<% end %>
+    <p>
+      hosted by: <%= contextualized_user_link @event.host %>
+    </p>    
+    <% unless @event.host === current_user %>
+      <%= render :partial => 'events/attend_status_and_call_to_action' %>  
+    <% end %>
+  </div>
+
+  <% if @event.host === current_user %>
+  <div class="span2 offset2">
+    <div class="well">
+      <h4>Host Controls</h4>
+      <p>
+        <%= link_to 'Edit Event', edit_event_path(@event), :class => 'btn' %>        
+      </p>
+      <p>
+        <a id="secret" data-title="Event Secret" data-html="true" data-content='<%= render(:partial => 'event_secret_popover', :locals => {:event => @event}) %>' data-placement="left">reveal secret</a>        
+      </p>
+    </div>
+  </div>
+  <% end %>
+    
+</div>
 
 <%= render :partial => 'attendees_modal' %>
+
+<% ready_script do -%>
+  $("#secret").popover();
+<% end -%>
