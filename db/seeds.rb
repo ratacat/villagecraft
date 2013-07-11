@@ -48,11 +48,11 @@ if Rails.env.development?
   (0..5).each { |i| drones[i].attends << throwies }
   (0..19).each { |i| drones[i].attends << eff }
   (0..11).each do |i|
-    eu = EventsUser.new
-    eu.user = drones[i]
-    eu.event = typewriter
-    eu.confirmed = [true, false, true].sample
-    eu.save!
+    at = Attendance.new
+    at.user = drones[i]
+    at.event = typewriter
+    at.confirmed = [true, false, true].sample
+    at.save!
   end
   jared.attends << typewriter
   ben.attends << typewriter

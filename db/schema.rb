@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709033637) do
+ActiveRecord::Schema.define(:version => 20130710235844) do
+
+  create_table "attendances", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.boolean  "confirmed"
+    t.integer  "guests"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "attendances", ["event_id"], :name => "index_attendances_on_event_id"
+  add_index "attendances", ["user_id"], :name => "index_attendances_on_user_id"
 
   create_table "courses", :force => true do |t|
     t.integer  "vclass_id"
@@ -44,17 +56,6 @@ ActiveRecord::Schema.define(:version => 20130709033637) do
   end
 
   add_index "events", ["venue_id"], :name => "index_events_on_venue_id"
-
-  create_table "events_users", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "event_id"
-    t.boolean "confirmed", :default => false
-    t.integer "guests"
-  end
-
-  add_index "events_users", ["event_id", "user_id"], :name => "index_events_users_on_event_id_and_user_id", :unique => true
-  add_index "events_users", ["event_id"], :name => "index_events_users_on_event_id"
-  add_index "events_users", ["user_id"], :name => "index_events_users_on_user_id"
 
   create_table "images", :force => true do |t|
     t.integer  "user_id"

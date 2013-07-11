@@ -12,12 +12,18 @@ class User < ActiveRecord::Base
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
   has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id
-  has_and_belongs_to_many :attends, :class_name => 'Event', :uniq => true
-  has_many :events_users
+  has_many :attendances
+  has_many :attends, :through => :attendances, :source => :event, :uniq => true do
+    def confirmed
+      where("attendances.confirmed = ?", true)
+    end
+  end
+    
   has_many :confirmed_attends, :through => :events_users, 
            :class_name => "Event", 
            :source => :event, 
            :conditions => ['events_users.confirmed = ?',true]
+           
   has_many :reviews
   belongs_to :location
   has_many :images, :dependent => :destroy
@@ -76,11 +82,11 @@ class User < ActiveRecord::Base
   end
   
   def attending_event?(e)
-    self.attends.where("'events_users'.'event_id'=?", e.id).exists?
+    self.attends.where("'attendances'.'event_id'=?", e.id).exists?
   end
 
   def confirmed_attend_at_event?(e)
-    self.confirmed_attends.where("'events_users'.'event_id'=?", e.id).exists?
+    self.attends.confirmed.where("'attendances'.'event_id'=?", e.id).exists?
   end
   
   protected
