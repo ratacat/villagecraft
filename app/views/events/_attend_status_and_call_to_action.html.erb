@@ -3,13 +3,14 @@
 <% if user_signed_in? %>
   <% if event.occurred? %>
     Event occurred 
-    <% if current_user.attends.exists?(event) %>
-      <% if current_user.confirmed_attends.exists?(event) %>
-        and your attendance was confirmed.
+    <span id="confirmation_status"><% if current_user.attends.exists?(event) %>
+      <% if current_user.confirmed_attend_at_event?(event) %>
+        (your attendance confirmed)
       <% else %>
-        (<%= link_to 'confirm your attendence', '#' %>)
+        <br/><button type="button" class="btn-primary" data-toggle="modal" data-target="#confirm_attend_modal">Confirm your Attendance</button>
       <% end %>
     <% end %>
+    </span>
   <% else %>
     <% if current_user.attends.exists?(event) %>
       <i class="icon-check icon-large text-success"> </i> You plan to attend (<%= link_to 'cancel', cancel_attend_path, :method => :post %>)
@@ -24,3 +25,5 @@
     <%= link_to "Sign In", new_user_session_path %></li> or <%= link_to "Sign Up", new_user_registration_path %> to attend
   <% end %>
 <% end %>
+
+<%= render :partial => 'confirm_modal' %>

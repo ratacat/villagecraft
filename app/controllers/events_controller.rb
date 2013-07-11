@@ -145,6 +145,31 @@ class EventsController < ApplicationController
     end
     
   end
+
+  # POST /events/1/confirm
+  # POST /events/1/confirm.json
+  def confirm
+    @attend = current_user.attendances.where(:event_id => @event.id).first
+    if @attend.blank?
+      # FIXME: if they know the secret, should we retroactively create an attend???
+      render_error(:message => "You did not attend that event.", :status => 403)
+    else
+      if @attend.event.occurred?
+        if params[:event][:secret].downcase.strip === @event.secret.downcase.strip
+          @attend.update_attribute(:confirmed, true)
+          respond_to do |format|
+            message = 'Your attendance has been confirmed'
+            format.js { render :partial => 'layouts/update_alerts', :locals => {:notice => message } }
+            format.html { redirect_to @event, notice: message }
+          end
+        else
+          render_error(:message => "Incorrect secret", :status => 403)
+        end
+      else
+        render_error(:message => "You may not confirm your attendance until the event has occurred", :status => 403)
+      end
+    end
+  end
   
   # GET /events/1/attendees
   # GET /events/1/attendees.json

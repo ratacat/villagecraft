@@ -1,0 +1,28 @@
+<div id="confirm_attend_modal" class="modal hide fade" tabindex="-1" data-backdrop="static" data-keyboard="true" role="dialog" aria-hidden="true" >
+  <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Confirm Your Attendance</h3>
+    </div>
+  <div class="modal-body">
+    <%= simple_form_for(:event, :url => confirm_attend_path(@event), :html => {:remote => true}) do |f| %>
+      <div class="form-inputs">
+          <%= f.input :secret, label: 'Secret', hint: 'Enter the secret passphrase that was revealed at the event.', input_html: { value: '' } %>
+      </div>
+      <%= f.submit 'Submit', :class => "btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<% ready_script do -%>
+  $('#confirm_attend_modal form')
+  .bind("ajax:beforeSend", function(evt, xhr, settings){
+  })
+  .bind("ajax:success", function(evt, data, status, xhr){
+    $("#confirmation_status").html("(your attendance confirmed)");
+  })
+  .bind('ajax:complete', function(evt, xhr, status){
+    $('#confirm_attend_modal').modal('hide');
+  })
+  .bind("ajax:error", function(evt, xhr, status, error){
+  });
+<% end -%>
