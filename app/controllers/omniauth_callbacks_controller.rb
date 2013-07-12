@@ -9,6 +9,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       fb_info = request.env["omniauth.auth"][:info]
       user = User.new(fb_info.slice(:email, :first_name, :last_name), without_protection: true)
 
+      # FIXME: do something to verify that location is in US
       user.location = Location.find_or_create_by_address(fb_info[:location])
       user.location.reverse_geocode
       user.location.save
