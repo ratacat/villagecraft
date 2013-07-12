@@ -85,12 +85,12 @@ class Location < ActiveRecord::Base
       ]
   end
   
-  validates :state_code, :inclusion => { :in => Location.us_state_codes, :message => "is not the United States" }
+  validates :state_code, :inclusion => { :in => Location.us_state_codes, :message => "is not the United States", :allow_blank => true }
   
   protected
   
   def sythesize_address
-    self.address = "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
+    self.address ||= "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
   end
   
   def lookup_time_zone
