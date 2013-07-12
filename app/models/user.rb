@@ -3,10 +3,10 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:facebook]
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :auth_provider, :auth_provider_uid
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -87,6 +87,31 @@ class User < ActiveRecord::Base
 
   def confirmed_attend_at_event?(e)
     self.attends.confirmed.where("'attendances'.'event_id'=?", e.id).exists?
+  end
+  
+  def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
+    user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
+    unless user
+      user = User.create(:first_name => auth.extra.raw_info.first_name,
+                         :last_name => auth.extra.raw_info.last_name,
+                         :auth_provider => auth.provider,
+                         :auth_provider_uid => auth.uid,
+                         :email => auth.info.email,
+                         :password => Devise.friendly_token[0,20]
+                         )
+    end
+    user
+  end
+
+  def User.new_with_session(params, session)
+    if session["devise.facebook_data"]
+      new(session["devise.facebook_data"][:info].slice(:email, :first_name, :last_name), without_protection: true) do |user|
+        user.attributes = params
+        user.valid?
+      end
+    else
+      super
+    end    
   end
   
   protected

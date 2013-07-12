@@ -5,7 +5,7 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   resources :events
 
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   resources :users
   post 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend

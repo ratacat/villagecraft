@@ -215,6 +215,12 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 
+  #
+  # Facebook Auth
+  # Credentials for Villagecraft-dev Facebook App
+  config.omniauth :facebook, "1395047807377616", "49a984436ada9d7c3fa69e75ad428edf" 
+  # Could add :scope option to the above, listing a comma-separated list of requested permissions (see: http://developers.facebook.com/docs/reference/api/permissions)
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

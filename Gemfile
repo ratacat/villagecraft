@@ -6,7 +6,11 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+
 gem 'simple_form'
 gem 'validates_timeliness', '~> 3.0'
 gem 'bootstrap-generators', '~> 2.3'

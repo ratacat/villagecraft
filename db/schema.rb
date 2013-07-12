@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710235844) do
+ActiveRecord::Schema.define(:version => 20130712050606) do
 
   create_table "attendances", :force => true do |t|
     t.integer  "event_id"
@@ -118,6 +118,8 @@ ActiveRecord::Schema.define(:version => 20130710235844) do
     t.integer  "location_id"
     t.string   "uuid"
     t.integer  "profile_image_id"
+    t.string   "auth_provider"
+    t.string   "auth_provider_uid"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
