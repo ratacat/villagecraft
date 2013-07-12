@@ -16,7 +16,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       user.password = user.password_confirmation = rand(36**30).to_s(36)
 
       if user.save
-        flash[:notice] = "Successful sign-in via Facebook"
+        flash[:notice] = "Welcome to Villagecraft"
         sign_in_and_redirect user, :event => :authentication
       else
         session["devise.facebook_data"] = request.env["omniauth.auth"]
