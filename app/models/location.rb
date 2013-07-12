@@ -85,7 +85,9 @@ class Location < ActiveRecord::Base
       ]
   end
   
-  validates :state_code, :inclusion => { :in => Location.us_state_codes, :message => "is not the United States", :allow_blank => true }
+  validates :state_code, 
+            :inclusion => { :in => Location.us_state_codes, :message => "is not the United States" }, 
+            :unless => lambda {|loc| loc.state_code.blank? or (loc.country != 'US' and not loc.country.blank?)}
   
   protected
   
