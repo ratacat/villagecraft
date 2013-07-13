@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :auth_provider, :auth_provider_uid
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :location
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -92,13 +92,24 @@ class User < ActiveRecord::Base
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
     unless user
-      user = User.create(:first_name => auth.extra.raw_info.first_name,
-                         :last_name => auth.extra.raw_info.last_name,
-                         :auth_provider => auth.provider,
-                         :auth_provider_uid => auth.uid,
-                         :email => auth.info.email,
-                         :password => Devise.friendly_token[0,20]
-                         )
+      fb_profile_img_uri = URI.parse(auth.info.image)
+      fb_profile_img_uri.query = "type=large"
+      random_pwd = Devise.friendly_token[0,20]
+      
+      # FIXME: do something to verify that location is in US
+      location = Location.find_or_create_by_address(auth.info.location)
+      location.reverse_geocode
+      
+      user = User.new(:email => auth.info.email,
+                      :first_name => auth.info.first_name,
+                      :last_name => auth.info.last_name,
+                      :location => location,
+                      :profile_image => fb_profile_img_uri,
+                      :password => random_pwd,
+                      :password_confirmation => random_pwd
+                      )
+      user.auth_provider = auth.provider
+      user.auth_provider_uid = auth.uid
     end
     user
   end
