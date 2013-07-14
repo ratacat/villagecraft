@@ -37,4 +37,7 @@ Villagecraft::Application.configure do
 
   #in production :host must be set to actual host
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  
+  config.facebook_app_id = "1395047807377616"
+  config.facebook_app_secret = "49a984436ada9d7c3fa69e75ad428edf"
 end
