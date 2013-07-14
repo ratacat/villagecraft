@@ -116,7 +116,11 @@ class User < ActiveRecord::Base
 
   def User.new_with_session(params, session)
     if session["devise.facebook_data"]
-      new(session["devise.facebook_data"][:info].slice(:email, :first_name, :last_name), without_protection: true) do |user|
+      fb_params = session["devise.facebook_data"][:info].slice(:email, :first_name, :last_name)
+      location = Location.new_from_address(session["devise.facebook_data"][:info][:location])
+      fb_params[:city] = location.city
+      fb_params[:state] = location.state_code
+      new(fb_params, without_protection: true) do |user|
         user.attributes = params
         user.valid?
       end
