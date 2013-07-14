@@ -5,7 +5,7 @@ class Location < ActiveRecord::Base
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
-      obj.street = geo.street_address
+      # obj.street = geo.street_address  # when given city+state, this is set to some random address at the centroid
       obj.city = geo.city
       obj.state = geo.state
       obj.state_code = geo.state_code
