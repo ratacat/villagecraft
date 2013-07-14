@@ -10,9 +10,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:notice] = "Welcome to Villagecraft"
         sign_in_and_redirect @user, :event => :authentication
       else
-        flash[:alert] = "Hmm, not quite enough info to complete your sign up via Facebook."
+        flash[:alert] = "Could not complete your sign up via Facebook."
         session["devise.facebook_data"] = request.env["omniauth.auth"]
-        redirect_to new_user_registration_url        
+        redirect_to new_user_registration_url
       end
       
     end
