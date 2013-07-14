@@ -89,6 +89,14 @@ class Location < ActiveRecord::Base
             :inclusion => { :in => Location.us_state_codes, :message => "is not the United States" }, 
             :unless => lambda {|loc| loc.state_code.blank? or (loc.country != 'US' and not loc.country.blank?)}
   
+  def Location.new_from_address(address)
+    l = Location.new
+    l.address = address
+    l.geocode
+    l.reverse_geocode
+    l
+  end
+
   protected
   
   def sythesize_address

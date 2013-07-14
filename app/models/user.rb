@@ -97,13 +97,13 @@ class User < ActiveRecord::Base
       random_pwd = Devise.friendly_token[0,20]
       
       # FIXME: do something to verify that location is in US
-      location = Location.find_or_create_by_address(auth.info.location)
-      location.reverse_geocode
+      location = Location.new_from_address(auth.info.location)
       
       user = User.new(:email => auth.info.email,
                       :first_name => auth.info.first_name,
                       :last_name => auth.info.last_name,
-                      :location => location,
+                      :city => location.city,
+                      :state => location.state_code,
                       :profile_image => fb_profile_img_uri,
                       :password => random_pwd,
                       :password_confirmation => random_pwd
