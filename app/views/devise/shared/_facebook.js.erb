@@ -1,0 +1,30 @@
+jQuery(function() {
+  $('body').prepend('<div id="fb-root"></div>');
+  return $.ajax({
+    url: window.location.protocol + "//connect.facebook.net/en_US/all.js",
+    dataType: 'script',
+    status: true,
+    cache: true
+  });
+});
+
+window.fbAsyncInit = function() {
+  FB.init({
+    appId: '<%= Rails.configuration.facebook_app_id %>',
+    cookie: true
+  });
+  $('#fb_sign_in').click(function(e) {
+    e.preventDefault();
+    return FB.login(function(response) {
+      return window.location = '/users/auth/facebook/callback';
+    }, {scope: 'email'});
+  });
+  return $('#fb_sign_out').click(function(e) {
+    FB.getLoginStatus(function(response) {
+      if (response.authResponse) {
+        return FB.logout();
+      }
+    });
+    return true;
+  });
+};

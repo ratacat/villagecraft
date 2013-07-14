@@ -16,4 +16,10 @@
   </div>
 <% end %>
 
+<button id="fb_sign_in">Client-side Facebook Sign In</button><br/>
+
 <%= render "devise/shared/links" %>
+
+<%= body_script do -%>
+  <%= render :partial => 'devise/shared/facebook.js' %>
+<% end -%>
