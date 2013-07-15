@@ -96,7 +96,6 @@ class User < ActiveRecord::Base
       fb_profile_img_uri.query = "type=large"
       random_pwd = Devise.friendly_token[0,20]
       
-      # FIXME: do something to verify that location is in US
       location = Location.new_from_address(auth.info.location)
       
       user = User.find_by_email(auth.info.email) || 
