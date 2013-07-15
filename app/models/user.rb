@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   
   before_validation :find_or_create_location_from_address
   
+  validates :email, :presence => true
   validates :first_name, :presence => true
   validates :last_name, :presence => true
   validates :city, :presence => true
