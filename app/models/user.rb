@@ -91,8 +91,7 @@ class User < ActiveRecord::Base
   end
   
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
-    unless user
+    unless user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
       fb_profile_img_uri = URI.parse(auth.info.image)
       fb_profile_img_uri.query = "type=large"
       random_pwd = Devise.friendly_token[0,20]
@@ -100,7 +99,8 @@ class User < ActiveRecord::Base
       # FIXME: do something to verify that location is in US
       location = Location.new_from_address(auth.info.location)
       
-      user = User.new(:email => auth.info.email,
+      user = User.find_by_email(auth.info.email) || 
+             User.new(:email => auth.info.email,
                       :first_name => auth.info.first_name,
                       :last_name => auth.info.last_name,
                       :city => location.city,
@@ -109,6 +109,7 @@ class User < ActiveRecord::Base
                       :password => random_pwd,
                       :password_confirmation => random_pwd
                       )
+      user.profile_image ||= fb_profile_img_uri
       user.auth_provider = auth.provider
       user.auth_provider_uid = auth.uid
     end
