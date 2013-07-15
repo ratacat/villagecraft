@@ -1,24 +1,28 @@
-<h2>Sign up</h2>
+<div class="pull-right well">
+  <p>
+    To get started even faster:    
+  </p>
+  <a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Sign up with <b>Facebook</b></a>  
+</div>
+<h2>Get Started with Villagecraft</h2>
+<div class="span-4">
+  <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: 'form-horizontal'}) do |f| %>
+    <%= f.error_notification %>
 
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: 'form-horizontal'}) do |f| %>
-  <%= f.error_notification %>
+    <%= f.input :email %>
+    <%= f.input :first_name, label: 'First Name' %>
+    <%= f.input :last_name, label: 'Last Name' %>
+    <%= f.input :city, label: 'City' %>
+    <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
+    <%= f.input :password, required: true %>
+    <%= f.input :password_confirmation, required: true %>
 
-  <%= f.input :email %>
-  <%= f.input :first_name, label: 'First Name' %>
-  <%= f.input :last_name, label: 'Last Name' %>
-  <%= f.input :city, label: 'City' %>
-  <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
-  <%= f.input :password, required: true %>
-  <%= f.input :password_confirmation, required: true %>
-
-  <div class="form-actions">
-  	<%= f.submit "Sign up", class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<button id="fb_sign_in">Client-side Facebook Sign In</button><br/>
-
-<%= render "devise/shared/links" %>
+    <div class="form-actions">
+    	<%= f.submit "Sign up", class: "btn btn-primary" %>
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>  
+</div>
 
 <%= body_script do -%>
   <%= render :partial => 'devise/shared/facebook.js' %>
