@@ -106,7 +106,8 @@ class User < ActiveRecord::Base
                       :state => location.state_code,
                       :profile_image => fb_profile_img_uri,
                       :password => random_pwd,
-                      :password_confirmation => random_pwd
+                      :password_confirmation => random_pwd,
+                      :has_set_password => false
                       )
       user.profile_image ||= fb_profile_img_uri
       user.auth_provider = auth.provider
