@@ -16,6 +16,14 @@
 		<%= yield %>
 		</div>
 	</body>
+	<% unless user_signed_in? %>
+	  <%= render :partial => 'devise/registrations/modal_new' %>
+	  
+    <%= body_script do -%>
+      <%= render :partial => 'devise/shared/facebook.js' %>
+    <% end -%>
+
+	<% end %>
 	
 	<%= javascript_include_tag "application" %>
   <%= render :partial => "layouts/body_and_ready_scripts" %>

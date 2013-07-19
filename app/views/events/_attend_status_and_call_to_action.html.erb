@@ -22,7 +22,7 @@
   <% if event.occurred? %>
     Event occurred
   <% else %>
-    <%= link_to "Sign In", new_user_session_path %></li> or <%= link_to "Sign Up", new_user_registration_path %> to attend
+    <button id="modal_register">Sign up to attend</button>
   <% end %>
 <% end %>
 
