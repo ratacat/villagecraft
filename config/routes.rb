@@ -13,6 +13,8 @@ Villagecraft::Application.routes.draw do
 
   resources :venues
 
+  get '/tos' => 'application#tos', :as => :tos
+
   get 'about' => 'Pages#about'
   root :to => 'Pages#home'
 
