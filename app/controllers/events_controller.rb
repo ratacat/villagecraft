@@ -123,7 +123,7 @@ class EventsController < ApplicationController
     end
     
     respond_to do |format|
-      format.html { redirect_to @event, notice: 'You will attend!' }
+      format.html { redirect_to @event, notice: 'You are signed up to attend this event' }
       format.json { head :no_content }
     end
     
