@@ -14,5 +14,5 @@
    modal_id: "register_modal"
  };   
  
- $("#modal_register").vc_modal_register();
+ $(".toggle_modal_register").vc_modal_register();
 })( jQuery );
