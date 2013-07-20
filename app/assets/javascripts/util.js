@@ -9,4 +9,5 @@ if(!String.prototype.trim) {
 
 jQuery(function($){
   $(".tooltipify").tooltip();
+  $.removeCookie('auto_attend_event');
 });

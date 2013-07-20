@@ -16,7 +16,11 @@ window.fbAsyncInit = function() {
   $('#fb_sign_in').click(function(e) {
     e.preventDefault();
     return FB.login(function(response) {
-      return window.location = '/users/auth/facebook/callback';
+      var fb_callback_url = '/users/auth/facebook/callback';
+      if ($.cookie('auto_attend_event')) {
+        fb_callback_url += "?auto_attend_event=1";
+      };
+      return window.location = fb_callback_url;
     }, {scope: 'email'});
   });
   return $('#fb_sign_out').click(function(e) {

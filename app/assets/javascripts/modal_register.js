@@ -5,6 +5,9 @@
       options = $.extend({}, $.fn.vc_modal_register.defaults, $this.data(), typeof option == 'object' && option);
 
      $this.on('click', function() {
+       if (typeof options['auto_attend_event'] != 'undefined') {
+         $.cookie('auto_attend_event', 'true');         
+       };
        $('#' + options['modal_id']).modal('show');
      });
    });
@@ -14,5 +17,17 @@
    modal_id: "register_modal"
  };   
  
- $(".toggle_modal_register").vc_modal_register();
+ $("[data-toggle_modal_registration]").vc_modal_register();
+ 
+ $("#register_modal").on('show', function() {
+   if ($.cookie('auto_attend_event')) {
+     $(this).find("p.event_signup_notification").show();
+   } else {
+     $(this).find("p.event_signup_notification").hide();
+   }
+ });
+ 
+ $("#register_modal").on('hide', function() {
+   $.removeCookie('auto_attend_event');
+ });
 })( jQuery );
