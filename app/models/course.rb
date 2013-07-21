@@ -2,7 +2,7 @@ class Course < ActiveRecord::Base
   attr_accessible :title, :vclass
 
   belongs_to :vclass
-  has_many :events
+  has_many :events, :dependent => :destroy
   
   validates :vclass_id, presence: true
   validates :title, presence: true

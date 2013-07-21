@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
       where("attendances.confirmed = ?", true)
     end
   end
+  has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id, :dependent => :destroy
     
   has_many :confirmed_attends, :through => :events_users, 
            :class_name => "Event", 
