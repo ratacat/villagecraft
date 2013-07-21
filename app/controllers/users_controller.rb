@@ -83,8 +83,8 @@ class UsersController < ApplicationController
     begin
       @user = User.find_by_uuid(params["id"])
     rescue Exception => e
-      render_error(:message => "User not found.", :status => 404) if @user.blank?
     end
+    render_error(:message => "User not found.", :status => 404) if @user.blank?
   end  
   
   def be_user_or_be_admin

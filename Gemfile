@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'paranoia', '~> 1.0'
 
 gem 'simple_form'
 gem 'validates_timeliness', '~> 3.0'

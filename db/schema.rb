@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716062020) do
+ActiveRecord::Schema.define(:version => 20130721210528) do
 
   create_table "attendances", :force => true do |t|
     t.integer  "event_id"
@@ -121,8 +121,10 @@ ActiveRecord::Schema.define(:version => 20130716062020) do
     t.string   "auth_provider"
     t.string   "auth_provider_uid"
     t.boolean  "has_set_password",          :default => true
+    t.datetime "deleted_at"
   end
 
+  add_index "users", ["deleted_at"], :name => "index_users_on_deleted_at"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["location_id"], :name => "index_users_on_location_id"
   add_index "users", ["profile_image_id"], :name => "index_users_on_profile_image_id"

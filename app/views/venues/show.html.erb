@@ -7,7 +7,7 @@
   <% end %>
   <h1><%= @venue.name %></h1>
   <p>
-    owner: <%= link_to @venue.owner.name, @venue.owner %>
+    owner: <%= contextualized_user_link @venue.owner %>
   </p>
 </div>
 

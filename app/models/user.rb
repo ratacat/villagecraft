@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  acts_as_paranoid
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -10,15 +12,15 @@ class User < ActiveRecord::Base
   attr_writer :city, :state
   has_uuid(:length => 8)
 
-  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id, :dependent => :destroy
-  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id, :dependent => :destroy
-  has_many :attendances, :dependent => :destroy
+  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
+  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id
+  has_many :attendances
   has_many :attends, :through => :attendances, :source => :event, :uniq => true do
     def confirmed
       where("attendances.confirmed = ?", true)
     end
   end
-  has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id, :dependent => :destroy
+  has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id
            
   has_many :reviews, :foreign_key => :author_id, :dependent => :destroy
   belongs_to :location

@@ -31,7 +31,11 @@
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td><%= link_to(event.venue.name, event.venue) unless event.venue.blank? %></td>
       <td><%= event_price(event) %></td>
-      <td><%= link_to event.host.name, event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span></td>
+      <td>
+        <% if event.host %>
+          <%= contextualized_user_link event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span>
+        <% end %>
+      </td>
       <% if user_signed_in? %>
         <td><%= render :partial => 'events/status_wrt_current_user', :locals => {:event => event} %></td>
       <% end %>
