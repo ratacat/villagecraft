@@ -19,11 +19,6 @@ class User < ActiveRecord::Base
     end
   end
   has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id, :dependent => :destroy
-    
-  has_many :confirmed_attends, :through => :events_users, 
-           :class_name => "Event", 
-           :source => :event, 
-           :conditions => ['events_users.confirmed = ?',true]
            
   has_many :reviews, :foreign_key => :author_id, :dependent => :destroy
   belongs_to :location
