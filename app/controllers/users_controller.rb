@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :require_user, :except => [:new, :create]
+  before_filter :require_admin, :only => [:index, :destroy]
   before_filter :find_user, :except => [:index, :new, :create]
   before_filter :be_user_or_be_admin, :only => [:edit, :update]
   
@@ -86,7 +88,7 @@ class UsersController < ApplicationController
   end  
   
   def be_user_or_be_admin
-    unless (current_user == @user) # or is_admin?
+    unless (current_user == @user or current_user.admin?)
       render_error(:message => "You are not authorized to access this information.", :status => :unauthorized)
     end
   end

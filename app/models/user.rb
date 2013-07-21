@@ -131,6 +131,11 @@ class User < ActiveRecord::Base
     end    
   end
   
+  # FIXME: add admin attribute and remove this
+  def admin?
+    false
+  end
+  
   protected
   def find_or_create_location_from_address
     self.location ||= Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
