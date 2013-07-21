@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show, :attendees]
+  before_filter :require_admin, :only => [:destroy]
   before_filter :find_venue, :only => [:create, :update]
   #before_filter :checkDate, :only => [:create, :update]
   # GET /events
