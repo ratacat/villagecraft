@@ -1,11 +1,9 @@
 <div class="page-header">
-  <%= link_to venues_path, :class => 'btn' do %>
-    <i class="icon-list-alt"></i>
-    Back
-  <% end %>
-  <%= link_to edit_venue_path(@venue), :class => 'btn btn-primary' do %>
-    <i class="icon-pencil icon-white"></i>
-    Edit
+  <% if @venue.owner === current_user %>
+    <%= link_to edit_venue_path(@venue), :class => 'btn btn-primary' do %>
+      <i class="icon-pencil icon-white"></i>
+      Edit
+    <% end %>
   <% end %>
   <h1><%= @venue.name %></h1>
   <p>
