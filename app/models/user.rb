@@ -10,9 +10,9 @@ class User < ActiveRecord::Base
   attr_writer :city, :state
   has_uuid(:length => 8)
 
-  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
-  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id
-  has_many :attendances
+  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id, :dependent => :destroy
+  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy
   has_many :attends, :through => :attendances, :source => :event, :uniq => true do
     def confirmed
       where("attendances.confirmed = ?", true)
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
            :source => :event, 
            :conditions => ['events_users.confirmed = ?',true]
            
-  has_many :reviews
+  has_many :reviews, :foreign_key => :author_id, :dependent => :destroy
   belongs_to :location
   has_many :images, :dependent => :destroy
   belongs_to :profile_image, :class_name => 'Image'
