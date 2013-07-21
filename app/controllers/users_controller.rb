@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :except => [:new, :create]
+  before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :only => [:index, :destroy]
   before_filter :find_user, :except => [:index, :new, :create]
   before_filter :be_user_or_be_admin, :only => [:edit, :update]

@@ -20,12 +20,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def require_user
-    unless user_signed_in?
-      render_error(:message => "Sorry, you are not authorized to view that page.", :status => :unauthorized)
-    end
-  end
-  
   def require_admin
     unless user_signed_in? and current_user.admin? # and admin mode enabled FIXME
       render_error(:message => "Administrative access required", :status => :unauthorized)
