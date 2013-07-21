@@ -1,4 +1,6 @@
 class VenuesController < ApplicationController
+  before_filter :authenticate_user!, :only => [:edit, :update]
+  before_filter :require_admin, :only => [:index, :destroy]
   before_filter :find_venue, :except => [:index, :new, :create]
   before_filter :be_owner_or_be_admin, :only => [:edit, :update]
   
@@ -91,7 +93,7 @@ class VenuesController < ApplicationController
   end  
   
   def be_owner_or_be_admin
-    unless (current_user == @venue.owner) # or is_admin?
+    unless user_signed_in? and (current_user == @venue.owner or current_user.admin?)
       render_error(:message => "You are not authorized to edit this venue.", :status => :unauthorized)
     end
   end
