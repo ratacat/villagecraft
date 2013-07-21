@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
     session[:previous_url] || root_path
   end
   
+  protected
   def render_error(options={})
     respond_to do |format|
       format.js { render :partial => 'layouts/update_alerts', :locals => {:alert => options[:message] }, :status => options[:status] }
@@ -19,4 +20,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def require_user
+    unless current_user
+      render_error(:message => "Sorry, you are not authorized to view that page.", :status => :unauthorized)
+    end
+  end
+  
+  def require_admin
+    unless current_user and current_user.admin? # and admin mode enabled FIXME
+      render_error(:message => "Administrative access required", :status => :unauthorized)
+    end    
+  end
+    
 end
