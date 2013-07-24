@@ -81,11 +81,11 @@ class User < ActiveRecord::Base
   end
   
   def attending_event?(e)
-    self.attends.where("'attendances'.'event_id'=?", e.id).exists?
+    self.attends.where('"attendances"."event_id"=?', e.id).exists?
   end
 
   def confirmed_attend_at_event?(e)
-    self.attends.confirmed.where("'attendances'.'event_id'=?", e.id).exists?
+    self.attends.confirmed.where('"attendances"."event_id"=?', e.id).exists?
   end
   
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
