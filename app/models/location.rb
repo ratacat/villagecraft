@@ -1,6 +1,12 @@
 class Location < ActiveRecord::Base
   attr_accessible :name, :city, :state_code, :street, :address
   has_many :venues, :dependent => :destroy
+  belongs_to :neighborhood
+
+  # override to fetch GeoJSON for boundary
+  def neighborhood
+    Neighborhood.select('*, ST_AsGeoJSON(geom) as geo_json').where(:id => self.neighborhood_id).first
+  end
   
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -18,7 +24,7 @@ class Location < ActiveRecord::Base
   validates :latitude, :presence => true
   validates :longitude, :presence => true
   
-  after_validation :lookup_time_zone
+  after_validation :lookup_time_zone, :lookup_neighborhood
   
   def Location.us_states
     @US_STATES ||= us_states_select_collection.map(&:first)
@@ -107,6 +113,12 @@ class Location < ActiveRecord::Base
     tz_lookup_result = GoogleTimezone.fetch(self.latitude, self.longitude)
     if tz_lookup_result.success?
       self.time_zone = tz_lookup_result.time_zone_id
+    end
+  end
+  
+  def lookup_neighborhood
+    unless self.street.blank?
+      self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)
     end
   end
   
