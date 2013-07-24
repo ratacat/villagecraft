@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130721210528) do
+ActiveRecord::Schema.define(:version => 20130723225059) do
 
   create_table "attendances", :force => true do |t|
     t.integer  "event_id"
@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(:version => 20130721210528) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.text     "description",   :limit => 255
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
+    t.text     "description"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.integer  "course_id"
     t.integer  "host_id"
     t.integer  "location_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20130721210528) do
     t.datetime "end_time"
     t.string   "secret"
     t.string   "short_title"
-    t.decimal  "price",                        :precision => 10, :scale => 2
+    t.decimal  "price",         :precision => 10, :scale => 2
     t.integer  "venue_id"
     t.string   "uuid"
   end
@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(:version => 20130721210528) do
     t.string   "time_zone"
   end
 
+  create_table "neighborhoods", :force => true do |t|
+    t.string  "state",    :limit => 2
+    t.string  "county",   :limit => 43
+    t.string  "city",     :limit => 64
+    t.string  "name",     :limit => 64
+    t.decimal "regionid"
+  end
+
   create_table "reviews", :force => true do |t|
     t.integer  "vclass_id"
     t.integer  "author_id"
@@ -94,6 +102,14 @@ ActiveRecord::Schema.define(:version => 20130721210528) do
 
   add_index "reviews", ["author_id"], :name => "index_reviews_on_author_id"
   add_index "reviews", ["vclass_id"], :name => "index_reviews_on_vclass_id"
+
+  create_table "spatial_ref_sys", :id => false, :force => true do |t|
+    t.integer "srid",                      :null => false
+    t.string  "auth_name", :limit => 256
+    t.integer "auth_srid"
+    t.string  "srtext",    :limit => 2048
+    t.string  "proj4text", :limit => 2048
+  end
 
   create_table "users", :force => true do |t|
     t.string   "first_name"
