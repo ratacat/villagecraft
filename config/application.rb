@@ -58,5 +58,10 @@ module Villagecraft
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Use SQL instead of Active Record's schema dumper.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types or execute statements.
+    config.active_record.schema_format = :sql
   end
 end
