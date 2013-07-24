@@ -13,7 +13,7 @@
     <% else %>
       <address>
         <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-        <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
+        <%= render :partial => 'fuzzed_event_location' %>
         <p>
           <%= linked_map_image(@event.venue.location) %>      
         </p>
