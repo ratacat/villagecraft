@@ -5,7 +5,7 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 gem 'devise'
 gem 'omniauth'
@@ -18,7 +18,9 @@ gem 'bootstrap-generators', '~> 2.3'
 gem 'sass-rails',   '~> 3.2.3'
 
 gem 'attribute_normalizer'
+
 gem 'geocoder'
+
 gem 'google_timezone'
 gem 'uuidtools'
 
