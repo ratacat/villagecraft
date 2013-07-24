@@ -1,0 +1,16 @@
+/* Mostly a bunch of hack to fix conflicts with Bootstrap CSS */
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0; padding-top:60px; }
+
+#map-canvas { 
+  height: 300px;
+  width: 450px;
+}
+
+#map-canvas img { 
+  max-width: none;
+}
+
+#map-canvas label { 
+  width: auto; display:inline; 
+}

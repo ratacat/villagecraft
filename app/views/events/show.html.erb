@@ -15,7 +15,7 @@
         <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
         <%= render :partial => 'fuzzed_event_location' %>
         <p>
-          <%= linked_map_image(@event.venue.location) %>      
+          <div id="map-canvas" class="img-polaroid"/>    
         </p>
       </address>
     <% end %>
@@ -52,4 +52,8 @@
 
 <% ready_script do -%>
   $("#secret").popover();
+  loadGMap({lat: <%= @event.venue.location.latitude %>, 
+            lon: <%= @event.venue.location.longitude %>, 
+            title: "<%= @event.venue.name %>",
+            info: "<%= @event.venue.location.address %>" });
 <% end -%>
