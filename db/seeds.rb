@@ -51,25 +51,23 @@ if Rails.env.development?
   carnegie_hall = FactoryGirl.create(:venue, :name => "Carnegie Hall", :owner => ben, :location => carnegie_hall_loc)
   
   # Some Events
-  sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Making", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 10, :price => 5)
-  parkour = FactoryGirl.create(:event, :title => "Parkour", :host => jared, :venue => sproul, :min_attendees => 5)
-  throwies = FactoryGirl.create(:event, :title => "Build Your Own LED Throwies", :short_title => "LED throwies", :host => ben, :venue => bens_house, :min_attendees => 3, :price => 5)
-  eff = FactoryGirl.create(:event, :title => "EFF Prism Smashing Fundraiser", :host => jwz, :venue => dna_lounge, :min_attendees => 0, :max_attendees => 1000, :price => 35)
-  typewriter = FactoryGirl.create(:event, :title => "History of the Typewriter", :short_title => "typewriters", :host => ben, :venue => bens_house, :start_time => 3.weeks.ago, :end_time => (3.weeks.ago + 1.hour))
+  sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Making", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 6, :description => "Sourdough has been used since the invention of bread to cultivate and encourage wild yeasts that occur in everything to help make delicious, fluffy, sour bread. The distinctive sour taste comes from the cultivated family of lactobacillus bacteria and yeasts. These tiny lifeforms have long since allied themselves as human digestive flora.  Bread that is cultured with lactobacillus is easier to digest then commercial bakers yeast.<br><br>Please bring a small bread pan, clothing that can get flour on it. And anything you want to spread on your bread.  You will learn the entire process from beginning to end, and everyone gets to take a fresh loaf of bread home. (also some of your very own starter)")
+  parkour = FactoryGirl.create(:event, :title => "Parkour Training", :host => jared, :venue => sproul, :min_attendees => 2, :max_attendees => 7, :start_time => (1.days.from_now + 5.hours), :end_time => (1.days.from_now + 7.hours), :description => "Parkour is the art and science of efficient movement over and through obstacles. This class is an adult basics, suitable for all ages above 18. We will be using simple progressive techniques to learn a huge variety of playful and practical abilities. All body types are encouraged!  Parkour is an individual practice, which means you work to become comfortable with and expand your own abilities in a safe and supportive environment.")
+  throwies = FactoryGirl.create(:event, :title => "Small Business Search Optimization", :short_title => "Search Optimization", :host => ben, :venue => bens_house, :min_attendees => 3, :price => 25, :start_time => (5.hours.from_now), :end_time => (7.hours.from_now), :description => "Remember the old maxim 'Location! Location! Location!'?  As we usher in the information age, this saying has never been more relevant.  Except now it's referring to less your physical location, and more to the location of your business listings!  People explore their cities with their cellphones!  And the better off your positions, the more feet you get in your door.  This class is targetted to Small Business owners that are looking to take their future into their own hands. You don't need to be an uber nerd to learn more about how to build your business a better digital location.")
+  spanish = FactoryGirl.create(:event, :title => "Practice Spanish, Play Games!", :short_title => "Practice Spanish", :host => ben, :venue => bens_house, :start_time => (3.days.from_now), :end_time => (3.days.from_now + 1.hour), :min_attendees => 2, :max_attendees => 7, :description => "Want to hone your spanish language skills in a socially fun and creative manner?  Come play games with us!  We have fun with a variety of board, table, and card games in small group settings, and all communication is in Spanish!  Doesn't matter what your current level of spanish is!  You will have fun and learn in a completely organic fashion. ")
   
   # Some Attends
   (0..2).each { |i| drones[i].attends << sourdough }
   (0..2).each { |i| drones[i].attends << parkour }
   (0..5).each { |i| drones[i].attends << throwies }
-  (0..19).each { |i| drones[i].attends << eff }
-  (0..11).each do |i|
+  (0..2).each do |i|
     at = Attendance.new
     at.user = drones[i]
-    at.event = typewriter
+    at.event = spanish
     at.confirmed = [true, false, true].sample
     at.save!
   end
-  jared.attends << typewriter
-  ben.attends << typewriter
+  jared.attends << spanish
+
   
 end
