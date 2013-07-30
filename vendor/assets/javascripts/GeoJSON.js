@@ -22,7 +22,11 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-var GeoJSON = function( geojson, options ){
+var GeoJSON = function( geojson, options, llbounds ){
+
+  if (typeof llbounds === "undefined") {
+    var llbounds = new google.maps.LatLngBounds();
+  };
 
 	var _geometryToGoogleMaps = function( geojsonGeometry, opts, geojsonProperties ){
 		
@@ -31,6 +35,7 @@ var GeoJSON = function( geojson, options ){
 		switch ( geojsonGeometry.type ){
 			case "Point":
 				opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[1], geojsonGeometry.coordinates[0]);
+				llbounds.extend(opts.point);
 				googleObj = new google.maps.Marker(opts);
 				if (geojsonProperties) {
 					googleObj.set("geojsonProperties", geojsonProperties);
@@ -41,6 +46,7 @@ var GeoJSON = function( geojson, options ){
 				googleObj = [];
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					opts.position = new google.maps.LatLng(geojsonGeometry.coordinates[i][1], geojsonGeometry.coordinates[i][0]);
+					llbounds.extend(opts.point);
 					googleObj.push(new google.maps.Marker(opts));
 				}
 				if (geojsonProperties) {
@@ -55,6 +61,7 @@ var GeoJSON = function( geojson, options ){
 				for (var i = 0; i < geojsonGeometry.coordinates.length; i++){
 					var coord = geojsonGeometry.coordinates[i];
 					var ll = new google.maps.LatLng(coord[1], coord[0]);
+					llbounds.extend(ll);
 					path.push(ll);
 				}
 				opts.path = path;
@@ -71,6 +78,7 @@ var GeoJSON = function( geojson, options ){
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
 						var coord = geojsonGeometry.coordinates[i][j];
 						var ll = new google.maps.LatLng(coord[1], coord[0]);
+						llbounds.extend(ll);
 						path.push(ll);
 					}
 					opts.path = path;
@@ -91,6 +99,7 @@ var GeoJSON = function( geojson, options ){
 					var path = [];
 					for (var j = 0; j < geojsonGeometry.coordinates[i].length; j++){
 						var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][1], geojsonGeometry.coordinates[i][j][0]);
+						llbounds.extend(ll);
 						path.push(ll);
 					}
 					if(!i){
@@ -128,6 +137,7 @@ var GeoJSON = function( geojson, options ){
 						var path = [];
 						for (var k = 0; k < geojsonGeometry.coordinates[i][j].length; k++){
 							var ll = new google.maps.LatLng(geojsonGeometry.coordinates[i][j][k][1], geojsonGeometry.coordinates[i][j][k][0]);
+							llbounds.extend(ll);
 							path.push(ll);
 						}
 						if(!j){
@@ -173,8 +183,7 @@ var GeoJSON = function( geojson, options ){
 				googleObj = _error("Invalid GeoJSON object: Geometry object must be one of \"Point\", \"LineString\", \"Polygon\" or \"MultiPolygon\".");
 		}
 		
-		return googleObj;
-		
+		return googleObj;		
 	};
 	
 	var _error = function( message ){

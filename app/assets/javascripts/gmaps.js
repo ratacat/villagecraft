@@ -42,7 +42,8 @@ function initializeGMap() {
   }
   
   if (typeof gmap_options.geo_json != 'undefined') {
-    var googleVector = new GeoJSON(gmap_options.geo_json, gmap_options.geo_json_options);
+    var llbounds = new google.maps.LatLngBounds();
+    var googleVector = new GeoJSON(gmap_options.geo_json, gmap_options.geo_json_options, llbounds);
 
     if (googleVector.type === 'Error') {
       alert("Error in GeoJSON: " + myGoogleVector.error.message)
@@ -54,6 +55,7 @@ function initializeGMap() {
           googleVector[idx].setMap(map);
         }
       }
+      map.fitBounds(llbounds);
     }
   }  
 }
