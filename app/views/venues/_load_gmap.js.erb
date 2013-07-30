@@ -1,0 +1,23 @@
+<% 
+   blur = true unless defined? blur
+   venue ||= @venue
+   location = venue.location
+%>
+<% if blur %>
+  <% if neighborhood = location.neighborhood %>
+    loadGMap({title: "<%= venue.name %>",
+              geo_json: <%= neighborhood.as_geo_json.html_safe %>});
+  <% else %>
+    <% city_location = Location.find_or_create_by_city_and_state_code(:city => location.city, :state_code => location.state_code) %>
+    loadGMap({lat: <%= city_location.latitude %>, 
+              lon: <%= city_location.longitude %>, 
+              zoom: 13,
+              show_address: false});
+  <% end %>  
+<% else %>
+  loadGMap({lat: <%= location.latitude %>, 
+            lon: <%= location.longitude %>, 
+            title: "<%= venue.name %>",
+            show_address: true,
+            info: "<%= location.address %>"});
+<% end %>
