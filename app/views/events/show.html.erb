@@ -13,7 +13,7 @@
     <% else %>
       <address>
         <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-        <%= render :partial => 'fuzzed_event_location' %>
+        <%= render :partial => 'blurred_event_location' %>
         <p>
           <div id="map-canvas" class="img-polaroid"/>    
         </p>
