@@ -34,15 +34,44 @@ function initializeGMap() {
       infowindow.open(map,marker);
     });
   };
+
+  // NB: only works whem kml_layer_url is PUBLIC
+  if (typeof gmap_options.kml_layer_url != 'undefined') {
+    var kml_layer = new google.maps.KmlLayer(gmap_options.kml_layer_url);
+    kml_layer.setMap(map);
+  }
   
+  if (typeof gmap_options.geo_json != 'undefined') {
+    var googleVector = new GeoJSON(gmap_options.geo_json, gmap_options.geo_json_options);
+
+    if (googleVector.type === 'Error') {
+      alert("Error in GeoJSON: " + myGoogleVector.error.message)
+    } else {
+      if (!googleVector.length) {
+        googleVector.setMap(map);
+      } else {
+        for(var idx in googleVector) {
+          googleVector[idx].setMap(map);
+        }
+      }
+    }
+  }  
 }
 
 function loadGMap(options) {
   var default_options = {
     title: '',
-    zoom: 16
+    zoom: 16,
+    geo_json_options: {
+        "strokeColor": "#1450B4",
+        "strokeOpacity": 1,
+        "strokeWeight": 4,
+        "fillColor": "#1450B4",
+        "fillOpacity": 0.40
+    }
   };
   gmap_options = $.extend(default_options, options);
+
   var script = document.createElement("script");
   var api_key = "AIzaSyCl3ttkTdZRcseyq4_Jyx0msz4ae7e0n9c";
   script.type = "text/javascript";

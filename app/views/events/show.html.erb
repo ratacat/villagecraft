@@ -55,5 +55,6 @@
   loadGMap({lat: <%= @event.venue.location.latitude %>, 
             lon: <%= @event.venue.location.longitude %>, 
             title: "<%= @event.venue.name %>",
-            info: "<%= @event.venue.location.address %>" });
+            info: "<%= @event.venue.location.address %>",
+            geo_json: <%= @event.venue.location.neighborhood.as_geo_json.html_safe %>});
 <% end -%>
