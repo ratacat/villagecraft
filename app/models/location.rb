@@ -3,11 +3,6 @@ class Location < ActiveRecord::Base
   has_many :venues, :dependent => :destroy
   belongs_to :neighborhood
 
-  # override to fetch GeoJSON for boundary
-  def neighborhood
-    Neighborhood.select('*, ST_AsGeoJSON(geom) as geo_json').where(:id => self.neighborhood_id).first
-  end
-  
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
