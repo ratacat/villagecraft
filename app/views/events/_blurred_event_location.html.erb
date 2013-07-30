@@ -1,5 +1,5 @@
 <% if blur_location?(@event) %>
-  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
-<% else %>
   <%= @event.venue.location.neighborhood.try(:name) || "Unknown" %> Neighborhood
+<% else %>
+  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @event.venue.location} %>
 <% end %>

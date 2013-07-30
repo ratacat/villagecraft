@@ -8,6 +8,6 @@ module EventsHelper
   end
   
   def blur_location?(event)
-    user_signed_in? and (current_user === event.host or current_user.attending_event?(event))
+    not (user_signed_in? and (current_user === event.host or current_user.attending_event?(event)))
   end
 end
