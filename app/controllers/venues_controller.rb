@@ -83,10 +83,14 @@ class VenuesController < ApplicationController
     end
   end
   
-  # GET /venues/1/neighborhood_KML
-  def neighborhood_KML
-    if @hood = Neighborhood.select('*, ST_AsKML(geom) as kml').where(:id => @venue.location.neighborhood_id).first
-      render(:template => "locations/neighborhood", :formats => [:xml], :handlers => :builder, :layout => false, :locals => {:kml => @hood.kml})
+  # GET /venues/1/neighborhood.xml (outputs KML)
+  # GET /venues/1/neighborhood.json (outputs GeoJSON)
+  def neighborhood
+    respond_to do |format|
+      format.xml { render :template => "locations/neighborhood", 
+                          :formats => [:xml], :handlers => :builder, :layout => false, 
+                          :locals => {:kml => @venue.location.neighborhood.as_kml} }
+      format.json { render :json => @venue.location.neighborhood.as_json }
     end
   end
   
