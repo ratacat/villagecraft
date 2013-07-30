@@ -83,6 +83,13 @@ class VenuesController < ApplicationController
     end
   end
   
+  # GET /venues/1/neighborhood_KML
+  def neighborhood_KML
+    if @hood = Neighborhood.select('*, ST_AsKML(geom) as kml').where(:id => @venue.location.neighborhood_id).first
+      render(:template => "locations/neighborhood", :formats => [:xml], :handlers => :builder, :layout => false, :locals => {:kml => @hood.kml})
+    end
+  end
+  
   protected
   def find_venue
     begin

@@ -11,6 +11,7 @@ Villagecraft::Application.routes.draw do
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_events' => 'events#my_events', :as => :my_events
 
+  get 'venues/:id/neighborhood_KML' => 'venues#neighborhood_KML', :as => :neighborhood_KML
   resources :venues
 
   get '/tos' => 'application#tos', :as => :tos
