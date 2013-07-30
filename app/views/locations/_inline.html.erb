@@ -1,0 +1,10 @@
+<% 
+   blur = true unless defined? blur
+   location ||= @location
+%>
+
+<% if blur %>
+  <%= location.neighborhood.try(:name) || "Unknown" %> Neighborhood
+<% else %>
+  <%= location.address %> (<%= link_to_google_maps(location, 'map') %>)
+<% end %>

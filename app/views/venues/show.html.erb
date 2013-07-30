@@ -12,7 +12,7 @@
 </div>
 
 <address>
-  <%= render :partial => 'locations/inline_with_paren_map', :locals => {:location => @venue.location} %>
+  <%= render :partial => 'locations/inline', :locals => {:location => @venue.location, :blur => false} %>
 </address>
 
 <p>
