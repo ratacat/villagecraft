@@ -17,7 +17,7 @@ states = ['CA']
 states.each do |state|
   `unzip -o #{Rails.root.join('db', 'neighborhoods', "ZillowNeighborhoods-#{state}.zip")} -d #{tmpdir}`
   tmpfile = File.join('', 'tmp', "#{state}.sql")
-  `shp2pgsql -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{File.join('', 'tmp', 'ca.sql')}`
+  `shp2pgsql -s 4269 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{File.join('', 'tmp', 'ca.sql')}`
   `psql -d "villagecraft_#{Rails.env}" -f #{File.join('', 'tmp', 'ca.sql')}`
 end
 
