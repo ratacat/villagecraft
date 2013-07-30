@@ -10,29 +10,31 @@ function initializeGMap() {
   
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-  var marker = new google.maps.Marker({
-    position: myLatlng,
-    map: map,
-    animation: google.maps.Animation.DROP,
-    title: gmap_options.title
-  });
-
-  if (typeof gmap_options.info != 'undefined') {
-    var contentString = '<div id="gmap_info_content">'+
-        '<h4>' + gmap_options.title + '</h4>'+
-        '<div id="gmap_info_body_content">'+
-        '<p>' +
-        gmap_options.info +
-        '</p>' +
-        '</div>';
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
+  if (gmap_options.show_address) {
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      title: gmap_options.title
     });
-    
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(map,marker);
-    });
+
+    if (typeof gmap_options.info != 'undefined') {
+      var contentString = '<div id="gmap_info_content">'+
+          '<h4>' + gmap_options.title + '</h4>'+
+          '<div id="gmap_info_body_content">'+
+          '<p>' +
+          gmap_options.info +
+          '</p>' +
+          '</div>';
+
+      var infowindow = new google.maps.InfoWindow({
+          content: contentString
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+      });
+    };    
   };
 
   // NB: only works whem kml_layer_url is PUBLIC
@@ -64,6 +66,7 @@ function loadGMap(options) {
   var default_options = {
     title: '',
     zoom: 16,
+    show_address: false,
     geo_json_options: {
         "strokeColor": "#1450B4",
         "strokeOpacity": 1,

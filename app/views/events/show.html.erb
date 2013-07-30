@@ -52,9 +52,14 @@
 
 <% ready_script do -%>
   $("#secret").popover();
-  loadGMap({lat: <%= @event.venue.location.latitude %>, 
-            lon: <%= @event.venue.location.longitude %>, 
-            title: "<%= @event.venue.name %>",
-            info: "<%= @event.venue.location.address %>",
-            geo_json: <%= @event.venue.location.neighborhood.as_geo_json.html_safe %>});
+  <% if blur_location?(@event) %>
+    loadGMap({title: "<%= @event.venue.name %>",
+              geo_json: <%= @event.venue.location.neighborhood.as_geo_json.html_safe %>});
+  <% else %>
+    loadGMap({lat: <%= @event.venue.location.latitude %>, 
+              lon: <%= @event.venue.location.longitude %>, 
+              title: "<%= @event.venue.name %>",
+              show_address: true,
+              info: "<%= @event.venue.location.address %>"});
+  <% end %>
 <% end -%>
