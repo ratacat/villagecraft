@@ -18,3 +18,5 @@
 <p>
   <%= linked_map_image(@venue.location) %>      
 </p>
+
+<%= render :partial => 'events/index', :locals => {:events => @venue.events.order("start_time DESC")} %>
