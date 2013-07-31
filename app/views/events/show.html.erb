@@ -13,7 +13,7 @@
     <% else %>
       <address>
         <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-        <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_location?(@event)} %>
+        <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_event_location?(@event)} %>
         <p>
           <div id="map-canvas" class="img-polaroid"/>    
         </p>
@@ -52,5 +52,5 @@
 
 <% ready_script do -%>
   $("#secret").popover();
-  <%= render :partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_location?(@event)} %>
+  <%= render :partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)} %>
 <% end -%>
