@@ -13,8 +13,10 @@ class User < ActiveRecord::Base
   has_uuid(:length => 8)
 
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
-  has_many :venues, :class_name => 'Venue', :foreign_key => :owner_id
+  has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id
+
   has_many :attendances
+  has_many :venues, :through => :attendances, :uniq => true
   has_many :attends, :through => :attendances, :source => :event, :uniq => true do
     def confirmed
       where("attendances.confirmed = ?", true)
