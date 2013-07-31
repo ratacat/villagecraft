@@ -4,9 +4,13 @@ class Event < ActiveRecord::Base
   has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
+
   belongs_to :course
+  has_one :vclass, :through => :course
+  
   belongs_to :venue
   has_one :location, :through => :venue
+  
   has_many :attendances, :dependent => :destroy
   has_many :attendees, :through => :attendances, :source => :user, :uniq => true
   
