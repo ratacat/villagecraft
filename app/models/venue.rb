@@ -33,6 +33,10 @@ class Venue < ActiveRecord::Base
     @state_code || self.location.try(:state_code)
   end
   
+  def public?
+    false
+  end
+  
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_street_and_city_and_state_code(:street => self.street, :city => self.city, :state_code => self.state_code)
