@@ -29,7 +29,7 @@
       <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %></td>
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
-      <td><%= link_to(event.venue.name, event.venue) unless event.venue.blank? %></td>
+      <td><%= event.venue.blank? ? 'TBD' : link_to(event.venue.name, event.venue) %></td>
       <td><%= event_price(event) %></td>
       <td>
         <% if event.host %>

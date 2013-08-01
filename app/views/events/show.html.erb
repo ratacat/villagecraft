@@ -53,5 +53,5 @@
 
 <% ready_script do -%>
   $("#secret").popover();
-  <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)}) unless use_embedded_map %>
+  <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)}) unless (use_embedded_map or @event.venue.blank?) %>
 <% end -%>
