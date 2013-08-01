@@ -11,14 +11,10 @@ require 'factory_girl_rails'
 #
 # Seed neighborhoods table for all environments
 #
-tmpdir = File.join('', 'tmp')
 # Add more states here after installing the neighborhood boundary files from Zillow (http://www.zillow.com/howto/api/neighborhood-boundaries.htm)
 states = ['CA']
 states.each do |state|
-  `unzip -o #{Rails.root.join('db', 'neighborhoods', "ZillowNeighborhoods-#{state}.zip")} -d #{tmpdir}`
-  tmpfile = File.join('', 'tmp', "#{state}.sql")
-  `shp2pgsql -s 4269 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{File.join('', 'tmp', 'ca.sql')}`
-  `psql -d "villagecraft_#{Rails.env}" -f #{File.join('', 'tmp', 'ca.sql')}`
+  Rake::Task['db:load_zillow_hoods'].invoke(state)
 end
 
 #
