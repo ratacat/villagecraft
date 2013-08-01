@@ -11,4 +11,8 @@ module LocationHelper
     link_to_google_maps(location, map_image(location))
   end
   
+  def city_n_state(location)
+    "#{location.city}, #{location.state_code}"
+  end
+  
 end

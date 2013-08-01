@@ -1,3 +1,4 @@
+<% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
 <h1><%= @event.title %></h1>
 <h4>
   <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
@@ -15,7 +16,7 @@
         <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
         <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_event_location?(@event)} %>
         <p>
-          <div id="map-canvas" class="img-polaroid"/>    
+          <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@event.venue.location)}) if use_embedded_map %></div>
         </p>
       </address>
     <% end %>
@@ -52,5 +53,5 @@
 
 <% ready_script do -%>
   $("#secret").popover();
-  <%= render :partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)} %>
+  <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)}) unless use_embedded_map %>
 <% end -%>

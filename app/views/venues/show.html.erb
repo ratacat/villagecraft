@@ -1,3 +1,4 @@
+<% use_embedded_map = (blur_venue_location?(@venue) and @venue.location.neighborhood.nil?) %>
 <div class="page-header">
   <% if @venue.owner === current_user %>
     <%= link_to edit_venue_path(@venue), :class => 'btn btn-primary' do %>
@@ -14,12 +15,12 @@
 <address>
   <%= render :partial => 'locations/inline', :locals => {:location => @venue.location, :blur => blur_venue_location?(@venue)} %>
   <p>
-    <div id="map-canvas" class="img-polaroid"/>    
+    <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@venue.location)}) if use_embedded_map %></div>
   </p>
 </address>
 
 <%= render :partial => 'events/index', :locals => {:events => @venue.events.order("start_time DESC")} %>
 
 <% ready_script do -%>
-  <%= render :partial => 'venues/load_gmap.js', :locals => {:venue => @venue, :blur => blur_venue_location?(@venue)} %>
+  <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @venue, :blur => blur_venue_location?(@venue)}) unless use_embedded_map %>
 <% end -%>
