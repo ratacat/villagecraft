@@ -8,7 +8,7 @@
       <dd><%= @user.attends.confirmed.completed.count %></dd>
 
       <dt>Velocity</dt>
-      <dd><span class="badge badge-success"><%= @user.velocity %></span></dd>
+      <dd><span class="badge badge-success"><%= formatted_velocity(@user) %></span></dd>
 
       <dt>Joined Villagecraft</dt>
       <dd><span data-livestamp="<%= @user.created_at %>"></span></dd>
