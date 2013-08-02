@@ -14,7 +14,7 @@ class Event < ActiveRecord::Base
   has_many :attendances, :dependent => :destroy
   has_many :attendees, :through => :attendances, :source => :user, :uniq => true
   
-  scope :completed, lambda { where('"events"."end_time" < ?', Time.now ) }
+  scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
 
   before_validation :derive_times, :create_course_and_vclass_if_missing, :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
