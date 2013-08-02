@@ -58,9 +58,14 @@ class User < ActiveRecord::Base
     self.profile_image_id = i.id
   end  
   
-  # FIXME: stub
+  # straightforward rate of attendance 
+  # TODO: compute a "velocity" 0-100 that weights recent attendance more highly
   def velocity
-    100
+    if self.attends.completed.count > 0
+      self.attends.confirmed.completed.count.to_f / self.attends.completed.count.to_f
+    else
+      0
+    end
   end
 
   def city
