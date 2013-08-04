@@ -1,7 +1,7 @@
 <% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
 <h1><%= @event.title %></h1>
 <h4>
-  <%= l @event.localized_start_time, format: :short_time %> - <%= l @event.localized_end_time, format: :short_time %> <%= @event.localized_start_time.strftime("%A %B #{@event.start_time.day.ordinalize}") %>
+  <%= render :partial => 'times' %>
 </h4>
 <div class="row">
   <div class="span8">
