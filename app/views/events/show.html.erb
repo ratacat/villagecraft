@@ -46,9 +46,17 @@
     </div>
   </div>
   <% end %>
-    
 </div>
 
+<div class="row">
+  <div class="span8">
+    <% @event.activities.each do |activity| %>
+      <div class="activity">
+        <%= render_activity activity %>
+      </div>
+    <% end %>
+  </div>
+</div>
 <%= render :partial => 'attendees_modal' %>
 
 <% ready_script do -%>
