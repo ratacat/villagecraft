@@ -2,6 +2,7 @@
    blur = true unless defined? blur
    location ||= @location
    neighborhood = location.neighborhood
+   link_to_map ||= false
 %>
 
 <% if blur %>
@@ -11,5 +12,8 @@
     <%= location.city %>, <%= location.state_code %>
   <% end %>
 <% else %>
-  <%= location.address %> (<%= link_to_google_maps(location, 'map') %>)
+  <%= location.address %> 
+  <% if link_to_map %>
+    (<%= link_to_google_maps(location, 'map') %>)
+  <% end %>
 <% end %>
