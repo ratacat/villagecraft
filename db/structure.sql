@@ -43,6 +43,44 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: activities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE activities (
+    id integer NOT NULL,
+    trackable_id integer,
+    trackable_type character varying(255),
+    owner_id integer,
+    owner_type character varying(255),
+    key character varying(255),
+    parameters text,
+    recipient_id integer,
+    recipient_type character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE activities_id_seq OWNED BY activities.id;
+
+
+--
 -- Name: attendances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -432,6 +470,13 @@ ALTER SEQUENCE venues_id_seq OWNED BY venues.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id_seq'::regclass);
 
 
@@ -496,6 +541,14 @@ ALTER TABLE ONLY vclasses ALTER COLUMN id SET DEFAULT nextval('vclasses_id_seq':
 --
 
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
+
+
+--
+-- Name: activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY activities
+    ADD CONSTRAINT activities_pkey PRIMARY KEY (id);
 
 
 --
@@ -576,6 +629,27 @@ ALTER TABLE ONLY vclasses
 
 ALTER TABLE ONLY venues
     ADD CONSTRAINT venues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_activities_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_owner_id_and_owner_type ON activities USING btree (owner_id, owner_type);
+
+
+--
+-- Name: index_activities_on_recipient_id_and_recipient_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_recipient_id_and_recipient_type ON activities USING btree (recipient_id, recipient_type);
+
+
+--
+-- Name: index_activities_on_trackable_id_and_trackable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities USING btree (trackable_id, trackable_type);
 
 
 --
@@ -790,3 +864,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130721210528');
 INSERT INTO schema_migrations (version) VALUES ('20130723225059');
 
 INSERT INTO schema_migrations (version) VALUES ('20130724032103');
+
+INSERT INTO schema_migrations (version) VALUES ('20130803011040');

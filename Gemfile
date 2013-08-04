@@ -24,6 +24,8 @@ gem 'geocoder'
 gem 'google_timezone'
 gem 'uuidtools'
 
+gem 'public_activity'
+
 gem "paperclip", "~> 3.0"
 
 # Gems used only for assets and not required
