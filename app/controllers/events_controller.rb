@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  include PublicActivity::ViewHelpers
+  
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show, :attendees]
   before_filter :require_admin, :only => [:destroy]
@@ -72,6 +74,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
+        @event.create_activity :create, owner: current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -86,9 +89,16 @@ class EventsController < ApplicationController
   # PUT /events/1.json
   def update
     @event.venue = @venue
-    
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      @event.assign_attributes(params[:event])
+      @event.derive_times
+      @changes = @event.changes
+      if @event.save
+        if @changes[:start_time] or @changes[:end_time]
+          @event.create_activity key: 'event.time_changed', 
+                                 owner: current_user, 
+                                 parameters: {:new_time => render_to_string(:partial => 'events/times', :layout => false, :locals => {:event => @event})}
+        end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else

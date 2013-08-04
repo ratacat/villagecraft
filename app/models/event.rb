@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  include PublicActivity::Common
   attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
@@ -76,6 +77,11 @@ class Event < ActiveRecord::Base
     self.find_zone.formatted_offset
   end
   
+  def derive_times
+    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
+    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+  end
+  
   protected
 
   def Event.random_secret
@@ -89,11 +95,6 @@ class Event < ActiveRecord::Base
     if self.secret.blank?
       self.secret = Event.random_secret
     end
-  end
-  
-  def derive_times
-    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
-    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
   end
   
   def create_course_and_vclass_if_missing
