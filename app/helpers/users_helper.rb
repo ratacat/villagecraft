@@ -1,4 +1,8 @@
 module UsersHelper
+  def linked_user_thumb(user)
+    link_to image_tag(user.profile_img_src(:thumb), :class => 'img-rounded'), user
+  end
+  
   def contextualized_user_link(user, options={})
     link_to contextualized_user_name(user, options), user
   end

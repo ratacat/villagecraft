@@ -14,7 +14,8 @@ module EventsHelper
   def event_action(activity, options={})
     event = activity.trackable
     html = []
-    html << contextualized_user_name(event.host, :capitalize => true)
+    html << linked_user_thumb(event.host)
+    html << contextualized_user_link(event.host, :capitalize => true)
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
