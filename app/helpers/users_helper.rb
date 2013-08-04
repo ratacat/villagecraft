@@ -1,6 +1,10 @@
 module UsersHelper
   def linked_user_thumb(user)
-    link_to image_tag(user.profile_img_src(:thumb), :class => 'img-rounded'), user
+    if user
+      link_to image_tag(user.profile_img_src(:thumb), :class => 'img-rounded'), user
+    else
+      image_tag(User.homunculus_src(:thumb), :class => 'img-rounded')
+    end
   end
   
   def contextualized_user_link(user, options={})
