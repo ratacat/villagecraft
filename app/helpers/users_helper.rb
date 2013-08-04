@@ -1,8 +1,6 @@
 module UsersHelper
-  def contextualized_user_link(user)
-    return 'a former user' if user.blank?
-    name = (user === current_user) ? 'you' : user.name
-    link_to name, user
+  def contextualized_user_link(user, options={})
+    link_to contextualized_user_name(user, options), user
   end
   
   def formatted_velocity(user)
@@ -11,13 +9,16 @@ module UsersHelper
   
   def contextualized_user_name(user, options={})
     viewing_user = (options[:viewer] || current_user)
+    name = 
     if user.blank?
-      options[:capitalize] ? 'A former user' : 'a former user'
+      'a former user'
     elsif user === viewing_user
       options[:capitalize] ? 'You' : 'you'
     else
       user.name
     end
+    name.capitalize! if options[:capitalize]
+    name
   end
   
 end
