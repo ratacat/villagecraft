@@ -41,3 +41,21 @@ span.quantized_progress {
 form div.controls-row.event_when input {
   width: 8em;
 }
+
+.thumbnail {
+    border: 0 none;
+    box-shadow: none;
+}
+
+.thumbnail.right-caption > img {
+    float: left;
+    margin-right: 9px;
+}
+
+.thumbnail.right-caption {
+    float: left;
+}
+
+.thumbnail.right-caption > .caption {
+    padding: 4px;
+}
