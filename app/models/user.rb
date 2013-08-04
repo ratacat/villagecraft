@@ -47,10 +47,14 @@ class User < ActiveRecord::Base
 
   def profile_img_src(size = :medium)
     if self.profile_image.blank?
-      "/assets/homunculus.png"
+      User.homunculus_src(size)
     else
       self.profile_image.img.url(size)
     end
+  end
+
+  def User.homunculus_src(size = :medium)
+    "/assets/homunculus_#{size}.png"
   end
 
   def profile_image=(f)
