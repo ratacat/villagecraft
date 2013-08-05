@@ -151,7 +151,8 @@ class EventsController < ApplicationController
     end
 
     current_user.attends.delete(@event)
-        
+    @event.create_activity key: 'event.cancel_attend', owner: current_user
+
     respond_to do |format|
       format.html { redirect_to @event, notice: 'Your attendence has been canceled' }
       format.json { head :no_content }

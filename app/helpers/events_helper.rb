@@ -23,6 +23,8 @@ module EventsHelper
       html << 'created the event'
     when 'event.attend'
       html << "#{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
+    when 'event.cancel_attend'
+      html << "no longer #{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
     else
       ''
     end
