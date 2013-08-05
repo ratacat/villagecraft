@@ -7,5 +7,6 @@ FactoryGirl.define do
     end_time { start_time + [30, 60, 90, 120].sample.minutes }
     min_attendees 10
     max_attendees 20
+    after(:create) { |event| event.create_activity(:create, owner: event.host) }
   end
 end

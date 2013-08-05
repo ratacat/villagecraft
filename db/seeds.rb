@@ -53,17 +53,18 @@ if Rails.env.development?
   spanish = FactoryGirl.create(:event, :title => "Practice Spanish, Play Games!", :short_title => "Practice Spanish", :host => ben, :venue => bens_house, :start_time => (3.days.from_now), :end_time => (3.days.from_now + 1.hour), :min_attendees => 2, :max_attendees => 7, :description => "Want to hone your spanish language skills in a socially fun and creative manner?  Come play games with us!  We have fun with a variety of board, table, and card games in small group settings, and all communication is in Spanish!  Doesn't matter what your current level of spanish is!  You will have fun and learn in a completely organic fashion. ")
   
   # Some Attends
-  (0..2).each { |i| drones[i].attends << sourdough }
-  (0..2).each { |i| drones[i].attends << parkour }
-  (0..5).each { |i| drones[i].attends << throwies }
+  (0..2).each { |i| drones[i].attends << sourdough; sourdough.create_activity(key: 'event.attend', owner: drones[i]) }
+  (0..2).each { |i| drones[i].attends << parkour; parkour.create_activity(key: 'event.attend', owner: drones[i]) }
+  (0..5).each { |i| drones[i].attends << throwies; throwies.create_activity(key: 'event.attend', owner: drones[i]) }
   (0..2).each do |i|
     at = Attendance.new
     at.user = drones[i]
     at.event = spanish
     at.confirmed = [true, false, true].sample
     at.save!
+    spanish.create_activity(key: 'event.attend', owner: at.user)
   end
   jared.attends << spanish
-
+  spanish.create_activity(key: 'event.attend', owner: jared)
   
 end
