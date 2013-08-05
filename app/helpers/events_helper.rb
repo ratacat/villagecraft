@@ -15,6 +15,7 @@ module EventsHelper
     event = activity.trackable
     html = []
     html << linked_user_thumb(event.host)
+    html << '<div class="caption">'
     html << contextualized_user_link(activity.owner, :capitalize => true)
     case activity.key
     when 'event.time_changed'
@@ -43,6 +44,8 @@ module EventsHelper
     else
       ''
     end
+    html << content_tag(:div, time_ago(activity.created_at))
+    html << '</div>'
     html.join(' ').html_safe
   end
 end

@@ -47,15 +47,12 @@ form div.controls-row.event_when input {
     box-shadow: none;
 }
 
-.thumbnail.right-caption > img {
+.thumbnail.right-caption > a {
     float: left;
     margin-right: 9px;
 }
 
-.thumbnail.right-caption {
-    float: left;
-}
-
 .thumbnail.right-caption > .caption {
     padding: 4px;
+    float: left;
 }
