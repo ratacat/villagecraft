@@ -14,7 +14,7 @@ module EventsHelper
   def event_action(activity, options={})
     event = activity.trackable
     html = []
-    html << linked_user_thumb(event.host)
+    html << linked_user_thumb(activity.owner)
     html << '<div class="caption">'
     html << contextualized_user_link(activity.owner, :capitalize => true)
     case activity.key
