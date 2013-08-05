@@ -133,6 +133,8 @@ class EventsController < ApplicationController
       return
     end
     
+    @event.create_activity key: 'event.attend', owner: current_user
+    
     respond_to do |format|
       format.html { redirect_to @event, notice: 'You are signed up to attend this event' }
       format.json { head :no_content }

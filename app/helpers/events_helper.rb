@@ -15,12 +15,14 @@ module EventsHelper
     event = activity.trackable
     html = []
     html << linked_user_thumb(event.host)
-    html << contextualized_user_link(event.host, :capitalize => true)
+    html << contextualized_user_link(activity.owner, :capitalize => true)
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
     when 'event.create'
       html << 'created the event'
+    when 'event.attend'
+      html << "#{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
     else
       ''
     end
