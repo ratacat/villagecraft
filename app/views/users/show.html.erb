@@ -11,7 +11,7 @@
       <dd><span class="badge badge-success"><%= formatted_velocity(@user) %></span></dd>
 
       <dt>Joined Villagecraft</dt>
-      <dd><span data-livestamp="<%= @user.created_at %>"></span></dd>
+      <dd><%= time_ago(@user.created_at) %></dd>
     </dl>  
   </div>
   <img src="<%= @user.profile_img_src %>" class="img-rounded">
