@@ -315,7 +315,8 @@ CREATE TABLE notifications (
     seen boolean DEFAULT false,
     sent boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    uuid character varying(255)
 );
 
 
@@ -931,3 +932,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130724032103');
 INSERT INTO schema_migrations (version) VALUES ('20130803011040');
 
 INSERT INTO schema_migrations (version) VALUES ('20130805060530');
+
+INSERT INTO schema_migrations (version) VALUES ('20130806054656');
