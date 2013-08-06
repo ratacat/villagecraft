@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   has_many :images, :dependent => :destroy
   belongs_to :profile_image, :class_name => 'Image'
 
+  has_many :notifications
+
   normalize_attributes :first_name, :last_name, :email, :address
 
   before_validation :find_or_create_location_from_address
