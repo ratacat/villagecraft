@@ -22,6 +22,21 @@
             <li><%= link_to "Log In", new_user_session_path %></li>
           <% else %>
             <li><%= link_to "My Events", my_events_path %></li>
+            <% if @notifications %>
+              <li class="dropdown">
+                <%= link_to content_tag(:i, '', :class => 'icon-bell'), '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown" %>
+                <ul class="dropdown-menu notifications" role="menu">
+                  <% @notifications.each do |notification| %>
+                    <li>
+                      <div class="thumbnail right-caption span4">
+                        <%= event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
+                      </div>
+                    </li>
+                    <li class="divider"></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
             <li class="dropdown">
               <%= link_to current_user.name, '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" %>
               <ul class="dropdown-menu" role="menu">

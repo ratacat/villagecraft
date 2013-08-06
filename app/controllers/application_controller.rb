@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :fetch_notifications
   after_filter :store_location
 
   def store_location
@@ -24,6 +25,12 @@ class ApplicationController < ActionController::Base
     unless user_signed_in? and current_user.admin? # and admin mode enabled FIXME
       render_error(:message => "Administrative access required", :status => :unauthorized)
     end    
+  end
+  
+  def fetch_notifications
+    if user_signed_in?
+      @notifications = current_user.notifications.order('created_at desc').limit(10)
+    end
   end
     
 end

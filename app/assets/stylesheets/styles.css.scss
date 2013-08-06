@@ -47,12 +47,17 @@ form div.controls-row.event_when input {
     box-shadow: none;
 }
 
-.thumbnail.right-caption > a {
+.thumbnail.right-caption > a, .thumbnail.right-caption > img {
     float: left;
     margin-right: 9px;
 }
 
 .thumbnail.right-caption > .caption {
-    padding: 4px;
-    float: left;
+    padding: 0px;
+    overflow: hidden;
+    float: none;
+}
+
+.dropdown-menu.notifications li.divider {
+  width: 100%;
 }
