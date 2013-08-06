@@ -1,9 +1,11 @@
 module UsersHelper
-  def linked_user_thumb(user)
+  def linked_user_thumb(user, options={})
+    defaults = {:size => :thumb}
+    options.reverse_merge!(defaults)
     if user
-      link_to image_tag(user.profile_img_src(:thumb), :class => 'img-rounded'), user
+      link_to image_tag(user.profile_img_src(options[:size]), :class => 'img-rounded'), user
     else
-      image_tag(User.homunculus_src(:thumb), :class => 'img-rounded')
+      image_tag(User.homunculus_src(options[:size]), :class => 'img-rounded')
     end
   end
   

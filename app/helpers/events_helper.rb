@@ -12,9 +12,11 @@ module EventsHelper
   end
   
   def event_action(activity, options={})
+    defaults = {:profile_image_size => :thumb}
+    options.reverse_merge!(defaults)
     event = activity.trackable
     html = []
-    html << linked_user_thumb(activity.owner)
+    html << linked_user_thumb(activity.owner, :size => options[:profile_image_size])
     html << '<div class="caption">'
     html << contextualized_user_link(activity.owner, :capitalize => true)
     case activity.key
