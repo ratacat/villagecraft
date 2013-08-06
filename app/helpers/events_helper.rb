@@ -12,13 +12,21 @@ module EventsHelper
   end
   
   def event_action(activity, options={})
-    defaults = {:profile_image_size => :thumb}
+    defaults = {
+      :profile_image_size => :thumb, 
+      :show_trackable => false,
+      :plaintext => false
+    }
     options.reverse_merge!(defaults)
     event = activity.trackable
     html = []
-    html << linked_user_thumb(activity.owner, :size => options[:profile_image_size])
+    html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]))
     html << '<div class="caption">'
-    html << contextualized_user_link(activity.owner, :capitalize => true)
+    if options[:plaintext]
+      html << content_tag(:strong, contextualized_user_name(activity.owner, :capitalize => true))
+    else
+      html << contextualized_user_link(activity.owner, :capitalize => true)
+    end
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
@@ -33,20 +41,29 @@ module EventsHelper
     else
       ''
     end
-    if options[:link_to_event]
+    if options[:show_trackable]
       case activity.key
       when 'event.time_changed', 'event.venue_changed'
         html << 'of'
       else
         ''
       end
-      html << link_to(event.title, event)
+      if options[:plaintext]
+        html << content_tag(:strong, event.title)
+      else
+        html << link_to(event.title, event)
+      end
     end
     case activity.key
     when 'event.time_changed'
       html << "to #{activity.parameters[:new_time]}"
     when 'event.venue_changed'
-      html << "to #{link_to(event.venue.name, event.venue)}"
+      html << "to "
+      if options[:plaintext]
+        html << content_tag(:strong, event.venue.name)
+      else
+        link_to(event.venue.name, event.venue)
+      end
     else
       ''
     end
