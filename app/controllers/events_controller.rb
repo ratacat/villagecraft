@@ -99,6 +99,11 @@ class EventsController < ApplicationController
                                  owner: current_user, 
                                  parameters: {:new_time => render_to_string(:partial => 'events/times', :layout => false, :locals => {:event => @event})}
         end
+        if @changes[:venue_id]
+          @event.create_activity key: 'event.venue_changed', 
+                                 owner: current_user, 
+                                 parameters: {:new_venue_id => @event.venue_id}          
+        end
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else

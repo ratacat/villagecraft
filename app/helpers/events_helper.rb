@@ -20,6 +20,8 @@ module EventsHelper
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
+    when 'event.venue_changed'
+      html << 'changed the venue'
     when 'event.create'
       html << 'created the event'
     when 'event.attend'
@@ -31,7 +33,7 @@ module EventsHelper
     end
     if options[:link_to_event]
       case activity.key
-      when 'event.time_changed'
+      when 'event.time_changed', 'event.venue_changed'
         html << 'of'
       else
         ''
@@ -41,6 +43,8 @@ module EventsHelper
     case activity.key
     when 'event.time_changed'
       html << "to #{activity.parameters[:new_time]}"
+    when 'event.venue_changed'
+      html << "to #{link_to(event.venue.name, event.venue)}"
     else
       ''
     end
