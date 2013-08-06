@@ -305,6 +305,40 @@ ALTER SEQUENCE neighborhoods_id_seq OWNED BY neighborhoods.id;
 
 
 --
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE notifications (
+    id integer NOT NULL,
+    user_id integer,
+    activity_id integer,
+    seen boolean DEFAULT false,
+    sent boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+
+
+--
 -- Name: reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -519,6 +553,13 @@ ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhood
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY reviews ALTER COLUMN id SET DEFAULT nextval('reviews_id_seq'::regclass);
 
 
@@ -597,6 +638,14 @@ ALTER TABLE ONLY locations
 
 ALTER TABLE ONLY neighborhoods
     ADD CONSTRAINT neighborhoods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -685,6 +734,20 @@ CREATE INDEX index_events_on_venue_id ON events USING btree (venue_id);
 --
 
 CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighborhood_id);
+
+
+--
+-- Name: index_notifications_on_activity_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_activity_id ON notifications USING btree (activity_id);
+
+
+--
+-- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
 
 
 --
@@ -866,3 +929,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130723225059');
 INSERT INTO schema_migrations (version) VALUES ('20130724032103');
 
 INSERT INTO schema_migrations (version) VALUES ('20130803011040');
+
+INSERT INTO schema_migrations (version) VALUES ('20130805060530');
