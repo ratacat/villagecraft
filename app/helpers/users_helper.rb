@@ -1,12 +1,17 @@
 module UsersHelper
-  def linked_user_thumb(user, options={})
-    defaults = {:size => :thumb}
+  def user_thumb(user, options={})
+    defaults = {
+      :size => :thumb,
+      :linked => false
+    }
     options.reverse_merge!(defaults)
-    if user
-      link_to image_tag(user.profile_img_src(options[:size]), :class => 'img-rounded'), user
-    else
-      image_tag(User.homunculus_src(options[:size]), :class => 'img-rounded')
-    end
+    html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => 'img-rounded')
+    (options[:linked] and user) ? link_to(html, user) : html
+  end
+  
+  def linked_user_thumb(user, options={})
+    options[:linked] = true
+    user_thumb(user, options)
   end
   
   def contextualized_user_link(user, options={})
