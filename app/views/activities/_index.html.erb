@@ -1,9 +1,13 @@
-<% activities ||= @activities %>
+<% 
+  activities ||= @activities 
+  width ||= 'span8'
+  plaintext_activities ||= false
+%>
 <ul class="thumbnails">
-  <li class="span8">
+  <li class="<%= width %>">
     <% activities.each do |activity| %>
-    <div class="thumbnail right-caption span8">
-      <%= event_action activity %>
+    <div class="thumbnail right-caption <%= width %>">
+      <%= event_action activity, :plaintext => plaintext_activities %>
     </div>
     <% end %>
   </li>
