@@ -3,6 +3,8 @@ class Notification < ActiveRecord::Base
   has_uuid(:length => 8)
   
   belongs_to :user
+  alias :target :user
+  
   belongs_to :activity, :class_name => 'PublicActivity::Activity'
   attr_accessible :seen, :sent
 end
