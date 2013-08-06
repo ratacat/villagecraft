@@ -49,15 +49,7 @@
 </div>
 
 <div class="row">
-  <ul class="thumbnails">
-    <li class="span8">
-      <% @event.activities.each do |activity| %>
-      <div class="thumbnail right-caption span8">
-        <%= render_activity activity %>
-      </div>
-      <% end %>
-    </li>
-  </ul>
+  <%= render :partial => 'activities/index', :locals => {:activities => @event.activities} %>
 </div>
 <%= render :partial => 'attendees_modal' %>
 
