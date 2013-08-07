@@ -8,6 +8,14 @@ body {
 
 .user-city {}
 
+.center-text {
+  text-align: center;
+}
+
+.margin0 {
+  margin: 0;
+}
+
 span.quantized_progress {
   vertical-align: baseline;
   display: inline-block;
@@ -56,6 +64,21 @@ form div.controls-row.event_when input {
     padding: 0px;
     overflow: hidden;
     float: none;
+}
+
+.notifications {
+  padding: 0;
+}
+
+.notifications ul {
+  margin: 0;
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.notifications li {
+  width: 400px;
 }
 
 .dropdown-menu.notifications li.divider {

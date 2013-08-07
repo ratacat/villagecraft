@@ -25,16 +25,21 @@
             <% if @notifications %>
               <li class="dropdown">
                 <%= link_to content_tag(:i, '', :class => 'icon-bell'), '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown" %>
-                <ul class="dropdown-menu notifications" role="menu">
-                  <% @notifications.each do |notification| %>
-                    <li>
-                      <div class="thumbnail right-caption span4">
-                        <%= event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
-                      </div>
-                    </li>
-                    <li class="divider"></li>
-                  <% end %>
-                </ul>
+                <div class="dropdown-menu notifications" role="menu">
+                  <ul>
+                    <% @notifications.each do |notification| %>
+                      <li>
+                        <div class="thumbnail right-caption">
+                          <%= event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
+                        </div>
+                      </li>
+                      <li class="divider"></li>
+                    <% end %>
+                  </ul>
+                  <div class="center-text well well-small margin0">
+                    <%= link_to 'See all notifications', notifications_path %>
+                  </div>
+                </div>
               </li>
             <% end %>
             <li class="dropdown">
