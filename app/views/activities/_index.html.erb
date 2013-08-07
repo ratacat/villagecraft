@@ -7,7 +7,7 @@
   <li class="<%= width %>">
     <% activities.each do |activity| %>
     <div class="thumbnail right-caption <%= width %>">
-      <%= event_action activity, :plaintext => plaintext_activities %>
+      <%= render_activity activity, :plaintext => plaintext_activities %>
     </div>
     <% end %>
   </li>

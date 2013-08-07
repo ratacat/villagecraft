@@ -31,7 +31,7 @@
                       <li>
                         <div class="thumbnail right-caption">
                           <%= link_to notification.activity.trackable do -%>
-                            <% event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
+                            <% render_activity(notification.activity, :plaintext => true, :show_trackable => true) %>
                           <% end -%>
                         </div>
                       </li>
