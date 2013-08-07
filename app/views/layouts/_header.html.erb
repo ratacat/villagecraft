@@ -30,7 +30,9 @@
                     <% @notifications.each do |notification| %>
                       <li>
                         <div class="thumbnail right-caption">
-                          <%= event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
+                          <%= link_to notification.activity.trackable do -%>
+                            <% event_action(notification.activity, :plaintext => true, :show_trackable => true) %>
+                          <% end -%>
                         </div>
                       </li>
                       <li class="divider"></li>

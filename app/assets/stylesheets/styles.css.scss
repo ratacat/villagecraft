@@ -55,12 +55,12 @@ form div.controls-row.event_when input {
     box-shadow: none;
 }
 
-.thumbnail.right-caption > a, .thumbnail.right-caption > img {
+.thumbnail.right-caption img {
     float: left;
     margin-right: 9px;
 }
 
-.thumbnail.right-caption > .caption {
+.thumbnail.right-caption .caption {
     padding: 0px;
     overflow: hidden;
     float: none;
@@ -81,6 +81,15 @@ form div.controls-row.event_when input {
   width: 400px;
 }
 
+.dropdown-menu.notifications .thumbnail a:hover {
+  text-decoration: none;
+}
+
+.dropdown-menu.notifications .thumbnail:hover {
+  background-color: $grayLighter;
+}
+
 .dropdown-menu.notifications li.divider {
   width: 100%;
+  margin: 0;  
 }
