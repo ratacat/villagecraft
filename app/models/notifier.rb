@@ -19,6 +19,8 @@ class Notifier < ActiveRecord::Observer
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"
     end
+    targets.uniq!
+    targets -= [activity.owner]
     targets.each do |user|
       Notification.create(:user => user, :activity => activity)
     end
