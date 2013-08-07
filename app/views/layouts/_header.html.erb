@@ -24,7 +24,9 @@
             <li><%= link_to "My Events", my_events_path %></li>
             <% if @notifications %>
               <li class="dropdown">
-                <%= link_to content_tag(:i, '', :class => 'icon-bell'), '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown" %>
+                <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown" do -%>
+                  <i class="icon-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info"><%= @unseen_notifications_count %></span><% end %>
+                <% end %>
                 <div class="dropdown-menu notifications" role="menu">
                   <ul>
                     <% @notifications.each do |notification| %>

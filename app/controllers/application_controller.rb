@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
   def fetch_notifications
     if user_signed_in?
       @notifications = current_user.notifications.order('created_at desc').limit(10)
+      @unseen_notifications_count = current_user.notifications.where(:seen => false).count
     end
   end
     
