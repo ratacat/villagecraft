@@ -23,6 +23,12 @@ class NotificationsController < ApplicationController
     end
   end
   
+  # POST / notifications/clear
+  def clear
+    Notification.where(:user_id => current_user).where(:seen => false).update_all(:seen => true)
+    render :nothing => true, :status => 200
+  end
+  
   protected
   def find_notification
     begin

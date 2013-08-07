@@ -14,7 +14,11 @@ Villagecraft::Application.routes.draw do
   get 'venues/:id/neighborhood(.:format)' => 'venues#neighborhood', :as => :neighborhood
   resources :venues
 
-  resources :notifications, :only => [:index, :show]
+  resources :notifications, :only => [:index, :show] do
+    collection do
+      post 'clear'
+    end
+  end
 
   get '/tos' => 'application#tos', :as => :tos
 
