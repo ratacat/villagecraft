@@ -1,6 +1,7 @@
 class Notifier < ActiveRecord::Observer
   observe PublicActivity::Activity
 
+  # FIXME: make this asynchronous to keep the site responsive 
   def after_create(activity)
     case activity.trackable_type
     when 'Event'
