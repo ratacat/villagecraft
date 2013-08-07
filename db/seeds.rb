@@ -56,6 +56,8 @@ if Rails.env.development?
   (0..2).each { |i| drones[i].attends << sourdough; sourdough.create_activity(key: 'event.attend', owner: drones[i]) }
   (0..2).each { |i| drones[i].attends << parkour; parkour.create_activity(key: 'event.attend', owner: drones[i]) }
   (0..5).each { |i| drones[i].attends << throwies; throwies.create_activity(key: 'event.attend', owner: drones[i]) }
+  jared.attends << spanish
+  spanish.create_activity(key: 'event.attend', owner: jared)
   (0..2).each do |i|
     at = Attendance.new
     at.user = drones[i]
@@ -64,7 +66,5 @@ if Rails.env.development?
     at.save!
     spanish.create_activity(key: 'event.attend', owner: at.user)
   end
-  jared.attends << spanish
-  spanish.create_activity(key: 'event.attend', owner: jared)
   
 end
