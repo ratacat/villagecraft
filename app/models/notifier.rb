@@ -10,7 +10,12 @@ class Notifier < ActiveRecord::Observer
       case activity.key
       when 'event.time_changed'
       when 'event.create'
-        # FIXME: add additional targets here, e.g. users who have attended any of host's past events
+        # target users who have attended any of host's past events
+        event.host.hostings.each do |hosted_event|
+          hosted_event.attendees.each do |past_attendee|
+            targets << past_attendee
+          end
+        end
       when 'event.attend'
         # FIXME: add additional targets here, e.g. friend of attendee
       when 'event.cancel_attend'
