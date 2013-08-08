@@ -21,7 +21,7 @@
   <tbody>
   <% events.each do |event| %>
     <tr>
-      <td><%= link_to event.short_title, event %></td>
+      <td><%= link_to event.title, event %></td>
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
