@@ -5,8 +5,7 @@
       <% if user_signed_in? %>
         <th>Proximity</th>
       <% end %>
-      <th>Time</th>
-      <th>Day</th>
+      <th>When</th>
       <th>Rating</th>
       <th>Spots</th>
       <th>Where</th>
@@ -21,12 +20,11 @@
   <tbody>
   <% events.each do |event| %>
     <tr>
-      <td><%= link_to event.title, event %></td>
+      <td><div class="title-top"><%= link_to event.title, event %></div><div class="title-bot"><%= truncate(event.description, :length => 70, :separator => ' ') %></div></td>
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
-      <td><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></td>
-      <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %></td>
+      <td><%= event.start_time.to_date.strftime("%A %B #{event.start_time.day.ordinalize}") %><br><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></td>
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td><%= event.venue.blank? ? 'TBD' : link_to(event.venue.name, event.venue) %></td>
