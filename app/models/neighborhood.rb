@@ -3,6 +3,7 @@ class Neighborhood < ActiveRecord::Base
     if geo = results.first
       obj.city = geo.city
       obj.state = geo.state_code
+      obj.county = geo.sub_state
     end
   end
 
