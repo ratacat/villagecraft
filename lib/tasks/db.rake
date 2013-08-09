@@ -30,5 +30,33 @@ namespace :db do
     `shp2pgsql -s 4269 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{tmp_sql_fn}`
     `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`
   end
+  
+  desc "Import hand-drawn neighborhood boundaries (such as can be drawn with this tool: http://www.birdtheme.org/useful/googletool.html); note: the <Placemark><name> will become the neighborhood name"
+  # E.g. rake db:load_kml_neighborhood[db/neighborhoods/north_berkeley.kml]
+  task :load_kml_neighborhood, [:fn] => :environment do |t, args|
+    kml_fn = args[:fn].strip
+    
+#    db_config = Rails.application.config.database_configuration[Rails.env]
+    db_config = ActiveRecord::Base.configurations[Rails.env]
+    host = db_config["host"]
+    db = db_config["database"]
+    username = db_config["username"]
+    password = db_config["password"]
+    ogr2ogr_options = '-append -dim 2 -nlt MULTIPOLYGON -nln neighborhoods -a_srs EPSG:4326 -s_srs EPSG:4326 -f "PostgreSQL"'
+    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : 'FIXME'
+    `export GDAL_DATA=#{gdal_data_path}; ogr2ogr #{ogr2ogr_options} PG:"host=#{host} user=#{username} dbname=#{db} password=#{password}" #{kml_fn}`
+
+    Neighborhood.where(:city => nil).each do |hood|
+      hood.reverse_geocode
+      hood.save
+    end
+  end
+  
+  task :load_kml_neighborhoods => :environment do
+    kmls = Rails.root.join('db', 'neighborhoods', '*.kml')
+    Dir.glob(kmls).each do |fn|
+      Rake::Task['db:load_kml_neighborhood'].invoke(fn)
+    end
+  end
 
 end
