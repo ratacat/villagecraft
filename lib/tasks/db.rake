@@ -55,6 +55,9 @@ namespace :db do
     Neighborhood.where(:city => nil).each do |hood|
       hood.reverse_geocode
       hood.save
+      Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
+        loc.save
+      end
     end
   end
   
