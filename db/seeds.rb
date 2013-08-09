@@ -30,7 +30,8 @@ if Rails.env.development?
   bens_house_loc = FactoryGirl.create(:location, :street => "1006 Rose Ave", :city => "Piedmont", :state_code => "CA")
   dna_lounge_loc = FactoryGirl.create(:location, :street => "375 Eleventh St", :city => "San Francisco", :state_code => "CA", :zip => "94103")
   carnegie_hall_loc = FactoryGirl.create(:location, :street => "881 7th Ave", :city => "New York", :state_code => "NY", :zip => "10019")
-
+  edible_schoolyard_loc = FactoryGirl.create(:location, :street => "1781 Rose St", :city => "Berkeley", :state_code => "CA")
+  
   # Some Users
   images_path = Rails.root.join('spec', 'support', 'images')
   jared = FactoryGirl.create(:user, :first_name => "Jared", :last_name => "Smith", :email => "jared@example.com", :location => berkeley, :profile_image => File.open(images_path.join('jared.jpg')))
@@ -45,6 +46,7 @@ if Rails.env.development?
   bens_house = FactoryGirl.create(:venue, :name => "Ben's House", :owner => ben, :location => bens_house_loc)
   dna_lounge = FactoryGirl.create(:venue, :name => "DNA Lounge", :owner => jwz, :location => dna_lounge_loc)
   carnegie_hall = FactoryGirl.create(:venue, :name => "Carnegie Hall", :owner => ben, :location => carnegie_hall_loc)
+  edible_schoolyard = FactoryGirl.create(:venue, :name => "The Edible Schoolyard", :owner => ben, :location => edible_schoolyard_loc)
   
   # Some Events
   sourdough = FactoryGirl.create(:event, :title => "Sourdough Bread Class", :host => jared, :venue => jareds_house, :min_attendees => 3, :max_attendees => 6, :description => "Sourdough has been used since the invention of bread to cultivate and encourage wild yeasts that occur in everything to help make delicious, fluffy, sour bread. The distinctive sour taste comes from the cultivated family of lactobacillus bacteria and yeasts. These tiny lifeforms have long since allied themselves as human digestive flora.  Bread that is cultured with lactobacillus is easier to digest then commercial bakers yeast.<br><br>Please bring a small bread pan, clothing that can get flour on it. And anything you want to spread on your bread.  You will learn the entire process from beginning to end, and everyone gets to take a fresh loaf of bread home. (also some of your very own starter)")
