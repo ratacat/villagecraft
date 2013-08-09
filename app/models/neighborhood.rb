@@ -22,6 +22,11 @@ class Neighborhood < ActiveRecord::Base
     @hood.pih.split(/[\(\) ]/)[1,2]
   end
   
+  def geom_srid
+    @hood = Neighborhood.select('*, ST_SRID(geom) as srid').where(:id => self.id).first
+    @hood.try(:srid)
+  end
+  
   def latitude
     self.point_in_hood.last.to_f
   end
@@ -32,7 +37,7 @@ class Neighborhood < ActiveRecord::Base
 
   def Neighborhood.find_by_lat_lon(lat, lon)
     # FIXME: sanity-check lat, lon
-    Neighborhood.where("ST_Within(ST_SetSRID(ST_MakePoint(#{lon},#{lat}), 4269), geom)=true").first
+    Neighborhood.where("ST_Within(ST_SetSRID(ST_MakePoint(#{lon},#{lat}), 4326), geom)=true").first
   end
   
   

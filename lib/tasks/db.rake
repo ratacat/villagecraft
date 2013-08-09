@@ -10,8 +10,9 @@ namespace :db do
   desc "Execute Postgris management functions to set up geospatial features"
   task :postgis_setup => [:enable_postgis] do
     begin
-      ActiveRecord::Base.connection.execute("SELECT AddGeometryColumn('public','neighborhoods','geom','0','MULTIPOLYGON',2);")
+      ActiveRecord::Base.connection.execute("SELECT AddGeometryColumn('public','neighborhoods','geom',4326,'MULTIPOLYGON',2);")
     rescue Exception => e
+      # Silently fail if geom column alread exists
     end    
   end
   
@@ -25,10 +26,10 @@ namespace :db do
     tmpdir = File.join('', 'tmp')
     tmp_sql_fn = File.join('', 'tmp', "#{state}.sql")
     
-    `curl http://www.zillow.com/static/shp/#{zip_fn} -o #{dest_fn}`
+    `curl http://www.zillow.com/static/shp/#{zip_fn} -o #{dest_fn}` unless File.exist?(dest_fn)
     `unzip -o #{dest_fn} -d #{tmpdir}`
-    `shp2pgsql -s 4269 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{tmp_sql_fn}`
-    `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`
+    `shp2pgsql -s 4269:4326 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{tmp_sql_fn}`
+    `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`    
   end
   
   desc "Import hand-drawn neighborhood boundaries (such as can be drawn with this tool: http://www.birdtheme.org/useful/googletool.html); note: the <Placemark><name> will become the neighborhood name"

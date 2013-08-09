@@ -281,7 +281,7 @@ CREATE TABLE neighborhoods (
     city character varying(64),
     name character varying(64),
     regionid numeric,
-    geom geometry(MultiPolygon)
+    geom geometry(MultiPolygon,4326)
 );
 
 
@@ -934,3 +934,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130803011040');
 INSERT INTO schema_migrations (version) VALUES ('20130805060530');
 
 INSERT INTO schema_migrations (version) VALUES ('20130806054656');
+
+INSERT INTO schema_migrations (version) VALUES ('20130809074419');
