@@ -19,7 +19,7 @@ namespace :db do
   task :seed => [:postgis_setup] do
   end
 
-  task :load_zillow_hoods, :state do |t, args|
+  task :load_zillow_hoods, [:state] => :environment do |t, args|
     state = args[:state].strip.upcase
     zip_fn = "ZillowNeighborhoods-#{state}.zip"
     dest_fn = Rails.root.join('db', 'neighborhoods', zip_fn)
@@ -29,7 +29,12 @@ namespace :db do
     `curl http://www.zillow.com/static/shp/#{zip_fn} -o #{dest_fn}` unless File.exist?(dest_fn)
     `unzip -o #{dest_fn} -d #{tmpdir}`
     `shp2pgsql -s 4269:4326 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{tmp_sql_fn}`
-    `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`    
+    `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`
+    
+    # Force neighborhood lookup for all locations in state whose neighborhoods have been newly imported
+    Location.where(:state_code => state).each do |loc|
+      loc.save
+    end
   end
   
   desc "Import hand-drawn neighborhood boundaries (such as can be drawn with this tool: http://www.birdtheme.org/useful/googletool.html); note: the <Placemark><name> will become the neighborhood name"
