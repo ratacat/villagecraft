@@ -16,7 +16,7 @@ module ApplicationHelper
     defaults = {
       :rows => 2, 
       :columns => 10,
-      :icon => 'icon-user',
+      :icon => 'icon-male',
       :min => 0,
       :max => 20,
       :value => 0,
