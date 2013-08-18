@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/pduersteler/font-awesome-sass-rails
+  revision: 50375dfa80a0f75746f4402e6831e06812191f43
+  specs:
+    font-awesome-sass-rails (3.2.1.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -77,9 +85,6 @@ GEM
       multipart-post (~> 1.1.3)
       rack (>= 1.1.0, < 2)
     ffi (1.9.0)
-    font-awesome-sass-rails (3.0.2.2)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
     geocoder (1.1.8)
     google_timezone (0.0.1)
     hashie (1.2.0)
@@ -216,7 +221,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   factory_girl_rails
-  font-awesome-sass-rails
+  font-awesome-sass-rails!
   geocoder
   google_timezone
   jquery-rails
