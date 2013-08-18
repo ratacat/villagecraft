@@ -16,6 +16,17 @@ body {
   margin: 0;
 }
 
+.table.meter {
+  table-layout: fixed;
+}
+
+.table.meter th, .table.meter td { 
+  border-top: none; 
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px;
+} 
+ 
 span.quantized_progress {
   vertical-align: baseline;
   display: inline-block;

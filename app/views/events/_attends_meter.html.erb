@@ -20,11 +20,17 @@
   
   attendees_tip = pluralize(attends, 'attendee')
   capacity_tip = (attends < min) ? "minimum is #{min}" : "#{max - attends} slots available"
+  
+  tip = "#{attendees_tip} (#{capacity_tip})"
 %>
-<span class="quantized_progress" style="width: <%= bar_width %>px;">
-  <span class="progress tooltipify" title="<%= attendees_tip %> (<%= capacity_tip %>)">
-    <span class="bar over on" style="width: <%=  attends_width %>px;"></span>
-    <span class="bar under off" style="width: <%= under_attends_width %>px; background-position-x: <%= -attends_unit_remainder %>px"></span>
-    <span class="bar over off" style="width: <%= capacity_over_min_width - unit_margin %>px; background-position-x: <%= -min_unit_remainder %>px"></span>
+<% if max > 20 %>
+  <span class="quantized_progress" style="width: <%= bar_width %>px;">
+    <span class="progress tooltipify" title="<%= tip %>" data-placement="left">
+      <span class="bar over on" style="width: <%=  attends_width %>px;"></span>
+      <span class="bar under off" style="width: <%= under_attends_width %>px; background-position-x: <%= -attends_unit_remainder %>px"></span>
+      <span class="bar over off" style="width: <%= capacity_over_min_width - unit_margin %>px; background-position-x: <%= -min_unit_remainder %>px"></span>
+    </span>
   </span>
-</span>
+<% else %>
+  <%= icon_meter(:value => event.attendees.count, :min => event.min_attendees, :max => event.max_attendees, :title => tip) %>  
+<% end %>
