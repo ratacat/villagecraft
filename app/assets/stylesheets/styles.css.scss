@@ -43,7 +43,7 @@ span.quantized_progress {
       @include box-shadow(none);
     }
     span.bar.under.off {
-      background-color: #dd514b;
+      background-color: $errorText;
     }
     span.bar.over.off {
       background-color: #afb9af;
@@ -52,7 +52,7 @@ span.quantized_progress {
       background-color: #dd514b;
     }
     span.bar.over.on {
-      background-color: #5db95d;
+      background-color: $successText;
     }
   }
 }
