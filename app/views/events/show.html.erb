@@ -1,6 +1,6 @@
 <% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
 <h1><%= @event.title %></h1>
-<h4>
+<h4 class="event_time">
   <%= render :partial => 'times' %>
 </h4>
 <div class="row">
