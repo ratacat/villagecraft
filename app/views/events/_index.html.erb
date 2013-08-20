@@ -24,7 +24,7 @@
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
-      <td><div class="index-date-column"><%= event.start_time.to_date.strftime("%A %b #{event.start_time.day.ordinalize}") %><br><%= l event.start_time.to_time, format: :short_time %> - <%= l event.end_time.to_time, format: :short_time %><br/><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
+      <td><div class="index-date-column"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
       <td></td>
       <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td><%= event.venue.blank? ? 'TBD' : link_to(event.venue.name, event.venue) %></td>
