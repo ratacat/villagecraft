@@ -47,7 +47,7 @@ span.quantized_progress {
       background-color: $errorText;
     }
     span.bar.over.off {
-      background-color: #afb9af;
+      background-color: $grayLight;
     }
     span.bar.under.on {
       background-color: #dd514b;
