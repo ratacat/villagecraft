@@ -82,6 +82,18 @@ class Event < ActiveRecord::Base
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
   end
   
+  def venue_tbd?
+    self.venue.blank?
+  end
+  
+  def to_param
+    if self.venue_tbd?
+      "#{self.uuid} #{self.title}}".parameterize
+    else
+      "#{self.uuid} #{self.title}} in #{self.venue.location.city} #{self.venue.location.state_code}".parameterize      
+    end
+  end
+  
   protected
 
   def Event.random_secret

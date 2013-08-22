@@ -204,7 +204,7 @@ class EventsController < ApplicationController
   protected
   def find_event
     begin
-      @event = Event.find_by_uuid(params["id"])
+      @event = Event.find_by_uuid(params["id"].split('-').first)
     rescue Exception => e
     end
     render_error(:message => "Event #{params["id"]} not found.", :status => 404) if @event.blank?
