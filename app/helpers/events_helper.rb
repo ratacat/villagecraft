@@ -58,11 +58,16 @@ module EventsHelper
     when 'event.time_changed'
       html << "to #{activity.parameters[:new_time]}"
     when 'event.venue_changed'
+      venue = Venue.find_by_id(activity.parameters[:new_venue_id])
       html << "to "
-      if options[:plaintext]
-        html << content_tag(:strong, event.venue.name)
+      if venue.blank?
+        html << 'TBD'
       else
-        link_to(event.venue.name, event.venue)
+        if options[:plaintext]
+          html << content_tag(:strong, venue.name)
+        else
+          html << link_to(venue.name, venue)
+        end
       end
     else
       ''
