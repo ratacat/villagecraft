@@ -56,8 +56,9 @@ module ApplicationHelper
     end
   end
   
+  TZ_MAPPING = ActiveSupport::TimeZone::MAPPING.invert
   def friendly_time_zone_name(time_zone)
-    ActiveSupport::TimeZone::MAPPING.invert[time_zone]
+    TZ_MAPPING[time_zone]
   end
   
 end
