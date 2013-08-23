@@ -1,14 +1,13 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Activity</th>
+      <th>What</th>
       <% if user_signed_in? %>
         <th>Proximity</th>
       <% end %>
       <th>When</th>
-      <th>Rating</th>
-      <th>Spots</th>
       <th>Where</th>
+      <th>Who</th>
       <th>Price</th>
       <th>Host</th>
       <% if user_signed_in? %>
@@ -25,9 +24,9 @@
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
       <td><div class="index-date-column"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
-      <td></td>
-      <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
       <td><%= event.venue.blank? ? 'TBD' : link_to(venue_location(event.venue), event.venue) %></td>
+      <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
+
       <td><%= event_price(event) %></td>
       <td>
         <% if event.host %>
