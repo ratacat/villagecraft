@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
-<Document><name>South Berkeley</name>
+<Document><name>south berkeley</name>
 <description>south berkeley, hand-drawn based on google maps</description>
 <Style id="rangecolour">
 <LineStyle><color>660000FF</color><width>1</width></LineStyle>
@@ -11,10 +11,10 @@
 </Style>
 <Placemark><name>South Berkeley</name>
 <description></description>
-<styleUrl>#linecolour</styleUrl>
-<LineString>
+<styleUrl>#rangecolour</styleUrl>
+<Polygon>
 <tessellate>1</tessellate><altitudeMode>clampToGround</altitudeMode>
-<coordinates>
+<outerBoundaryIs><LinearRing><coordinates>
 -122.281866,37.870314,0.0 
 -122.266073,37.872347,0.0 
 -122.265816,37.869636,0.0 
@@ -32,8 +32,9 @@
 -122.281909,37.870178,0.0 
 -122.281866,37.870289,0.0 
 -122.281866,37.870314,0.0 
-</coordinates>
-</LineString>
+-122.281866,37.870314,0.0 
+</coordinates></LinearRing></outerBoundaryIs>
+</Polygon>
 </Placemark>
 </Document>
 </kml>
