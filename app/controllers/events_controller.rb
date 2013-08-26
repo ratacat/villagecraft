@@ -62,7 +62,6 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @venue = Venue.new
   end
 
   # POST /events

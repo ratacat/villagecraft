@@ -1,5 +1,8 @@
-<% remote ||= false %>
-<%= simple_form_for(@venue, :remote => remote, :html => {:class => remote ? 'remote_venue' : nil}) do |f| %>
+<% 
+   remote ||= false 
+   venue ||= @venue
+%>
+<%= simple_form_for(venue, :remote => remote, :html => {:class => remote ? 'remote_venue' : nil}) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">

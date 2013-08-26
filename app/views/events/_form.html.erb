@@ -32,7 +32,7 @@
       <h3>Add Venue</h3>
     </div>
   <div class="modal-body">
-    <%= render :partial => 'venues/form', :locals => { :remote => true } %>
+    <%= render :partial => 'venues/form', :locals => { :remote => true, :venue => (@event.venue || Venue.new) } %>
   </div>
 </div>
 
