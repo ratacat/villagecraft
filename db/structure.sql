@@ -91,7 +91,8 @@ CREATE TABLE attendances (
     guests integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    state character varying(255)
+    state character varying(255),
+    message text
 );
 
 
@@ -942,3 +943,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130826233436');
 INSERT INTO schema_migrations (version) VALUES ('20130827064535');
 
 INSERT INTO schema_migrations (version) VALUES ('20130827065539');
+
+INSERT INTO schema_migrations (version) VALUES ('20130827073301');

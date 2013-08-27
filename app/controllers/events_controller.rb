@@ -128,8 +128,11 @@ class EventsController < ApplicationController
   # POST /attend/1.json
   def attend
     begin
-      current_user.attends << @event
-    rescue Exception => e
+      attendance = current_user.attendances.build
+      attendance.event = @event
+      attendance.message = params[:attendance][:message]
+      attendance.save!
+    rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
         format.html { redirect_to @event, notice: "You are already attending this event" }
         format.json { head :no_content }
