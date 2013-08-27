@@ -1,5 +1,9 @@
 <% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
-<h1><%= @event.title %></h1>
+<h1><%= @event.title %>
+  <% if @event.host === current_user %>
+    <%= link_to 'Edit', edit_event_path(@event), :class => 'btn btn-small' %>        
+  <% end %>
+</h1>
 <h4 class="event_time">
   <%= render :partial => 'times' %>
 </h4>
@@ -32,20 +36,6 @@
       <%= render :partial => 'events/attend_status_and_call_to_action' %>  
     <% end %>
   </div>
-
-  <% if @event.host === current_user %>
-  <div class="span2 offset2">
-    <div class="well">
-      <h4>Host Controls</h4>
-      <p>
-        <%= link_to 'Edit Event', edit_event_path(@event), :class => 'btn' %>        
-      </p>
-      <p>
-        <a id="secret" data-title="Event Secret" data-html="true" data-content='<%= render(:partial => 'event_secret_popover', :locals => {:event => @event}) %>' data-placement="left">reveal secret</a>        
-      </p>
-    </div>
-  </div>
-  <% end %>
 </div>
 
 <div class="row">
