@@ -32,7 +32,6 @@ module UsersHelper
     else
       user.name
     end
-    name.capitalize! if options[:capitalize]
     name
   end
   
