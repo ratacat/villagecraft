@@ -28,14 +28,14 @@ class Event < ActiveRecord::Base
   validates :min_attendees, 
             :numericality => { :greater_than_or_equal_to => 0, 
                                :less_than_or_equal_to => lambda {|e| e.max_attendees || e.min_attendees}, 
-                               :message => "must be greater than or equal to zero and less than or equal to max attendees", 
-                               :unless => lambda {|e| e.min_attendees.blank?} }, 
+                               :unless => lambda {|e| e.min_attendees.blank?},
+                               :only_integer => true }, 
             :presence => true
   validates :max_attendees, 
             :numericality => { :greater_than => 0, 
                                :greater_than_or_equal_to => lambda {|e| e.min_attendees || e.max_attendees}, 
-                               :message => "must be greater than zero and greater than or equal to min attendees",
-                               :unless => lambda {|e| e.max_attendees.blank?} }, 
+                               :unless => lambda {|e| e.max_attendees.blank?},
+                               :only_integer => true }, 
             :presence => true
 
   validates_datetime :end_time
