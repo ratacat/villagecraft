@@ -88,10 +88,10 @@ CREATE TABLE attendances (
     id integer NOT NULL,
     event_id integer,
     user_id integer,
-    confirmed boolean,
     guests integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    state character varying(255)
 );
 
 
@@ -938,3 +938,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130806054656');
 INSERT INTO schema_migrations (version) VALUES ('20130809074419');
 
 INSERT INTO schema_migrations (version) VALUES ('20130826233436');
+
+INSERT INTO schema_migrations (version) VALUES ('20130827064535');
+
+INSERT INTO schema_migrations (version) VALUES ('20130827065539');

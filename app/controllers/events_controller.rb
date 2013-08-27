@@ -174,7 +174,7 @@ class EventsController < ApplicationController
     else
       if @attend.event.occurred?
         if params[:event][:secret].downcase.strip === @event.secret.downcase.strip
-          @attend.update_attribute(:confirmed, true)
+          @attend.confirm!
           respond_to do |format|
             message = 'Your attendance has been confirmed'
             format.js { render :partial => 'layouts/update_alerts', :locals => {:notice => message } }

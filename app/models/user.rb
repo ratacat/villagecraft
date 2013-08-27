@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :venues, :through => :attendances, :uniq => true
   has_many :attends, :through => :attendances, :source => :event, :uniq => true do
     def confirmed
-      where("attendances.confirmed = ?", true)
+      where("attendances.state = 'confirmed'")
     end
   end
   has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id
