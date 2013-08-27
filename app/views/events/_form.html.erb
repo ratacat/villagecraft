@@ -19,6 +19,8 @@
   	<%= f.input :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
   	
+  	<%= f.input :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
+  	
     <%= f.input :description, as: :text, input_html: {rows: "5"} %>
 
   <div class="form-actions">
