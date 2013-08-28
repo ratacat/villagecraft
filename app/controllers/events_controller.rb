@@ -166,6 +166,24 @@ class EventsController < ApplicationController
     end
     
   end
+  
+  # POST /events/:id/accept_attendee
+  def accept_attendee
+    attendance = Attendance.find_by_uuid(params[:attendance_uuid])
+    if attendance.blank?
+      render_error(:message => "Cannot find attendance #{attendance.uuid}", :status => 403)
+    elsif attendance.event != @event
+      render_error(:message => "Attendance / event mismatch", :status => 403)
+    elsif not attendance.interested?
+      render_error(:message => "Cannot accept attendee #{attendance.user.uuid}, who is in state #{attendace.state}", :status => 403)
+    else
+      attendance.accept!
+      respond_to do |format|
+        format.html { redirect_to manage_attendances_path(@event), notice: "#{attendance.user.name} accepted" }
+        format.json { head :no_content }
+      end
+    end
+  end
 
   # POST /events/1/confirm
   # POST /events/1/confirm.json
@@ -195,12 +213,20 @@ class EventsController < ApplicationController
   # GET /events/1/attendees
   # GET /events/1/attendees.json
   def attendees
-    @attendees = @event.attendees
+    @attendees = @event.attendances.with_state(:attending)
     
     respond_to do |format|
       format.html { render :partial => 'attendees' }
       format.json { render json: @attendees }
     end
+  end
+  
+  # GET /events/1/manage_attendances
+  # GET /events/1/manage_attendances.json
+  def manage_attendances
+    @interested = @event.attendances.with_state(:interested)
+    @attending = @event.attendances.with_state(:attending)
+    @confirmed = @event.attendances.with_state(:confirmed)
   end
   
   protected

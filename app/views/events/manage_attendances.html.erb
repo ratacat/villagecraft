@@ -1,0 +1,17 @@
+<div class="well">
+  <%= render :partial => 'title_n_times', :locals => {:event => @event} %>
+</div>
+
+<h2>Attendees</h2>
+<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
+<%= attends_status(@event, :show_interest => true) %><br/>
+<strong>Event size</strong>: <%= event_size(@event) %>
+
+<h3><%= @interested.count %> Interested</h3>
+<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @interested} %>
+
+<h3><%= @attending.count %> Attending</h3>
+<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @attending} %>
+
+<h3><%= @confirmed.count %> Confirmed</h3>
+<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @confirmed} %>

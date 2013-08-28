@@ -1,0 +1,18 @@
+<% 
+  attendances ||= @attendances 
+  event ||= @event
+%>
+<table class="table table-hover">
+  <tbody>
+    <% attendances.each do |a| %>
+      <tr>
+        <td><%= render :partial => 'users/inline_user_summary', :locals => {:user => a.user} %></td>
+        <td>
+          <% if a.interested? %>
+            <%= link_to 'Accept', accept_attendee_path(event, :attendance_uuid => a.uuid), :class => "btn btn-small" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>    
+  </tbody>
+</table>

@@ -1,14 +1,11 @@
 <% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
-<h1><%= @event.title %>
-  <% if @event.host === current_user %>
-    <%= link_to 'Edit', edit_event_path(@event), :class => 'btn btn-small' %>        
-  <% end %>
-</h1>
-<h4 class="event_time">
-  <%= render :partial => 'times' %>
-</h4>
+<%= render :partial => 'title_n_times', :locals => {:event => @event} %>
+<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
 <p>
-  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
+  <%= link_to pluralize(@event.attendances.with_state(:attending).count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
+  <% if @event.host === current_user %>
+    <%= link_to 'Manage', manage_attendances_path(@event), :class => 'btn btn-small' %>        
+  <% end %>
 </p>
 
 <% if @event.venue.blank? %>
