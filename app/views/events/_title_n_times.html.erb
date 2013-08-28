@@ -1,0 +1,9 @@
+<% event ||= @event %>
+<h1><%= event.title %>
+  <% if event.host === current_user %>
+    <%= link_to 'Edit', edit_event_path(event), :class => 'btn btn-small' %>        
+  <% end %>
+</h1>
+<h4 class="event_time">
+  <%= render :partial => 'times', :locals => {:event => event} %>
+</h4>
