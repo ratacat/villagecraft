@@ -5,6 +5,8 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show, :attendees]
   before_filter :require_admin, :only => [:destroy]
   before_filter :find_venue, :only => [:create, :update]
+  before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee]
+  
   #before_filter :checkDate, :only => [:create, :update]
   # GET /events
   # GET /events.json
@@ -251,4 +253,11 @@ class EventsController < ApplicationController
     when_errors = when_errors.flatten.compact
     @event.errors.add(:when, when_errors.flatten.join('; ')) unless when_errors.blank?
   end
+  
+  def be_host_or_be_admin
+    unless user_signed_in? and (current_user == @event.host or current_user.admin?)
+      render_error(:message => "You are not authorized to edit or administer this event.", :status => :unauthorized)
+    end
+  end
+  
 end
