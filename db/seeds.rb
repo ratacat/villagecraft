@@ -70,7 +70,7 @@ if Rails.env.development?
     at = Attendance.new
     at.user = drones[i]
     at.event = spanish
-    at.confirmed = [true, false, true].sample
+    at.state = Attendance.state_machine.states.map(&:value).sample
     at.save!
     spanish.create_activity(key: 'event.attend', owner: at.user)
   end
