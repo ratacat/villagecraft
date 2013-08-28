@@ -22,6 +22,10 @@ class Event < ActiveRecord::Base
     def with_state(state)
       where('"attendances"."state" = ?', state)
     end
+    
+    def accepted
+      where('"attendances"."state" IN (?)', %w(interested confirmed))
+    end
   end
   
   scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
