@@ -15,7 +15,7 @@
     <% if current_user.attends.exists?(event) %>
       <i class="icon-check icon-large text-success"> </i> You plan to attend (<%= link_to 'cancel', cancel_attend_path, :method => :post %>)
     <% else %>
-      <h3>Want to Attend?</h3>
+      <h3>Interested?</h3>
       <%= form_for(:attendance, :url => attend_path(event), :html => {:class => "form-inline"}) do |f| %>
           <%= f.text_field :message, placeholder: "Tell host a little about why you'd like to attend.", class: 'span4' %>
           <%= f.submit :Submit, :class => "btn-primary" %>
