@@ -25,7 +25,7 @@
       <% end %>
       <td><div class="index-date-column"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
       <td><%= event.venue.blank? ? 'TBD' : link_to(venue_location(event.venue), event.venue) %></td>
-      <td><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></td>
+      <td><div class="tooltipify" title="<%= attends_status(event) %><br/><%= slots_status(event) %>" data-placement="left" data-html="true"><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></div></td>
 
       <td><%= event_price(event) %></td>
       <td>

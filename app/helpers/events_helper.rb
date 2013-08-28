@@ -11,6 +11,27 @@ module EventsHelper
     not (user_signed_in? and (current_user === event.host or current_user.attending_event?(event)))
   end
   
+  def attends_status(event)
+    attends = event.attendances.with_state(:attending).count
+    applied = event.attendances.with_state(:applied).count
+
+    html = "#{pluralize(attends, 'person')} attending"
+    html += " (#{applied} interested)" if applied > 0
+    html
+  end
+  
+  def slots_status(event)
+    attends = event.attendances.with_state(:attending).count
+    min = event.min_attendees
+    max = event.max_attendees
+
+    if attends < min
+      "minimum (#{min}) not met"
+    else
+      "#{(attends < max) ? pluralize(max - attends, 'slot') : 'no slots'} left"
+    end
+  end
+  
   def event_action(activity, options={})
     defaults = {
       :profile_image_size => :thumb, 
