@@ -7,14 +7,14 @@ class Attendance < ActiveRecord::Base
   
   validates_uniqueness_of :user_id, :scope => :event_id
   
-  state_machine :initial => :applied do
+  state_machine :initial => :interested do
 =begin Instead of deleting attendance records, possible add a canceled state like this    
     event :cancel do
-      transition [:applied, :attending] => :canceled
+      transition [:interested, :attending] => :canceled
     end
 =end
     event :accept do
-      transition :applied => :attending
+      transition :interested => :attending
     end
     
     event :confirm do
