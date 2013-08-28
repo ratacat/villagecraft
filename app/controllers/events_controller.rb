@@ -142,7 +142,7 @@ class EventsController < ApplicationController
       return
     end
     
-    @event.create_activity key: 'event.attend', owner: current_user
+    @event.create_activity key: 'event.interested', owner: current_user
     
     respond_to do |format|
       format.html { redirect_to @event, notice: 'You are signed up to attend this event' }
@@ -180,6 +180,7 @@ class EventsController < ApplicationController
       render_error(:message => "Cannot accept attendee #{attendance.user.uuid}, who is in state #{attendace.state}", :status => 403)
     else
       attendance.accept!
+      @event.create_activity key: 'event.attend', owner: current_user
       respond_to do |format|
         format.html { redirect_to manage_attendances_path(@event), notice: "#{attendance.user.name} accepted" }
         format.json { head :no_content }

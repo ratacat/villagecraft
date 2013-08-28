@@ -6,7 +6,7 @@ class Notifier < ActiveRecord::Observer
     case activity.trackable_type
     when 'Event'
       event = activity.trackable
-      targets = event.attendees
+      targets = event.attendees.accepted
       targets << event.host
       case activity.key
       when 'event.time_changed'
@@ -17,10 +17,11 @@ class Notifier < ActiveRecord::Observer
             targets << past_attendee
           end
         end
+      when 'event.interested', 'event.cancel_attend'
+        # Only target host(s)
+        targets = [event.host]
       when 'event.attend'
         # FIXME: add additional targets here, e.g. friend of attendee
-      when 'event.cancel_attend'
-        # FIXME: consider notifying only host in case of cancellation 
       end
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"

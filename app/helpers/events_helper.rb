@@ -66,6 +66,8 @@ module EventsHelper
       html << 'changed the venue'
     when 'event.create'
       html << 'created the event'
+    when 'event.interested'
+      html << "#{conjugate('are', :second_person => activity.owner === current_user)} interested in attending"
     when 'event.attend'
       html << "#{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
     when 'event.cancel_attend'
