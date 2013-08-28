@@ -7,36 +7,32 @@
 <h4 class="event_time">
   <%= render :partial => 'times' %>
 </h4>
-<div class="row">
-  <div class="span8">
+<p>
+  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
+</p>
+
+<% if @event.venue.blank? %>
+  location: TBD
+<% else %>
+  <address>
+    <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
+    <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_event_location?(@event)} %>
     <p>
-      <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %> <%= link_to pluralize(@event.attendees.count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
+      <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@event.venue.location)}) if use_embedded_map %></div>
     </p>
+  </address>
+<% end %>
 
-    <% if @event.venue.blank? %>
-      location: TBD
-    <% else %>
-      <address>
-        <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-        <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_event_location?(@event)} %>
-        <p>
-          <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@event.venue.location)}) if use_embedded_map %></div>
-        </p>
-      </address>
-    <% end %>
+<p>
+  <%= @event.description %>
+</p>
 
-    <p>
-      <%= @event.description %>
-    </p>
-
-    <p>
-      hosted by: <%= contextualized_user_link @event.host %>
-    </p>    
-    <% unless @event.host === current_user %>
-      <%= render :partial => 'events/attend_status_and_call_to_action' %>  
-    <% end %>
-  </div>
-</div>
+<p>
+  hosted by: <%= contextualized_user_link @event.host %>
+</p>    
+<% unless @event.host === current_user %>
+  <%= render :partial => 'events/attend_status_and_call_to_action' %>  
+<% end %>
 
 <div class="row">
   <%= render :partial => 'activities/index', :locals => {:activities => @event.activities} %>
