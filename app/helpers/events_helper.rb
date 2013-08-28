@@ -59,6 +59,7 @@ module EventsHelper
     else
       html << contextualized_user_link(activity.owner, :capitalize => true)
     end
+    verb_person = (activity.owner === current_user) ? :second : :third
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
@@ -67,11 +68,11 @@ module EventsHelper
     when 'event.create'
       html << 'created the event'
     when 'event.interested'
-      html << "#{conjugate('are', :second_person => activity.owner === current_user)} interested in attending"
+      html << "#{:be.verb.conjugate :person => verb_person} interested in attending"
     when 'event.attend'
-      html << "#{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
+      html << "#{:plan.verb.conjugate :person => verb_person} to attend"
     when 'event.cancel_attend'
-      html << "no longer #{conjugate('plan', :second_person => activity.owner === current_user)} to attend"
+      html << "no longer #{:plan.verb.conjugate :person => verb_person} to attend"
     else
       ''
     end

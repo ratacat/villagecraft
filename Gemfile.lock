@@ -204,6 +204,9 @@ GEM
     uuidtools (2.1.4)
     validates_timeliness (3.0.14)
       timeliness (~> 0.3.6)
+    verbs (2.1.3)
+      activesupport (>= 2.3.4)
+      i18n
     warden (1.2.1)
       rack (>= 1.0)
     websocket (1.0.7)
@@ -241,3 +244,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   uuidtools
   validates_timeliness (~> 3.0)
+  verbs

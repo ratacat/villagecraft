@@ -1,15 +1,4 @@
 module ApplicationHelper
-  def conjugate(verb, options={})
-    second_to_third_person_conjugation = {
-      :are => 'is'
-    }
-    if options[:second_person]
-      verb
-    else
-      second_to_third_person_conjugation[verb.to_sym] ? second_to_third_person_conjugation[verb.to_sym] : (verb + 's')
-    end
-  end
-  
   def time_ago(time)
     content_tag(:span, distance_of_time_in_words(time, Time.now) + ' ago', :'data-livestamp' => time, :class => 'muted')
   end
