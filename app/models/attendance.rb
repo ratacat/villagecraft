@@ -1,4 +1,5 @@
 class Attendance < ActiveRecord::Base
+  has_uuid
   attr_accessible :confirmed, :guests
 
   belongs_to :event
