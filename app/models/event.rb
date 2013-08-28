@@ -12,8 +12,17 @@ class Event < ActiveRecord::Base
   belongs_to :venue
   has_one :location, :through => :venue
   
-  has_many :attendances, :dependent => :destroy
-  has_many :attendees, :through => :attendances, :source => :user, :uniq => true
+  has_many :attendances, :dependent => :destroy do
+    def with_state(state)
+      where(:state => state)
+    end
+  end
+  
+  has_many :attendees, :through => :attendances, :source => :user, :uniq => true do
+    def with_state(state)
+      where('"attendances"."state" = ?', state)
+    end
+  end
   
   scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
 
