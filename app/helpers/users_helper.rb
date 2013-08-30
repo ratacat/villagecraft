@@ -35,4 +35,16 @@ module UsersHelper
     name
   end
   
+  def rich_user_thumbnail(user, options={})
+    defaults = {
+      :thumbnail_classes => 'thumbnail right-caption clearfix',
+      :thumb_options => {:size => :thumb, :linked => true},
+      :user_link_options => {}
+    }
+    options.reverse_merge!(defaults)
+    content_tag(:div, :class => options[:thumbnail_classes]) do
+      user_thumb(user, options[:thumb_options]) +
+      contextualized_user_link(user, options[:user_link_options])
+    end
+  end
 end
