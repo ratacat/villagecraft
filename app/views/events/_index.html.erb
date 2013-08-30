@@ -30,7 +30,8 @@
       <td><%= event_price(event) %></td>
       <td>
         <% if event.host %>
-          <%= contextualized_user_link event.host %><br/><span class="muted"><%= pluralize(event.host.hostings.count, 'activity') %> - <%= event.host.rating_as_host %></span>
+          <%= contextualized_user_link event.host %><br/>
+          <div class="star_rating" data-score="<%= event.host.rating_as_host %>"></div>
         <% end %>
       </td>
       <% if user_signed_in? %>
