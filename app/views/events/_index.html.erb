@@ -30,7 +30,10 @@
       <td><%= event_price(event) %></td>
       <td>
         <% if event.host %>
-          <%= contextualized_user_link event.host %><br/>
+          <div class="thumbnail right-caption clearfix">
+            <%= user_thumb(event.host, :size => :thumb, :linked => true) %>
+            <%= contextualized_user_link event.host %>
+          </div>
           <div class="star_rating" data-score="<%= event.host.rating_as_host %>"></div>
         <% end %>
       </td>
