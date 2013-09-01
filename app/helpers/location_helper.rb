@@ -15,4 +15,11 @@ module LocationHelper
     "#{location.city}, #{location.state_code}"
   end
   
+  def neighborhood_or_city_n_state(location, options={})
+    content_tag(:div, :class => 'blocky_spans') do
+      content_tag(:span, (location.neighborhood ? location.neighborhood.name : 'somewhere in')) + 
+      content_tag(:span, city_n_state(location), :class => 'muted')
+    end
+  end
+  
 end

@@ -23,8 +23,8 @@
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
-      <td><div class="index-date-column"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
-      <td><%= event.venue.blank? ? 'TBD' : link_to(venue_location(event.venue), event.venue) %></td>
+      <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
+      <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location) %></td>
       <td><div class="tooltipify" title="<%= attends_status(event) %><br/><%= slots_status(event) %>" data-placement="left" data-html="true"><%= render :partial => 'events/attends_meter', :locals => { :event => event } %></div></td>
 
       <td><%= event_price(event) %></td>

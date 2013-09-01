@@ -15,16 +15,4 @@ module VenuesHelper
     current_user.venues.where(:id => venue.id).blank?
   end
   
-  def venue_location(venue)
-    if venue
-      if venue.location.neighborhood
-        venue.location.neighborhood.name
-      else
-        city_n_state(venue.location)
-      end
-    else
-      'TBD'
-    end
-  end
-  
 end
