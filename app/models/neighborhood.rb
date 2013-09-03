@@ -12,6 +12,35 @@ class Neighborhood < ActiveRecord::Base
     @hood.try(:json)
   end
 
+  def as_simplified_geo_json(tolerance = 0.1)
+    @hood = Neighborhood.select("*, ST_AsGeoJSON(ST_SimplifyPreserveTopology(geom, #{tolerance})) as json").where(:id => self.id).first
+    @hood.try(:json)
+  end
+  
+  def as_gmap_polygon(options={})
+    defaults = {
+      :color => "0x00FF00FF", 
+      :fillcolor => "0x00FF0060",
+      :tolerance => 0.1
+    }
+    options.reverse_merge!(defaults)
+    gmap_poly = MapPolygon.new(:color => options[:color], :fillcolor => options[:fillcolor])
+    
+    json_poly = self.as_simplified_geo_json(options[:tolerance])
+    coords = JSON.parse(json_poly)["coordinates"]
+    
+    # Simplify further incase we get a multi-polygon (could Google Maps static API support a multi-polygon boundary ???)
+    while coords.first.first.is_a?(Array)
+      coords = coords.first
+    end
+    
+    coords.each do |p|
+      gmap_poly.points << MapLocation.new(:latitude => p.last, :longitude => p.first)
+    end
+
+    return gmap_poly
+  end
+
   def as_kml
     @hood = Neighborhood.select('*, ST_AsKML(geom) as kml').where(:id => self.id).first
     @hood.try(:kml)
