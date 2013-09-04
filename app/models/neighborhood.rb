@@ -19,9 +19,9 @@ class Neighborhood < ActiveRecord::Base
   
   def as_gmap_polygons(options={})
     defaults = {
-      :color => '#1450B4',
-      :fillcolor => '#1450B4',
-      :tolerance => 0.1
+      :color => '0x1450B4',
+      :fillcolor => '0x1450B4',
+      :tolerance => 0.0005
     }
     options.reverse_merge!(defaults)
     

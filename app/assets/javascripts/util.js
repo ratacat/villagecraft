@@ -19,8 +19,19 @@ function raty_ratings() {
   });
 }
 
+function popover_maps() {
+  $('div.popover_map').popover({
+    html: true,
+    placement: 'left',
+    template: '<div class="popover" style="width: 480px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+    trigger: 'hover'
+  });
+
+}
+
 jQuery(function($) {
   raty_ratings();
+  popover_maps();
   $(".tooltipify").tooltip();
   $.removeCookie('auto_attend_event');
 });

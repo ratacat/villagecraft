@@ -15,10 +15,42 @@ module LocationHelper
     "#{location.city}, #{location.state_code}"
   end
   
+  def static_gmap_url(location)
+    map = GoogleStaticMap.new(:width => 470, :height => 310)
+    location.neighborhood.as_gmap_polygons.each do |poly|
+      map.paths << poly
+    end
+    map.url
+  end
+  
+  def popover_neighborhood_map(location)
+    if location.neighborhood
+      %Q(<img src="#{static_gmap_url(location)}"/>)
+    else
+      render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(location)})
+    end
+  end
+  
+  def hood_name_in_city(location, options={})
+    defaults = {
+      :show_in => false
+    }
+    options.reverse_merge!(defaults)
+    
+    content_tag(:span, (location.neighborhood ? location.neighborhood.name + "#{' in ' if options[:show_in]}" : 'Somewhere in ')) + 
+    content_tag(:span, city_n_state(location), :class => 'muted')
+  end
+  
   def neighborhood_or_city_n_state(location, options={})
-    content_tag(:div, :class => 'blocky_spans') do
-      content_tag(:span, (location.neighborhood ? location.neighborhood.name : 'somewhere in')) + 
-      content_tag(:span, city_n_state(location), :class => 'muted')
+    defaults = {
+      :show_popover_map => false
+    }
+    options.reverse_merge!(defaults)
+    
+    content_tag(:div, :class => "blocky_spans#{ ' popover_map' if options[:show_popover_map]}", 
+                      :'data-content' => popover_neighborhood_map(location), 
+                      :'data-title' => hood_name_in_city(location, :show_in => true).gsub('"', "'")) do
+      hood_name_in_city(location)
     end
   end
   
