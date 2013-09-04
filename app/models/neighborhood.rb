@@ -17,28 +17,27 @@ class Neighborhood < ActiveRecord::Base
     @hood.try(:json)
   end
   
-  def as_gmap_polygon(options={})
+  def as_gmap_polygons(options={})
     defaults = {
-      :color => "0x00FF00FF", 
-      :fillcolor => "0x00FF0060",
+      :color => '#1450B4',
+      :fillcolor => '#1450B4',
       :tolerance => 0.1
     }
     options.reverse_merge!(defaults)
-    gmap_poly = MapPolygon.new(:color => options[:color], :fillcolor => options[:fillcolor])
     
     json_poly = self.as_simplified_geo_json(options[:tolerance])
-    coords = JSON.parse(json_poly)["coordinates"]
-    
-    # Simplify further incase we get a multi-polygon (could Google Maps static API support a multi-polygon boundary ???)
-    while coords.first.first.is_a?(Array)
-      coords = coords.first
-    end
-    
-    coords.each do |p|
-      gmap_poly.points << MapLocation.new(:latitude => p.last, :longitude => p.first)
+    polys = JSON.parse(json_poly)["coordinates"]
+
+    gmap_polys = []
+    polys.each do |poly|
+      gmap_poly = MapPolygon.new(:color => options[:color], :fillcolor => options[:fillcolor])
+      poly.each do |p|
+        gmap_poly.points << MapLocation.new(:latitude => p.last, :longitude => p.first)        
+      end
+      gmap_polys << gmap_poly
     end
 
-    return gmap_poly
+    return gmap_polys
   end
 
   def as_kml
