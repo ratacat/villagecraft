@@ -4,6 +4,11 @@ module NeighborhoodsHelper
     neighborhood.as_gmap_polygons.each do |poly|
       map.paths << poly
     end
-    map.url
+    begin
+      map.url
+    rescue Exception => e
+      # Sometimes we get the exception: "Need more than one point for the path"
+      # FIXME return some sort of fail URL
+    end
   end
 end

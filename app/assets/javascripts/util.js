@@ -20,7 +20,7 @@ function raty_ratings() {
 }
 
 function popover_maps() {
-  $('div.popover_map').popover({
+  $('.popover_map').popover({
     html: true,
     placement: 'left',
     template: '<div class="popover" style="width: 480px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',

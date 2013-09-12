@@ -15,6 +15,8 @@ Villagecraft::Application.routes.draw do
 
   get 'venues/:id/neighborhood(.:format)' => 'venues#neighborhood', :as => :neighborhood
   resources :venues
+  
+  resources :neighborhoods
 
   resources :notifications, :only => [:index, :show] do
     collection do
