@@ -15,17 +15,9 @@ module LocationHelper
     "#{location.city}, #{location.state_code}"
   end
   
-  def static_gmap_url(location)
-    map = GoogleStaticMap.new(:width => 470, :height => 310)
-    location.neighborhood.as_gmap_polygons.each do |poly|
-      map.paths << poly
-    end
-    map.url
-  end
-  
   def popover_neighborhood_map(location)
     if location.neighborhood
-      %Q(<img src="#{static_gmap_url(location)}"/>)
+      %Q(<img src="#{static_gmap_url(location.neighborhood)}"/>)
     else
       render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(location)})
     end
