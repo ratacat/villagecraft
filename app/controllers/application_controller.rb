@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
   
   def require_admin
-    unless user_signed_in? and current_user.admin? # and admin mode enabled FIXME
+    unless current_user.try(:admin?)
       render_error(:message => "Administrative access required", :status => :unauthorized)
     end    
   end

@@ -414,7 +414,8 @@ CREATE TABLE users (
     auth_provider character varying(255),
     auth_provider_uid character varying(255),
     has_set_password boolean DEFAULT true,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    admin boolean
 );
 
 
@@ -948,3 +949,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130827065539');
 INSERT INTO schema_migrations (version) VALUES ('20130827073301');
 
 INSERT INTO schema_migrations (version) VALUES ('20130828080618');
+
+INSERT INTO schema_migrations (version) VALUES ('20130912063520');

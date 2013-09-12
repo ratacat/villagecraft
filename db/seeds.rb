@@ -36,8 +36,12 @@ if Rails.env.development?
   
   # Some Users
   images_path = Rails.root.join('spec', 'support', 'images')
+
   jared = FactoryGirl.create(:user, :first_name => "Jared", :last_name => "Smith", :email => "jared@example.com", :location => berkeley, :profile_image => File.open(images_path.join('jared.jpg')))
   ben = FactoryGirl.create(:user, :first_name => "Ben", :last_name => "Teitelbaum", :email => "ben@example.com", :location => oakland, :profile_image => File.open(images_path.join('ben.jpg')))
+  jared.update_attribute :admin, true
+  ben.update_attribute :admin, true
+  
   jwz = FactoryGirl.create(:user, :first_name => "Jamie", :last_name => "Zawinski", :email => "jwz@example.com", :location => sf, :profile_image => File.open(images_path.join('jamie.jpg')))
   drones = []
   (1..20).each { drones << FactoryGirl.create(:random_user, :location => [berkeley, oakland, sf].sample) }
