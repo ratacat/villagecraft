@@ -1,0 +1,12 @@
+<% neighborhood ||= @neighborhood %>
+<h2><%= neighborhood.name %></h2>
+<address>
+  <%= neighborhood.city %>, <%= neighborhood.state %> (<%= neighborhood.county %> county)
+  <p>
+    <div id="map-canvas" class="img-polaroid"></div>
+  </p>
+</address>
+
+<% ready_script do -%>
+  loadGMap({title: "<%= neighborhood.name %>", geo_json: <%= neighborhood.as_geo_json.html_safe %>});
+<% end -%>

@@ -13,9 +13,7 @@ Villagecraft::Application.routes.draw do
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_events' => 'events#my_events', :as => :my_events
 
-  get 'venues/:id/neighborhood(.:format)' => 'venues#neighborhood', :as => :neighborhood
-  resources :venues
-  
+  resources :venues  
   resources :neighborhoods
 
   resources :notifications, :only => [:index, :show] do

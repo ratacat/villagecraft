@@ -16,6 +16,8 @@ class NeighborhoodsController < ApplicationController
   # GET /neighborhoods/1
   # GET /neighborhoods/1.json
   def show
+    @neighborhood = Neighborhood.find(params[:id])
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @neighborhood }
