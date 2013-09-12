@@ -25,6 +25,7 @@ Villagecraft::Application.routes.draw do
   get '/tos' => 'application#tos', :as => :tos
 
   get 'about' => 'Pages#about'
+  get '/dash' => 'application#dash', :as => :dash
   root :to => 'Pages#home'
 
   # The priority is based upon order of creation:

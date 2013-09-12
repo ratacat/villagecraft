@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :fetch_notifications
   after_filter :store_location
+  before_filter :require_admin, :only => [:dash]
 
   def store_location
     # store last url as long as it isn't a /users path
