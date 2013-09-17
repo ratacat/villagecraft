@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     session[:previous_url] || root_path
-  end
+  end  
   
   protected
   def render_error(options={})
@@ -23,8 +23,8 @@ class ApplicationController < ActionController::Base
   end
   
   def require_admin
-    unless current_user.try(:admin?)
-      render_error(:message => "Administrative access required", :status => :unauthorized)
+    unless current_user.try(:admin?) and session[:admin_mode]
+      render_error(:message => "Administrative access and admin mode required", :status => :unauthorized)
     end    
   end
   

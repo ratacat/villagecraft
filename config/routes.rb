@@ -8,6 +8,8 @@ Villagecraft::Application.routes.draw do
   resources :events
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
+  post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
+  
   resources :users
   post 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
@@ -24,9 +26,9 @@ Villagecraft::Application.routes.draw do
 
   get '/tos' => 'application#tos', :as => :tos
 
-  get 'about' => 'Pages#about'
+  get 'about' => 'pages#about'
   get '/dash' => 'application#dash', :as => :dash
-  root :to => 'Pages#home'
+  root :to => 'pages#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
