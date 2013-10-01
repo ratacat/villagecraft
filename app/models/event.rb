@@ -8,6 +8,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :course
   has_one :vclass, :through => :course
+  has_one :image, :through => :vclass
   
   belongs_to :venue
   has_one :location, :through => :venue

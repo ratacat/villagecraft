@@ -447,7 +447,8 @@ CREATE TABLE vclasses (
     admin_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    title character varying(255)
+    title character varying(255),
+    image_id integer
 );
 
 
@@ -811,6 +812,13 @@ CREATE INDEX index_vclasses_on_admin_id ON vclasses USING btree (admin_id);
 
 
 --
+-- Name: index_vclasses_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vclasses_on_image_id ON vclasses USING btree (image_id);
+
+
+--
 -- Name: index_venues_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -951,3 +959,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130827073301');
 INSERT INTO schema_migrations (version) VALUES ('20130828080618');
 
 INSERT INTO schema_migrations (version) VALUES ('20130912063520');
+
+INSERT INTO schema_migrations (version) VALUES ('20131001181450');
