@@ -1,7 +1,7 @@
 <% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
-<%= render :partial => 'title_n_times', :locals => {:event => @event} %>
-<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
+<%= render :partial => 'title_n_times', :locals => {:event => @event} %>    
 <p>
+  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %>
   <%= link_to pluralize(@event.attendances.with_state(:attending).count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
   <% if @event.host === current_user %>
     <%= link_to 'Manage', manage_attendances_path(@event), :class => 'btn btn-small' %>        

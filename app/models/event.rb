@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees
+  attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
 
@@ -117,6 +117,24 @@ class Event < ActiveRecord::Base
     else
       "#{self.uuid} #{self.title}} in #{self.venue.location.city} #{self.venue.location.state_code}".parameterize      
     end
+  end
+  
+  def img_src(size = :medium)
+    if self.image.blank?
+      Event.placeholder_src(size)
+    else
+      self.image.img.url(size)
+    end
+  end
+  
+  def Event.placeholder_src(size = :medium)
+#    "/assets/event_placeholder_#{size}.png"
+    "/assets/event_placeholder.png"
+  end
+  
+  def image=(f)
+    i = Image.create!(:img => f, :user => self.host)
+    self.vclass.image_id = i.id
   end
   
   protected

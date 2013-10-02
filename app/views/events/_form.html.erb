@@ -16,6 +16,14 @@
     <% end %>
     
   	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
+  	<div class="control-group">
+      <%= f.label "Profile Image" %>
+      <div class="controls">
+        <%= image_tag @event.img_src(:large), :class => "img-rounded" %>
+        <%= f.file_field :image %><br/>
+      </div>
+    </div>
+    
   	<%= f.input :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
   	
@@ -54,4 +62,14 @@
   $('#new_venue').on('ajax:success', function(event, data, status, xhr) {
     $('#add_venue_dialog').modal('hide');
   });
+  $(":file").filestyle({ 
+    textField: false,
+    buttonText: "Choose photo",
+    icon: true 
+  });
+  $("#event_image").change(function() {
+      $(this).closest("form").submit();
+    }
+  );
+  
 <% end -%>
