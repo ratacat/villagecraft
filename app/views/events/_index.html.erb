@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>What</th>
@@ -6,16 +6,16 @@
         <th>Proximity</th>
       <% end %>
       <th>When</th>
-      <th>Who</th>
-      <th>Price</th>
-      <th>Host</th>
+      <th>Where</th>
+      <th style="width:100px;">Price</th>
+      <th style="width:100px;">Host</th>
     </tr>
   </thead>
 
   <tbody>
   <% events.each do |event| %>
     <tr>
-      <td><div class="title-top"><%= link_to event.title, event %></div><div class="title-bot"><%= truncate(event.description, :length => 90, :separator => ' ') %></div></td>
+      <td><div class="title-top"><%= event.title %></div><div class="title-bot"><%= truncate(event.description, :length => 90, :separator => ' ') %></div></td>
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
@@ -28,6 +28,41 @@
         <% end %>
       </td>
     </tr>
+    <tr style="display: none;">
+      <td colspan="4">
+        <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
+        <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description %></div>
+      </td>
+      <td colspan="2">
+        <button data-auto_attend_event data-toggle_modal_registration class="btn btn-success btn-large">Attend</button>
+        <h4>When</h4>
+        <div class="clearfix">
+          <div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>          
+        </div>
+        <h4>Located</h4>
+        <div class="clearfix">
+          <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
+        </div>
+        <h4>Materials Fee</h4>
+        <%= event_price(event) %>
+        <h4>Taught By</h4>
+        <% if event.host %>
+          <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small) %>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
   </tbody>
 </table>
+<% ready_script do -%>
+  $("table").click(function(event) {
+      event.stopPropagation();
+      var $target = $(event.target);
+      $target.closest("tr").hide();
+      if ( $target.closest("td").attr("colspan") > 1 ) {
+          $target.closest("tr").prev().show(1000);
+      } else {
+          $target.closest("tr").next().show(1000);
+      }                    
+  });
+<% end -%>
