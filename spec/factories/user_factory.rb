@@ -9,6 +9,9 @@ FactoryGirl.define do
    last_name "User"
    password "foobar11"
    password_confirmation "foobar11"
+   sequence :phone do |n|
+     sprintf("%010d", n)
+   end
    location
    
    trait :random_name do
