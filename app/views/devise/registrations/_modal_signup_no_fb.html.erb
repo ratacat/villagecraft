@@ -1,0 +1,6 @@
+<div id="register_modal" class="modal hide fade" tabindex="-1" data-backdrop="true" data-keyboard="true" role="dialog" aria-hidden="true" >
+  <div class="modal-body">
+    <h3>Sign Up to Attend</h3>
+    <%= render :partial => 'devise/registrations/form', :locals => {:resource => User.new, :resource_name => :user} %>
+  </div>
+</div>

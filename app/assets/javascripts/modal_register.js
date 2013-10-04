@@ -6,7 +6,7 @@
 
      $this.on('click', function() {
        if (typeof options['auto_attend_event'] != 'undefined') {
-         $.cookie('auto_attend_event', 'true');         
+         $.cookie('auto_attend_event', options['auto_attend_event']);         
        };
        $('#' + options['modal_id']).modal('show');
      });

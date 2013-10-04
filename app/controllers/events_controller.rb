@@ -132,7 +132,7 @@ class EventsController < ApplicationController
     begin
       attendance = current_user.attendances.build
       attendance.event = @event
-      attendance.message = params[:attendance][:message]
+#      attendance.message = params[:attendance][:message]
       attendance.save!
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
@@ -145,7 +145,7 @@ class EventsController < ApplicationController
     @event.create_activity key: 'event.interested', owner: current_user
     
     respond_to do |format|
-      format.html { redirect_to @event, notice: 'You are signed up to attend this event' }
+      format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
       format.json { head :no_content }
     end
     

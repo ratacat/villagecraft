@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  after_filter :check_for_auto_attend 
+
   def update
     @user = User.find(current_user.id)
 
@@ -21,6 +23,17 @@ class RegistrationsController < Devise::RegistrationsController
       redirect_to after_update_path_for(@user)
     else
       render "edit"
+    end
+  end
+
+  protected
+  def check_for_auto_attend
+    if resource.persisted? # user is created successfuly
+      if cookies[:auto_attend_event]
+        @event = Event.find_by_uuid(cookies[:auto_attend_event])
+        @user.attends << @event
+        cookies.delete :auto_attend_event
+      end
     end
   end
 

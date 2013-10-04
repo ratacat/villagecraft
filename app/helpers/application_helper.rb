@@ -52,4 +52,15 @@ module ApplicationHelper
     TZ_MAPPING[time_zone]
   end
   
+  def devise_mapping
+    Devise.mappings[:user]
+  end
+
+  def resource_name
+    devise_mapping.name
+  end
+
+  def resource_class
+    devise_mapping.to
+  end
 end
