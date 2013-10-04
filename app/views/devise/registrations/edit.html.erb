@@ -5,7 +5,6 @@
 
     <%= f.input :email %>
     <%= f.input :password, label: "New Password", autocomplete: "off" %>
-    <%= f.input :password_confirmation, label: "New Password Confirmation", autocomplete: "off" %>
     <% if resource.has_set_password %>
       <%= f.input :current_password %>
     <% else %>
