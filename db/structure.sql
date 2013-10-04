@@ -416,7 +416,8 @@ CREATE TABLE users (
     has_set_password boolean DEFAULT true,
     deleted_at timestamp without time zone,
     admin boolean,
-    phone character varying(255)
+    phone character varying(255),
+    name character varying(255)
 );
 
 
@@ -964,3 +965,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130912063520');
 INSERT INTO schema_migrations (version) VALUES ('20131001181450');
 
 INSERT INTO schema_migrations (version) VALUES ('20131004032805');
+
+INSERT INTO schema_migrations (version) VALUES ('20131004200709');

@@ -5,8 +5,7 @@ FactoryGirl.define do
 
   factory :user do
    email
-   first_name "Test"
-   last_name "User"
+   name "Test User"
    password "foobar11"
    password_confirmation "foobar11"
    sequence :phone do |n|
@@ -110,6 +109,7 @@ FactoryGirl.define do
      
      first_name { [US_FEMALE_NAMES, US_MALE_NAMES].sample.sample }
      last_name { US_SURNAMES.sample }
+     name {"#{first_name} #{last_name}"}
    end
    
    factory :random_user, traits: [:random_name]

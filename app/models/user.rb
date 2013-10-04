@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :location, :has_set_password, :phone
+  attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -31,22 +31,17 @@ class User < ActiveRecord::Base
 
   has_many :notifications
 
-  normalize_attributes :first_name, :last_name, :email, :address
+  normalize_attributes :name, :email, :address
 
   before_validation :find_or_create_location_from_address, :normalize_phone
 
   validates :email, :presence => true
-  validates :first_name, :presence => true
-  validates :last_name, :presence => true
+  validates :name, :presence => true
 #  validates :city, :presence => true
 #  validates :state, :presence => true
 #  validates :location, :presence => true
   validates :phone, :presence => true, :uniqueness => true, :format => { :with => /\A\+1[0123456789]{10}\z/, :message => "is not a 10-digit US phone number" }, :allow_blank => true
 #  validates_associated :location
-
-  def name
-    "#{self.first_name} #{self.last_name}"
-  end
 
   def profile_img_src(size = :medium)
     if self.profile_image.blank?
@@ -112,8 +107,7 @@ class User < ActiveRecord::Base
 
       user = User.find_by_email(auth.info.email) ||
              User.new(:email => auth.info.email,
-                      :first_name => auth.info.first_name,
-                      :last_name => auth.info.last_name,
+                      :name => "#{auth.info.first_name} #{auth.info.last_name}",
                       :city => location.city,
                       :state => location.state_code,
                       :profile_image => fb_profile_img_uri,
