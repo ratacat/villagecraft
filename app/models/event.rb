@@ -70,6 +70,10 @@ class Event < ActiveRecord::Base
     self.start_time - Time.now < 0
   end
 
+  def slots_left
+    self.max_attendees - self.attendances.with_state(:attending).count - 9900
+  end
+
   def Event.starting_after(t)
     where('"events"."start_time" > ?', t )
   end

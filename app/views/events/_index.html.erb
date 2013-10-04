@@ -34,21 +34,25 @@
         <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description %></div>
       </td>
       <td colspan="2">
-        <% if user_signed_in? %>
-          <% if current_user.attending_event?(event) %>
-            <span class="text-success">
-              <i class="icon-check icon-large"> </i> you 
-              <% if event.occurred? %>
-                attended
-              <% else %>
-                signed up to attend
-              <% end %>            
-            </span>
+        <% if event.slots_left > 0 %>
+          <% if user_signed_in? %>
+            <% if current_user.attending_event?(event) %>
+              <span class="text-success">
+                <i class="icon-check icon-large"> </i> you 
+                <% if event.occurred? %>
+                  attended
+                <% else %>
+                  signed up to attend
+                <% end %>            
+              </span>
+            <% else %>
+              <%= link_to 'Attend', attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post %>
+            <% end %>
           <% else %>
-            <%= link_to 'Attend', attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post %>
+            <button data-auto_attend_event="<%= event.uuid %>" data-toggle_modal_registration class="btn btn-success btn-large">Attend</button>
           <% end %>
         <% else %>
-          <button data-auto_attend_event="<%= event.uuid %>" data-toggle_modal_registration class="btn btn-success btn-large">Attend</button>
+          <h4 class="text-error"><i class="icon-ban-circle"> </i> full</h4>
         <% end %>
         <h4>When</h4>
         <div class="clearfix">
