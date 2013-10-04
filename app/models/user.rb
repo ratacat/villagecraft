@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :location, :has_set_password
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :city, :state, :profile_image, :location, :has_set_password, :phone
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -33,15 +33,16 @@ class User < ActiveRecord::Base
 
   normalize_attributes :first_name, :last_name, :email, :address
 
-  before_validation :find_or_create_location_from_address
+  before_validation :find_or_create_location_from_address, :normalize_phone
 
   validates :email, :presence => true
   validates :first_name, :presence => true
   validates :last_name, :presence => true
-  validates :city, :presence => true
-  validates :state, :presence => true
-  validates :location, :presence => true
-  validates_associated :location
+#  validates :city, :presence => true
+#  validates :state, :presence => true
+#  validates :location, :presence => true
+  validates :phone, :presence => true, :uniqueness => true, :format => { :with => /\A\+1[0123456789]{10}\z/, :message => "is not a 10-digit US phone number" }, :allow_blank => true
+#  validates_associated :location
 
   def name
     "#{self.first_name} #{self.last_name}"
@@ -145,6 +146,14 @@ class User < ActiveRecord::Base
   protected
   def find_or_create_location_from_address
     self.location ||= Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
+  end
+  
+  def normalize_phone
+    unless self.phone.blank?
+      normalized_number = self.phone.gsub(/[^0-9]/, '')
+      normalized_number.insert(0, (normalized_number =~ /^1\d*/) ? '+' : '+1')      
+      self.phone = normalized_number
+    end    
   end
 
 end
