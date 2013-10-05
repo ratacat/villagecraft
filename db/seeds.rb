@@ -62,7 +62,16 @@ if Rails.env.development?
   throwies = FactoryGirl.create(:event, :title => "Small Business Social Media Training", :short_title => "Search Optimization", :host => ben, :venue => bens_house, :min_attendees => 3, :price => 25, :start_time => (5.hours.from_now), :end_time => (7.hours.from_now), :description => "Remember the old maxim 'Location! Location! Location!'?  As we usher in the information age, this saying has never been more relevant.  Except now it's referring to less your physical location, and more to the location of your business listings!  People explore their cities with their cellphones!  And the better off your positions, the more feet you get in your door.  This class is targetted to Small Business owners that are looking to take their future into their own hands. You don't need to be an uber nerd to learn more about how to build your business a better digital location.")
   spanish = FactoryGirl.create(:event, :title => "Practice your Spanish by playing board games!", :short_title => "Practice Spanish", :host => ben, :venue => bens_house, :start_time => (3.days.from_now), :end_time => (3.days.from_now + 1.hour), :min_attendees => 2, :max_attendees => 7, :description => "Want to hone your spanish language skills in a socially fun and creative manner?  Come play games with us!  We have fun with a variety of board, table, and card games in small group settings, and all communication is in Spanish!  Doesn't matter what your current level of spanish is!  You will have fun and learn in a completely organic fashion. ")
   prison = FactoryGirl.create(:event, :title => "Movie and discussion: Prison Systems", :short_title => "Prison Discussion", :host => jared, :venue => house66, :start_time => (2.days.from_now), :end_time => (3.days.from_now + 3.hour), :min_attendees => 4, :max_attendees => 10, :description => "Come attend a coordinated movie + discussion of the California prison system. Prisons are an oft forgotten part of our society, and we will be exploring and discussing them in an open, shared, colloborative space.")
-  coffee = FactoryGirl.create(:event, :title => "Coldpressed Coffee", :host => jared, :venue => ravenhaus, :start_time => (3.days.from_now), :end_time => (4.days.from_now + 3.hour), :max_attendees => 10, :description => "Come learn the joys of coldpressing your coffee!")
+  coffee_desc = %q(
+Come learn the joys of coldpressing your coffee!
+<dl>
+  <dt>What to expect</dt>
+  <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>
+  <dt>What to bring</dt>
+  <dd>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>  
+</dl>
+)
+  coffee = FactoryGirl.create(:event, :title => "Coldpressed Coffee", :host => jared, :venue => ravenhaus, :start_time => (3.days.from_now), :end_time => (4.days.from_now + 3.hour), :max_attendees => 10, :description => coffee_desc)
   
   # Some Attends
   (0..2).each { |i| drones[i].attends << sourdough; sourdough.create_activity(key: 'event.attend', owner: drones[i]) }
