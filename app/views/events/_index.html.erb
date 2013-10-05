@@ -15,7 +15,7 @@
   <tbody>
   <% events.each do |event| %>
     <tr>
-      <td><div class="title-top"><%= event.title %></div><div class="title-bot"><%= truncate(event.description, :length => 90, :separator => ' ') %></div></td>
+      <td><div class="title-top"><%= event.title %></div><div class="title-bot"><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></div></td>
       <% if user_signed_in? %>
         <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
       <% end %>
@@ -31,7 +31,7 @@
     <tr style="display: none;">
       <td colspan="4">
         <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
-        <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description %></div>
+        <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description.html_safe %></div>
       </td>
       <td colspan="2">
         <% if event.slots_left > 0 %>
