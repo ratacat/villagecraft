@@ -8,6 +8,9 @@ class Notification < ActiveRecord::Base
   belongs_to :activity, :class_name => 'PublicActivity::Activity'
   attr_accessible :seen, :sent
 
+  validates :user_id, presence: true
+  validates :activity_id, presence: true
+  
   after_create :send_sms
 
   def to_s
