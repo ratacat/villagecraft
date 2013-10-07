@@ -47,12 +47,15 @@ module EventsHelper
     defaults = {
       :profile_image_size => :thumb, 
       :show_trackable => false,
-      :plaintext => false
+      :plaintext => false,
+      :show_ago => true
     }
     options.reverse_merge!(defaults)
     event = activity.trackable
     html = []
-    html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]))
+    unless options[:profile_image_size] === :none
+      html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]))      
+    end
     html << '<div class="caption">'
     if options[:plaintext]
       html << content_tag(:strong, contextualized_user_name(activity.owner, :capitalize => true))
@@ -107,7 +110,9 @@ module EventsHelper
     else
       ''
     end
-    html << content_tag(:div, time_ago(activity.created_at))
+    if options[:show_ago]
+      html << content_tag(:div, time_ago(activity.created_at))      
+    end
     html << '</div>'
     html.join(' ').html_safe
   end
