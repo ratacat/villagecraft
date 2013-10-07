@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+  before_filter :authenticate_user!
   before_filter :find_notification, :except => [:index]
   before_filter :be_user_or_be_admin, :only => [:show]
   
@@ -31,11 +32,8 @@ class NotificationsController < ApplicationController
   
   protected
   def find_notification
-    begin
-      @notification = Notification.find_by_uuid(params["id"])
-    rescue Exception => e
-      render_error(:message => "Notification (#{params["id"]}) not found.", :status => 404) if @notification.blank?
-    end
+    @notification = Notification.find_by_uuid(params["id"])
+    render_error(:message => "Notification (#{params["id"]}) not found.", :status => 404) if @notification.blank?
   end
   
   def be_user_or_be_admin
