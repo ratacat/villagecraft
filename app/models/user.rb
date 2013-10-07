@@ -97,6 +97,14 @@ class User < ActiveRecord::Base
     self.attends.confirmed.where('"attendances"."event_id"=?', e.id).exists?
   end
 
+  def send_sms(msg)
+    if Rails.env.development?
+      Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)
+    else
+      User.nexmo.send_message!({:to => self.phone, :from => NEXMO_FROM, :message => msg})
+    end
+  end
+
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
     unless user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
       fb_profile_img_uri = URI.parse(auth.info.image)
@@ -135,6 +143,10 @@ class User < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def User.nexmo
+    @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
 
   protected
