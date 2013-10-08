@@ -95,7 +95,7 @@ class Event < ActiveRecord::Base
   end
   
   def time_zone
-    self.location.try(:time_zone) || self.host.location.time_zone
+    self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"
   end
   
   def find_zone
