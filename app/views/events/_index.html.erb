@@ -2,9 +2,6 @@
   <thead>
     <tr>
       <th>What</th>
-      <% if user_signed_in? %>
-        <th>Proximity</th>
-      <% end %>
       <th>When</th>
       <th>Where</th>
       <th style="width:100px;">Materials Fee</th>
@@ -16,9 +13,6 @@
   <% events.each do |event| %>
     <tr>
       <td><div class="title-top"><%= event.title %></div><div class="title-bot"><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></div></td>
-      <% if user_signed_in? %>
-        <td><%= "#{current_user.distance_to(event.venue)} mi" unless event.venue.blank? %></td>
-      <% end %>
       <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
       <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %></td>
       <td><%= event_price(event) %></td>
