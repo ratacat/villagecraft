@@ -22,7 +22,7 @@
         <% end %>
       </td>
     </tr>
-    <tr style="display: none;">
+    <tr style="display: none;" class="event_detail">
       <td colspan="4">
         <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
         <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description.html_safe %></div>
@@ -71,12 +71,21 @@
   $("table").click(function(event) {
       if(event.target.nodeName == 'A') return;
       event.stopPropagation();
+      // Collapse the clicked on row
       var $target = $(event.target);
       $target.closest("tr").hide();
+
+      // Collapse any other expanded rows
+      $("tr.event_detail").filter(":visible").each(function(i) {
+        $(this).hide();
+        $(this).closest("tr").prev().show();
+      });
+      
+      // Open up the dual of the clicked on row
       if ( $target.closest("td").attr("colspan") > 1 ) {
-          $target.closest("tr").prev().show(1000);
+        $target.closest("tr").prev().show(1000);
       } else {
-          $target.closest("tr").next().show(1000);
+        $target.closest("tr").next().show(1000);
       }                    
   });
 <% end -%>
