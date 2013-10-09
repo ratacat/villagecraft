@@ -57,6 +57,11 @@ group :development do
   gem 'rspec-rails', '~> 2.13'
 end
 
+group :production do
+  gem 'therubyracer'
+  gem 'execjs'
+end
+
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara', '1.1.2'
