@@ -38,9 +38,10 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   pool: 5
   database: villagecraft_production
   username: villagecraft
-  password: supersecret
+  password: cats
   su_username: villagecraft
-  su_password: supersecret
+  su_password: cats
