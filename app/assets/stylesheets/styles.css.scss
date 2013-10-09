@@ -144,3 +144,24 @@ img.float-right {
    float: right; 
    padding: 5px;
 }
+
+tr.expandable {
+  cursor: pointer;
+}
+
+.table-hover tbody tr.event_detail:hover td {
+  background-color: white;
+}
+
+.linky {
+  color: $linkColor;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.absolute_bottom {
+  position: absolute;
+  bottom: 0;
+}

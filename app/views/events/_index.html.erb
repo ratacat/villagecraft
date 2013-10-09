@@ -11,10 +11,17 @@
 
   <tbody>
   <% events.each do |event| %>
-    <tr>
-      <td><div class="title-top"><%= event.title %></div><div class="title-bot"><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></div></td>
-      <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
-      <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %></td>
+    <tr class="event_summary expandable">
+      <td style="position: relative;">
+        <div class="title-top"><%= event.title %></div>
+        <div class="title-bot"><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></div>
+        <div class="absolute_bottom more muted"><span>more</span> <i class="icon-sort-down"></i></div>
+      </td>
+      <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>          
+      </td>
+      <td>
+        <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
+      </td>
       <td><%= event_price(event) %></td>
       <td>
         <% if event.host %>
@@ -23,57 +30,45 @@
       </td>
     </tr>
     <tr style="display: none;" class="event_detail">
-      <td colspan="4">
-        <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
-        <div class="title-top"><h3><%= event.title %></h3></div><div><%= event.description.html_safe %></div>
-      </td>
       <td colspan="2">
-        <% if event.slots_left > 0 %>
-          <% if user_signed_in? %>
-            <% if current_user.attending_event?(event) %>
-              <span class="text-success">
-                <i class="icon-check icon-large"> </i> you 
-                <% if event.occurred? %>
-                  attended
-                <% else %>
-                  signed up to attend
-                <% end %>            
-              </span>
-            <% else %>
-              <%= link_to 'Attend', attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post %>
-            <% end %>
-          <% else %>
-            <button data-auto_attend_event="<%= event.uuid %>" data-toggle_modal_registration class="btn btn-success btn-large">Attend</button>
+        <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
+        <div class="title-top">
+          <h3><%= event.title %></h3>
+        </div>
+        <p>
+          <%= event.description.html_safe %>
+        </p>
+        <p><%= render :partial => 'events/inline_attend_btn_or_state', :locals => {:event => event} %></p>
+      </td>
+      <td colspan="3">
+        <div class="well">
+          <h4>When</h4>
+          <div class="clearfix">
+            <div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>          
+          </div>
+          <h4>Located</h4>
+          <div class="clearfix">
+            <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
+          </div>
+          <h4>Materials Fee</h4>
+          <%= event_price(event) %>
+          <h4>Taught By</h4>
+          <% if event.host %>
+            <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small) %>
           <% end %>
-        <% else %>
-          <h4 class="text-error"><i class="icon-ban-circle"> </i> full</h4>
-        <% end %>
-        <h4>When</h4>
-        <div class="clearfix">
-          <div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>          
         </div>
-        <h4>Located</h4>
-        <div class="clearfix">
-          <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
-        </div>
-        <h4>Materials Fee</h4>
-        <%= event_price(event) %>
-        <h4>Taught By</h4>
-        <% if event.host %>
-          <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small) %>
-        <% end %>
       </td>
     </tr>
   <% end %>
   </tbody>
 </table>
 <% ready_script do -%>
-  $("table").click(function(event) {
+  $("tr.expandable").click(function(event) {
       if(event.target.nodeName == 'A') return;
       event.stopPropagation();
       // Collapse the clicked on row
-      var $target = $(event.target);
-      $target.closest("tr").hide();
+      var $target = $(this);
+      $target.hide();
 
       // Collapse any other expanded rows
       $("tr.event_detail").filter(":visible").each(function(i) {
@@ -82,10 +77,20 @@
       });
       
       // Open up the dual of the clicked on row
-      if ( $target.closest("td").attr("colspan") > 1 ) {
-        $target.closest("tr").prev().show(1000);
+      if ( $target.hasClass('event_detail') ) {
+        $target.prev().show(1000);
       } else {
-        $target.closest("tr").next().show(1000);
+        $target.next().show(1000);
       }                    
   });
+  $("tr.expandable").hover(
+    function() {
+      $(this).find(".more").addClass('linky muted');
+      $(this).find(".more span").addClass('underline');
+    },
+    function() {
+      $(this).find(".more").removeClass('linky muted');
+      $(this).find(".more span").removeClass('underline');
+    }
+  );
 <% end -%>
