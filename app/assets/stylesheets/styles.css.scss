@@ -16,6 +16,10 @@ body {
   margin: 0;
 }
 
+.margin_top0 {
+  margin-top: 0;
+}
+
 .table.meter {
   table-layout: fixed;
   font-size: 120%;
@@ -73,6 +77,12 @@ form div.controls-row.event_when input {
     margin-right: 9px;
 }
 
+.thumbnail.bottom-caption img {
+    display: block;
+    margin-left: 0px;
+    margin-right:  0px;
+}
+
 .thumbnail.right-caption .caption {
     padding: 0px;
     overflow: hidden;
@@ -106,9 +116,6 @@ form div.controls-row.event_when input {
   width: 100%;
   margin: 0;  
 }
-
-.title-top {position:relative;margin:0px;}
-.title-bot {position:relative;clear:both;width:250px;font-size:85%;margin-left:10px;line-height:13px;}
 
 .brand-tag {font-size:80%;}
 .region{margin-bottom:40px;width:100%;}
