@@ -11,7 +11,7 @@ class Notification < ActiveRecord::Base
   validates :user_id, presence: true
   validates :activity_id, presence: true
   
-  after_create :send_sms
+#  after_create :send_sms
 
   def to_s
     action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
