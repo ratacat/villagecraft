@@ -29,7 +29,13 @@ namespace :db do
     `curl http://www.zillow.com/static/shp/#{zip_fn} -o #{dest_fn}` unless File.exist?(dest_fn)
     `unzip -o #{dest_fn} -d #{tmpdir}`
     `shp2pgsql -s 4269:4326 -a #{"/tmp/ZillowNeighborhoods-#{state}.shp"} public.neighborhoods > #{tmp_sql_fn}`
-    `psql -d "villagecraft_#{Rails.env}" -f #{tmp_sql_fn}`
+    
+    db_config = ActiveRecord::Base.configurations[Rails.env]
+    host = db_config["host"]
+    db = db_config["database"]
+    username = db_config["username"]
+    password = db_config["password"]
+    `psql -d "#{db}" -f #{tmp_sql_fn} #{username}`
     
     # Force neighborhood lookup for all locations in state whose neighborhoods have been newly imported
     Location.where(:state_code => state).each do |loc|
