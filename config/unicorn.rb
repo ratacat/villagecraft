@@ -22,7 +22,7 @@ pid "#{shared_path}/pids/unicorn.pid"
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
 listen "#{shared_path}/sockets/unicorn.sock", :backlog => 64
-listen 9090, :tcp_nopush => true, :tries => -1
+# listen 9090, :tcp_nopush => true, :tries => -1
 
 # Spawn unicorn master worker for user apps (group: apps)
 # user 'apps', 'apps' 
