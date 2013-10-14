@@ -56,6 +56,7 @@ gem 'jquery-rails'
 group :development do
   gem 'factory_girl_rails', :require => false
   gem 'rspec-rails', '~> 2.13'
+  gem 'capistrano-unicorn', :require => false
 end
 
 group :production do

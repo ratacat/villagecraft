@@ -1,4 +1,5 @@
 require 'bundler/capistrano'
+require 'capistrano-unicorn'
 
 set :application, 'villagecraft'
 set :git_user, 'ratacat'
@@ -26,6 +27,8 @@ set :use_sudo, false
 set :scm_verbose, true  
 
 set :user, "root"
+
+after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
