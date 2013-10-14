@@ -1,5 +1,5 @@
 # Our own variable where we deploy this app to
-deploy_to = "/root/www"
+deploy_to = "/home/villagecraft/www"
 
 current_path = "#{deploy_to}/current"
 shared_path = "#{deploy_to}/shared"

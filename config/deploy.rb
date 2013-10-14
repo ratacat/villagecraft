@@ -6,12 +6,12 @@ set :git_user, 'ratacat'
 set :repository,  "git@github.com:#{git_user}/#{application}.git"
 
 set :domain, 'villagecraft.org'
-set :deploy_to, '/root/www'
+set :deploy_to, '/home/villagecraft/www'
 # set :deploy_to, "/home/#{application}/www"
 
 # set :bundle_flags, "--deployment --quiet --binstubs --shebang ruby-local-exec"
 set :default_environment, {
-  'PATH' => "/root/.rbenv/shims:/home/#{application}/.rbenv/bin:$PATH"
+  'PATH' => "/home/villagecraft/.rbenv/shims:/home/#{application}/.rbenv/bin:$PATH"
 }
 
 role :web, domain                          # Your HTTP server, Apache/etc
@@ -26,7 +26,7 @@ set :branch, 'master'
 set :use_sudo, false
 set :scm_verbose, true  
 
-set :user, "root"
+set :user, "villagecraft"
 
 namespace :nginx do
   desc "Restart nginx"
