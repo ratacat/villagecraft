@@ -25,7 +25,13 @@ class ApplicationController < ActionController::Base
   def require_admin
     unless current_user.try(:admin?) and session[:admin_mode]
       render_error(:message => "Administrative access and admin mode required", :status => :unauthorized)
-    end    
+    end
+  end
+  
+  def require_host
+    unless current_user.try(:host?)
+      render_error(:message => "Host privileges required", :status => :unauthorized)
+    end
   end
   
   def fetch_notifications

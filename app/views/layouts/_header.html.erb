@@ -21,7 +21,9 @@
             <li><%= link_to "Sign Up", '#', :'data-toggle_modal_registration' => true %></li>
             <li><%= link_to "Log In", new_user_session_path %></li>
           <% else %>
-            <li><%= link_to "My Events", my_events_path %></li>
+            <% if current_user.try(:host?) %>
+              <li><%= link_to "My Events", my_events_path %></li>
+            <% end %>
             <% if @notifications %>
               <li class="dropdown">
                 <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>

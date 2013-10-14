@@ -417,7 +417,8 @@ CREATE TABLE users (
     deleted_at timestamp without time zone,
     admin boolean,
     phone character varying(255),
-    name character varying(255)
+    name character varying(255),
+    host boolean
 );
 
 
@@ -967,3 +968,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131001181450');
 INSERT INTO schema_migrations (version) VALUES ('20131004032805');
 
 INSERT INTO schema_migrations (version) VALUES ('20131004200709');
+
+INSERT INTO schema_migrations (version) VALUES ('20131014194826');
