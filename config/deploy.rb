@@ -28,6 +28,13 @@ set :scm_verbose, true
 
 set :user, "root"
 
+namespace :nginx do
+  desc "Restart nginx"
+  task :restart do
+    sudo "/sbin/service nginx reload"
+  end
+end
+
 after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
 # if you want to clean up old releases on each deploy uncomment this:
