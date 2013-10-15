@@ -56,7 +56,7 @@
           <h4>Taught By</h4>
           <% if event.host %>
             <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small, :thumbnail_classes => 'thumbnail bottom-caption') %>
-            <% if event.host === current_user %>
+            <% if (event.host === current_user) or admin_session? %>
               <%= link_to 'Manage', manage_attendances_path(event), :class => 'btn btn-small' %>        
             <% end %>
           <% end %>
