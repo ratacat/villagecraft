@@ -93,6 +93,10 @@ class Event < ActiveRecord::Base
   def Event.future
     starting_after(Time.now)
   end
+
+  def Event.past
+    starting_before(Time.now)
+  end
   
   def time_zone
     self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"

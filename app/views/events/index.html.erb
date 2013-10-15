@@ -1,6 +1,24 @@
 <h1>All events</h1>
-<%= render 'index', :events => @events %>
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#future" data-toggle="tab">Future Events</a></li>
+  <li><a href="#past" data-toggle="tab">Past Events</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane active" id="future">
+    <% if @future_events.blank? %>
+      No future events.
+    <% else %>
+      <%= render 'index', :events => @future_events %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="past">
+    <% if @past_events.blank? %>
+      Not past events.
+    <% else %>
+      <%= render 'index', :events => @past_events %>
+    <% end %>
+  </div>
+</div>
 
 <br />
-
-<%= link_to 'New Event', new_event_path %>
