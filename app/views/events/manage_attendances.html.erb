@@ -3,6 +3,29 @@
 </div>
 
 <h2>Attendees</h2>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Signup Date</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Mobile #</th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @event.attendances.each do |attendance| %>
+    <tr>
+      <td><%= attendance.created_at %><br/><%= time_ago(attendance.created_at) %></td>
+      <td><%= attendance.user.name %></td>
+      <td><%= attendance.user.email %></td>
+      <td class="user_phone"><%= attendance.user.phone %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<% if false # dumning this down for MVP release %>
 <div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
 <%= attends_status(@event, :show_interest => true) %><br/>
 <strong>Event size</strong>: <%= event_size(@event) %>
@@ -15,3 +38,8 @@
 
 <h3><%= @confirmed.count %> Confirmed</h3>
 <%= render :partial => 'manage_attendances_table', :locals => {:attendances => @confirmed} %>
+<% end %>
+
+<% ready_script do -%>
+  $("td.user_phone").format_phone_number_html();
+<% end -%>

@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show, :attendees]
   before_filter :require_admin, :only => [:destroy]
+  before_filter :require_host, :only => [:my_events]
   before_filter :find_venue, :only => [:create, :update]
   before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee]
   
@@ -22,7 +23,6 @@ class EventsController < ApplicationController
     @attended_events = current_user.attends.completed.limit(EVENTS_PER_PAGE)
     @upcoming_hostings = current_user.hostings.future.limit(EVENTS_PER_PAGE)
     @hosted_events = current_user.hostings.completed.limit(EVENTS_PER_PAGE)
-    @recommended_events = []
 
     respond_to do |format|
       format.html # my_events.html.erb
@@ -227,9 +227,9 @@ class EventsController < ApplicationController
   # GET /events/1/manage_attendances
   # GET /events/1/manage_attendances.json
   def manage_attendances
-    @interested = @event.attendances.with_state(:interested)
-    @attending = @event.attendances.with_state(:attending)
-    @confirmed = @event.attendances.with_state(:confirmed)
+    # @interested = @event.attendances.with_state(:interested)
+    # @attending = @event.attendances.with_state(:attending)
+    # @confirmed = @event.attendances.with_state(:confirmed)
   end
   
   protected
