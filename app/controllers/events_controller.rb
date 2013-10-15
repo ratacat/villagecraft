@@ -105,7 +105,7 @@ class EventsController < ApplicationController
                                  owner: current_user, 
                                  parameters: {:new_venue_id => @event.venue_id}          
         end
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+        format.html { redirect_to events_path, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else
         collate_when_errors
