@@ -22,8 +22,13 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def admin_session?
+    current_user.try(:admin?) and session[:admin_mode]
+  end
+  helper_method :admin_session?
+  
   def require_admin
-    unless current_user.try(:admin?) and session[:admin_mode]
+    unless admin_session?
       render_error(:message => "Administrative access and admin mode required", :status => :unauthorized)
     end
   end
