@@ -24,7 +24,7 @@
             <% if current_user.try(:host?) %>
               <li><%= link_to "My Events", my_events_path %></li>
             <% end %>
-            <% if @notifications %>
+            <% if false # @notifications %>
               <li class="dropdown">
                 <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>
                   <i class="icon-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info" id="notifications_count"><%= @unseen_notifications_count %></span><% end %>
