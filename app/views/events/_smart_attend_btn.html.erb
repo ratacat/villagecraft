@@ -6,6 +6,6 @@
       <% end -%>
     <% end %>
   <% else %>
-    <button data-auto_attend_event="<%= event.uuid %>" data-toggle_modal_registration class="btn btn-success btn-large"><i class="icon-check icon-large text-success"></i>Attend</button>
+    <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large"><i class="icon-check icon-large text-success"></i>Attend</button>
   <% end %>
 <% end %>

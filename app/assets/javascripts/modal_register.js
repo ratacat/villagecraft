@@ -6,8 +6,9 @@
 
      $this.on('click', function() {
        if (typeof options['auto_attend_event'] != 'undefined') {
-         $.cookie('auto_attend_event', options['auto_attend_event']);         
+         $.cookie('auto_attend_event', options['auto_attend_event']);
        };
+       $('#' + options['modal_id'] + ' span.event_title').html(options['auto_attend_event_title']);
        $('#' + options['modal_id']).modal('show');
      });
    });
