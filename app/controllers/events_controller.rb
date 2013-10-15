@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show, :attendees]
-  before_filter :require_admin, :only => [:destroy]
+  before_filter :require_admin, :only => [:index, :destroy]
   before_filter :require_host, :only => [:my_events]
   before_filter :find_venue, :only => [:create, :update]
   before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee]
@@ -32,7 +32,7 @@ class EventsController < ApplicationController
 
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @events = Event.future.order(:start_time).limit(EVENTS_PER_PAGE)
+    @events = Event.future.order(:start_time) # .limit(EVENTS_PER_PAGE)
 
     respond_to do |format|
       format.html # index.html.erb
