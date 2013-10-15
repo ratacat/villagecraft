@@ -35,7 +35,7 @@ namespace :nginx do
   end
 end
 
-after 'deploy:restart', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
+after 'deploy:restart', 'deploy:migrate', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
