@@ -62,6 +62,7 @@ Villagecraft::Application.configure do
     :user_name => 'Jared Smith',
     :password => 'slack3r101'
   }
+  config.action_mailer.default_url_options = { :host => 'villagecraft.org' }
 
   # Enable threaded mode
   # config.threadsafe!
