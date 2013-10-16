@@ -13,6 +13,8 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'paranoia', '~> 1.0'
 
+gem 'certified'
+
 gem 'simple_form'
 gem 'validates_timeliness', '~> 3.0'
 gem 'bootstrap-generators', '~> 2.3'
