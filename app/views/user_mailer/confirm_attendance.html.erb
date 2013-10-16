@@ -1,4 +1,4 @@
-<%= @user.name %>,
+Hi <%= @user.name %>,
 
 <p>You are confirmed to attend <strong><%= @event.title %></strong>, hosted by <strong><%= @event.host.name %></strong>.</p>
 
@@ -10,8 +10,14 @@
 
 <h3>Host</h3>
 
-<address>
-<%= @event.host.name %><br/>
-<strong>email</strong>: <%= @event.host.email %><br/>
-<strong>mobile</strong> #: <%= @event.host.phone %> 
-</address>
+<p>
+  <strong><%= @event.host.name %></strong><br/>
+  <address>
+    <strong>email</strong>: <%= @event.host.email %><br/>
+    <strong>mobile</strong> #: <%= @event.host.phone %> 
+  </address>
+</p>
+<br/>
+<br/>
+<br/>
+<hr>
