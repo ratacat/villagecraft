@@ -1,0 +1,17 @@
+<%= @user.name %>,
+
+<p>You are confirmed to attend <strong><%= @event.title %></strong>, hosted by <strong><%= @event.host.name %></strong>.</p>
+
+<h3>When</h3>
+<p><%= render :partial => 'events/times', :locals => {:event => @event, :short_date => true, :no_tz => true} %></p>
+
+<h3>Where</h3>
+<p><%= @event.venue.blank? ? 'TBD' : @event.location.address %></p>
+
+<h3>Host</h3>
+
+<address>
+<%= @event.host.name %><br/>
+<strong>email</strong>: <%= @event.host.email %><br/>
+<strong>mobile</strong> #: <%= @event.host.phone %> 
+</address>

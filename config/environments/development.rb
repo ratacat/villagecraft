@@ -36,6 +36,7 @@ Villagecraft::Application.configure do
   config.assets.debug = true
 
   #in production :host must be set to actual host
+  config.action_mailer.delivery_method = :test
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
   config.facebook_app_id = "1395047807377616"

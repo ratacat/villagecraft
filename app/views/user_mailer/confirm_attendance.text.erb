@@ -1,0 +1,22 @@
+<%= @user.name %>,
+
+You are confirmed to attend <%= @event.title %>, hosted by <%= @event.host.name %>.
+
+When
+----
+
+<%= strip_tags(render(:partial => 'events/times.html.erb', :locals => {:event => @event, :short_date => true, :no_tz => true})) %>
+
+
+Where
+-----
+
+<%= @event.venue.blank? ? 'TBD' : @event.location.address %>
+
+
+Host
+----
+
+<%= @event.host.name %>
+email: <%= @event.host.email %>
+mobile #: <%= @event.host.phone %> 
