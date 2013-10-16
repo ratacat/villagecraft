@@ -57,7 +57,7 @@
                 <% end %>
               <% end %>
               <ul class="dropdown-menu" role="menu">
-                <% if false %>
+                <% if current_user.try(:host?) %>
                   <li><%= link_to 'My Profile', current_user %></li>
                   <li class="divider"></li>
                 <% end %>
