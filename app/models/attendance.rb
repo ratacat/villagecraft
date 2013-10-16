@@ -8,6 +8,8 @@ class Attendance < ActiveRecord::Base
   
   validates_uniqueness_of :user_id, :scope => :event_id
   
+  after_create :send_confirmation_email
+  
   state_machine :initial => :interested do
 =begin Instead of deleting attendance records, possible add a canceled state like this    
     event :cancel do
@@ -21,6 +23,11 @@ class Attendance < ActiveRecord::Base
     event :confirm do
       transition :attending => :confirmed
     end
+  end
+  
+  protected
+  def send_confirmation_email
+    UserMailer.confirm_attendance(self).deliver!
   end
   
 end
