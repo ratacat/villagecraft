@@ -53,6 +53,15 @@ Villagecraft::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :tls => :true,
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :user_name => 'Jared Smith',
+    :password => 'slack3r101'
+  }
 
   # Enable threaded mode
   # config.threadsafe!
