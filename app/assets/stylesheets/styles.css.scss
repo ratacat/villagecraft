@@ -152,11 +152,6 @@ form div.controls-row.event_when input {
   }
 }
 
-img.float-right {
-   float: right; 
-   padding: 5px;
-}
-
 tr.expandable {
   cursor: pointer;
 }
@@ -180,4 +175,22 @@ tr.expandable {
 
 .admin_color {
   color: orange;
+}
+
+table.table.borderless th, table.table.borderless td { 
+   border-top: none; 
+}
+
+table.table.when_where_host_table tr td {
+  width: 33%;
+}
+
+table.table.when_where_host_table td.image {
+  text-align: center; 
+  vertical-align: middle;
+}
+
+div.cta {
+  padding: 1em;
+  text-align: center;
 }

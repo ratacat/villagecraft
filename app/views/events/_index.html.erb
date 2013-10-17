@@ -1,11 +1,8 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>What</th>
-      <th style="width:200px;">When</th>
-      <th>Where</th>
-      <th style="width:100px;">Materials Fee</th>
-      <th style="width:150px;">Host</th>
+      <th style="width:60%;"></th>
+      <th style="width:40%;"></th>
     </tr>
   </thead>
 
@@ -14,53 +11,29 @@
     <tr class="event_summary expandable">
       <td style="position: relative;">
         <h4 class="margin_top0"><%= event.title %></h4>
+        <span><%= event_price(event, :show_materials_fee => true) %></span>
         <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
         <p><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></p>
         <div class="absolute_bottom more muted"><span>more</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
-        <p class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></p>
-      </td>
-      <td>
-        <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
-      </td>
-      <td><%= event_price(event) %></td>
-      <td>
-        <% if event.host %>
-          <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small, :thumbnail_classes => 'thumbnail bottom-caption') %>
-        <% end %>
+        <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>
       </td>
     </tr>
     <tr style="display: none;" class="event_detail">
-      <td colspan="2">
-        <img src="<%= event.img_src(:large) %>" class="img-rounded float-right">    
+      <td>
         <h3><%= event.title %></h3>
+        <div style="float: right;" class="cta">
+          <%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/>
+          <span class="muted"><%= event_price(event, :show_materials_fee => true) %></span>
+        </div>
         <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
         <p>
           <%= event.description.html_safe %>
         </p>
-        <p><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></p>
       </td>
-      <td colspan="3">
-        <div class="well">
-          <h4>When</h4>
-          <div class="clearfix">
-            <div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>
-          </div>
-          <h4>Located</h4>
-          <div class="clearfix">
-            <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %>
-          </div>
-          <h4>Materials Fee</h4>
-          <%= event_price(event) %>
-          <h4>Taught By</h4>
-          <% if event.host %>
-            <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small, :thumbnail_classes => 'thumbnail bottom-caption') %>
-            <% if (event.host === current_user) or admin_session? %>
-              <%= link_to 'Manage', manage_attendances_path(event), :class => 'btn btn-small' %>        
-            <% end %>
-          <% end %>
-        </div>
+      <td>
+        <%= render :partial => 'events/when_where_host_table', :locals => {:event => event, :show_image => true} %>
       </td>
     </tr>
   <% end %>

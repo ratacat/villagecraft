@@ -1,0 +1,24 @@
+<% event ||= @event 
+   show_image ||= false
+%>
+<table class="table borderless when_where_host_table">
+  <thead>
+    <tr>
+      <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
+      <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %></td>
+      <td>
+        <% if event.host %>
+          <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small, :thumbnail_classes => 'thumbnail bottom-caption') %>
+          <% if (event.host === current_user) or admin_session? %>
+            <%= link_to 'Manage', manage_attendances_path(event), :class => 'btn btn-small' %>        
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+    <% if show_image %>
+      <tr>
+        <td colspan="3" class="image"><img src="<%= event.img_src(:large) %>" class="img-rounded"></td>
+      </tr>
+    <% end %>
+  </thead>
+</table>
