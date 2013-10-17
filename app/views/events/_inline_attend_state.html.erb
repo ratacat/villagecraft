@@ -5,20 +5,22 @@
   <% if user_signed_in? %>
     <% if current_user.attending_event?(event) %>
       <span class="text-success">
-        <i class="icon-check icon-large"> </i> you 
+        you 
         <% if event.occurred? %>
           attended
         <% else %>
-          signed up to attend
+          are signed up
         <% end %>            
       </span>
     <% else %>
       <% if show_attend_btn %>
-        <%= link_to 'Attend', attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post %>
+        <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
+          <i class="icon-check icon-large"></i> Attend
+        <% end -%>
       <% end %>
     <% end %>
   <% elsif show_attend_btn %>
-    <button data-auto_attend_event="<%= event.uuid %>" data-toggle_modal_registration class="btn btn-success btn-large">Attend</button>
+    <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large"><i class="icon-check icon-large text-success"></i> Attend</button>
   <% end %>
 <% else %>
   <h4 class="text-error"><i class="icon-ban-circle"> </i> full</h4>

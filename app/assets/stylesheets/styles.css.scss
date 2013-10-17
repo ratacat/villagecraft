@@ -20,6 +20,10 @@ body {
   margin-top: 0;
 }
 
+.floatright {
+  float: right;
+}
+
 .btn i {
   vertical-align: middle;
   padding: 0 0.75em  0 0;
@@ -191,7 +195,7 @@ table.table.when_where_host_table td.image {
 }
 
 div.cta {
-  padding: 1em;
+  padding: 1em 0 1em 1em;
   text-align: center;
 }
 

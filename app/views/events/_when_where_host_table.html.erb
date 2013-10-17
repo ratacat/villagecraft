@@ -4,8 +4,11 @@
 <table class="table borderless when_where_host_table">
   <thead>
     <tr>
-      <td><div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div></td>
-      <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => true) %></td>
+      <td>
+        <div class="blocky_spans"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>
+        <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
+      </td>
+      <td><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %></td>
       <td>
         <% if event.host %>
           <%= rich_user_thumbnail(event.host, :linked => false, :thumb_size => :small, :thumbnail_classes => 'thumbnail bottom-caption') %>
