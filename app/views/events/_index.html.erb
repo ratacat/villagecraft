@@ -14,7 +14,7 @@
         <span><%= event_price(event, :show_materials_fee => true) %></span>
         <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
         <p><%= truncate(strip_tags(event.description), :length => 90, :separator => ' ') %></p>
-        <div class="absolute_bottom more muted"><span>more</span> <i class="icon-sort-down"></i></div>
+        <div class="absolute_bottom more muted initially_hidden"><span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>
@@ -62,12 +62,10 @@
   });
   $("tr.expandable").hover(
     function() {
-      $(this).find(".more").addClass('linky muted');
-      $(this).find(".more span").addClass('underline');
+      $(this).find(".more").show(300);
     },
     function() {
-      $(this).find(".more").removeClass('linky muted');
-      $(this).find(".more span").removeClass('underline');
+      $(this).find(".more").hide();
     }
   );
 <% end -%>
