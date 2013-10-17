@@ -1,6 +1,7 @@
 <div class="page-header">
   <div class="well well-small" style="float: right;">
     <dl class="dl-horizontal">
+      <% if false %>
       <dt>Events Hosted</dt>
       <dd><%= @user.hostings.completed.count %></dd>
 
@@ -9,7 +10,7 @@
 
       <dt>Velocity</dt>
       <dd><span class="badge badge-success"><%= formatted_velocity(@user) %></span></dd>
-
+      <% end %>
       <dt>Joined Villagecraft</dt>
       <dd><%= time_ago(@user.created_at) %></dd>
     </dl>  
