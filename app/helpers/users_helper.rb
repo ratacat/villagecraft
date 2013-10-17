@@ -26,6 +26,10 @@ module UsersHelper
     end
   end
   
+  def user_phone(user)
+    number_to_phone user.phone[2..-1], area_code: true
+  end
+  
   def formatted_velocity(user)
     number_to_percentage(user.velocity * 100, precision: 0)
   end

@@ -14,7 +14,7 @@ Hi <%= @user.name %>,
   <strong><%= @event.host.name %></strong><br/>
   <address>
     <strong>email</strong>: <%= @event.host.email %><br/>
-    <strong>mobile</strong> #: <%= @event.host.phone %> 
+    <strong>mobile</strong> #: <%= user_phone(@event.host) %> 
   </address>
 </p>
 <br/>
