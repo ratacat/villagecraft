@@ -1,4 +1,5 @@
 class UserMailer < ActionMailer::Base
+  helper :users
   default from: "villagecraft@villagecraft.org"
 
   def confirm_attendance(attendance)
