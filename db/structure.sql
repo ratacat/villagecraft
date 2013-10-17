@@ -161,7 +161,7 @@ CREATE TABLE events (
     course_id integer,
     host_id integer,
     location_id integer,
-    min_attendees integer DEFAULT 3,
+    min_attendees integer DEFAULT 0,
     max_attendees integer DEFAULT 8,
     open boolean,
     max_observers integer,
@@ -970,3 +970,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131004032805');
 INSERT INTO schema_migrations (version) VALUES ('20131004200709');
 
 INSERT INTO schema_migrations (version) VALUES ('20131014194826');
+
+INSERT INTO schema_migrations (version) VALUES ('20131017001956');
