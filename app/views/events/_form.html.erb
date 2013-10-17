@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   	<%= f.input :title %>
-  	<%= f.input :short_title, label: 'Short Title' %>
+  	<%# f.input :short_title, label: 'Short Title' %>
 
     <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
       <%= f.input_field :start_time_date, :as => :date_select, :class => "start date", 
@@ -24,10 +24,10 @@
       </div>
     </div>
     
-  	<%= f.input :min_attendees, input_html: {:min => 0} %>
+  	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
   	
-  	<%= f.input :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
+  	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
   	
     <%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'span5'} %>
 
