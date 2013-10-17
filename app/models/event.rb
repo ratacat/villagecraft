@@ -38,8 +38,8 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :course_id, presence: true
   validates :title, presence: true
-  validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
-  validates :short_title, presence: true
+  # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
+  # validates :short_title, presence: true
   validates :min_attendees, 
             :numericality => { :greater_than_or_equal_to => 0, 
                                :less_than_or_equal_to => lambda {|e| e.max_attendees || e.min_attendees}, 
