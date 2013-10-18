@@ -50,6 +50,8 @@ class User < ActiveRecord::Base
       self.profile_image.img.url(size)
     end
   end
+  
+  def remember_me; true; end
 
   def User.homunculus_src(size = :medium)
     "/assets/homunculus_#{size}.png"
