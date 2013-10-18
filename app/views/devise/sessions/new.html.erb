@@ -4,13 +4,13 @@
 <h2>Log In</h2>
 <div class="span-4">
   <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
-  <%= f.input :email %>
-  <%= f.input :password %>
-  <%= f.input :remember_me, as: :boolean %>
+    <%= f.input :email %>
+    <%= f.input :password %>
+    <%= f.input :remember_me, as: :boolean %>
 
     <div class="form-actions">
-    	<%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= f.submit "Log in", class: "btn btn-primary" %>
       <%= render "devise/shared/links" %>
     </div>
-  <% end %>  
+  <% end %>
 </div>
