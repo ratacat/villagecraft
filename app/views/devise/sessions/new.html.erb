@@ -1,6 +1,8 @@
-<div class="pull-right well">
-  <a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Log in with <b>Facebook</b></a>  
-</div>
+<% if false %>
+  <div class="pull-right well">
+    <a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Log in with <b>Facebook</b></a>  
+  </div>
+<% end %>
 <h2>Log In</h2>
 <div class="span-4">
   <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
