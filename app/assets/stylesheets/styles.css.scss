@@ -6,29 +6,6 @@ body h2 {
 
 }
 
-#villagecraft-title {
-  font-family:BalsamiqSans;
-  font-size:4em;
-  display: inline;
-  clear:both;
-}
-
-#villagecraft-header {
-  height:100px;
-
-}
-
-#villagecraft-tagline {
-  font-family:BalsamiqSans;
-  font-size:2em;
-  display: inline;
-  float:left;
-}
-
-.villagecraft-image {
-  display: inline;
-}
-
 @font-face {
   font-family: 'BalsamiqSans';
   src:url('BalsamiqSansRegular.ttf');
@@ -226,11 +203,6 @@ table.table.when_where_host_table td.image {
   vertical-align: middle;
 }
 
-div.cta {
-  padding: 1em 0 1em 1em;
-  text-align: center;
-}
-
 .initially_hidden {
   display: none;
 }
@@ -238,4 +210,53 @@ div.cta {
 .ellipsisize {
   height: 40px;
   overflow: hidden;
+}
+
+.bottom-caption{
+  text-align:center;
+}
+
+.thumbnail {
+  display:inline;
+  margin:0px;
+  padding:0px;
+}
+
+.table td {
+  margin-bottom:0px;
+  padding:4px;
+}
+
+.fee-expanded {
+  font-size:1.4em;
+  margin-left:60px;
+}
+
+.fee-accordion {
+  width:100px;
+  font-size:1.4em;
+  margin-top:35px;
+}
+
+div.cta {
+  padding: 1em 0 1em 1em;
+  text-align: center;
+  clear:both;
+}
+
+.event_summary h4 {
+  margin-top:35px;
+  font-size:1.8em;
+  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight:300;
+}
+
+
+#villagecraft-header {
+  height:100px;
+
+}
+
+.villagecraft-image {
+  display: inline;
 }

@@ -10,9 +10,9 @@
   <% events.each do |event| %>
     <tr class="event_summary expandable">
       <td style="position: relative;">
-        <div class="muted floatright"><%= event_price(event, :show_materials_fee => true) %></div>
+        <div class="floatright fee-accordion"><%= event_price(event, :show_materials_fee => true) %></div>
         <h4 class="margin_top0"><%= event.title %></h4>
-        <p class="ellipsisize"><%= strip_tags(event.description) %></p>
+  
         <div class="absolute_bottom more muted initially_hidden"><span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
@@ -21,10 +21,10 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <div class="muted floatright"><%= event_price(event, :show_materials_fee => true) %></div>
         <h4 class="margin_top0"><%= event.title %></h4>
-        <div style="float: right;" class="cta">
-          <%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/>
+        <div class="floatright">
+          <div class="fee-expanded"><%= event_price(event, :show_materials_fee => true) %></div>
+          <div class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/></div>
         </div>
         <p>
           <%= event.description.html_safe %>
