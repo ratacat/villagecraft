@@ -41,4 +41,11 @@ Villagecraft::Application.configure do
   
   config.facebook_app_id = "1395047807377616"
   config.facebook_app_secret = "49a984436ada9d7c3fa69e75ad428edf"
+
+  # Adding Webfonts to the Asset Pipeline
+config.assets.precompile << Proc.new { |path|
+  if path =~ /\.(eot|svg|ttf|woff)\z/
+    true
+  end
+}
 end

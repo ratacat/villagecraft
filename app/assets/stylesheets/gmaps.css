@@ -1,6 +1,6 @@
 /* Mostly a bunch of hack to fix conflicts with Bootstrap CSS */
 html { height: 100% }
-body { height: 100%; margin: 0; padding: 0; padding-top:60px; }
+body { height: 100%; margin: 0; padding: 0; }
 
 #map-canvas { 
   height: 310px;

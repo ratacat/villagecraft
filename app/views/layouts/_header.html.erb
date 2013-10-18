@@ -1,25 +1,7 @@
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
- 
-      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
- 
-      <!-- Be sure to leave the brand out there if you want it shown -->
-      <a class="brand" href="/">Villagecraft <span class="brand-tag">the online community for real learning</span></a>
- 
-      <!-- Everything you want hidden at 940px or less, place within here -->
-      <div class="nav-collapse collapse">
-      	<ul class="nav">
-      	</ul>
-      	<ul class="nav pull-right">
+      
+        <ul class="nav pull-right" style="margin-right:100px;position:relative;">
           <% if not user_signed_in? %>
-            <li><%= link_to "Sign Up", '#', :'data-toggle_modal_registration' => true %></li>
-            <li><%= link_to "Log In", new_user_session_path %></li>
+            <li><%= link_to "not logged in", new_user_session_path %></li>
           <% else %>
             <% if current_user.try(:host?) %>
               <li><%= link_to "My Events", my_events_path %></li>
@@ -72,12 +54,15 @@
               </ul>
             </li>
           <% end %>
-      	</ul>
-        <!-- .nav, .navbar-search, .navbar-form, etc -->
+        </ul>
+
+      <!-- Be sure to leave the brand out there if you want it shown -->
+      <div style="villagecraft-header">
+        <%= image_tag "villagecraft250.png", class: "villagecraft-image" %>
+        <%= image_tag "villagecraft-title.png" %>
       </div>
-    </div>
-  </div>
-</div>
+
+        <!-- .nav, .navbar-search, .navbar-form, etc -->
 
 <% ready_script do -%>
   $('#notifications_toggle').on('click', function() {
