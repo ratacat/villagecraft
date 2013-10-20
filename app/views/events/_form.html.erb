@@ -51,7 +51,7 @@
   var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
   var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
 
-  <%= render :partial => 'events/init_datetime_pickers.js' %>
+  <%= render :partial => 'events/init_datetime_pickers', :formats => [:js] %>
   
   $("#event_venue_id").change(function(e) {
     if ($("#event_venue_id option:selected")[0] === $("#event_venue_id option:last")[0]) {
