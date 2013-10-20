@@ -10,10 +10,9 @@
   <% events.each do |event| %>
     <tr class="event_summary expandable">
       <td>
-        <div class="muted floatright"><%= event_price(event, :show_materials_fee => true) %></div>
-        <h4 class="margin_top0"><%= event.title %></h4>
-        <p class="ellipsisize"><%= strip_tags(event.description) %></p>
-        <div class="more muted initially_hidden"><span>click to expand</span> <i class="icon-sort-down"></i></div>
+        <div class="floatright fee-accordion"><%= event_price(event, :show_materials_fee => true) %></div>
+        <h4 class="margin_top0 event_title_accordion"><%= event.title %></h4>
+        <div class="more muted initially_hidden"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>
@@ -21,10 +20,10 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <div class="muted floatright"><%= event_price(event, :show_materials_fee => true) %></div>
-        <h4 class="margin_top0"><%= event.title %></h4>
-        <div style="float: right;" class="cta">
-          <%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/>
+        <h4 class="event_title_expanded margin_top0"><%= event.title %></h4>
+        <div class="floatright">
+          <div class="fee-expanded"><%= event_price(event, :show_materials_fee => true) %></div>
+          <div class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/></div>
         </div>
         <p>
           <%= event.description.html_safe %>
