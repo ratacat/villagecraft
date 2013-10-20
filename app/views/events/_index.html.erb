@@ -59,10 +59,10 @@
   });
   $("tr.expandable").hover(
     function() {
-      $(this).find(".more").show(300);
+      $(this).find(".more").fadeIn(300);
     },
     function() {
-      $(this).find(".more").hide();
+      $(this).find(".more").fadeOut();
     }
   );
   $("p.ellipsisize").ellipsis();
