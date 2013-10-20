@@ -419,7 +419,8 @@ CREATE TABLE users (
     admin boolean,
     phone character varying(255),
     name character varying(255),
-    host boolean
+    host boolean,
+    authentication_token character varying(255)
 );
 
 
@@ -781,6 +782,13 @@ CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (vclass_id);
 
 
 --
+-- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (authentication_token);
+
+
+--
 -- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -982,3 +990,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131014194826');
 INSERT INTO schema_migrations (version) VALUES ('20131017001956');
 
 INSERT INTO schema_migrations (version) VALUES ('20131020062302');
+
+INSERT INTO schema_migrations (version) VALUES ('20131020092041');

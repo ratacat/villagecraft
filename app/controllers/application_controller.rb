@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :sign_in_if_auth_token
   before_filter :fetch_notifications
   after_filter :store_location
   before_filter :require_admin, :only => [:dash]
@@ -39,6 +40,14 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def sign_in_if_auth_token
+    if params[:authentication_key].present?
+      @user = User.find_by_authentication_token(params[:authentication_key])
+      sign_in @user if @user
+      redirect_to root_path
+    end
+  end
+    
   def fetch_notifications
     if user_signed_in?
       @notifications = current_user.notifications.order('created_at desc').limit(10)
