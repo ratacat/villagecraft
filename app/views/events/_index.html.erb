@@ -9,11 +9,11 @@
   <tbody>
   <% events.each do |event| %>
     <tr class="event_summary expandable">
-      <td style="position: relative;">
+      <td>
         <div class="muted floatright"><%= event_price(event, :show_materials_fee => true) %></div>
         <h4 class="margin_top0"><%= event.title %></h4>
         <p class="ellipsisize"><%= strip_tags(event.description) %></p>
-        <div class="absolute_bottom more muted initially_hidden"><span>click to expand</span> <i class="icon-sort-down"></i></div>
+        <div class="more muted initially_hidden"><span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>

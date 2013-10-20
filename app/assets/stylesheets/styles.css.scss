@@ -190,6 +190,9 @@ form div.controls-row.event_when input {
 
 tr.expandable {
   cursor: pointer;
+  td {
+    padding-bottom: 0px;
+  }
 }
 
 .table-hover tbody tr.event_detail:hover td {
@@ -202,11 +205,6 @@ tr.expandable {
 
 .underline {
   text-decoration: underline;
-}
-
-.absolute_bottom {
-  position: absolute;
-  bottom: 0;
 }
 
 .admin_color {
