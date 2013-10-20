@@ -11,7 +11,7 @@
     <tr class="event_summary expandable">
       <td>
         <div class="floatright fee-accordion"><%= event_price(event, :show_materials_fee => true) %></div>
-        <h4 class="margin_top0 event_title_accordion"><%= event.title %></h4>
+        <h3 class="event_title"><%= event.title %></h3>
         <div class="more muted initially_hidden"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
@@ -20,7 +20,7 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <h4 class="event_title_expanded margin_top0"><%= event.title %></h4>
+        <h3 class="event_title"><%= event.title %></h3>
         <div class="floatright">
           <div class="fee-expanded"><%= event_price(event, :show_materials_fee => true) %></div>
           <div class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/></div>
