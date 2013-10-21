@@ -11,6 +11,8 @@ Villagecraft::Application.routes.draw do
   post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
   
   resources :users
+  post 'users/find_by_email' => 'users#find_by_email', :as => :find_user_by_email
+  
   post 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_events' => 'events#my_events', :as => :my_events
