@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:new, :create, :find_by_email]
+  before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :find_user, :except => [:index, :new, :create, :find_by_email]
+  before_filter :find_user, :except => [:index, :new, :create]
   before_filter :be_user_or_be_admin, :only => [:edit, :update]
   
   # GET /users
@@ -21,16 +21,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
-    end
-  end
-  
-  # POST /users/find_by_email
-  def find_by_email
-    @user = User.find_by_email(params[:email])
-    if @user
-      render json: {email: @user.email, name: @user.name}
-    else
-      render json: {message: 'User not found'}, :status => 404
     end
   end
 
