@@ -27,7 +27,7 @@ class Attendance < ActiveRecord::Base
   
   protected
   def send_confirmation_email
-    UserMailer.confirm_attendance(self).deliver!
+    UserMailer.confirm_attendance(self).deliver
   end
   
 end
