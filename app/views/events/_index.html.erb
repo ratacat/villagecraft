@@ -9,11 +9,12 @@
   <tbody>
   <% events.each do |event| %>
     <tr class="event_summary expandable">
-      <td style="position: relative;">
-        <div class="floatright fee-accordion"><%= event_price(event, :show_materials_fee => true) %></div>
-        <h4 class="margin_top0 event_title_accordion"><%= event.title %></h4>
-  
-        <div class="absolute_bottom more muted initially_hidden" style="margin-left:150px;"><span>click to expand</span> <i class="icon-sort-down"></i></div>
+      <td>
+        <div class="span2 pull-right center-text">
+          <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
+        </div>
+        <h3 class="event_title"><%= event.title %></h3>
+        <div class="more muted initially_hidden"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>
@@ -21,14 +22,17 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <h4 class="event_title_expanded  margin_top0"><%= event.title %></h4>
-        <div class="floatright">
-          <div class="fee-expanded"><%= event_price(event, :show_materials_fee => true) %></div>
+        <div class="span2 pull-right center-text">
+          <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
           <div class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/></div>
         </div>
+        <h3 class="event_title"><%= event.title %></h3>
         <p>
           <%= event.description.html_safe %>
         </p>
+        <% if (event.host === current_user) or admin_session? %>
+          <%= link_to 'Manage', manage_attendances_path(event), :class => 'btn btn-small' %>        
+        <% end %>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event, :show_image => true} %>
@@ -60,11 +64,10 @@
   });
   $("tr.expandable").hover(
     function() {
-      $(this).find(".more").show(300);
+      $(this).find(".more").fadeIn(300);
     },
     function() {
-      $(this).find(".more").hide();
+      $(this).find(".more").fadeOut();
     }
   );
-  $("p.ellipsisize").ellipsis();
 <% end -%>
