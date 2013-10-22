@@ -42,8 +42,8 @@
      data: { email: email },
      dataType: 'json'
    }).done( function(msg) {
-     $("#register_modal").modal("hide")
-     // Use JS to update alert message to say: "To complete your signup, check your email and click through to confirm"
+     $("#register_modal").modal("hide");
+     show_bootstrap_alert({text: "Check your email and click through to complete your sign up."});
    }).fail( function(msg) {
      $('#register_new_user input[name="user[email]"]').val(email);
      $('#collect_email_address').hide();
