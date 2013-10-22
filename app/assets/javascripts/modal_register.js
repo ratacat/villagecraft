@@ -20,12 +20,8 @@
  
  $("[data-toggle_modal_registration]").vc_modal_register();
  
- $("#register_modal").on('show', function() {
-   if ($.cookie('auto_attend_event')) {
-     $(this).find("p.event_signup_notification").show();
-   } else {
-     $(this).find("p.event_signup_notification").hide();
-   }
+ $("#register_modal").on('shown', function() {
+   $('#attend_by_email_form input[name="user[email]"]:first').focus();
  });
  
  $("#register_modal").on('hide', function() {
