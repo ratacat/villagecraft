@@ -1,4 +1,5 @@
 Villagecraft::Application.routes.draw do
+  match '(*any)' => redirect { |p, req| req.url.sub('www.', '') }, :constraints => { :host => /^www\./ }
   get "users_controller/users"
 
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
