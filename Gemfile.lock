@@ -103,6 +103,10 @@ GEM
     geocoder (1.1.8)
     google_timezone (0.0.1)
     googlestaticmap (1.1.4)
+    handlebars_assets (0.14.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hashie (1.2.0)
     highline (1.6.19)
     hike (1.2.3)
@@ -273,6 +277,7 @@ DEPENDENCIES
   geocoder
   google_timezone
   googlestaticmap
+  handlebars_assets
   jquery-rails
   letter_opener
   nexmo

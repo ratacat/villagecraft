@@ -29,6 +29,19 @@ function popover_maps() {
 
 }
 
+function show_bootstrap_alert(opts) {
+  var options = $.extend( {
+    'type': 'warning',
+    'text': '',
+    'selector': "#alerts",
+    'clear': true
+  }, opts);
+  if (options.clear) {
+    $(options.selector).empty();
+  };
+  $(options.selector).prepend(HandlebarsTemplates['alerts/show'](options));
+}
+
 jQuery(function($) {
   raty_ratings();
   popover_maps();
