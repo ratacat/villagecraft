@@ -47,6 +47,7 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'handlebars_assets'
 end
 
 gem 'awesome_print'
@@ -57,6 +58,15 @@ group :development do
   gem 'factory_girl_rails', :require => false
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
+  gem "letter_opener"
+
+  # To use debugger
+  # If uncommenting gem 'debugger' doesn't work, try first uncommenting the following two lines and doing:
+  # pushd `bundle show debugger-ruby_core_source`; rake add_source --trace VERSION=1.9.3-rc1; pushd
+  # gem 'archive-tar-minitar'
+  # gem 'debugger-ruby_core_source'
+
+  gem 'debugger'
 end
 
 group :production do
@@ -82,11 +92,3 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-# If uncommenting gem 'debugger' doesn't work, try first uncommenting the following two lines and doing:
-# pushd `bundle show debugger-ruby_core_source`; rake add_source --trace VERSION=1.9.3-rc1; pushd
-# gem 'archive-tar-minitar'
-# gem 'debugger-ruby_core_source'
-
-# gem 'debugger'

@@ -17,7 +17,7 @@
     
   	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
   	<div class="control-group">
-      <%= f.label "Profile Image" %>
+      <%= f.label "Event Image" %>
       <div class="controls">
         <%= image_tag @event.img_src(:larger), :class => "img-rounded" %>
         <%= f.file_field :image %><br/>
@@ -51,7 +51,7 @@
   var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
   var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
 
-  <%= render :partial => 'events/init_datetime_pickers.js' %>
+  <%= render :partial => 'events/init_datetime_pickers', :formats => [:js] %>
   
   $("#event_venue_id").change(function(e) {
     if ($("#event_venue_id option:selected")[0] === $("#event_venue_id option:last")[0]) {
@@ -67,9 +67,4 @@
     buttonText: "Choose photo",
     icon: true 
   });
-  $("#event_image").change(function() {
-      $(this).closest("form").submit();
-    }
-  );
-  
 <% end -%>

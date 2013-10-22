@@ -1,5 +1,5 @@
-<% if current_user.try(:admin?) %>
-  <%= link_to 'New Event', new_event_path, :class => 'btn btn-success pull-right' %>  
+<% if admin_session? %>
+  <%= link_to 'New Event', new_event_path, :class => 'btn btn-warning pull-right' %>  
 <% end %>
 
 <ul class="nav nav-tabs">

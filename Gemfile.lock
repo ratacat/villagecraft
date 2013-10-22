@@ -74,6 +74,13 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    columnize (0.3.6)
+    debugger (1.6.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.1)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.2)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -96,6 +103,10 @@ GEM
     geocoder (1.1.8)
     google_timezone (0.0.1)
     googlestaticmap (1.1.4)
+    handlebars_assets (0.14.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hashie (1.2.0)
     highline (1.6.19)
     hike (1.2.3)
@@ -106,6 +117,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.0)
     kgio (2.7.4)
+    launchy (2.0.5)
+      addressable (~> 2.2.6)
+    letter_opener (0.0.2)
+      launchy
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -254,6 +269,7 @@ DEPENDENCIES
   capistrano-unicorn
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
+  debugger
   devise
   execjs
   factory_girl_rails
@@ -261,7 +277,9 @@ DEPENDENCIES
   geocoder
   google_timezone
   googlestaticmap
+  handlebars_assets
   jquery-rails
+  letter_opener
   nexmo
   omniauth
   omniauth-facebook

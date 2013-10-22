@@ -140,7 +140,7 @@ form div.controls-row.event_when input {
 .region .img {position:relative;float:right;margin-bottom:40px;}
 .region .intro {width:450px;margin-top:30px;position:relative;float:left;}
 
-.blocky_spans {
+.blocky_spns {
   margin-left: 0px;
   span {
     display: block;
@@ -167,6 +167,12 @@ form div.controls-row.event_when input {
 
 tr.expandable {
   cursor: pointer;
+  td {
+    padding-bottom: 0px;
+    div.more {
+      text-align: center;
+    }
+  }
 }
 
 .table-hover tbody tr.event_detail:hover td {
@@ -179,11 +185,6 @@ tr.expandable {
 
 .underline {
   text-decoration: underline;
-}
-
-.absolute_bottom {
-  position: absolute;
-  bottom: 0;
 }
 
 .admin_color {
@@ -207,11 +208,6 @@ table.table.when_where_host_table td.image {
   display: none;
 }
 
-.ellipsisize {
-  height: 40px;
-  overflow: hidden;
-}
-
 .bottom-caption{
   text-align:center;
 }
@@ -227,34 +223,19 @@ table.table.when_where_host_table td.image {
   padding:4px;
 }
 
-.fee-expanded {
-  font-size:1.4em;
-  margin-left:35px;
+.fee {
+  margin-top: 10px;
+  font-weight: 300;
+  line-height: 40px;
 }
 
-.fee-accordion {
-  font-size:1.4em;
-  margin-top:35px;
-  margin-right:60px;
+.cta {
+  padding: 1em;
 }
 
-div.cta {
-  padding: 1em 0 1em 1em;
-  text-align: center;
-  clear:both;
-}
-
-.event_title_accordion {
-  margin-top:35px;
-  font-size:1.8em;
+.event_title {
   font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight:300;
-}
-
-.event_title_expanded {
-  font-size:1.9em;
-  font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight:400;
+  font-weight: 300;
 }
 
 #villagecraft-header {

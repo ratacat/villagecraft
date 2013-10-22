@@ -18,7 +18,7 @@
 	</body>
 	<% unless user_signed_in? %>
 	  <%# render :partial => 'devise/registrations/modal_new' %>
-	  <%= render :partial => 'devise/registrations/modal_signup_no_fb' %>
+	  <%= render :partial => 'devise/registrations/modal_signup' %>
 	  
     <%= body_script do -%>
       <%= render :partial => 'devise/shared/facebook.js' %>

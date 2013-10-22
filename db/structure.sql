@@ -171,7 +171,8 @@ CREATE TABLE events (
     short_title character varying(255),
     price numeric(10,2),
     venue_id integer,
-    uuid character varying(255)
+    uuid character varying(255),
+    image_id integer
 );
 
 
@@ -418,7 +419,8 @@ CREATE TABLE users (
     admin boolean,
     phone character varying(255),
     name character varying(255),
-    host boolean
+    host boolean,
+    authentication_token character varying(255)
 );
 
 
@@ -731,6 +733,13 @@ CREATE INDEX index_courses_on_vclass_id ON courses USING btree (vclass_id);
 
 
 --
+-- Name: index_events_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_image_id ON events USING btree (image_id);
+
+
+--
 -- Name: index_events_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -770,6 +779,13 @@ CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
 --
 
 CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (vclass_id);
+
+
+--
+-- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (authentication_token);
 
 
 --
@@ -972,3 +988,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131004200709');
 INSERT INTO schema_migrations (version) VALUES ('20131014194826');
 
 INSERT INTO schema_migrations (version) VALUES ('20131017001956');
+
+INSERT INTO schema_migrations (version) VALUES ('20131020062302');
+
+INSERT INTO schema_migrations (version) VALUES ('20131020092041');

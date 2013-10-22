@@ -39,7 +39,7 @@ module LocationHelper
     }
     options.reverse_merge!(defaults)
     
-    content_tag(:div, :class => "blocky_spans#{ ' popover_map' if options[:show_popover_map]}", 
+    content_tag(:div, :class => "blocky_spns#{ ' popover_map' if options[:show_popover_map]}", 
                       :'data-content' => popover_neighborhood_map(location), 
                       :'data-title' => hood_name_in_city(location, :show_in => true).gsub('"', "'")) do
       hood_name_in_city(location)

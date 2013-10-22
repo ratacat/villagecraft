@@ -4,12 +4,12 @@
     <%= f.error_notification %>
 
     <%= f.input :email %>
-    <%= f.input :password, label: "New Password", autocomplete: "off" %>
     <% if resource.has_set_password %>
       <%= f.input :current_password %>
     <% else %>
       <% flash[:alert] = "You have not yet set a password.  You should." %>
     <% end %>
+    <%= f.input :password, label: "New Password", autocomplete: "off" %>
 
     <div class="form-actions"><%= f.submit "Update", class: "btn btn-primary" %></div>
   <% end %>  

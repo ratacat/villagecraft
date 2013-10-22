@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :course
   has_one :vclass, :through => :course
-  has_one :image, :through => :vclass
+  belongs_to :image, :class_name => 'Image'
   
   belongs_to :venue
   has_one :location, :through => :venue
@@ -142,7 +142,7 @@ class Event < ActiveRecord::Base
   
   def image=(f)
     i = Image.create!(:img => f, :user => self.host)
-    self.vclass.image_id = i.id
+    self.image_id = i.id
   end
   
   protected

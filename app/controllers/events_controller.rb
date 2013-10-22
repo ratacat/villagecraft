@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
   
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
-  before_filter :authenticate_user!, except: [:index, :show, :attendees]
+  before_filter :authenticate_user!, except: [:index, :show, :attendees, :attend_by_email]
   before_filter :require_admin, :only => [:index, :destroy]
   before_filter :require_host, :only => [:my_events]
   before_filter :find_venue, :only => [:create, :update]
@@ -137,7 +137,7 @@ class EventsController < ApplicationController
       attendance.save!
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
-        format.html { redirect_to @event, notice: "You are already attending this event" }
+        format.html { redirect_to root_path, notice: "You are already attending this event" }
         format.json { head :no_content }
       end
       return
@@ -150,6 +150,18 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
     
+  end
+  
+  # POST /attend_by_email/1
+  # POST /attend_by_email/1.json
+  def attend_by_email
+    @user = User.find_by_email(params[:email])
+    if @user
+      UserMailer.click_to_sign_in_and_attend(@user, @event).deliver
+      render json: {message: 'User sent click-to-attend email'}, :status => :ok # 200
+    else
+      render json: {message: 'User not found'}, :status => :not_found # 404
+    end
   end
   
   # POST /cancel_attend/1

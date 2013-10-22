@@ -7,4 +7,10 @@ class UserMailer < ActionMailer::Base
     @event = attendance.event
     mail(to: @user.email, subject: "You are signed up to attend: #{@event.title}")
   end
+  
+  def click_to_sign_in_and_attend(user, event)
+    @user = user
+    @event = event
+    mail(to: @user.email, subject: "Confirm your sign up for: #{@event.title}")
+  end
 end
