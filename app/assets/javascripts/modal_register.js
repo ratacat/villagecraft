@@ -44,6 +44,7 @@
      $('#register_new_user input[name="user[email]"]').val(email);
      $('#collect_email_address').hide();
      $('#register_new_user').show();
+     $('#register_new_user input[name="user[name]"]:first').focus();
    });
  });
  
