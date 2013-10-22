@@ -41,10 +41,9 @@ class ApplicationController < ActionController::Base
   end
   
   def sign_in_if_auth_token
-    if params[:authentication_key].present?
-      @user = User.find_by_authentication_token(params[:authentication_key])
+    if params[:auth_token].present?
+      @user = User.find_by_authentication_token(params[:auth_token])
       sign_in @user if @user
-      redirect_to root_path
     end
   end
     
