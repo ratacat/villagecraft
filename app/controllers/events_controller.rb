@@ -137,7 +137,7 @@ class EventsController < ApplicationController
       attendance.save!
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
-        format.html { redirect_to @event, notice: "You are already attending this event" }
+        format.html { redirect_to root_path, notice: "You are already attending this event" }
         format.json { head :no_content }
       end
       return
