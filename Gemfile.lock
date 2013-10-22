@@ -106,6 +106,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.0)
     kgio (2.7.4)
+    launchy (2.0.5)
+      addressable (~> 2.2.6)
+    letter_opener (0.0.2)
+      launchy
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -262,6 +266,7 @@ DEPENDENCIES
   google_timezone
   googlestaticmap
   jquery-rails
+  letter_opener
   nexmo
   omniauth
   omniauth-facebook

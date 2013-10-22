@@ -57,6 +57,7 @@ group :development do
   gem 'factory_girl_rails', :require => false
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
+  gem "letter_opener"
 end
 
 group :production do
