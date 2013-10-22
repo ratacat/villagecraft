@@ -31,4 +31,24 @@
  $("#register_modal").on('hide', function() {
    $.removeCookie('auto_attend_event');
  });
+ 
+ $('#attend_by_email_form').submit(function(event) {
+   event.preventDefault();
+   var event_uuid = $.cookie('auto_attend_event'), 
+       email = $(this).find('input[name="user[email]"]').val();
+   $.ajax({
+     type: "POST",
+     url: '/attend_by_email/' + event_uuid,
+     data: { email: email },
+     dataType: 'json'
+   }).done( function(msg) {
+     $("#register_modal").modal("hide")
+     // Use JS to update alert message to say: "To complete your signup, check your email and click through to confirm"
+   }).fail( function(msg) {
+     $('#register_new_user input[name="user[email]"]').val(email);
+     $('#collect_email_address').hide();
+     $('#register_new_user').show();
+   });
+ });
+ 
 })( jQuery );
