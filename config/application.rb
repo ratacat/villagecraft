@@ -9,10 +9,6 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-if Rails.env == "production"
-  config.middleware.use("Rack::GoogleAnalytics", :web_property_id => "UA-45132253-1")
-end
-
 module Villagecraft
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -25,6 +21,10 @@ module Villagecraft
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+    if Rails.env == "production"
+        config.middleware.use("Rack::GoogleAnalytics", :web_property_id => "UA-45132253-1")
+    end
 
     # Activate observers that should always be running.
     config.active_record.observers = :notifier
