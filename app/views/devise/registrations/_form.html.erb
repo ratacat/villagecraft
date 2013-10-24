@@ -3,13 +3,12 @@
 
   <%= f.input :email %>
   <%= f.input :name, label: 'Name' %>
-  <%= f.input :phone, label: 'Mobile Number' %>
+  <%= f.input :phone, label: 'Phone Number' %>
+  <div style="color:#ccc;margin-left:210px;position:relative;top:-20px;">for last minute changes</div>
   <%# f.input :city, label: 'City' %>
   <%# f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
   <%# f.input :password, required: true %>
 
-  <div class="form-actions">
-  	<%= f.submit "Sign up", class: "btn btn-primary" %>
+  	<%= f.submit "Lets do it", class: "btn btn-primary modal-letsdoit" %>
     <%# render :partial => "devise/shared/links", :locals => {:show_sign_up => true} %>  	 
-  </div>
 <% end %>  

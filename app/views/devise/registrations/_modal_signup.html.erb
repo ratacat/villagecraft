@@ -1,19 +1,19 @@
 <div id="register_modal" class="modal hide fade" tabindex="-1" data-backdrop="true" data-keyboard="true" role="dialog" aria-hidden="true" >
   <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3><span class="event_title"></span></h3>
+      <span style="margin-bottom:8px;">You're about to register for...</span>
     </div>
+    <h3 style="margin-left:10px;"><span class="event_title"></span></h3>
+    <span style="margin-left:25px;">We won't spam or share your information.</span>
   <div class="modal-body" id='collect_email_address'>
     <%= simple_form_for(:user, :as => :user, :url => registration_path(:user), html: { class: 'form-horizontal', id: 'attend_by_email_form'}) do |f| %>
       <%= f.input :email %>
 
-      <div class="form-actions">
-      	<%= f.submit "Sign up to attend!", :class => "btn btn-primary" %>
-      </div>
+      	<%= f.submit "Lets do it", :class => "btn btn-primary floatright", :style => "margin-right:190px;" %>
     <% end %>
   </div>
   <div class="modal-body initially_hidden" id='register_new_user'>
-    <h4>Just two more things...</h4>
+    <h4 style="margin-left: 30px;margin-bottom: 25px;">ooooh a newbie!  Welcome to Villagecraft =)</h4>
 
     <%= render :partial => 'devise/registrations/form', :locals => {:resource => User.new, :resource_name => :user} %>
   </div>
