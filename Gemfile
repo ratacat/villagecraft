@@ -73,6 +73,7 @@ group :production do
   gem 'therubyracer'
   gem 'execjs'
   gem 'unicorn'
+  gem 'rack-google_analytics', :require => "rack/google_analytics"
 end
 
 group :test do
