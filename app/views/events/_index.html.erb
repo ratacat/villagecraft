@@ -14,7 +14,7 @@
           <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
         </div>
         <h3 class="event_title"><%= event.title %></h3>
-        <div class="more muted initially_hidden"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
+        <div class="more muted very_faint"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event} %>
@@ -64,10 +64,10 @@
   });
   $("tr.expandable").hover(
     function() {
-      $(this).find(".more").fadeIn(300);
+      $(this).find(".more").fadeTo(300,1);
     },
     function() {
-      $(this).find(".more").fadeOut();
+      $(this).find(".more").fadeTo(0,0.001);
     }
   );
 <% end -%>
