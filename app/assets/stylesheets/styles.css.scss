@@ -91,6 +91,13 @@ ul.thumbnails {
     margin: 0;
     padding: 0;
   }
+  .thumbnail {
+    border: 0 none;
+    box-shadow: none;
+  }
+  .caption {
+    padding-left: 4px;
+  }
 }
 
 .thumbnail img {
@@ -101,11 +108,6 @@ ul.thumbnails {
 .thumbnail img.small {
   min-height: 50px;
   min-width: 50px;
-}
-
-.thumbnail {
-  border: 0 none;
-  box-shadow: none;
 }
 
 .notifications {
