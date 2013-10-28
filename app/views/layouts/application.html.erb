@@ -15,6 +15,8 @@
 		<div class="container">
 		<%= yield %>
 		</div>
+
+		<%= render 'layouts/footer' %>
 	</body>
 	<% unless user_signed_in? %>
 	  <%# render :partial => 'devise/registrations/modal_new' %>
