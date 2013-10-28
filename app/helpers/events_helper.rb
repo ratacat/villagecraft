@@ -9,7 +9,7 @@ module EventsHelper
       'Free!'
     else
       html = number_to_currency(event.price)
-      html += ' materials fee' if options[:show_materials_fee]
+      #html += ' materials fee' if options[:show_materials_fee]
       html
     end
   end
