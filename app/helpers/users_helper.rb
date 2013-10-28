@@ -5,7 +5,7 @@ module UsersHelper
       :linked => false
     }
     options.reverse_merge!(defaults)
-    html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => 'img-rounded')
+    html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => "img-rounded #{options[:size]}")
     (options[:linked] and not user.blank?) ? link_to(html, user) : html
   end
   

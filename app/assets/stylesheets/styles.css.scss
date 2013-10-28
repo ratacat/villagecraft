@@ -85,26 +85,27 @@ form div.controls-row.event_when input {
   width: 8em;
 }
 
+ul.thumbnails {
+  margin: 0;
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.thumbnail img {
+  margin: 0px;
+  padding: 0px;
+}
+
+.thumbnail img.small {
+  min-height: 50px;
+  min-width: 50px;
+}
+
 .thumbnail {
-    border: 0 none;
-    box-shadow: none;
-}
-
-.thumbnail.right-caption img {
-    float: left;
-    margin-right: 9px;
-}
-
-.thumbnail.bottom-caption img {
-    display: block;
-    margin-left: 0px;
-    margin-right:  0px;
-}
-
-.thumbnail.right-caption .caption {
-    padding: 0px;
-    overflow: hidden;
-    float: none;
+  border: 0 none;
+  box-shadow: none;
 }
 
 .notifications {
@@ -195,8 +196,24 @@ table.table.borderless th, table.table.borderless td {
    border-top: none; 
 }
 
-table.table.when_where_host_table tr td {
-  width: 33%;
+table.table.when_where_host_table {
+  width: 500px;
+  min-width: 500px;
+}
+
+table.table.when_where_host_table tr td.when, table.table.when_where_host_table tr td.where {
+  width: 140px;
+  min-width: 140px;
+}
+
+table.table.when_where_host_table tr td.attends {
+  width: 60px;
+  min-width: 60x;
+}
+
+table.table.when_where_host_table tr td.host {
+  width: 160px;
+  min-width: 160px;
 }
 
 table.table.when_where_host_table td.image {
@@ -206,16 +223,6 @@ table.table.when_where_host_table td.image {
 
 .initially_hidden {
   display: none;
-}
-
-.bottom-caption{
-  text-align:center;
-}
-
-.thumbnail {
-  display:inline;
-  margin:0px;
-  padding:0px;
 }
 
 .table td {
