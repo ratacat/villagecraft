@@ -8,7 +8,7 @@
 
   <tbody>
   <% events.each do |event| %>
-    <tr class="event_summary expandable">
+    <tr class="event_summary expandable" name="<%= event.to_param %>">
       <td>
         <div class="span2 pull-right center-text">
           <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
@@ -70,4 +70,9 @@
       $(this).find(".more").fadeTo(0,0.001);
     }
   );
+  if (window.location.hash) {
+    var tr = $('tr[name="' + window.location.hash.substring(1) + '"]');
+    $('html, body').animate({ scrollTop: tr.offset().top + 'px'}, 'fast');
+    tr.click();
+  };
 <% end -%>
