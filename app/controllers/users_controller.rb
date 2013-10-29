@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :find_user, :except => [:index, :new, :create]
+  before_filter :find_user, :except => [:index, :new, :create, :edit_preferences, :update_preferences]
   before_filter :be_user_or_be_admin, :only => [:edit, :update]
   
   # GET /users
@@ -37,6 +37,25 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+  end
+
+  # GET /preferences
+  def edit_preferences
+    @user = current_user
+  end
+
+  # PUT /update_preferences
+  def update_preferences
+    @user = current_user
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to root_path, notice: 'Your preferences have been updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit_preferences" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /users

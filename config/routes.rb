@@ -11,6 +11,9 @@ Villagecraft::Application.routes.draw do
   post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
   
   resources :users
+  get 'preferences' => 'users#edit_preferences', :as => :edit_preferences
+  put 'update_preferences' => 'users#update_preferences', :as => :update_preferences
+    
   match 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'attend_by_email/:id(.:format)' => 'events#attend_by_email', :as => :attend_by_email
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
