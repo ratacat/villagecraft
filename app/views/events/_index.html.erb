@@ -41,26 +41,30 @@
   <% end %>
   </tbody>
 </table>
+<% body_script do -%>
+  function expand_row(row, duration) {
+    row.hide();
+
+    // Collapse any other expanded rows
+    $("tr.event_detail").filter(":visible").each(function(i) {
+      $(this).hide();
+      $(this).closest("tr").prev().show();
+    });
+    
+    // Open up the dual of the clicked on row
+    if ( row.hasClass('event_detail') ) {
+      row.prev().show(duration);
+    } else {
+      row.next().show(duration);
+    }
+  }
+<% end -%>
+
 <% ready_script do -%>
   $("tr.expandable").click(function(event) {
       if(event.target.nodeName == 'A') return;
       event.stopPropagation();
-      // Collapse the clicked on row
-      var $target = $(this);
-      $target.hide();
-
-      // Collapse any other expanded rows
-      $("tr.event_detail").filter(":visible").each(function(i) {
-        $(this).hide();
-        $(this).closest("tr").prev().show();
-      });
-      
-      // Open up the dual of the clicked on row
-      if ( $target.hasClass('event_detail') ) {
-        $target.prev().show(1000);
-      } else {
-        $target.next().show(1000);
-      }                    
+      expand_row($(this), 1000);
   });
   $("tr.expandable").hover(
     function() {
@@ -71,8 +75,9 @@
     }
   );
   if (window.location.hash) {
-    var tr = $('tr[name="' + window.location.hash.substring(1) + '"]');
-    $('html, body').animate({ scrollTop: tr.offset().top + 'px'}, 'fast');
-    tr.click();
+    var tr_expandable = $('tr[name="' + window.location.hash.substring(1) + '"]'),
+        tr_details = tr_expandable.next();
+    expand_row(tr_expandable, 0);
+    $('html, body').animate({ scrollTop: tr_details.offset().top + 'px'}, 'fast');
   };
 <% end -%>
