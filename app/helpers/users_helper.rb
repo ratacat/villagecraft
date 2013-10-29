@@ -2,11 +2,12 @@ module UsersHelper
   def user_thumb(user, options={})
     defaults = {
       :size => :thumb,
+      :only_path => true,
       :linked => false
     }
     options.reverse_merge!(defaults)
     html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => "img-rounded #{options[:size]}")
-    (options[:linked] and not user.blank?) ? link_to(html, user) : html
+    (options[:linked] and not user.blank?) ? link_to(html, user_url(user, :only_path => options[:only_path])) : html
   end
   
   def linked_user_thumb(user, options={})
@@ -16,11 +17,12 @@ module UsersHelper
   
   def contextualized_user_link(user, options={})
     defaults = {
-      :linked => true
+      :linked => true,
+      :only_path => true
     }
     options.reverse_merge!(defaults)
     if options[:linked]
-      link_to contextualized_user_name(user, options), user
+      link_to contextualized_user_name(user, options), user_url(user, :only_path => options[:only_path])
     else
       contextualized_user_name(user, options)
     end

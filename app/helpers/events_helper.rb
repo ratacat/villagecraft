@@ -55,21 +55,23 @@ module EventsHelper
       :profile_image_size => :thumb, 
       :show_trackable => false,
       :plaintext => false,
+      :only_path => false,
       :show_ago => true
     }
     options.reverse_merge!(defaults)
+    options[:viewer] ||= current_user
     event = activity.trackable
     html = []
     unless options[:profile_image_size] === :none
-      html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]))      
+      html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]), :only_path => options[:only_path])      
     end
     html << '<div class="caption">'
     if options[:plaintext]
-      html << content_tag(:strong, contextualized_user_name(activity.owner, :capitalize => true))
+      html << content_tag(:strong, contextualized_user_name(activity.owner, :capitalize => true, :viewer => options[:viewer]))
     else
-      html << contextualized_user_link(activity.owner, :capitalize => true)
+      html << contextualized_user_link(activity.owner, :capitalize => true, :viewer => options[:viewer], :only_path => options[:only_path])
     end
-    verb_person = (activity.owner === current_user) ? :second : :third
+    verb_person = (activity.owner === options[:viewer]) ? :second : :third
     case activity.key
     when 'event.time_changed'
       html << 'changed the time'
@@ -96,7 +98,7 @@ module EventsHelper
       if options[:plaintext]
         html << content_tag(:strong, event.title)
       else
-        html << link_to(event.title, event)
+        html << link_to(event.title, root_url(:only_path => options[:only_path], :anchor => event.to_param))
       end
     end
     case activity.key
@@ -111,7 +113,7 @@ module EventsHelper
         if options[:plaintext]
           html << content_tag(:strong, venue.name)
         else
-          html << link_to(venue.name, venue)
+          html << link_to(venue.name, venue_url(venue, :only_path => options[:only_path]))
         end
       end
     else
