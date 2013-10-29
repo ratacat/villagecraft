@@ -12,6 +12,7 @@ class Notification < ActiveRecord::Base
   validates :activity_id, presence: true
   
 #  after_create :send_sms
+  after_create :notify_by_email
 
   def to_s
     action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
@@ -30,12 +31,16 @@ class Notification < ActiveRecord::Base
         User.find_by_uuid('#{self.user.uuid}')
       end
     EVAL
-    action_view.render inline: "<%= strip_tags(render_activity notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false).strip %>", locals: {:notification => self}
+    action_view.render inline: "<%= strip_tags(render_activity notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false).strip.html_safe %>", locals: {:notification => self}
   end
 
   protected
   def send_sms
     self.user.send_sms(self.to_s)
+  end
+  
+  def notify_by_email
+    UserMailer.notification_email(self).deliver
   end
 
 end

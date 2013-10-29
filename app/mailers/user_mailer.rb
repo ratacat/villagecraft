@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  helper :users
+  helper :application, :users, :activities, :events
   default from: "villagecraft@villagecraft.org"
 
   def confirm_attendance(attendance)
@@ -12,5 +12,11 @@ class UserMailer < ActionMailer::Base
     @user = user
     @event = event
     mail(to: @user.email, subject: "Confirm your sign up for: #{@event.title}")
+  end
+  
+  def notification_email(notification)
+    @notification = notification
+    @user = notification.user
+    mail(to: @user.email, subject: notification.to_s)    
   end
 end

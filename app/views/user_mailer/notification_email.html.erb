@@ -1,0 +1,9 @@
+<p>
+<%= render_activity(@notification.activity, 
+                    :plaintext => false, 
+                    :show_trackable => true, 
+                    :viewer => @notification.user, 
+                    :profile_image_size => :none, 
+                    :only_path => false,
+                    :show_ago => false) %>
+</p>
