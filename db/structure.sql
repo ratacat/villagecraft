@@ -420,7 +420,8 @@ CREATE TABLE users (
     phone character varying(255),
     name character varying(255),
     host boolean,
-    authentication_token character varying(255)
+    authentication_token character varying(255),
+    email_notifications boolean DEFAULT true
 );
 
 
@@ -992,3 +993,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131017001956');
 INSERT INTO schema_migrations (version) VALUES ('20131020062302');
 
 INSERT INTO schema_migrations (version) VALUES ('20131020092041');
+
+INSERT INTO schema_migrations (version) VALUES ('20131029053448');

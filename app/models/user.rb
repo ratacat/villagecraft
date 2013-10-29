@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token # whenever a user is saved i,e created or updated it will see that a unique authentication token get created if not already exist
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone
+  attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
   attr_writer :city, :state
   has_uuid(:length => 8)
 
