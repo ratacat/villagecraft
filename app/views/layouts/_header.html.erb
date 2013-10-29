@@ -43,8 +43,7 @@
                   <li><%= link_to 'My Profile', current_user %></li>
                   <li class="divider"></li>
                 <% end %>
-                <li><%= link_to 'Preferences', edit_preferences_path %></li>
-                <li><%= link_to 'Manage Account', edit_user_registration_path %></li>
+                <li><%= link_to 'Settings', edit_preferences_path %></li>
                 <% if session[:admin_mode] %>
                 <li class="divider"></li>
                 <li><%= link_to 'Admin Dashboard', dash_path %></li>                
