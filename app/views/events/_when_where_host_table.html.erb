@@ -2,7 +2,7 @@
    show_image ||= false
 %>
 <table class="table borderless when_where_host_table">
-  <thead>
+  <tbody>
     <tr>
       <td class="when">
         <div class="blocky_spns"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>
@@ -30,5 +30,5 @@
         <td colspan="4" class="image"><img src="<%= event.img_src(:larger) %>" class="img-rounded"></td>
       </tr>
     <% end %>
-  </thead>
+  </tbody>
 </table>
