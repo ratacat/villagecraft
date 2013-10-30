@@ -22,11 +22,11 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <div class="span2 pull-right center-text">
-          <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
-          <div class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %><br/></div>
-        </div>
         <h3 class="event_title"><%= event.title %></h3>
+        <div class="span2 pull-right center-text fee_cta">
+          <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
+          <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></span><br/>
+        </div>
         <p>
           <%= event.description.html_safe %>
         </p>

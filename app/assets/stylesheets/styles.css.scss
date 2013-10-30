@@ -241,10 +241,17 @@ table.table.when_where_host_table td.image {
   margin-top: 10px;
   font-weight: 300;
   line-height: 40px;
+  text-align: center;
 }
 
-.cta {
-  padding: 1em;
+.fee_cta {
+  margin-bottom: 10px;
+  .fee {
+    margin-top: 0;
+  }
+  .cta {
+    white-space: nowrap;
+  }  
 }
 
 .event_title {
