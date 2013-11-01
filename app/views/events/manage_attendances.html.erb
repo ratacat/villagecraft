@@ -2,6 +2,14 @@
   <%= render :partial => 'title_n_times', :locals => {:event => @event} %>
 </div>
 
+<h2>Event URL</h2>
+
+<div class="input-append">
+  <input type='text' id='fe_text' value="<%= root_url(:only_path => false, :anchor => @event.to_param) %>" readonly='readonly'></input>
+  <button class='btn btn-default' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button'>Copy to clipboard</button>
+</button>
+</div>
+
 <h2>Attendees</h2>
 <table class="table table-bordered table-striped">
   <thead>
@@ -42,4 +50,7 @@
 
 <% ready_script do -%>
   $("td.user_phone").format_phone_number_html();
+  
+  var clip = new ZeroClipboard($("#d_clip_button"));
+  $('#fe_text').focus();
 <% end -%>

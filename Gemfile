@@ -33,7 +33,7 @@ gem "paperclip", "~> 3.0"
 gem 'state_machine'
 
 gem 'verbs'
-
+gem 'zeroclipboard-rails'
 gem 'nexmo'
 
 # Gems used only for assets and not required
