@@ -22,6 +22,9 @@ class Notifier < ActiveRecord::Observer
         targets = [event.host]
       when 'event.attend'
         # FIXME: add additional targets here, e.g. friend of attendee
+
+        # For MVP, only target host(s)
+        targets = [event.host]
       end
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"
