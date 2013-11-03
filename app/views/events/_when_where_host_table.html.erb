@@ -9,7 +9,15 @@
         <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
       </td>
       <td class="where"><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %></td>
-      <td class="attends"><div class="blocky_spns"><span><%= event.attendances.count %> / <%= event.max_attendees %></span><span>going</span></div></td>
+      <td class="attends">
+        <div class="blocky_spns">
+          <% if event.slots_left > 0 %>
+            <span><%= event.attendances.count %> / <%= event.max_attendees %></span><span>going</span>
+          <% else %>
+            <span class="text-error">full</span>
+          <% end %>
+        </div>
+      </td>
       <td class="host">
         <% if event.host %>
           <ul class="thumbnails">
