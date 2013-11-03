@@ -14,7 +14,8 @@ class Notifier < ActiveRecord::Observer
         # target users who have attended any of host's past events
         event.host.hostings.each do |hosted_event|
           hosted_event.attendees.each do |past_attendee|
-            targets << past_attendee
+            # temporarilly disable for MVP
+            # targets << past_attendee
           end
         end
       when 'event.interested', 'event.cancel_attend'
