@@ -71,7 +71,7 @@ class Event < ActiveRecord::Base
   end
 
   def slots_left
-    self.max_attendees - self.attendances.with_state(:attending).count
+    self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
 
   def Event.starting_after(t)
