@@ -6,6 +6,7 @@ class Notification < ActiveRecord::Base
   alias :target :user
 
   belongs_to :activity, :class_name => 'PublicActivity::Activity'
+  has_one :event, :through => :activity, :source => :trackable, :source_type => "Event"
   attr_accessible :seen, :sent
 
   validates :user_id, presence: true
