@@ -301,3 +301,15 @@ table.table.when_where_host_table td.image {
   
   background-color: #cccccc \9;
 }
+
+/* normalize all markdown-generated headers to Bootstrap's H4 styling */
+.event_description {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 10px 0;
+    text-rendering: optimizelegibility;
+    width: 415px;
+  }
+}
