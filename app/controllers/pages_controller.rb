@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @events = Event.future.order('start_time')
+    @events = Event.ending_after(Time.now).order('start_time')
   end
 
   def about
