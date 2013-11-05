@@ -18,6 +18,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>Mobile #</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -28,6 +29,10 @@
       <td><%= attendance.user.name %></td>
       <td><%= attendance.user.email %></td>
       <td class="user_phone"><%= attendance.user.phone %></td>
+      <td><%= button_to 'Cancel', 
+                        cancel_attend_path(@event, :user_uuid => attendance.user.uuid), :method => :post,
+                        :class => "btn btn-default", :form_class => "margin0", 
+                        :confirm => 'Really cancel?' %></td>
     </tr>
 <% end %>
   </tbody>

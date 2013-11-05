@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   before_filter :require_admin, :only => [:index, :destroy]
   before_filter :require_host, :only => [:my_events]
   before_filter :find_venue, :only => [:create, :update]
-  before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee]
+  before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee, :cancel_attend]
   
   #before_filter :checkDate, :only => [:create, :update]
   # GET /events
@@ -172,16 +172,33 @@ class EventsController < ApplicationController
   # POST /cancel_attend/1
   # POST /cancel_attend/1.json
   def cancel_attend
-    unless current_user.attends.exists?(@event)
+    if params[:user_uuid]
+      return unless be_host_or_be_admin
+      user = User.find_by_uuid(params[:user_uuid])
+      if user.blank?
+        render_error(:message => "User not found.", :status => 404)
+        return
+      end
+    else
+      user = current_user
+    end
+    
+    unless user.attends.exists?(@event)
       render_error(:message => "Attendence not found.", :status => 404)
       return
     end
 
-    current_user.attends.delete(@event)
-    @event.create_activity key: 'event.cancel_attend', owner: current_user
+    user.attends.delete(@event)
+    @event.create_activity key: 'event.cancel_attend', owner: user
 
     respond_to do |format|
-      format.html { redirect_to @event, notice: 'Your attendence has been canceled' }
+      format.html {
+        if be_host_or_be_admin
+          redirect_to manage_attendances_path(@event), notice: "#{user.name}'s attendence has been canceled"
+        else
+          redirect_to @event, notice: 'Your attendence has been canceled' 
+        end
+      }
       format.json { head :no_content }
     end
     
@@ -275,8 +292,10 @@ class EventsController < ApplicationController
   
   def be_host_or_be_admin
     unless user_signed_in? and (current_user == @event.host or current_user.admin?)
-      render_error(:message => "You are not authorized to edit or administer this event.", :status => :unauthorized)
+      render_error(:message => "You must be the event's host or an admin to do that.", :status => :unauthorized)
+      return false
     end
+    return true
   end
   
 end
