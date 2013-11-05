@@ -85,6 +85,8 @@ module EventsHelper
       html << "#{:plan.verb.conjugate :person => verb_person} to attend"
     when 'event.cancel_attend'
       html << "no longer #{:plan.verb.conjugate :person => verb_person} to attend"
+    when 'event.host_cancels_attend'
+      html << "are no longer signed up to attend"
     else
       ''
     end
@@ -102,6 +104,8 @@ module EventsHelper
       end
     end
     case activity.key
+    when 'event.host_cancels_attend'
+      html << "(the host has cancelled your attendance)"
     when 'event.time_changed'
       html << "to #{activity.parameters[:new_time]}"
     when 'event.venue_changed'

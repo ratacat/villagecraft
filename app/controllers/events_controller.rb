@@ -189,7 +189,11 @@ class EventsController < ApplicationController
     end
 
     @user.attends.delete(@event)
-    @event.create_activity key: 'event.cancel_attend', owner: @user
+    if @user == current_user
+      @event.create_activity key: 'event.cancel_attend', owner: @user
+    else
+      @event.create_activity key: 'event.host_cancels_attend', owner: @user
+    end
 
     respond_to do |format|
       @notice = be_host_or_be_admin ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
