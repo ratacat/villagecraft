@@ -3,6 +3,11 @@ module ApplicationHelper
     content_tag(:span, distance_of_time_in_words(time, Time.now) + ' ago', :'data-livestamp' => time, :class => 'muted')
   end
   
+  def datetime_localized_to_current_user(dt)
+    tz = current_user.time_zone
+    l dt.in_time_zone(tz), format: :friendly_at_time
+  end
+  
   def icon_meter(options={})
     defaults = {
       :rows => 2, 

@@ -83,6 +83,10 @@ class User < ActiveRecord::Base
     @state || self.location.try(:state_code)
   end
 
+  def time_zone
+    self.try(:location).try(:time_zone) || "America/Los_Angeles"
+  end
+
   def distance_to(o)
     l = o.is_a?(Location) ? o : o.location
     Geocoder::Calculations.distance_between(self.location, l).round(2)

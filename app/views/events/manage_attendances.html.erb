@@ -24,7 +24,7 @@
   <tbody>
 <% @event.attendances.each do |attendance| %>
     <tr>
-      <td><%= attendance.created_at %><br/><%= time_ago(attendance.created_at) %></td>
+      <td><%= datetime_localized_to_current_user(attendance.created_at) %><br/><%= time_ago(attendance.created_at) %></td>
       <td><%= attendance.user.name %></td>
       <td><%= attendance.user.email %></td>
       <td class="user_phone"><%= attendance.user.phone %></td>
