@@ -174,29 +174,30 @@ class EventsController < ApplicationController
   def cancel_attend
     if params[:user_uuid]
       return unless be_host_or_be_admin
-      user = User.find_by_uuid(params[:user_uuid])
-      if user.blank?
+      @user = User.find_by_uuid(params[:user_uuid])
+      if @user.blank?
         render_error(:message => "User not found.", :status => 404)
         return
       end
     else
-      user = current_user
+      @user = current_user
     end
     
-    unless user.attends.exists?(@event)
+    unless @user.attends.exists?(@event)
       render_error(:message => "Attendence not found.", :status => 404)
       return
     end
 
-    user.attends.delete(@event)
-    @event.create_activity key: 'event.cancel_attend', owner: user
+    @user.attends.delete(@event)
+    @event.create_activity key: 'event.cancel_attend', owner: @user
 
     respond_to do |format|
+      @notice = be_host_or_be_admin ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
       format.html {
         if be_host_or_be_admin
-          redirect_to manage_attendances_path(@event), notice: "#{user.name}'s attendence has been canceled"
+          redirect_to manage_attendances_path(@event), notice: @notice
         else
-          redirect_to @event, notice: 'Your attendence has been canceled' 
+          redirect_to @event, notice: @notice 
         end
       }
       format.json { head :no_content }
