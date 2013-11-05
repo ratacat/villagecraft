@@ -193,6 +193,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       @notice = be_host_or_be_admin ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
+      format.js
       format.html {
         if be_host_or_be_admin
           redirect_to manage_attendances_path(@event), notice: @notice

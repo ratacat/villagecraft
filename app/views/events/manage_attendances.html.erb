@@ -11,7 +11,7 @@
 </div>
 
 <h2>Attendees</h2>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id='event_attendees'>
   <thead>
     <tr>
       <th>Signup Date</th>
@@ -24,13 +24,13 @@
 
   <tbody>
 <% @event.attendances.each do |attendance| %>
-    <tr>
+    <tr data-user-uuid="<%= attendance.user.uuid %>">
       <td><%= datetime_localized_to_current_user(attendance.created_at) %><br/><%= time_ago(attendance.created_at) %></td>
       <td><%= attendance.user.name %></td>
       <td><%= attendance.user.email %></td>
       <td class="user_phone"><%= attendance.user.phone %></td>
       <td><%= button_to 'Cancel', 
-                        cancel_attend_path(@event, :user_uuid => attendance.user.uuid), :method => :post,
+                        cancel_attend_path(@event, :user_uuid => attendance.user.uuid), :method => :post, :remote => true,
                         :class => "btn btn-default", :form_class => "margin0", 
                         :confirm => 'Really cancel?' %></td>
     </tr>
