@@ -53,7 +53,7 @@
             this.$newElement = this.createView();
             this.$element.after(this.$newElement);
             this.$menu = this.$newElement.find('> .dropdown-menu');
-            this.$button = this.$newElement.find('> button');
+            this.$button = this.$newElement.find('> button:first-child');
             this.$searchbox = this.$newElement.find('input');
 
             if (id !== undefined) {
@@ -82,14 +82,17 @@
         createDropdown: function() {
             //If we are multiple, then add the show-tick class by default
             var multiple = this.multiple ? ' show-tick' : '';
+            var rightbutton_class = this.options.rightbutton ? ' has_rightbutton' : '';
             var header = this.options.header ? '<div class="popover-title"><button type="button" class="close" aria-hidden="true">&times;</button>' + this.options.header + '</div>' : '';
             var searchbox = this.options.liveSearch ? '<div class="bootstrap-select-searchbox"><input type="text" class="input-block-level form-control" /></div>' : '';
+            var rightbutton = this.options.rightbutton ? '<button class="btn rightbutton">' + this.options.rightbutton + '</button>' : '';
             var drop =
-                "<div class='btn-group bootstrap-select" + multiple + "'>" +
+                "<div class='btn-group bootstrap-select" + multiple + rightbutton_class + "'>" +
                     "<button type='button' class='btn dropdown-toggle selectpicker' data-toggle='dropdown'>" +
                         "<div class='filter-option pull-left'></div>&nbsp;" +
                         "<div class='caret'></div>" +
                     "</button>" +
+                    rightbutton +
                     "<div class='dropdown-menu open'>" +
                         header +
                         searchbox +
