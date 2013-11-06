@@ -130,7 +130,7 @@ class EventsController < ApplicationController
   # POST /attend/1
   # POST /attend/1.json
   def attend
-    if @event.slots_left > 0
+    unless @event.slots_left > 0
       render_error(:message => "Event is full", :status => 403)
       return
     end
