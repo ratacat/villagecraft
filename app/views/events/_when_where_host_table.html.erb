@@ -12,7 +12,7 @@
       <td class="attends">
         <div class="blocky_spns">
           <% if event.slots_left > 0 %>
-            <span><%= event.attendances.count %> / <%= event.max_attendees %></span><span>going</span>
+            <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
           <% else %>
             <span class="text-error">full</span>
           <% end %>
