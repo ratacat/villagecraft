@@ -14,7 +14,7 @@
           <% if event.slots_left > 0 %>
             <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
           <% else %>
-            <span class="text-error">full</span>
+            <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
           <% end %>
         </div>
       </td>
