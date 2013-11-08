@@ -55,7 +55,7 @@ namespace :db do
     username = db_config["username"]
     password = db_config["password"]
     ogr2ogr_options = '-append -dim 2 -nlt MULTIPOLYGON -nln neighborhoods -f "PostgreSQL"'
-    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : 'FIXME'
+    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : '/usr/share/gdal'
     `export GDAL_DATA=#{gdal_data_path}; ogr2ogr #{ogr2ogr_options} PG:"host=#{host} user=#{username} dbname=#{db} password=#{password}" #{kml_fn}`
 
     Neighborhood.where(:city => nil).each do |hood|
