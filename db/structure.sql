@@ -117,38 +117,6 @@ ALTER SEQUENCE attendances_id_seq OWNED BY attendances.id;
 
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE courses (
-    id integer NOT NULL,
-    vclass_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(255)
-);
-
-
---
--- Name: courses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE courses_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE courses_id_seq OWNED BY courses.id;
-
-
---
 -- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -445,39 +413,6 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: vclasses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vclasses (
-    id integer NOT NULL,
-    admin_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(255),
-    image_id integer
-);
-
-
---
--- Name: vclasses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vclasses_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vclasses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vclasses_id_seq OWNED BY vclasses.id;
-
-
---
 -- Name: venues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -523,13 +458,6 @@ ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_s
 --
 
 ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY courses ALTER COLUMN id SET DEFAULT nextval('courses_id_seq'::regclass);
 
 
 --
@@ -585,13 +513,6 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vclasses ALTER COLUMN id SET DEFAULT nextval('vclasses_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
 
 
@@ -609,14 +530,6 @@ ALTER TABLE ONLY activities
 
 ALTER TABLE ONLY attendances
     ADD CONSTRAINT attendances_pkey PRIMARY KEY (id);
-
-
---
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY courses
-    ADD CONSTRAINT courses_pkey PRIMARY KEY (id);
 
 
 --
@@ -676,14 +589,6 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: vclasses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vclasses
-    ADD CONSTRAINT vclasses_pkey PRIMARY KEY (id);
-
-
---
 -- Name: venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -724,13 +629,6 @@ CREATE INDEX index_attendances_on_event_id ON attendances USING btree (event_id)
 --
 
 CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
-
-
---
--- Name: index_courses_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_courses_on_vclass_id ON courses USING btree (vclass_id);
 
 
 --
@@ -822,20 +720,6 @@ CREATE INDEX index_users_on_profile_image_id ON users USING btree (profile_image
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
-
-
---
--- Name: index_vclasses_on_admin_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_vclasses_on_admin_id ON vclasses USING btree (admin_id);
-
-
---
--- Name: index_vclasses_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_vclasses_on_image_id ON vclasses USING btree (image_id);
 
 
 --
@@ -995,3 +879,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131020062302');
 INSERT INTO schema_migrations (version) VALUES ('20131020092041');
 
 INSERT INTO schema_migrations (version) VALUES ('20131029053448');
+
+INSERT INTO schema_migrations (version) VALUES ('20131108080816');

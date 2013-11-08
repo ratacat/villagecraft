@@ -1,13 +1,11 @@
 class Event < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
+  attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
 
-  belongs_to :course
-  has_one :vclass, :through => :course
   belongs_to :image, :class_name => 'Image'
   
   belongs_to :venue
@@ -32,11 +30,10 @@ class Event < ActiveRecord::Base
   scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
 
   after_initialize :generate_secret_if_missing
-  before_validation :derive_times, :create_course_and_vclass_if_missing
+  before_validation :derive_times
   normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
   
   validates :host_id, presence: true
-  validates :course_id, presence: true
   validates :title, presence: true
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
@@ -160,10 +157,4 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def create_course_and_vclass_if_missing
-    if self.course.blank?
-      vclass = Vclass.create(:title => self.title, :admin => self.host)
-      self.course = Course.create(:title => self.title, :vclass => vclass)
-    end
-  end
 end
