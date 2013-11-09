@@ -1,5 +1,5 @@
 class Workshop < ActiveRecord::Base
-  attr_accessible :description, :frequency, :title
+  attr_accessible :description, :frequency, :title, :host
 
   belongs_to :image
   belongs_to :host, :class_name => 'User'
