@@ -352,7 +352,7 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 CREATE TABLE reviews (
     id integer NOT NULL,
-    vclass_id integer,
+    workshop_id integer,
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
@@ -792,7 +792,7 @@ CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
 -- Name: index_reviews_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (vclass_id);
+CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
 
 
 --
@@ -1018,3 +1018,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131109001607');
 INSERT INTO schema_migrations (version) VALUES ('20131109002707');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109011456');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109012452');
