@@ -37,8 +37,8 @@ if Rails.env.development?
   # Some Users
   images_path = Rails.root.join('spec', 'support', 'images')
 
-  jared = FactoryGirl.create(:user, :name => "Jared Smith", :email => "jared@example.com", :location => berkeley, :profile_image => File.open(images_path.join('jared.jpg')), :phone => '+14065299748')
-  ben = FactoryGirl.create(:user, :name => "Ben Teitelbaum", :email => "ben@example.com", :location => oakland, :profile_image => File.open(images_path.join('ben.jpg')), :phone => '+14156253216')
+  jared = FactoryGirl.create(:user, :name => "Jared Smith", :email => "jared@example.com", :location => berkeley, :profile_image => File.open(images_path.join('jared.jpg')), :phone => '+14065299748', :host => true, :admin => true)
+  ben = FactoryGirl.create(:user, :name => "Ben Teitelbaum", :email => "ben@example.com", :location => oakland, :profile_image => File.open(images_path.join('ben.jpg')), :phone => '+14156253216', :host => true, :admin => true)
   jared.update_attribute :admin, true
   ben.update_attribute :admin, true
   
