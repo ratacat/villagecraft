@@ -447,6 +447,41 @@ ALTER SEQUENCE venues_id_seq OWNED BY venues.id;
 
 
 --
+-- Name: workshops; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE workshops (
+    id integer NOT NULL,
+    title character varying(255),
+    description text,
+    frequency character varying(255),
+    image_id integer,
+    host_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: workshops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE workshops_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workshops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE workshops_id_seq OWNED BY workshops.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -514,6 +549,13 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY workshops ALTER COLUMN id SET DEFAULT nextval('workshops_id_seq'::regclass);
 
 
 --
@@ -594,6 +636,14 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY venues
     ADD CONSTRAINT venues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workshops_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY workshops
+    ADD CONSTRAINT workshops_pkey PRIMARY KEY (id);
 
 
 --
@@ -734,6 +784,20 @@ CREATE INDEX index_venues_on_location_id ON venues USING btree (location_id);
 --
 
 CREATE INDEX index_venues_on_owner_id ON venues USING btree (owner_id);
+
+
+--
+-- Name: index_workshops_on_host_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_host_id ON workshops USING btree (host_id);
+
+
+--
+-- Name: index_workshops_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_image_id ON workshops USING btree (image_id);
 
 
 --
@@ -881,3 +945,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131020092041');
 INSERT INTO schema_migrations (version) VALUES ('20131029053448');
 
 INSERT INTO schema_migrations (version) VALUES ('20131108080816');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109000344');
