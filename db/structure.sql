@@ -243,6 +243,40 @@ ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
 
 
 --
+-- Name: meetings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE meetings (
+    id integer NOT NULL,
+    start_time timestamp without time zone,
+    end_time timestamp without time zone,
+    snippet text,
+    venue_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: meetings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE meetings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meetings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE meetings_id_seq OWNED BY meetings.id;
+
+
+--
 -- Name: neighborhoods; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -521,6 +555,13 @@ ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY meetings ALTER COLUMN id SET DEFAULT nextval('meetings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhoods_id_seq'::regclass);
 
 
@@ -597,6 +638,14 @@ ALTER TABLE ONLY images
 
 ALTER TABLE ONLY locations
     ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meetings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY meetings
+    ADD CONSTRAINT meetings_pkey PRIMARY KEY (id);
 
 
 --
@@ -701,6 +750,13 @@ CREATE INDEX index_events_on_venue_id ON events USING btree (venue_id);
 --
 
 CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighborhood_id);
+
+
+--
+-- Name: index_meetings_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_venue_id ON meetings USING btree (venue_id);
 
 
 --
@@ -950,3 +1006,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131108080816');
 INSERT INTO schema_migrations (version) VALUES ('20131109000344');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109001607');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109002707');

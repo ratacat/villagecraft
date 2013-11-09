@@ -5,9 +5,11 @@ class Event < ActiveRecord::Base
   has_uuid(:length => 8)
 
   belongs_to :host, :class_name => 'User'
-
   belongs_to :image, :class_name => 'Image'
+
   belongs_to :workshop
+  has_many :meetings
+  
   belongs_to :venue
   has_one :location, :through => :venue
   
