@@ -255,7 +255,8 @@ CREATE TABLE meetings (
     venue_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uuid character varying(255)
+    uuid character varying(255),
+    event_id integer
 );
 
 
@@ -1042,3 +1043,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131109013703');
 INSERT INTO schema_migrations (version) VALUES ('20131109013726');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109021024');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109073509');
