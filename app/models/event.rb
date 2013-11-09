@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   belongs_to :host, :class_name => 'User'
 
   belongs_to :image, :class_name => 'Image'
-  
+  belongs_to :workshop
   belongs_to :venue
   has_one :location, :through => :venue
   
