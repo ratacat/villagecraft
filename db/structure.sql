@@ -140,7 +140,8 @@ CREATE TABLE events (
     price numeric(10,2),
     venue_id integer,
     uuid character varying(255),
-    image_id integer
+    image_id integer,
+    state character varying(255)
 );
 
 
@@ -947,3 +948,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131029053448');
 INSERT INTO schema_migrations (version) VALUES ('20131108080816');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109000344');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109001607');

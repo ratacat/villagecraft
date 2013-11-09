@@ -55,6 +55,12 @@ class Event < ActiveRecord::Base
   
   validates :description, :presence => true
   
+  state_machine :initial => :staging do
+    event :publish do
+      transition :staging => :published
+    end
+  end
+  
   def localized_start_time
     self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
   end
