@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
   
   validates :description, :presence => true
   
-  state_machine :initial => :staging do
+  state_machine :initial => :published do
     event :publish do
       transition :staging => :published
     end
