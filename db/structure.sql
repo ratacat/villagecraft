@@ -254,7 +254,8 @@ CREATE TABLE meetings (
     snippet text,
     venue_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    uuid character varying(255)
 );
 
 
@@ -494,7 +495,8 @@ CREATE TABLE workshops (
     image_id integer,
     host_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    uuid character varying(255)
 );
 
 
@@ -761,6 +763,13 @@ CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighb
 
 
 --
+-- Name: index_meetings_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_uuid ON meetings USING btree (uuid);
+
+
+--
 -- Name: index_meetings_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -863,6 +872,13 @@ CREATE INDEX index_workshops_on_host_id ON workshops USING btree (host_id);
 --
 
 CREATE INDEX index_workshops_on_image_id ON workshops USING btree (image_id);
+
+
+--
+-- Name: index_workshops_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_uuid ON workshops USING btree (uuid);
 
 
 --
@@ -1020,3 +1036,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131109002707');
 INSERT INTO schema_migrations (version) VALUES ('20131109011456');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109012452');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109013703');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109013726');
