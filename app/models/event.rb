@@ -3,7 +3,8 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
-
+  has_start_and_end_time
+  
   belongs_to :host, :class_name => 'User'
   belongs_to :image, :class_name => 'Image'
 
@@ -79,30 +80,6 @@ class Event < ActiveRecord::Base
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
 
-  def Event.starting_after(t)
-    where('"events"."start_time" > ?', t )
-  end
-
-  def Event.starting_before(t)
-    where('"events"."start_time" < ?', t )
-  end
-
-  def Event.ending_after(t)
-    where('"events"."end_time" > ?', t )
-  end
-
-  def Event.ending_before(t)
-    where('"events"."end_time" < ?', t )
-  end
-
-  def Event.future
-    starting_after(Time.now)
-  end
-
-  def Event.past
-    starting_before(Time.now)
-  end
-  
   def time_zone
     self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"
   end
