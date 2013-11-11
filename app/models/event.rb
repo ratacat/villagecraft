@@ -107,6 +107,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def first_meeting
+    self.meetings.order(:start_time).first
+  end
+  
   def Event.placeholder_src(size = :medium)
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"
