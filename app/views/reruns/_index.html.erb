@@ -1,0 +1,14 @@
+<table class="table table-bordered table-striped">
+  <tbody>
+<% reruns.each do |rerun| %>
+    <tr>
+      <td><%= rerun.title %></td>
+      <td>
+        <div class="blocky_spns">
+          <%= render :partial => 'reruns/times', :locals => {:rerun => rerun} %>
+        </div>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

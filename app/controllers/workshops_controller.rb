@@ -1,4 +1,5 @@
 class WorkshopsController < ApplicationController
+  before_filter :find_workshop, :except => [:index]
   before_filter :require_admin, :only => [:index]
   
   # GET /workshops
@@ -10,6 +11,18 @@ class WorkshopsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @workshops }
+    end
+  end
+
+  # GET /workshops/1
+  # GET /workshops/1.json
+  def show
+    # w.events.joins(:meetings).order('"meetings"."start_time"')
+    @future_reruns = @workshop.events.future.ordered_by_earliest_start_time
+    @past_reruns = @workshop.events.past.ordered_by_latest_end_time
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @workshop }
     end
   end
 

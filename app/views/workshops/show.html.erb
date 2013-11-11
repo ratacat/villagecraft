@@ -1,0 +1,35 @@
+<h1><%= @workshop.title %></h1>
+
+<div class="span6">
+  <div class="media">
+    <div class="pull-left">
+      <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>    
+    </div>
+    <div class="media-body">
+      <h4 class="muted">Hosted by</h4>
+      <%= render :partial => 'users/thumbnail', :locals => {:user => @workshop.host, :linked => true, :right_caption => true} %>
+    </div>
+  </div>
+  <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
+  <ul class="nav nav-tabs margin0">
+    <li class="active"><a href="#future" data-toggle="tab">Coming Up</a></li>
+    <li><a href="#past" data-toggle="tab">Past</a></li>
+  </ul>
+
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active" id="future">
+      <% if @future_reruns.to_a.count == 0 %>
+        No future workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @future_reruns %>
+      <% end %>
+    </div>
+    <div class="tab-pane fade" id="past">
+      <% if @past_reruns.to_a.count == 0 %>
+        Not past workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @past_reruns %>
+      <% end %>
+    </div>
+  </div>
+</div>
