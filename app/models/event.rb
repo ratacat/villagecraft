@@ -3,7 +3,6 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
-  has_start_and_end_time
   
   belongs_to :host, :class_name => 'User'
   belongs_to :image, :class_name => 'Image'
@@ -75,32 +74,12 @@ class Event < ActiveRecord::Base
     meeting.update_attribute(:event_id, self.id)
   end
   
-  def localized_start_time
-    self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
-  end
-
-  def localized_end_time
-    self.end_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 9:00pm", :zone => self.time_zone)
-  end
-  
   def occurred? 
     self.start_time - Time.now < 0
   end
 
   def slots_left
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
-  end
-
-  def time_zone
-    self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"
-  end
-  
-  def find_zone
-    Time.find_zone(self.time_zone)
-  end
-  
-  def formatted_tz_offset
-    self.find_zone.formatted_offset
   end
   
   def derive_times
