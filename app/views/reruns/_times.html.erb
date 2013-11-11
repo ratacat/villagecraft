@@ -2,7 +2,7 @@
   rerun ||= @rerun
 %>
 <%= render :partial => 'meetings/time', :locals => {:meeting => rerun.first_meeting, :short_date => true, :no_tz => true} %>
+<span class="muted" data-livestamp="<%= rerun.first_meeting.start_time %>"></span>
 <% if rerun.meetings.count > 1 %>
   (first of <%= rerun.meetings.count %> meetings)
 <% end %>
-<span class="muted" data-livestamp="<%= rerun.first_meeting.start_time %>"></span>
