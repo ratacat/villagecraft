@@ -22,7 +22,7 @@
       </td>
       <td class="host">
         <% if event.host %>
-          <%= render :partial => 'users/thumbnail', :locals => {:user => event.host} %>
+          <%= render :partial => 'users/thumbnail', :locals => {:user => event.host, :span => 2} %>
         <% end %>
       </td>
     </tr>
