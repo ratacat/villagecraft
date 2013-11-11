@@ -100,8 +100,35 @@ ul.thumbnails {
     border: 0 none;
     box-shadow: none;
   }
+  .thumbnail.right-caption {
+    float: left;
+    > img {
+      float: left;
+      margin-right: 9px;
+    }
+    > .caption {
+      padding: 4px;
+    }
+  }
   .caption {
     padding-left: 4px;
+  }
+  .caption.right-caption {
+    span {
+      vertical-align: middle;
+    }
+  }
+  .caption.right-caption.thumb {
+    line-height: $thumb_thumb_size + 8px;
+  }
+  .caption.right-caption.small {
+    line-height: $small_thumb_size + 8px;
+  }
+  .caption.right-caption.medium {
+    line-height: $medium_thumb_size + 8px;
+  }
+  .caption.right-caption.large {
+    line-height: $large_thumb_size + 8px;
   }
 }
 

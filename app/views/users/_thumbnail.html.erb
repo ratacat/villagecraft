@@ -1,0 +1,17 @@
+<%
+  user ||= @user
+  linked ||= false
+  thumb_size ||= :small
+  span ||= "span2"
+  right_caption ||= false
+%>
+<ul class="thumbnails<%= " right-caption" if right_caption %>">
+  <li class="<%= span %>">
+    <div class="thumbnail<%= " right-caption" if right_caption %>">
+      <%= user_thumb(user, {:size => thumb_size, :linked => linked}) %>
+    </div>
+    <div class="caption <%= thumb_size %><%= " right-caption" if right_caption %>">
+      <span><%= contextualized_user_link(user, :linked => linked) %></span>
+    </div>
+  </li>
+</ul>
