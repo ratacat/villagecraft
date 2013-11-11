@@ -52,9 +52,6 @@ class Event < ActiveRecord::Base
                                :unless => lambda {|e| e.max_attendees.blank?},
                                :only_integer => true }, 
             :presence => true
-
-  validates_datetime :end_time
-  validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
   
   validates :description, :presence => true
   
