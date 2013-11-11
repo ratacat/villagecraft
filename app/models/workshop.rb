@@ -1,10 +1,12 @@
 class Workshop < ActiveRecord::Base
   attr_accessible :description, :frequency, :title, :host
   has_uuid(:length => 8)
+  has_start_and_end_time
 
   belongs_to :image
   belongs_to :host, :class_name => 'User'
   has_many :events # , :dependent => :destroy
+  has_many :meetings, :through => :events
   has_many :reviews, :dependent => :destroy
   
   def img_src(size = :medium)
