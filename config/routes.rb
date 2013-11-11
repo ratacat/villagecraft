@@ -1,6 +1,8 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
+  resources :workshops
+
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   get 'events/:id/manage_attendances(.:format)' => 'events#manage_attendances', :as => :manage_attendances
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
