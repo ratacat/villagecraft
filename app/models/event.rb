@@ -31,7 +31,11 @@ class Event < ActiveRecord::Base
   end
   
   scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
-
+  scope :ordered_by_earliest_start_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, min("meetings"."start_time") as earliest_start_time').group('"events"."id"').order('earliest_start_time')}
+  scope :ordered_by_latest_end_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, max("meetings"."end_time") as latest_end_time').group('"events"."id"').order('latest_end_time').reverse_order}
+  scope :future, lambda { where('"meetings"."start_time" > ?', Time.now) }
+  scope :past, lambda { where('"meetings"."start_time" < ?', Time.now) }
+  
   after_initialize :generate_secret_if_missing
   before_validation :derive_times
   normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
