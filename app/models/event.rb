@@ -64,6 +64,16 @@ class Event < ActiveRecord::Base
     end
   end
   
+  # FIXME: temporary data migration tool from Events to Workshops > Reruns (temporarilly Events) > Meetings
+  def create_corresponding_workshop_and_meeting
+    self.workshop = Workshop.create(:title => self.title, :description => self.description, :host => self.host)
+    self.workshop.update_attribute(:image_id, self.image_id)
+    self.save!
+    meeting = Meeting.create(:start_time => self.start_time, :end_time => self.end_time)
+    meeting.update_attribute(:venue_id, self.venue_id)
+    meeting.update_attribute(:event_id, self.id)
+  end
+  
   def localized_start_time
     self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
   end
