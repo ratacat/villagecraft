@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :event do
     title "Test Event"
-    description "this is an event for testing purposes or porpoises"
+    description { HipsterIpsumHelpers.generate }
     min_attendees 10
     max_attendees 20
     price 0

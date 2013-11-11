@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :workshop do
     title "Test Workshop"
-    description "This is a test workshop for testing purposes or porpoises"
+    description { HipsterIpsumHelpers.generate }
     
     factory :workshop_with_reruns_and_meetings do
       ignore do
