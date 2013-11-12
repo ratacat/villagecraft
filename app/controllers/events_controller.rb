@@ -252,14 +252,6 @@ class EventsController < ApplicationController
     end
   end
   
-  # GET /events/1/manage_attendances
-  # GET /events/1/manage_attendances.json
-  def manage_attendances
-    # @interested = @event.attendances.with_state(:interested)
-    # @attending = @event.attendances.with_state(:attending)
-    # @confirmed = @event.attendances.with_state(:confirmed)
-  end
-  
   protected
   def find_event
     begin
