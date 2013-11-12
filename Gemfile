@@ -60,7 +60,8 @@ group :development do
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
   gem "letter_opener"
-
+  gem 'rails-footnotes', '>= 3.7.9'
+  
   # To use debugger
   # If uncommenting gem 'debugger' doesn't work, try first uncommenting the following two lines and doing:
   # pushd `bundle show debugger-ruby_core_source`; rake add_source --trace VERSION=1.9.3-rc1; pushd
