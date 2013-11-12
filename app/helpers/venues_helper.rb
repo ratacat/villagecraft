@@ -13,5 +13,18 @@ module VenuesHelper
     # current_user has attended (or will attend) an event at this venue
     current_user.venues.where(:id => venue.id).blank?
   end
+
+  def inline_venue(venue, options = {})
+    defaults = {
+      :linked => false
+    }
+    options.reverse_merge!(defaults)
+    
+    if venue.blank?
+      'TBD'
+    else
+      link_to_if(options[:linked], venue.name, venue)
+    end
+  end
   
 end
