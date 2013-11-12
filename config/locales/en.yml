@@ -5,7 +5,7 @@ en:
   time:
     formats:
       friendly_at_time: "%b %d, %Y @ %l:%M%P"
-      short_time: "%l:%M %p"
+      short_time: "%l:%M%p"
       time_picker_time_format: "%l:%M%P"
       date_picker_date_format: "%-m/%-d/%Y"
       php_style_time_picker_time_format: 'm/d/yyyy'
