@@ -1,6 +1,7 @@
 class Meeting < ActiveRecord::Base
   attr_accessible :start_time, :end_time, :snippet
   has_uuid(:length => 8)
+  has_start_and_end_time
   
   belongs_to :event
   belongs_to :venue

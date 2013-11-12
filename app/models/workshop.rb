@@ -1,7 +1,6 @@
 class Workshop < ActiveRecord::Base
   attr_accessible :description, :frequency, :title, :host
   has_uuid(:length => 8)
-  has_start_and_end_time
 
   belongs_to :image
   belongs_to :host, :class_name => 'User'
