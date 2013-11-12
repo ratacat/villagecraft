@@ -74,7 +74,7 @@ class Event < ActiveRecord::Base
   end
   
   def occurred? 
-    self.start_time - Time.now < 0
+    self.meetings.future.count.blank?
   end
 
   def slots_left
