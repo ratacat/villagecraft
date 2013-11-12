@@ -4,7 +4,6 @@ class EventsController < ApplicationController
   before_filter :find_event, :except => [:index, :my_events, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show, :attendees, :attend_by_email]
   before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :require_host, :only => [:my_events]
   before_filter :find_venue, :only => [:create, :update]
   before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee, :cancel_attend]
   
@@ -17,18 +16,6 @@ class EventsController < ApplicationController
  # end
  
   EVENTS_PER_PAGE = 20
-
-  def my_events
-    @upcomings_attends = current_user.attends.future.limit(EVENTS_PER_PAGE)
-    @attended_events = current_user.attends.completed.limit(EVENTS_PER_PAGE)
-    @upcoming_hostings = current_user.hostings.future.limit(EVENTS_PER_PAGE)
-    @hosted_events = current_user.hostings.completed.limit(EVENTS_PER_PAGE)
-
-    respond_to do |format|
-      format.html # my_events.html.erb
-      format.json { render json: @events }
-    end
-  end
 
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom

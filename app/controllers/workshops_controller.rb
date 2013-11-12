@@ -1,7 +1,18 @@
 class WorkshopsController < ApplicationController
-  before_filter :find_workshop, :except => [:index]
+  before_filter :find_workshop, :except => [:index, :my_workshops]
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :require_admin, :only => [:index]
+  before_filter :require_host, :only => [:my_workshops]
   
+  def my_workshops
+    @workshops = Workshop.order(:updated_at).reverse_order
+    
+    respond_to do |format|
+      format.html # my_workshops.html.erb
+      format.json { render json: @workshops }
+    end
+  end
+
   # GET /workshops
   # GET /workshops.json
   def index

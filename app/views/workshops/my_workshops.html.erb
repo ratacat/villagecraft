@@ -1,0 +1,8 @@
+<h1>Your Workshops</h1>
+<div>
+  <% if @workshops.blank? %>
+    No workshops.
+  <% else %>
+    <%= render 'index', :workshops => @workshops %>
+  <% end %>
+</div>

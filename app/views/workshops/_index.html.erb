@@ -1,8 +1,11 @@
+<%
+  show_host ||= false
+%>
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th class="span6">Title</th>
-      <th>Host</th>
+      <% if show_host -%><th>Host</th><% end -%>
     </tr>
   </thead>
 
@@ -10,7 +13,7 @@
 <% @workshops.each do |workshop| %>
     <tr>
       <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true} %></td>
-      <td><%= link_to workshop.host.name, workshop.host %></td>
+      <% if show_host -%><td><%= link_to workshop.host.name, workshop.host %></td><% end -%>
     </tr>
 <% end %>
   </tbody>

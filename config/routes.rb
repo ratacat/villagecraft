@@ -19,7 +19,7 @@ Villagecraft::Application.routes.draw do
   match 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'attend_by_email/:id(.:format)' => 'events#attend_by_email', :as => :attend_by_email
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
-  get 'my_events' => 'events#my_events', :as => :my_events
+  get 'my_workshops' => 'workshops#my_workshops', :as => :my_workshops
 
   resources :venues  
   resources :neighborhoods
