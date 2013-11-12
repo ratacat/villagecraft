@@ -1,5 +1,5 @@
-<%= link_to 'workshop', @event.workshop %></h1>
-<h1><%= @event.title %></h1>
+<%= link_to 'workshop', @event.workshop %> 
+<h1 class="margin_top0"><%= @event.title %></h1>
 <p>
   hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
   <%= event_price(@event, :show_materials_fee => true) %> · 
