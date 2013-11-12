@@ -6,20 +6,20 @@
   <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
   <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
   <ul class="nav nav-tabs margin0">
-    <li class="active"><a href="#future" data-toggle="tab">Coming Up</a></li>
-    <li><a href="#past" data-toggle="tab">Past</a></li>
+    <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
+    <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
   </ul>
 
   <div id="myTabContent" class="tab-content">
     <div class="tab-pane active" id="future">
-      <% if @future_reruns.to_a.count == 0 %>
+      <% if @future_reruns.count == 0 %>
         No future workshops.
       <% else %>
         <%= render 'reruns/index', :reruns => @future_reruns %>
       <% end %>
     </div>
     <div class="tab-pane fade" id="past">
-      <% if @past_reruns.to_a.count == 0 %>
+      <% if @past_reruns.count == 0 %>
         No past workshops.
       <% else %>
         <%= render 'reruns/index', :reruns => @past_reruns %>

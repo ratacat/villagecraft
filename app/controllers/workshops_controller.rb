@@ -29,8 +29,8 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
-    @future_reruns = @workshop.events.future.ordered_by_earliest_start_time
-    @past_reruns = @workshop.events.past.ordered_by_latest_end_time
+    @future_reruns = @workshop.events.future.ordered_by_earliest_start_time.to_a
+    @past_reruns = @workshop.events.past.ordered_by_latest_end_time.to_a
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @workshop }
