@@ -5,8 +5,7 @@ You are confirmed to attend <%= @event.title %>, hosted by <%= @event.host.name 
 When
 ----
 
-<%= strip_tags(render(:partial => 'events/times.html.erb', :locals => {:event => @event, :short_date => true, :no_tz => true})) %>
-
+<%= strip_tags(render :partial => 'reruns/meeting_times_list', :locals => {:rerun => @event}) %>
 
 Where
 -----
