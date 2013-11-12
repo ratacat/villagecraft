@@ -5,7 +5,7 @@ class WorkshopsController < ApplicationController
   before_filter :require_host, :only => [:my_workshops]
   
   def my_workshops
-    @workshops = Workshop.order(:updated_at).reverse_order
+    @workshops = Workshop.where(:host_id => current_user).order(:updated_at).reverse_order
     
     respond_to do |format|
       format.html # my_workshops.html.erb
