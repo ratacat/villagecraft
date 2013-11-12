@@ -1,7 +1,6 @@
-<div class="well">
-  <%= render :partial => 'title_n_times', :locals => {:event => @event} %>
-</div>
-
+<%
+  rerun ||= (@rerun || @event)
+%>
 <h2>Event URL</h2>
 
 <div class="input-append">
@@ -11,6 +10,17 @@
 </div>
 
 <h2>Attendees</h2>
+<div class="row">
+  
+</div>
+<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
+<dl>
+  <dt>Capacity</dt>
+  <dd><%= event_size(@event) %></dd>
+  <dt>Sign Ups</dt>
+  <dd><%= attends_status(@event) %> (<%= slots_status(@event) %>)</dd>
+</dl>
+
 <table class="table table-bordered table-striped" id='event_attendees'>
   <thead>
     <tr>
@@ -37,21 +47,6 @@
 <% end %>
   </tbody>
 </table>
-
-<% if false # dumning this down for MVP release %>
-<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
-<%= attends_status(@event, :show_interest => true) %><br/>
-<strong>Event size</strong>: <%= event_size(@event) %>
-
-<h3><%= @interested.count %> Interested</h3>
-<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @interested} %>
-
-<h3><%= @attending.count %> Attending</h3>
-<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @attending} %>
-
-<h3><%= @confirmed.count %> Confirmed</h3>
-<%= render :partial => 'manage_attendances_table', :locals => {:attendances => @confirmed} %>
-<% end %>
 
 <% ready_script do -%>
   $("td.user_phone").format_phone_number_html();

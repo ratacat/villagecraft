@@ -23,8 +23,9 @@
 
 <% if (@event.host === current_user) or admin_session? %>
 <div class="row">
-  <div class="span7 well">
-    <%= link_to 'Edit', edit_event_path(@event), :class => 'btn btn-small btn-warning' %>
+  <div class="span12 well">
+    <h2 class="muted">Host Controls <%= link_to 'Edit', edit_event_path(@event), :class => 'btn btn-small btn-warning pull-right' %></h2>
+    <%= render 'manage_attendances' %>
   </div>
 </div>
 <% end %>
