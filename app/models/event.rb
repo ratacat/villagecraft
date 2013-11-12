@@ -29,7 +29,6 @@ class Event < ActiveRecord::Base
     end
   end
   
-  scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
   scope :ordered_by_earliest_start_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, min("meetings"."start_time") as earliest_start_time').group('"events"."id"').order('earliest_start_time')}
   scope :ordered_by_latest_end_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, max("meetings"."end_time") as latest_end_time').group('"events"."id"').order('latest_end_time').reverse_order}
   scope :future, lambda { where('"meetings"."start_time" > ?', Time.now) }
