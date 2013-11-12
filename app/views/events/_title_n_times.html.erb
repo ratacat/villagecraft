@@ -5,9 +5,9 @@
     <img src="<%= @event.img_src(:medium) %>" class="img-rounded media-object">    
   </div>
   <div class="media-body">
-    <h4 class="event_time">
-      <%= render :partial => 'times', :locals => {:event => event} %>
-    </h4>
+    <div class="rerun_times">
+      <%= render 'reruns/meeting_times_list', :rerun => event %>
+    </div>
     <% if admin_session? %>
       <%= link_to 'Edit', edit_event_path(event), :class => 'btn btn-small btn-warning' %>        
     <% end %>
