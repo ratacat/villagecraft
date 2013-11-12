@@ -2,7 +2,7 @@
   <tbody>
 <% reruns.each do |rerun| %>
     <tr>
-      <td><%= rerun.title %></td>
+      <td><%= link_to rerun.title, rerun %></td>
       <td>
         <div class="blocky_spns">
           <%= render :partial => 'reruns/times', :locals => {:rerun => rerun} %>
