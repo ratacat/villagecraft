@@ -61,7 +61,7 @@ if Rails.env.development?
                                   :title => "Sourdough Bread Class", 
                                   :host => jared,
                                   :venue => jareds_house,
-                                  :reruns_per_workshop => 3,
+                                  :reruns_per_workshop => 4,
                                   :description => "Sourdough has been used since the invention of bread to cultivate and encourage wild yeasts that occur in everything to help make delicious, fluffy, sour bread. The distinctive sour taste comes from the cultivated family of lactobacillus bacteria and yeasts. These tiny lifeforms have long since allied themselves as human digestive flora.  Bread that is cultured with lactobacillus is easier to digest then commercial bakers yeast.<br><br>Please bring a small bread pan, clothing that can get flour on it. And anything you want to spread on your bread.  You will learn the entire process from beginning to end, and everyone gets to take a fresh loaf of bread home. (also some of your very own starter)")
   parkour    = FactoryGirl.create(:workshop_with_reruns_and_meetings, 
                                   :title => "Parkour & Movement Training", 
@@ -74,7 +74,7 @@ if Rails.env.development?
                                   :host => ben,
                                   :venue => bens_house,
                                   :price => 25,
-                                  :reruns_per_workshop => 3,
+                                  :reruns_per_workshop => 2,
                                   :meetings_per_rerun => 3,
                                   :start_time => (5.hours.from_now),
                                   :description => "Remember the old maxim 'Location! Location! Location!'?  As we usher in the information age, this saying has never been more relevant.  Except now it's referring to less your physical location, and more to the location of your business listings!  People explore their cities with their cellphones!  And the better off your positions, the more feet you get in your door.  This class is targetted to Small Business owners that are looking to take their future into their own hands. You don't need to be an uber nerd to learn more about how to build your business a better digital location.")
