@@ -24,8 +24,9 @@ module EventsHelper
     }
     options.reverse_merge!(defaults)
     
-    attends = event.attendances.with_state(:attending).count
-    applied = event.attendances.with_state(:interested).count
+    attends = event.attendances.count
+#    attends = event.attendances.with_state(:attending).count
+#    applied = event.attendances.with_state(:interested).count
 
     html = "#{pluralize(attends, 'attendee')}"
     if options[:show_interest]
@@ -39,7 +40,8 @@ module EventsHelper
   end
   
   def slots_status(event)
-    attends = event.attendances.with_state(:attending).count
+    attends = event.attendances.count
+#    attends = event.attendances.with_state(:attending).count
     min = event.min_attendees
     max = event.max_attendees
 

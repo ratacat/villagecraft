@@ -5,7 +5,8 @@
   max_units_to_display = 10
   min = event.min_attendees
   max = event.max_attendees
-  attends = event.attendances.with_state(:attending).count
+  attends = event.attendances.count
+#  attends = event.attendances.with_state(:attending).count
   attends_per_unit = (max / max_units_to_display.to_f).ceil
   max_units = max / attends_per_unit
   min_units = min / attends_per_unit
