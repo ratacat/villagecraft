@@ -20,7 +20,7 @@
     </div>
     <div class="tab-pane fade" id="past">
       <% if @past_reruns.to_a.count == 0 %>
-        Not past workshops.
+        No past workshops.
       <% else %>
         <%= render 'reruns/index', :reruns => @past_reruns %>
       <% end %>
