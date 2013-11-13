@@ -5,6 +5,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= image_tag @workshop.img_src(:medium), :class => "img-rounded pull-right" %>
     <%= f.input :title, label: 'Title' %>
     <div class="control-group">
       <%= f.label "Event Image" %>
