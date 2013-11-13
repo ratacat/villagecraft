@@ -1,10 +1,15 @@
 <% 
  meeting ||= @meeting 
  short_date ||= false
+ show_livestamp ||= false
  no_tz ||= false
  date_format = short_date ? "%A %b" : "%A %B"
 %>
-<span><%= meeting.localized_start_time.strftime(date_format + " #{meeting.start_time.day.ordinalize}") %></span> <span><%= l meeting.localized_start_time, format: :short_time %> - <%= l meeting.localized_end_time, format: :short_time %></span> 
+<span><%= meeting.localized_start_time.strftime(date_format + " #{meeting.start_time.day.ordinalize}") %></span> 
+<span><%= l meeting.localized_start_time, format: :short_time %> - <%= l meeting.localized_end_time, format: :short_time %></span> 
+<% if show_livestamp %>
+  <span class="muted" data-livestamp="<%= meeting.start_time %>"></span>
+<% end %>
 <% unless no_tz %>
   <span class="time_zone"><%= friendly_time_zone_name(meeting.time_zone) %></span>
 <% end %>
