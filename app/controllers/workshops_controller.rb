@@ -71,6 +71,21 @@ class WorkshopsController < ApplicationController
       end
     end
   end
+  
+  # PUT /workshops/1
+  # PUT /workshops/1.json
+  def update
+    respond_to do |format|
+      if @workshop.update_attributes(params[:workshop])
+        format.html { redirect_to @workshop, notice: 'Workshop successfully updated.' }
+        format.json { head :no_content }
+      else
+        collate_when_errors
+        format.html { render action: "edit" }
+        format.json { render json: @workshop.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   protected
   def find_workshop
