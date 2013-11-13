@@ -13,6 +13,7 @@ module EventsHelper
       html
     end
   end
+  alias :rerun_price :event_price
   
   def blur_event_location?(event)
     not (user_signed_in? and (current_user === event.host or current_user.attending_event?(event)))
