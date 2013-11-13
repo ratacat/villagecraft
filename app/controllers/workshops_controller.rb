@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_filter :find_workshop, :except => [:index, :my_workshops, :new]
+  before_filter :find_workshop, :except => [:index, :my_workshops, :new, :create]
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :require_admin, :only => [:index]
   before_filter :require_host, :only => [:my_workshops]
@@ -42,11 +42,28 @@ class WorkshopsController < ApplicationController
   def new
     @workshop = Workshop.new
     @workshop.host = current_user
-    @venue = Venue.new
     
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
+    end
+  end
+
+  # POST /workshops
+  # POST /workshops.json
+  def create
+    @workshop = Workshop.new(params[:workshop])
+    @workshop.host = current_user
+    
+    respond_to do |format|
+      if @workshop.save
+        format.html { redirect_to my_workshops_path, notice: 'Workshop was successfully created.' }
+        format.json { render json: @workshop, status: :created, location: @workshop }
+      else
+        collate_when_errors
+        format.html { render action: "new" }
+        format.json { render json: @workshop.errors, status: :unprocessable_entity }
+      end
     end
   end
 
