@@ -18,9 +18,10 @@
       <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true} %></td>
       <td><%= workshop.events.count %></td>
       <td class="blocky_spns">
-        <%= render('meetings/time', :meeting => workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>
+        <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>
       </td>
-      <td class="blocky_spns"><%= render('meetings/time', :meeting => workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.last_meeting.blank? %>
+      <td class="blocky_spns">
+        <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.last_meeting.blank? %>
       </td>
       <% if show_host -%><td><%= link_to workshop.host.name, workshop.host %></td><% end -%>
     </tr>

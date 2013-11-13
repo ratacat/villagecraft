@@ -5,7 +5,7 @@
 <ul>
   <% rerun.meetings.order(:start_time).each do |meeting| -%>
     <li>
-      <%= render :partial => 'meetings/time', :locals => {:meeting => meeting, :no_tz => true} %>
+      <%= meeting_time(meeting, :no_tz => true, :show_livestamp => false) %>
       <% if include_venue %>
         <br/>@ <%= inline_venue(meeting.venue, :linked => true) %>
       <% end %>
