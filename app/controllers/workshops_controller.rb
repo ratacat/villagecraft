@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_filter :find_workshop, :except => [:index, :my_workshops]
+  before_filter :find_workshop, :except => [:index, :my_workshops, :new]
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :require_admin, :only => [:index]
   before_filter :require_host, :only => [:my_workshops]
@@ -34,6 +34,19 @@ class WorkshopsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @workshop }
+    end
+  end
+
+  # GET /workshops/new
+  # GET /workshops/new.json
+  def new
+    @workshop = Workshop.new
+    @workshop.host = current_user
+    @venue = Venue.new
+    
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @event }
     end
   end
 

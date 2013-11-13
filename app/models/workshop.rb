@@ -1,6 +1,6 @@
 class Workshop < ActiveRecord::Base
   extend ActiveSupport::Memoizable
-  attr_accessible :description, :frequency, :title, :host
+  attr_accessible :description, :frequency, :title, :image
   has_uuid(:length => 8)
 
   belongs_to :image
