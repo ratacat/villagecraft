@@ -21,6 +21,11 @@ class Workshop < ActiveRecord::Base
     "/assets/workshop_placeholder_#{size}.png"
   end
   
+  def image=(f)
+    i = Image.create!(:img => f, :user => self.host)
+    self.image_id = i.id
+  end
+
   def last_meeting
     self.meetings.past.order('"meetings"."start_time"').last
   end

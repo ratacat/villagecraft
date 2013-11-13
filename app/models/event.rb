@@ -116,11 +116,6 @@ class Event < ActiveRecord::Base
     "/assets/event_placeholder.png"
   end
   
-  def image=(f)
-    i = Image.create!(:img => f, :user => self.host)
-    self.image_id = i.id
-  end
-  
   protected
 
   def Event.random_secret
