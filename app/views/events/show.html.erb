@@ -25,6 +25,16 @@
 <div class="row">
   <div class="span12 well">
     <h2 class="muted">Host Controls</h2>
+
+    <h3>Event URL</h3>
+
+    <div class="input-append">
+      <input type='text' id='fe_text' value="<%= root_url(:only_path => false, :anchor => @event.to_param) %>" readonly='readonly'></input>
+      <button class='btn btn-default' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button'>Copy to clipboard</button>
+    </button>
+    </div>
+
+    
     <%= render 'manage_attendances' %>
   </div>
 </div>
