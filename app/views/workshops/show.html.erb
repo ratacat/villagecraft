@@ -8,7 +8,9 @@
     Edit
   <% end %>
   <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
-  <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
+  <p>
+    <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
+  </p>
   <ul class="nav nav-tabs margin0">
     <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
     <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
