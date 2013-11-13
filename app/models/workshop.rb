@@ -1,4 +1,5 @@
 class Workshop < ActiveRecord::Base
+  extend ActiveSupport::Memoizable
   attr_accessible :description, :frequency, :title, :host
   has_uuid(:length => 8)
 
@@ -19,5 +20,25 @@ class Workshop < ActiveRecord::Base
   def Workshop.placeholder_img_src(size = :medium)
     "/assets/workshop_placeholder_#{size}.png"
   end
+  
+  def last_meeting
+    self.meetings.past.order('"meetings"."start_time"').last
+  end
+  memoize :last_meeting
+  
+  def next_meeting
+    self.meetings.future.order('"meetings"."start_time"').first
+  end
+  memoize :next_meeting
+  
+  def next_rerun
+    self.events.future.ordered_by_earliest_start_time.first
+  end
+  memoize :next_rerun
+  
+  def last_rerun
+    self.events.past.ordered_by_earliest_start_time.last
+  end
+  memoize :last_rerun
 
 end

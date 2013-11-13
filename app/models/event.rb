@@ -33,6 +33,7 @@ class Event < ActiveRecord::Base
   scope :ordered_by_latest_end_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, max("meetings"."end_time") as latest_end_time').group('"events"."id"').order('latest_end_time').reverse_order}
   scope :future, lambda { where('"meetings"."start_time" > ?', Time.now) }
   scope :past, lambda { where('"meetings"."start_time" < ?', Time.now) }
+  scope :first_meeting, lambda { meetings.order('"meetings"."start_time"').first }
   
   after_initialize :generate_secret_if_missing
   before_validation :derive_times
