@@ -3,6 +3,10 @@
   hosted by <%= contextualized_user_link(@workshop.host, :linked => true) %>
 </p>
 <div class="span6">
+  <%= link_to edit_workshop_path, :class => 'btn btn-primary pull-right' do %>
+    <i class="icon-edit icon-white"></i>
+    Edit
+  <% end %>
   <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
   <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
   <ul class="nav nav-tabs margin0">

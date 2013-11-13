@@ -3,6 +3,7 @@ class WorkshopsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :require_admin, :only => [:index]
   before_filter :require_host, :only => [:my_workshops]
+  before_filter :only => [:edit, :update] { |c| c.be_host_or_be_admin(@workshop) }
   
   def my_workshops
     @workshops = Workshop.where(:host_id => current_user).order(:updated_at).reverse_order
@@ -49,6 +50,10 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  # GET /workshops/1/edit
+  def edit
+  end
+
   # POST /workshops
   # POST /workshops.json
   def create
@@ -57,7 +62,7 @@ class WorkshopsController < ApplicationController
     
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to my_workshops_path, notice: 'Workshop was successfully created.' }
+        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Now describe your workshop and schedule the first one.' }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
         collate_when_errors
