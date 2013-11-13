@@ -363,3 +363,13 @@ table.table.when_where_host_table td.image {
 .text-error {
   color:#9031A8;
 }
+
+.table-hover {
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+tr.click_to_show {
+  cursor: pointer;
+}

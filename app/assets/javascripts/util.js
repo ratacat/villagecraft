@@ -47,4 +47,7 @@ jQuery(function($) {
   popover_maps();
   $(".tooltipify").tooltip();
   $.removeCookie('auto_attend_event');
+  $('.click_to_show').click(function(e) {
+    window.document.location = $(this).attr("href");
+  });
 });
