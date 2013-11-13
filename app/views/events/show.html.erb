@@ -1,4 +1,4 @@
-<%= link_to 'workshop', @event.workshop %> 
+from the series <%= link_to @event.workshop.title, @event.workshop %>:
 <h1 class="margin_top0"><%= @event.title %></h1>
 <p>
   hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
