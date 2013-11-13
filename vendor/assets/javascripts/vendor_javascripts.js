@@ -1,3 +1,3 @@
 //= require moment
 //= require zeroclipboard
-//= require_tree .
+//= require_directory .

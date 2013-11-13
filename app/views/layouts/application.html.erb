@@ -29,6 +29,7 @@
 	<% end %>
 	
 	<%= javascript_include_tag "application" %>
+	<%= yield(:a_la_carte_js) -%>
   <%= render :partial => "layouts/body_and_ready_scripts" %>
   
 </html>
