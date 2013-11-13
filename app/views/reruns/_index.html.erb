@@ -1,5 +1,5 @@
 <%
-  show_links ||= false
+  show_icons ||= false
   click_to_show ||= false
 %>
 <table class="table table-hover table-striped rerun_index">
@@ -14,7 +14,7 @@
       <td><%= rerun.attendances.count %>/<%= rerun.max_attendees %> max</td>
       <td><%= inline_venue(rerun.first_meeting.venue) %></td>
       <td><%= rerun_price(rerun) %></td>
-      <% if show_links %>
+      <% if show_icons %>
       <td>
         <%= link_to rerun, :class => '' do -%>
           <i class="icon-play"></i>

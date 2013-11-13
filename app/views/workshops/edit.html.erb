@@ -2,4 +2,17 @@
 
 <div class="span5">
   <%= render 'form', :show_description => true %>
+  
+  <ul class="nav nav-tabs margin0">
+    <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> workshops scheduled</a></li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active" id="future">
+      <% if @future_reruns.count == 0 %>
+        No future workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :show_icons => true %>
+      <% end %>
+    </div>
+  </div>
 </div>

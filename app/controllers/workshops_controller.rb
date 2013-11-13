@@ -52,6 +52,7 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops/1/edit
   def edit
+    @future_reruns = @workshop.events.future.ordered_by_earliest_start_time.to_a
   end
 
   # POST /workshops
