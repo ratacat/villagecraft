@@ -4,11 +4,12 @@ class Meeting < ActiveRecord::Base
   has_start_and_end_time
   
   belongs_to :event
+  has_one :host, :through => :event
   belongs_to :venue
   has_one :location, :through => :venue
   
   def time_zone
-    self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"
+    self.location.try(:time_zone) || self.host.try(:location).try(:time_zone) || "America/Los_Angeles"
   end
   
   def find_zone
