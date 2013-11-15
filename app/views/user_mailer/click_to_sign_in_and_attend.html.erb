@@ -1,4 +1,6 @@
-<h3><%= @event.title %></h3>
-<p><%= render :partial => 'events/times', :locals => {:event => @event, :short_date => true, :no_tz => true} %></p>
 
-<p>Confirm your signup for <%= @event.title %>, <%= link_to 'click here', attend_path(@event, :auth_token => @user.authentication_token, :only_path => false) %>.</p>
+<h1><%= link_to 'click here', attend_path(@event, :auth_token => @user.authentication_token, :only_path => false) %></h1>
+<h3>to confirm your signup!</h3>
+
+<h3>======<%= @event.title %>======</h3>
+<p><%= render :partial => 'events/times', :locals => {:event => @event, :short_date => true, :no_tz => true} %></p>
