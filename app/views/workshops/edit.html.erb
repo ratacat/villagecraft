@@ -1,8 +1,9 @@
 <h1>Edit workshop details</h1>
 
-<div class="span6">
+<div class="span6 row">
   <%= render 'form', :show_description => true %>
-  
+</div>
+<div class="span8">
   <ul class="nav nav-tabs margin0">
     <button class="btn btn-success pull-right" id="add_rerun_button"><i class="icon icon-plus"></i>Add</button>
     <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> scheduled</a></li>

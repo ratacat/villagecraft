@@ -3,6 +3,16 @@
   click_to_show ||= false
 %>
 <table class="table table-hover table-striped rerun_index">
+  <thead>
+    <th colspan="2">Time</th>
+    <th></th>
+    <th>Attendees</th>
+    <th>Venue</th>
+    <th>Price</th>
+    <% if show_icons %>
+    <th></th>
+    <% end %>
+  </thead>
   <tbody>
 <% reruns.each do |rerun| %>
     <tr <% if click_to_show -%>
