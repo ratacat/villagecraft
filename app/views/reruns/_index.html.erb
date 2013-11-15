@@ -11,9 +11,9 @@
     <% end -%>>
       <%= meeting_time(rerun.first_meeting, :tag => :td, :short_date => true, :no_tz => true, :show_livestamp => false) %>
       <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-      <td><%= rerun.attendances.count %>/<%= rerun.max_attendees %> max</td>
+      <td><%= editable rerun, :max_attendees %> max</td>
       <td><%= inline_venue(rerun.first_meeting.venue) %></td>
-      <td><%= rerun_price(rerun) %></td>
+      <td>$<%= editable rerun, :price %></td>
       <% if show_icons %>
       <td>
         <%= link_to rerun, :title => 'view/manage workshop' do -%>
