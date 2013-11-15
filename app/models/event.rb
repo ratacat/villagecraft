@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image, :price
+  attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   has_uuid(:length => 8)
   
@@ -88,7 +88,7 @@ class Event < ActiveRecord::Base
   end
   
   def venue_tbd?
-    self.venue.blank?
+    self.first_meeting.try(:venue).blank?
   end
   
   def to_param
@@ -97,6 +97,20 @@ class Event < ActiveRecord::Base
     else
       "#{self.uuid} #{self.title}} in #{self.venue.location.city} #{self.venue.location.state_code}".parameterize      
     end
+  end
+  
+  def venue
+    self.first_meeting.try(:venue)
+  end
+  
+  def default_venue_uuid
+    self.venue.try(:uuid)
+  end
+  
+  # Set venue for all descendant meetings
+  def default_venue_uuid=(venue_uuid)
+    v = Venue.find_by_uuid(venue_uuid)
+    Meeting.update_all(["venue_id = ?", v], ["event_id = ?", self])
   end
   
   def img_src(size = :medium)

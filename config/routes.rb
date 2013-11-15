@@ -20,6 +20,7 @@ Villagecraft::Application.routes.draw do
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
   get 'my_workshops' => 'workshops#my_workshops', :as => :my_workshops
 
+  get 'my_venues(.:format)' => 'venues#my_venues', :as => :my_venues
   resources :venues  
   resources :neighborhoods
 
