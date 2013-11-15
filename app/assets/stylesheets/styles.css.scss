@@ -1,6 +1,7 @@
 @import "bootstrap-variables";
 @import 'bootstrap';
 @import 'bootstrap-responsive';
+@import "editable/bootstrap2-editable";
 
 body h2 {
 
@@ -372,4 +373,12 @@ table.table.when_where_host_table td.image {
 
 tr.click_to_show {
   cursor: pointer;
+}
+
+.editable-buttons {
+  button {
+    i {
+      padding: 0;
+    }
+  }
 }

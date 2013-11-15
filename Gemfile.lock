@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/bteitelb/x-editable-rails
+  revision: d4cc3c35cbb601d5b5cd064fe048123a4775e94d
+  specs:
+    x-editable-rails (1.5.0)
+      cancan
+      railties
+
+GIT
   remote: git://github.com/pduersteler/font-awesome-sass-rails
   revision: 50375dfa80a0f75746f4402e6831e06812191f43
   specs:
@@ -48,6 +56,7 @@ GEM
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.0.4)
+    cancan (1.6.10)
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
@@ -277,6 +286,7 @@ DEPENDENCIES
   awesome_print
   bootstrap-generators (~> 2.3)
   bootstrap-sass (~> 2.3.2.0)
+  cancan
   capistrano (~> 2.15.5)
   capistrano-unicorn
   capybara (= 1.1.2)
@@ -314,4 +324,5 @@ DEPENDENCIES
   uuidtools
   validates_timeliness (~> 3.0)
   verbs
+  x-editable-rails!
   zeroclipboard-rails
