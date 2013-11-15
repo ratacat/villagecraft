@@ -13,7 +13,7 @@
       <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
       <td><%= editable rerun, :max_attendees %> max</td>
       <td><%= inline_venue(rerun.first_meeting.venue) %></td>
-      <td>$<%= editable rerun, :price %></td>
+      <td><%= editable rerun, :price %></td>
       <% if show_icons %>
       <td>
         <%= link_to rerun, :title => 'view/manage workshop' do -%>

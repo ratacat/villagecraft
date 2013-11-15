@@ -4,7 +4,8 @@
   <%= render 'form', :show_description => true %>
   
   <ul class="nav nav-tabs margin0">
-    <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> workshops scheduled</a></li>
+    <button class="btn btn-success pull-right" id="add_rerun_button"><i class="icon icon-plus"></i>Add</button>
+    <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> scheduled</a></li>
   </ul>
   <div id="myTabContent" class="tab-content">
     <div class="tab-pane active" id="future">
@@ -16,3 +17,7 @@
     </div>
   </div>
 </div>
+<% ready_script do -%>
+  $('.editable[data-name="max_attendees"]').editable();
+  $('.editable[data-name="price"]').editable({display: editable_currency_display});
+<% end -%>
