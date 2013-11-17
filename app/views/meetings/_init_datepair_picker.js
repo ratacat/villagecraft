@@ -2,7 +2,7 @@ var DATEPICKER_FORMAT = "<%= t 'time.formats.php_style_time_picker_time_format' 
 var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
 var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
 
-function init_datetime_pickers() {
+function init_datetime_picker() {
   $('.datepair input.date').each(function(){
   	var $this = $(this);
 
