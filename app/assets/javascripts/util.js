@@ -42,6 +42,10 @@ function show_bootstrap_alert(opts) {
   $(options.selector).prepend(HandlebarsTemplates['alerts/show'](options));
 }
 
+function auth_token() {
+  return $("meta[name='csrf-token']").attr('content');
+}
+
 jQuery(function($) {
   raty_ratings();
   popover_maps();
