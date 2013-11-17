@@ -375,10 +375,19 @@ tr.click_to_show {
   cursor: pointer;
 }
 
-.editable-buttons {
-  button {
-    i {
-      padding: 0;
-    }
+button.editable-submit, button.editable-cancel {
+  i {
+    padding: 0;
   }
+}
+
+table.rerun_index {
+  td {
+    text-align: left;
+  }
+}
+
+.vc_editable span, span.vc_editable {
+  text-decoration: none;
+  border-bottom: dashed 1px #0088cc;
 }
