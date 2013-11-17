@@ -18,8 +18,38 @@
     </div>
   </div>
 </div>
+<% body_script do -%>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+  function hide_vc_editable_popovers(_this) {
+    $('td.vc_editable').not(_this).popover('hide');    
+  }
+<% end %>
 <% ready_script do -%>
   $('.editable[data-name="max_attendees"]').editable();
   $('.editable[data-name="default_venue_uuid"]').editable();
   $('.editable[data-name="price"]').editable({display: editable_currency_display});
+  
+  $('.editable').on('shown', function(e, editable) {
+    hide_vc_editable_popovers(this);
+  });
+  
+  $('td.vc_editable').popover({
+    html: true, 
+    placement: 'top',
+    container: 'body', 
+    title: 'Workshop Time', 
+    content: function() {
+      var data_span = $(this).closest('tr').find("td:nth-child(2) span");
+      return HandlebarsTemplates['datetime/range_form']({
+        auth_token: auth_token(),
+        start_time_date: data_span.data('start_time_date'),
+        start_time_time: data_span.data('start_time_time'),
+        end_time_date: data_span.data('end_time_date'),
+        end_time_time: data_span.data('end_time_time')
+      });
+    }
+  }).on('shown', function() {
+    hide_vc_editable_popovers(this);
+    init_datetime_picker(); 
+  });
 <% end -%>
