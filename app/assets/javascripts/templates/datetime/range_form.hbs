@@ -1,5 +1,6 @@
-<form accept-charset="UTF-8" action="/meetings" class="simple_form " id="new_meeting" method="post" novalidate="novalidate"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" />
-  
+<form accept-charset="UTF-8" action="/meetings/{{uuid}}" class="simple_form " id="edit_meeting" data-remote="true" method="put" novalidate="novalidate"><div style="margin:0;padding:0;display:inline">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="_method" type="hidden" value="put">
   <input name="authenticity_token" type="hidden" value="{{auth_token}}" /></div>
   <div class='datepair'>
 
