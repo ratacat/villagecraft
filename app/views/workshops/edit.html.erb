@@ -63,4 +63,9 @@
   $(document).on('ajax:success', '#edit_meeting', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
   });
+  
+  $(document).keydown(function(e){
+    if (e.keyCode === 27)
+      hide_vc_editable_popovers(this);
+  });
 <% end -%>
