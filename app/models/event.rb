@@ -1,7 +1,6 @@
 class Event < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :host, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid
-  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid
   has_uuid(:length => 8)
   
   belongs_to :host, :class_name => 'User'
@@ -36,8 +35,7 @@ class Event < ActiveRecord::Base
   scope :first_meeting, lambda { meetings.order('"meetings"."start_time"').first }
   
   after_initialize :generate_secret_if_missing
-  before_validation :derive_times
-  normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  normalize_attributes :title, :short_title, :description
   
   validates :host_id, presence: true
   validates :title, presence: true
@@ -80,11 +78,6 @@ class Event < ActiveRecord::Base
 
   def slots_left
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
-  end
-  
-  def derive_times
-    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
-    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
   end
   
   def venue_tbd?

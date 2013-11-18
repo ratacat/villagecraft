@@ -80,7 +80,6 @@ class EventsController < ApplicationController
     @event.venue = @venue
     respond_to do |format|
       @event.assign_attributes(params[:event])
-      @event.derive_times
       @changes = @event.changes
       if @event.save
         if @changes[:start_time] or @changes[:end_time]
