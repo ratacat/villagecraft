@@ -66,7 +66,6 @@ class WorkshopsController < ApplicationController
         format.html { redirect_to edit_workshop_path(@workshop), notice: 'Now describe your workshop and schedule the first one.' }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
-        collate_when_errors
         format.html { render action: "new" }
         format.json { render json: @workshop.errors, status: :unprocessable_entity }
       end
@@ -81,7 +80,6 @@ class WorkshopsController < ApplicationController
         format.html { redirect_to @workshop, notice: 'Workshop successfully updated.' }
         format.json { head :no_content }
       else
-        collate_when_errors
         format.html { render action: "edit" }
         format.json { render json: @workshop.errors, status: :unprocessable_entity }
       end
