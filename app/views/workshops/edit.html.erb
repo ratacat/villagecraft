@@ -42,6 +42,7 @@
       var data_span = $(this).closest('tr').find("td:nth-child(2) span");
       return HandlebarsTemplates['datetime/range_form']({
         auth_token: auth_token(),
+        uuid: data_span.data('uuid'),
         start_time_date: data_span.data('start_time_date'),
         start_time_time: data_span.data('start_time_time'),
         end_time_date: data_span.data('end_time_date'),
@@ -51,5 +52,15 @@
   }).on('shown', function() {
     hide_vc_editable_popovers(this);
     init_datetime_picker(); 
+  });
+  
+  $(document).on('click', "#edit_meeting button.editable-cancel", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    hide_vc_editable_popovers(this);
+  });
+  
+  $(document).on('ajax:success', '#edit_meeting', function(event, data, status, xhr) {
+    hide_vc_editable_popovers(this);
   });
 <% end -%>

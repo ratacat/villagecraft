@@ -17,6 +17,7 @@ module MeetingsHelper
                         :'data-start_time_time' => l(meeting.localized_start_time, format: :time_picker_time_format).strip,
                         :'data-end_time_date' => l(meeting.localized_end_time, format: :date_picker_date_format).strip,
                         :'data-end_time_time' => l(meeting.localized_end_time, format: :time_picker_time_format).strip,
+                        :'data-uuid' => meeting.uuid,
                         :class => 'time_range')
     if options[:show_livestamp]
       html << content_tag(:span, '', :class => 'muted', :'data-livestamp' => meeting.start_time)

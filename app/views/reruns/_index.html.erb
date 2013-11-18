@@ -19,7 +19,7 @@
       class="click_to_show"
       href="<%= url_for(rerun) %>"
     <% end -%>>
-      <%= meeting_time(rerun.first_meeting, :tag => :td, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+      <%= meeting_time(rerun.first_meeting, :wrapper_tag => :td, :wrapper_options => {:class => 'vc_editable'}, :short_date => true, :no_tz => true, :show_livestamp => false) %>
       <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
       <td><%= editable rerun, :max_attendees %> max</td>
       <td><%= editable rerun, :default_venue_uuid %></td>
