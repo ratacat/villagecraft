@@ -55,6 +55,12 @@ class WorkshopsController < ApplicationController
     @future_reruns = @workshop.events.future.ordered_by_earliest_start_time.to_a
   end
 
+  # GET /workshops/1/reruns_partial
+  def reruns_partial
+    @reruns = @workshop.events.future.ordered_by_earliest_start_time.to_a
+    render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true}
+  end
+
   # POST /workshops
   # POST /workshops.json
   def create

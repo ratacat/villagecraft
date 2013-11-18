@@ -1,6 +1,7 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
+  get "workshops/:id/reruns_partial" => 'workshops#reruns_partial', :as => :reruns_partial
   resources :workshops
 
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees

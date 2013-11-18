@@ -9,7 +9,7 @@
     <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> scheduled</a></li>
   </ul>
   <div id="myTabContent" class="tab-content">
-    <div class="tab-pane active" id="future">
+    <div class="tab-pane active" id="future_reruns">
       <% if @future_reruns.count == 0 %>
         No future workshops.
       <% else %>
@@ -20,38 +20,44 @@
 </div>
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+
   function hide_vc_editable_popovers(_this) {
     $('td.vc_editable').not(_this).popover('hide');    
-  }
+  };
+
+  function editablize_meetings() {
+    $('.editable[data-name="max_attendees"]').editable();
+    $('.editable[data-name="default_venue_uuid"]').editable();
+    $('.editable[data-name="price"]').editable({display: editable_currency_display});
+
+    $('td.vc_editable').popover({
+      html: true, 
+      placement: 'top',
+      container: 'body', 
+      title: 'Workshop Time', 
+      content: function() {
+        var data_span = $(this).closest('tr').find("td:nth-child(2) span");
+        return HandlebarsTemplates['datetime/range_form']({
+          auth_token: auth_token(),
+          uuid: data_span.data('uuid'),
+          start_time_date: data_span.data('start_time_date'),
+          start_time_time: data_span.data('start_time_time'),
+          end_time_date: data_span.data('end_time_date'),
+          end_time_time: data_span.data('end_time_time')
+        });
+      }
+    }).on('shown', function() {
+      hide_vc_editable_popovers(this);
+      init_datetime_picker(); 
+    });
+  };
 <% end %>
+
 <% ready_script do -%>
-  $('.editable[data-name="max_attendees"]').editable();
-  $('.editable[data-name="default_venue_uuid"]').editable();
-  $('.editable[data-name="price"]').editable({display: editable_currency_display});
+  editablize_meetings();
   
-  $('.editable').on('shown', function(e, editable) {
+  $(document).on('shown', '.editable', function(e, editable) {
     hide_vc_editable_popovers(this);
-  });
-  
-  $('td.vc_editable').popover({
-    html: true, 
-    placement: 'top',
-    container: 'body', 
-    title: 'Workshop Time', 
-    content: function() {
-      var data_span = $(this).closest('tr').find("td:nth-child(2) span");
-      return HandlebarsTemplates['datetime/range_form']({
-        auth_token: auth_token(),
-        uuid: data_span.data('uuid'),
-        start_time_date: data_span.data('start_time_date'),
-        start_time_time: data_span.data('start_time_time'),
-        end_time_date: data_span.data('end_time_date'),
-        end_time_time: data_span.data('end_time_time')
-      });
-    }
-  }).on('shown', function() {
-    hide_vc_editable_popovers(this);
-    init_datetime_picker(); 
   });
   
   $(document).on('click', "#edit_meeting button.editable-cancel", function(e) {
@@ -62,6 +68,10 @@
   
   $(document).on('ajax:success', '#edit_meeting', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
+    $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+      editablize_meetings();
+    });
+    
   });
   
   $(document).keydown(function(e){
