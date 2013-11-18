@@ -54,4 +54,14 @@ jQuery(function($) {
   $('.click_to_show').click(function(e) {
     window.document.location = $(this).attr("href");
   });
+  // Default AJAX error handler
+  $(document).on("ajax:error", function(evt, xhr, status, error) {
+    var errors = $.parseJSON(xhr.responseText).errors;
+    var message = $.parseJSON(xhr.responseText).message;
+    if (errors != '' && message) {
+      show_bootstrap_alert({type: 'error', text: message + ': ' + errors});
+    } else {
+      show_bootstrap_alert({type: 'error', text: message + errors});
+    };
+  });
 });
