@@ -2,16 +2,13 @@ Hi <%= @user.name %>,
 
 <p>You are confirmed to attend <strong><%= @event.title %></strong>, hosted by <strong><%= @event.host.name %></strong>.</p>
 
-<h3>When</h3>
+<h3>When and Where</h3>
 <p>
-  <%= render :partial => 'reruns/meeting_times_list', :locals => {:rerun => @event} %>
+  <%= render :partial => 'reruns/meeting_times_list', 
+             :locals => {:rerun => @event, :include_venue => true, :include_location => true, :br_on => true} %>
 </p>
 
-<h3>Where</h3>
-<p><%= @event.venue.blank? ? 'TBD' : @event.location.address %></p>
-
 <h3>Host</h3>
-
 <p>
   <strong><%= @event.host.name %></strong><br/>
   <address>

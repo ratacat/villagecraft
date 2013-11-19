@@ -1,13 +1,25 @@
 <%
   rerun ||= @rerun
   include_venue ||= false
+  include_location ||= false
+  li_class ||= nil
+  br_on ||= false
 %>
 <ul>
   <% rerun.meetings.order(:start_time).each do |meeting| -%>
-    <li>
-      <%= meeting_time(meeting, :no_tz => true, :show_livestamp => false) %>
+    <li <%= "class='#{li_class}'" if li_class %>>
+      <span><%= meeting_time(meeting, :no_tz => true, :show_livestamp => false, :spacer => ' ') %></span>
       <% if include_venue %>
-        <br/>@ <%= inline_venue(meeting.venue, :linked => true) %>
+        <% if br_on %>
+          <br/>
+        <% end %>
+        <span class="venue"><%= inline_venue(meeting.venue, :linked => true) %></span>
+      <% end %>
+      <% if include_location %>
+        <% if br_on %>
+          <br/>
+        <% end %>
+        <span class="location"><%= meeting.venue.blank? ? 'TBD' : meeting.location.address %></span>
       <% end %>
     </li>
   <% end -%>
