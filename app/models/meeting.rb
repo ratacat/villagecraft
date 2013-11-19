@@ -9,6 +9,7 @@ class Meeting < ActiveRecord::Base
   
   belongs_to :event
   has_one :host, :through => :event
+  has_one :workshop, :through => :event
   belongs_to :venue
   has_one :location, :through => :venue
   
