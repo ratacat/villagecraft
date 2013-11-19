@@ -5,6 +5,7 @@ module MeetingsHelper
       :show_livestamp => false,
       :no_tz => false,
       :wrapper_tag => nil,
+      :spacer => nil,
       :wrapper_options => {}
     }
     options.reverse_merge!(defaults)
@@ -12,6 +13,7 @@ module MeetingsHelper
 
     html = []
     html << content_tag(:span, meeting.localized_start_time.strftime(options[:date_format] + " #{meeting.localized_start_time.day.ordinalize}"), :class => 'date')
+    html << options[:spacer] if options[:spacer]
     html << content_tag(:span, "#{l meeting.localized_start_time, format: :short_time} - #{l meeting.localized_end_time, format: :short_time}", 
                         :'data-start_time_date' => l(meeting.localized_start_time, format: :date_picker_date_format).strip,
                         :'data-start_time_time' => l(meeting.localized_start_time, format: :time_picker_time_format).strip,
@@ -20,9 +22,11 @@ module MeetingsHelper
                         :'data-uuid' => meeting.uuid,
                         :class => 'time_range')
     if options[:show_livestamp]
+      html << options[:spacer] if options[:spacer]
       html << content_tag(:span, '', :class => 'muted', :'data-livestamp' => meeting.start_time)
     end
     unless options[:no_tz]
+      html << options[:spacer] if options[:spacer]
       html << content_tag(:span, friendly_time_zone_name(meeting.time_zone), :class => 'time_zone')
     end
     if options[:wrapper_tag]
