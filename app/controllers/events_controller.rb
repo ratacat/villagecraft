@@ -136,10 +136,7 @@ class EventsController < ApplicationController
     end
     
     begin
-      attendance = current_user.attendances.build
-      attendance.event = @event
-#      attendance.message = params[:attendance][:message]
-      attendance.save!
+      current_user.attends << @event
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|
         format.html { redirect_to root_path, notice: "You are already attending this event" }
