@@ -40,6 +40,7 @@ class RegistrationsController < Devise::RegistrationsController
       if cookies[:auto_attend_event]
         @event = Event.find_by_uuid(cookies[:auto_attend_event])
         @user.attends << @event
+        @event.create_activity key: 'event.interested', owner: @user
         cookies.delete :auto_attend_event
       end
     end
