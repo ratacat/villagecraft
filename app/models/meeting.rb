@@ -1,10 +1,11 @@
+require 'has_start_and_end_time'
+
 class Meeting < ActiveRecord::Base
   attr_accessible :start_time, :end_time, :snippet, :start_time_date, :end_time_date, :start_time_time, :end_time_time
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time
 
   has_uuid(:length => 8)
-  has_start_and_end_time
   
   belongs_to :event
   has_one :host, :through => :event

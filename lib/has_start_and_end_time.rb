@@ -23,17 +23,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 module ActiveRecord
   module Has
     module StartAndEndTime
-      def self.included(base)
-        base.extend(ClassMethods)
-      end
+      extend ActiveSupport::Concern
 
+      # add your static(class) methods here
       module ClassMethods
-        def has_start_and_end_time(options = {})
-          class_eval <<-EOV
-          include ActiveRecord::Has::StartAndEndTime::InstanceMethods
-          EOV
-        end
-
         def starting_after(t)
           where(%Q(#{self.quoted_table_name}."start_time" > ?), t )
         end
@@ -57,11 +50,10 @@ module ActiveRecord
         def past
           starting_before(Time.now)
         end
-
-      end
-
-      module InstanceMethods
       end
     end
   end
 end
+
+# include the extension 
+ActiveRecord::Base.send(:include, ActiveRecord::Has::StartAndEndTime)
