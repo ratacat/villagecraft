@@ -3,3 +3,7 @@
 <div class="span5">
   <%= render 'form' %>
 </div>
+
+<% ready_script do -%>
+  $('#workshop_title').focus();
+<% end %>
