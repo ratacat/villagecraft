@@ -11,8 +11,8 @@
       <td class="where"><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %></td>
       <td class="attends">
         <div class="blocky_spns">
-          <% if event.slots_left > 0 %>
-            <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
+          <% if event.slots_left == 0 %>
+            <span class="blocky_attend text-error"><%= event.attendances.count %></span><span>going</span>
           <% else %>
             <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
           <% end %>
