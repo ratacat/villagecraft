@@ -37,6 +37,10 @@ class Meeting < ActiveRecord::Base
     self.end_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 9:00pm", :zone => self.time_zone)
   end
   
+  def duration
+    self.end_time - self.start_time
+  end
+  
   protected
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
