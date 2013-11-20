@@ -3,8 +3,9 @@ require 'has_start_and_end_time'
 class Meeting < ActiveRecord::Base
   include ActiveRecord::Has::StartAndEndTime
   
-  attr_accessible :start_time, :end_time, :snippet, :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  attr_accessible :start_time, :end_time, :snippet, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :as => [:default, :system]
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  attr_accessible :venue, :event_id, :as => :system
   normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time
 
   has_uuid(:length => 8)
