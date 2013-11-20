@@ -1,5 +1,9 @@
+require "has_ordering_through_meetings"
+
 class Workshop < ActiveRecord::Base
   extend ActiveSupport::Memoizable
+  include ActiveRecord::Has::OrderingThroughMeetings
+
   attr_accessible :description, :frequency, :title, :image
   has_uuid(:length => 8)
 
@@ -37,12 +41,12 @@ class Workshop < ActiveRecord::Base
   memoize :next_meeting
   
   def next_rerun
-    self.events.future.ordered_by_earliest_start_time.first
+    self.events.future.ordered_by_earliest_meeting_start_time.first
   end
   memoize :next_rerun
   
   def last_rerun
-    self.events.past.ordered_by_earliest_start_time.last
+    self.events.past.ordered_by_earliest_meeting_start_time.last
   end
   memoize :last_rerun
 

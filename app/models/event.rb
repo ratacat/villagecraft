@@ -1,5 +1,8 @@
+require "has_ordering_through_meetings"
+
 class Event < ActiveRecord::Base
   include PublicActivity::Common
+  include ActiveRecord::Has::OrderingThroughMeetings
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid
   has_uuid(:length => 8)
   
@@ -27,12 +30,6 @@ class Event < ActiveRecord::Base
       where('"attendances"."state" IN (?)', %w(interested confirmed))
     end
   end
-  
-  scope :ordered_by_earliest_start_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, min("meetings"."start_time") as earliest_start_time').group('"events"."id"').order('earliest_start_time')}
-  scope :ordered_by_latest_end_time, lambda { joins('LEFT JOIN "meetings" ON "meetings"."event_id" = "events"."id"').select('"events".*, max("meetings"."end_time") as latest_end_time').group('"events"."id"').order('latest_end_time').reverse_order}
-  scope :future, lambda { where('"meetings"."start_time" > ?', Time.now) }
-  scope :past, lambda { where('"meetings"."start_time" < ?', Time.now) }
-  scope :first_meeting, lambda { meetings.order('"meetings"."start_time"').first }
   
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
