@@ -83,7 +83,7 @@ class WorkshopsController < ApplicationController
   def update
     respond_to do |format|
       if @workshop.update_attributes(params[:workshop])
-        format.html { redirect_to @workshop, notice: 'Workshop successfully updated.' }
+        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
