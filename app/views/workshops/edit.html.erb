@@ -13,7 +13,7 @@
       <% if @future_reruns.count == 0 %>
         No future workshops.
       <% else %>
-        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :show_icons => true %>
+        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :show_icons => true, :editable => true %>
       <% end %>
     </div>
   </div>

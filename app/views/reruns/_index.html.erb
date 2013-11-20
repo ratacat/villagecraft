@@ -1,6 +1,7 @@
 <%
   show_icons ||= false
   click_to_show ||= false
+  editable ||= false
 %>
 <table class="table table-hover table-striped rerun_index">
   <thead>
@@ -15,6 +16,7 @@
   </thead>
   <tbody>
 <% reruns.each do |rerun| %>
+  <% if editable %>
     <tr <% if click_to_show -%>
       class="click_to_show"
       href="<%= url_for(rerun) %>"
@@ -32,6 +34,25 @@
       </td>
       <% end %>
     </tr>
+  <% else %>
+    <tr <% if click_to_show -%>
+      class="click_to_show"
+      href="<%= url_for(rerun) %>"
+    <% end -%>>
+      <%= meeting_time(rerun.first_meeting, :wrapper_tag => :td, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+      <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
+      <td><%= rerun.max_attendees %> max</td>
+      <td><%= inline_venue(rerun.venue) %></td>
+      <td><%= rerun_price(rerun) %></td>
+      <% if show_icons %>
+      <td>
+        <%= link_to rerun, :title => 'view/manage workshop' do -%>
+          <i class="icon-play"></i>
+        <% end -%>
+      </td>
+      <% end %>
+    </tr>
+  <% end %>    
 <% end %>
   </tbody>
 </table>
