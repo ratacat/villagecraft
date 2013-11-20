@@ -50,4 +50,9 @@ class Workshop < ActiveRecord::Base
   end
   memoize :last_rerun
 
+  def last_scheduled_reruns
+    self.events.ordered_by_earliest_meeting_start_time.reverse_order.limit(2)
+  end
+  memoize :last_scheduled_reruns
+
 end

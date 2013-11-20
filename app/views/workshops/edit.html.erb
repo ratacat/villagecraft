@@ -66,12 +66,19 @@
     hide_vc_editable_popovers(this);
   });
   
+  $("#add_rerun_button").click(function(e) {
+    $.post("<%= auto_add_rerun_path(@workshop) %>", function(data, textStatus, jqXHR) {
+      $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+        editablize_meetings();
+      });
+    });
+  });
+  
   $(document).on('ajax:success', '#edit_meeting', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
     });
-    
   });
   
   $(document).keydown(function(e){

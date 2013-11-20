@@ -121,6 +121,47 @@ class Event < ActiveRecord::Base
     "/assets/event_placeholder.png"
   end
   
+  def Event.auto_create_from_workshop(workshop)
+    reruns = workshop.last_scheduled_reruns
+    m0, m1 = reruns.map(&:first_meeting)
+    
+    if reruns.size > 0
+      if reruns.size === 1
+        # This is the second scheduled rerun, default to 1 week from the previous rerun with same duration and venue
+        start_time = m0.start_time + 1.week
+      else
+        # There are already at least two workshops scheduled. Follow the pattern.
+        start_time = m0.start_time + (m0.start_time - m1.start_time)
+      end
+      # Inherit everything else from m0
+      end_time = start_time + m0.duration
+      title = m0.event.title
+      description = m0.event.description
+      price = m0.event.price
+      venue = m0.venue
+      max_attendees = m0.event.max_attendees
+    else
+      # This is the first scheduled rerun, default to tomorrow @7pm
+      default_tz_name = workshop.host.try(:location).try(:time_zone) || "America/Los_Angeles"
+      default_tz = Time.find_zone(default_tz_name)
+      start_time = Timeliness.parse("#{default_tz.now.tomorrow.to_date} 7:00pm", :zone => default_tz_name)
+      end_time = start_time + 2.hours
+      title = workshop.title
+      description = workshop.description
+      price = 0
+      venue = nil
+      max_attendees = 8
+    end
+
+    event = Event.create!({:title => title, 
+                           :description => description, 
+                           :host => workshop.host, 
+                           :price => price, 
+                           :max_attendees => max_attendees,
+                           :workshop_id => workshop.id}, :as => :system)
+    Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
+  end
+  
   protected
 
   def Event.random_secret

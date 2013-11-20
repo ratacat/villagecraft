@@ -91,6 +91,14 @@ class WorkshopsController < ApplicationController
       end
     end
   end
+  
+  # POST /workshops/1/auto_add_rerun
+  def auto_add_rerun
+    Event.auto_create_from_workshop(@workshop)
+    respond_to do |format|
+      format.js { head :no_content }
+    end
+  end
 
   protected
   def find_workshop
