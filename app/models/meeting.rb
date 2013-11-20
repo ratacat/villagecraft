@@ -1,6 +1,8 @@
 require 'has_start_and_end_time'
 
 class Meeting < ActiveRecord::Base
+  include ActiveRecord::Has::StartAndEndTime
+  
   attr_accessible :start_time, :end_time, :snippet, :start_time_date, :end_time_date, :start_time_time, :end_time_time
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time

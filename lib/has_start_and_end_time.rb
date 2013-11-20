@@ -25,7 +25,6 @@ module ActiveRecord
     module StartAndEndTime
       extend ActiveSupport::Concern
 
-      # add your static(class) methods here
       module ClassMethods
         def starting_after(t)
           where(%Q(#{self.quoted_table_name}."start_time" > ?), t )
@@ -54,6 +53,3 @@ module ActiveRecord
     end
   end
 end
-
-# include the extension 
-ActiveRecord::Base.send(:include, ActiveRecord::Has::StartAndEndTime)
