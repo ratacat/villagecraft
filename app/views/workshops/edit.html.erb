@@ -79,6 +79,8 @@
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
     });
+  }).on('ajax:error', '#edit_meeting', function(event, data, status, xhr) {
+    hide_vc_editable_popovers(this);
   });
   
   $(document).keydown(function(e){
