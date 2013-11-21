@@ -35,6 +35,7 @@ class Event < ActiveRecord::Base
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
   
+  validates :workshop, :presence => true
   validates :host_id, presence: true
   validates :title, presence: true
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}

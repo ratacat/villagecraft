@@ -17,6 +17,9 @@ class Meeting < ActiveRecord::Base
   has_one :location, :through => :venue
   
   before_validation :derive_times
+  validates :event, :presence => true
+  validates_datetime :end_time
+  validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
   
   def time_zone
     self.location.try(:time_zone) || self.host.try(:location).try(:time_zone) || "America/Los_Angeles"
