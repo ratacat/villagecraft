@@ -7,7 +7,7 @@
   <thead>
     <th colspan="2">Time</th>
     <th></th>
-    <th>Attendees</th>
+    <th>Slots</th>
     <th>Venue</th>
     <th>Price</th>
     <% if show_icons %>
@@ -23,7 +23,7 @@
     <% end -%>>
       <%= meeting_time(rerun.first_meeting, :wrapper_tag => :td, :wrapper_options => {:class => 'vc_editable'}, :short_date => true, :no_tz => true, :show_livestamp => false) %>
       <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-      <td><%= editable rerun, :max_attendees %> max</td>
+      <td><%= editable rerun, :max_attendees %></td>
       <td><%= editable rerun, :default_venue_uuid %></td>
       <td><%= editable rerun, :price %></td>
       <% if show_icons %>
