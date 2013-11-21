@@ -27,11 +27,7 @@
       <td><%= editable rerun, :default_venue_uuid %></td>
       <td><%= editable rerun, :price %></td>
       <% if show_icons %>
-      <td>
-        <%= link_to rerun, :title => 'view/manage workshop' do -%>
-          <i class="icon-play"></i>
-        <% end -%>
-      </td>
+      <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
       <% end %>
     </tr>
   <% else %>
@@ -45,11 +41,7 @@
       <td><%= inline_venue(rerun.venue) %></td>
       <td><%= rerun_price(rerun) %></td>
       <% if show_icons %>
-      <td>
-        <%= link_to rerun, :title => 'view/manage workshop' do -%>
-          <i class="icon-play"></i>
-        <% end -%>
-      </td>
+      <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
       <% end %>
     </tr>
   <% end %>    
