@@ -1,19 +1,7 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
-  
-  before_filter :find_event, :except => [:index, :my_events, :new, :create]
-  before_filter :authenticate_user!, except: [:index, :show, :attendees, :attend_by_email]
-  before_filter :require_admin, :only => [:index, :destroy]
+  load_and_authorize_resource(:find_by => :find_by_seod_uuid)
   before_filter :find_venue, :only => [:create, :update]
-  before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee, :cancel_attend]
-  
-  #before_filter :checkDate, :only => [:create, :update]
-  # GET /events
-  # GET /events.json
- # def checkDate
-  #  @events.date = DateTime.strptime(Event.date, "%Y-%m-%d")
-  #  @events.save
- # end
  
   EVENTS_PER_PAGE = 20
 
@@ -105,10 +93,11 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+    @workshop = @event.workshop
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url }
+      format.html { redirect_to edit_workshop_path(@workshop) }
       format.json { head :no_content }
     end
   end
@@ -252,14 +241,6 @@ class EventsController < ApplicationController
   end
   
   protected
-  def find_event
-    begin
-      @event = Event.find_by_uuid(params["id"].split('-').first)
-    rescue Exception => e
-    end
-    render_error(:message => "Event #{params["id"]} not found.", :status => 404) if @event.blank?
-  end  
-  
   def find_venue
     @venue = Venue.find_by_uuid(params[:event][:venue_id])
     params[:event].delete(:venue_id)
@@ -273,13 +254,4 @@ class EventsController < ApplicationController
     when_errors = when_errors.flatten.compact
     @event.errors.add(:when, when_errors.flatten.join('; ')) unless when_errors.blank?
   end
-  
-  def be_host_or_be_admin
-    unless user_signed_in? and (current_user == @event.host or current_user.admin?)
-      render_error(:message => "You must be the event's host or an admin to do that.", :status => :unauthorized)
-      return false
-    end
-    return true
-  end
-  
 end

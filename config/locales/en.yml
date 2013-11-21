@@ -2,6 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  unauthorized:
+    manage:
+      all: "Sorry, you are not authorized to %{action} %{subject}."
+    destroy:
+      event: "To destroy an event, you must be an admin in admin mode."
+    manage_as_host:
+      event: "You must be the host of that %{subject} to do that."
   time:
     formats:
       friendly_at_time: "%b %d, %Y @ %l:%M%P"

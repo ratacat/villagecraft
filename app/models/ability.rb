@@ -1,9 +1,22 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
-    user ||= User.new # guest user (not logged in)
-    can :manage, :all
+  def initialize(user, session)
+    alias_action :update, :destroy, :accept_attendee, :cancel_attend, :to => :manage_as_host
+    
+    if user.blank? # guest user
+      can [:show, :attend_by_email], Event
+    elsif user.admin? and session[:admin_mode] # admin
+      can :manage, :all
+    elsif user.host? # host
+      can [:show, :new, :attend, :attend_by_email], Event
+      can :manage_as_host, Event, :host_id => user.id
+      can :update, Meeting      
+    else # signed in user
+      can [:show, :attend, :attend_by_email], Event
+      cannot :manage_as_host
+      can :update, Meeting
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

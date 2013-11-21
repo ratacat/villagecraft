@@ -163,6 +163,10 @@ class Event < ActiveRecord::Base
     Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
   end
   
+  def Event.find_by_seod_uuid(id)
+    Event.find_by_uuid(id.split('-').first)
+  end
+  
   protected
 
   def Event.random_secret

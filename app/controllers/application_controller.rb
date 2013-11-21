@@ -12,7 +12,15 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     session[:previous_url] || root_path
-  end  
+  end
+  
+  def current_ability
+    @current_ability ||= Ability.new(current_user, session)
+  end
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
   
   protected
   def render_error(options={})
