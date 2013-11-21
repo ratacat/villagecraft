@@ -30,9 +30,6 @@
         <div class="event_description">
           <%= markdown(event.description.html_safe, :mkd_noheader) %>
         </div>
-        <% if (event.host === current_user) or admin_session? %>
-          <%= link_to 'Manage', event, :class => 'btn btn-small' %>        
-        <% end %>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event, :show_image => true} %>
