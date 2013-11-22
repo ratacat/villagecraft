@@ -53,7 +53,7 @@ class Event < ActiveRecord::Base
                                :only_integer => true }, 
             :presence => true
   
-  validates :description, :presence => true
+  # validates :description, :presence => true
   
   state_machine :initial => :published do
     event :publish do
