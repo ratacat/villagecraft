@@ -148,7 +148,7 @@ class EventsController < ApplicationController
   # POST /cancel_attend/1.json
   def cancel_attend
     if params[:user_uuid]
-      return unless be_host_or_be_admin
+      return unless current_user.is_host_of?(@event)
       @user = User.find_by_uuid(params[:user_uuid])
       if @user.blank?
         render_error(:message => "User not found.", :status => 404)
@@ -171,10 +171,10 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      @notice = be_host_or_be_admin ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
+      @notice = current_user.is_host_of?(@event) ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
       format.js
       format.html {
-        if be_host_or_be_admin
+        if current_user.is_host_of?(@event)
           redirect_to manage_attendances_path(@event), notice: @notice
         else
           redirect_to @event, notice: @notice 

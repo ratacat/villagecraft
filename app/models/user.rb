@@ -65,6 +65,10 @@ class User < ActiveRecord::Base
     self.profile_image_id = i.id
   end
 
+  def is_host_of?(obj)
+    obj.respond_to?(:host) and (self == obj.host)
+  end
+
   # straightforward rate of attendance
   # TODO: compute a "velocity" 0-100 that weights recent attendance more highly
   def velocity
