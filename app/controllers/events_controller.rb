@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
   load_and_authorize_resource(:find_by => :find_by_seod_uuid)
   before_filter :find_venue, :only => [:create, :update]
+  before_filter :check_lock, :only => [:update, :destroy]
  
   EVENTS_PER_PAGE = 20
 
@@ -241,6 +242,12 @@ class EventsController < ApplicationController
   end
   
   protected
+  def check_lock
+    if @event.locked?
+      raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
+    end
+  end
+  
   def find_venue
     @venue = Venue.find_by_uuid(params[:event][:venue_id])
     params[:event].delete(:venue_id)

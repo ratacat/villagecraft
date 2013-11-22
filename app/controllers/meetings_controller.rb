@@ -1,5 +1,6 @@
 class MeetingsController < ApplicationController
   load_and_authorize_resource(:find_by => :uuid)
+  before_filter :check_lock, :only => [:update]
   
   # PUT /meetings/1
   # PUT /meetings/1.json
@@ -16,4 +17,12 @@ class MeetingsController < ApplicationController
       end
     end
   end
+  
+  protected
+  def check_lock
+    if @meeting.event.locked?
+      raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@meeting.event.attendances.count, 'person')} attending)", action_name, Meeting)
+    end
+  end
+  
 end

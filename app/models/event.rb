@@ -79,6 +79,10 @@ class Event < ActiveRecord::Base
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
   
+  def locked?
+    self.attendances.count > 0
+  end
+  
   def venue_tbd?
     self.first_meeting.try(:venue).blank?
   end
