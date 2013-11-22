@@ -388,6 +388,11 @@ table.rerun_index {
 }
 
 .vc_editable span, span.vc_editable {
+  cursor: pointer;
   text-decoration: none;
   border-bottom: dashed 1px #0088cc;
+}
+
+td span.editable {
+  cursor: pointer;
 }
