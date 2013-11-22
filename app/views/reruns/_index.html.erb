@@ -16,7 +16,7 @@
   </thead>
   <tbody>
 <% reruns.each do |rerun| %>
-  <% if editable %>
+  <% if editable and not rerun.locked? %>
     <tr <% if click_to_show -%>
       class="click_to_show"
       href="<%= url_for(rerun) %>"
