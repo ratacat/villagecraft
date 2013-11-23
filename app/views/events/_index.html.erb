@@ -28,7 +28,7 @@
           <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></span><br/>
         </div>
         <div class="event_description">
-          <%= markdown(event.description.html_safe, :mkd_noheader) %>
+          <%= markdown(event.description.try(:html_safe), :mkd_noheader) %>
         </div>
       </td>
       <td>
