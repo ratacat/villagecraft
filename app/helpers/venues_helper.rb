@@ -16,14 +16,15 @@ module VenuesHelper
 
   def inline_venue(venue, options = {})
     defaults = {
-      :linked => false
+      :linked => false,
+      :only_path => true
     }
     options.reverse_merge!(defaults)
     
     if venue.blank?
       'TBD'
     else
-      link_to_if(options[:linked], venue.name, venue)
+      link_to_if(options[:linked], venue.name, venue_url(venue, :only_path => options[:only_path]))
     end
   end
   
