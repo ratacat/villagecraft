@@ -1,4 +1,27 @@
 module MeetingsHelper
+  def meeting_date(meeting, options = {}) 
+    defaults = {
+      :short_date => false
+    }
+    options.reverse_merge!(defaults)
+    options[:date_format] = options[:short_date] ? "%A %b" : "%A %B"
+    meeting.localized_start_time.strftime(options[:date_format] + " #{meeting.localized_start_time.day.ordinalize}")
+  end
+  
+  def meeting_time_interval(meeting)
+    if meeting.end_time - meeting.start_time >= 2.days
+      time_interval = "#{l meeting.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(meeting.start_time, meeting.end_time)} later)"
+    else
+      time_interval = "#{l meeting.localized_start_time, format: :short_time} - #{l meeting.localized_end_time, format: :short_time}"
+      time_interval += " (+#{distance_of_time_in_words(meeting.start_time, meeting.end_time)})" if meeting.end_time - meeting.start_time >= 1.day
+    end
+    time_interval
+  end
+  
+  def plaintext_meeting_time(meeting)
+    "#{meeting_date(meeting)} #{meeting_time_interval(meeting)}"
+  end
+  
   def meeting_time(meeting, options = {})
     defaults = {
       :short_date => false,
@@ -12,15 +35,9 @@ module MeetingsHelper
     options[:date_format] = options[:short_date] ? "%A %b" : "%A %B"
 
     html = []
-    html << content_tag(:span, meeting.localized_start_time.strftime(options[:date_format] + " #{meeting.localized_start_time.day.ordinalize}"), :class => 'date')
+    html << content_tag(:span, meeting_date(meeting, :date_format => options[:date_format]), :class => 'date')
     html << options[:spacer] if options[:spacer]
-    if meeting.end_time - meeting.start_time >= 2.days
-      time_interval = "#{l meeting.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(meeting.start_time, meeting.end_time)} later)"
-    else
-      time_interval = "#{l meeting.localized_start_time, format: :short_time} - #{l meeting.localized_end_time, format: :short_time}"
-      time_interval += " (+#{distance_of_time_in_words(meeting.start_time, meeting.end_time)})" if meeting.end_time - meeting.start_time >= 1.day
-    end
-    html << content_tag(:span, time_interval, 
+    html << content_tag(:span, meeting_time_interval(meeting), 
                         :'data-start_time_date' => l(meeting.localized_start_time, format: :date_picker_date_format).strip,
                         :'data-start_time_time' => l(meeting.localized_start_time, format: :time_picker_time_format).strip,
                         :'data-end_time_date' => l(meeting.localized_end_time, format: :date_picker_date_format).strip,
