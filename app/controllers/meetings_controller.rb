@@ -2,6 +2,12 @@ class MeetingsController < ApplicationController
   load_and_authorize_resource(:find_by => :uuid)
   before_filter :check_lock, :only => [:update]
   
+  # GET /meetings/1
+  # GET /meetings/1.json
+  def show
+    redirect_to root_url(:only_path => true, :anchor => @meeting.event.to_param)
+  end
+  
   # PUT /meetings/1
   # PUT /meetings/1.json
   def update
