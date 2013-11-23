@@ -6,7 +6,20 @@ class MeetingsController < ApplicationController
   # PUT /meetings/1.json
   def update
     respond_to do |format|
-      if @meeting.update_attributes(params[:meeting])
+      @meeting.assign_attributes(params[:meeting])
+      @meeting.derive_times
+      @changes = @meeting.changes
+      if @meeting.save!
+        if @changes[:start_time] or @changes[:end_time]
+          @meeting.create_activity key: 'meeting.time_changed', 
+                                   owner: current_user, 
+                                   parameters: {:new_time => view_context.plaintext_meeting_time(@meeting)}
+        end
+        if @changes[:venue_id]
+          @meeting.create_activity key: 'meeting.venue_changed', 
+                                   owner: current_user, 
+                                   parameters: {:new_venue_id => @meeting.venue_id}          
+        end
         format.js { head :no_content }
         format.html { redirect_to @meeting, notice: 'Meeting successfully updated.' }
         format.json { head :no_content }
