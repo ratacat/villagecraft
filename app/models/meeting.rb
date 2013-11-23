@@ -1,6 +1,7 @@
 require 'has_start_and_end_time'
 
 class Meeting < ActiveRecord::Base
+  include PublicActivity::Common
   include ActiveRecord::Has::StartAndEndTime
   
   attr_accessible :start_time, :end_time, :snippet, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :as => [:default, :system]
@@ -20,6 +21,10 @@ class Meeting < ActiveRecord::Base
   validates :event, :presence => true
   validates_datetime :end_time
   validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
+  
+  def title
+    self.event.title
+  end
   
   def time_zone
     self.location.try(:time_zone) || self.host.try(:location).try(:time_zone) || "America/Los_Angeles"
@@ -44,8 +49,7 @@ class Meeting < ActiveRecord::Base
   def duration
     self.end_time - self.start_time
   end
-  
-  protected
+
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
