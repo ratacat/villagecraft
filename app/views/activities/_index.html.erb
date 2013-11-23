@@ -3,12 +3,8 @@
   width ||= 'span8'
   plaintext_activities ||= false
 %>
-<ul class="thumbnails">
-  <li class="<%= width %>">
-    <% activities.each do |activity| %>
-    <div class="thumbnail right-caption <%= width %>">
-      <%= render_activity activity, :plaintext => plaintext_activities %>
-    </div>
-    <% end %>
-  </li>
-</ul>
+<% activities.each do |activity| %>
+<div>
+  <%= render_activity activity, :plaintext => plaintext_activities, :show_trackable => true %>
+  </div>
+<% end %>

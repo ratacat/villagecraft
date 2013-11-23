@@ -3,7 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter :sign_in_if_auth_token
   before_filter :fetch_notifications
   after_filter :store_location, :except => [:attend_by_email]
-  before_filter :require_admin, :only => [:dash]
+  before_filter :require_admin, :only => [:dash, :recent_activity]
+
+  ACTIVITIES_PER_PAGE = 100
 
   def store_location
     # store last url as long as it isn't a /users path
@@ -16,6 +18,10 @@ class ApplicationController < ActionController::Base
   
   def current_ability
     @current_ability ||= Ability.new(current_user, session)
+  end
+  
+  def recent_activity
+    @activities = PublicActivity::Activity.order(:created_at).reverse_order.limit(ACTIVITIES_PER_PAGE)
   end
   
   rescue_from CanCan::AccessDenied do |exception|
