@@ -9,7 +9,7 @@
   <% end %>
   <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
   <p>
-    <%= markdown(@workshop.description.html_safe, :mkd_noheader) %>
+    <%= markdown(@workshop.description.try(:html_safe), :mkd_noheader) %>
   </p>
   <ul class="nav nav-tabs margin0">
     <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
