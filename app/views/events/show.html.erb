@@ -17,7 +17,7 @@ from the series <%= link_to @event.workshop.title, @event.workshop %>:
 </div>
 <div class="row">
   <div class="span7">
-    <%= markdown(@event.description.html_safe, :mkd_noheader) %>
+    <%= markdown(@event.description.try(:html_safe), :mkd_noheader) %>
   </div>
 </div>
 
