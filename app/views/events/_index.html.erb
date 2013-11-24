@@ -26,6 +26,14 @@
         <div class="span2 pull-right center-text fee_cta">
           <h4 class="fee"><%= event_price(event, :show_materials_fee => false) %></h4>
           <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></span><br/>
+          <%# FIXME: optimize this %>
+          <% upcoming_reruns = event.workshop.events.ordered_by_earliest_meeting_start_time.to_a; upcoming_reruns.shift %>
+          <% unless upcoming_reruns.blank? %>
+            <h4>Next Dates</h4>
+            <% upcoming_reruns.map(&:first_meeting).each do |m| -%>
+              <div><%= meeting_date(m, :short_date => true) %></div>
+            <% end -%>
+          <% end %>
         </div>
         <div class="event_description">
           <%= markdown(event.description.try(:html_safe), :mkd_noheader) %>
