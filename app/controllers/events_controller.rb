@@ -85,6 +85,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
+      format.js { head :no_content }
       format.html { redirect_to edit_workshop_path(@workshop) }
       format.json { head :no_content }
     end
