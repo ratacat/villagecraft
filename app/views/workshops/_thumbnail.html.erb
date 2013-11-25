@@ -4,14 +4,21 @@
   thumb_size ||= :small
   span ||= "6"
   right_caption ||= false
+  linked_to = (linked === :edit ? edit_workshop_path(workshop) : workshop)
 %>
 <ul class="thumbnails">
   <li class="span<%= span %>">
     <div class="thumbnail<%= " right-caption" if right_caption %>">
-      <%= link_to_if linked, image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), workshop %>
+      <% if linked %>
+        <%= link_to image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), linked_to %>
+      <% end %>
     </div>
     <div class="caption <%= thumb_size %><%= " right-caption" if right_caption %>">
-      <span><%= link_to_if linked, workshop.title, workshop %></span>
+      <span>
+        <% if linked %>
+          <%= link_to workshop.title, linked_to %>
+        <% end %>
+      </span>
     </div>
   </li>
 </ul>

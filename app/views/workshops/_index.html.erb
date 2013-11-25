@@ -15,7 +15,7 @@
   <tbody>
 <% @workshops.each do |workshop| %>
     <tr>
-      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true} %></td>
+      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true} %></td>
       <td><%= workshop.events.count %></td>
       <td class="blocky_spns">
         <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>
