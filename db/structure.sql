@@ -137,7 +137,7 @@ CREATE TABLE events (
     end_time timestamp without time zone,
     secret character varying(255),
     short_title character varying(255),
-    price numeric(10,2),
+    price integer,
     venue_id integer,
     uuid character varying(255),
     image_id integer,
@@ -1047,3 +1047,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131109021024');
 INSERT INTO schema_migrations (version) VALUES ('20131109073509');
 
 INSERT INTO schema_migrations (version) VALUES ('20131109074258');
+
+INSERT INTO schema_migrations (version) VALUES ('20131125065030');
