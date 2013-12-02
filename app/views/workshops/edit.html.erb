@@ -22,7 +22,7 @@
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
 
   function hide_vc_editable_popovers(_this) {
-    $('td.vc_editable').not(_this).popover('hide');    
+    $('span.vc_editable').not(_this).popover('hide');    
   };
 
   function editablize_meetings() {
@@ -30,13 +30,13 @@
     $('.editable[data-name="default_venue_uuid"]').editable();
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
 
-    $('td.vc_editable').popover({
+    $('span.vc_editable').popover({
       html: true, 
       placement: 'top',
       container: 'body', 
       title: 'Workshop Time', 
       content: function() {
-        var data_span = $(this).closest('tr').find("td:nth-child(2) span");
+        var data_span = $(this).find("span:nth-child(2)");
         return HandlebarsTemplates['datetime/range_form']({
           auth_token: auth_token(),
           uuid: data_span.data('uuid'),

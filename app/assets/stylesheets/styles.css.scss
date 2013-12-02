@@ -387,7 +387,11 @@ table.rerun_index {
   }
 }
 
-.vc_editable span, span.vc_editable {
+span.vc_editable {
+  > span:first-child {
+    display: inline-block;
+    width: 200px;
+  }
   cursor: pointer;
   text-decoration: none;
   border-bottom: dashed 1px #0088cc;
