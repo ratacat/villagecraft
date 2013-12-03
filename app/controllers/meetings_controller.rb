@@ -15,7 +15,7 @@ class MeetingsController < ApplicationController
       @meeting.assign_attributes(params[:meeting])
       @meeting.derive_times
       @changes = @meeting.changes
-      if @meeting.save!
+      if @meeting.save
         if @changes[:start_time] or @changes[:end_time]
           @meeting.create_activity key: 'meeting.time_changed', 
                                    owner: current_user, 
