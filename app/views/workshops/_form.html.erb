@@ -1,6 +1,3 @@
-<%
-  show_description ||= false
-%>
 <%= simple_form_for(@workshop) do |f| %>
   <%= f.error_notification %>
 
@@ -13,22 +10,18 @@
         <%= f.file_field :image %><br/>
       </div>
     </div>
-  	<% if show_description %>
-      <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
-    <% end %>
+    <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit, :class => "btn-primary" %>
   </div>
 <% end %>
-<% if show_description %>
-  <%- content_for(:a_la_carte_js) do -%>
-    <%= javascript_include_tag 'a_la_carte/markdown' -%>
-    <%= javascript_include_tag 'a_la_carte/to-markdown' -%>
-    <%= javascript_include_tag 'a_la_carte/bootstrap-markdown' -%>
-  <%- end -%>
-<% end %>
+<%- content_for(:a_la_carte_js) do -%>
+  <%= javascript_include_tag 'a_la_carte/markdown' -%>
+  <%= javascript_include_tag 'a_la_carte/to-markdown' -%>
+  <%= javascript_include_tag 'a_la_carte/bootstrap-markdown' -%>
+<%- end -%>
 <% ready_script do -%>
   $(":file").filestyle({
     input: false,

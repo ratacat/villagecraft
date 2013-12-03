@@ -69,7 +69,7 @@ class WorkshopsController < ApplicationController
     
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Now describe your workshop and schedule the first one.' }
+        format.html { redirect_to edit_workshop_path(@workshop), notice: 'To publish this workshop, schedule the first one.' }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
         format.html { render action: "new" }

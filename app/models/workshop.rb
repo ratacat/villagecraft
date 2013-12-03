@@ -13,6 +13,8 @@ class Workshop < ActiveRecord::Base
   has_many :meetings, :through => :events
   has_many :reviews, :dependent => :destroy
   
+  validates :title, presence: true
+  
   def img_src(size = :medium)
     if self.image.blank?
       Workshop.placeholder_img_src(size)
