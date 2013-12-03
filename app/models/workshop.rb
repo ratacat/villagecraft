@@ -15,6 +15,8 @@ class Workshop < ActiveRecord::Base
   
   validates :title, presence: true
   
+  after_update :propagate_changes_to_future_events
+  
   def img_src(size = :medium)
     if self.image.blank?
       Workshop.placeholder_img_src(size)
@@ -56,5 +58,13 @@ class Workshop < ActiveRecord::Base
     self.events.ordered_by_earliest_meeting_start_time.reverse_order.limit(2)
   end
   memoize :last_scheduled_reruns
+  
+  protected
+  
+  def propagate_changes_to_future_events
+    self.events.future.readonly(false).each do |event|
+      event.update_attributes(:title => self.title, :description => self.description)
+    end
+  end
 
 end
