@@ -38,9 +38,9 @@
   </div>
 <% end %>
 <% body_script do -%>
-  <%= render :partial => 'events/init_datetime_pickers', :formats => [:js] %>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
   function init_rerun_form() {
-    init_datetime_pickers();
+    init_datetime_picker();
     
     $('#modal_rerun textarea[data-provide="markdown"]').markdown();
     $("button.customize_title_and_description").click(function(e) {
