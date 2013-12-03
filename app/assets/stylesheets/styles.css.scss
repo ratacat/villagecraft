@@ -382,6 +382,9 @@ button.editable-submit, button.editable-cancel {
 }
 
 table.rerun_index {
+  th {
+    padding-left: 4px;
+  }
   td {
     text-align: left;
   }
