@@ -2,6 +2,7 @@
   show_icons ||= false
   click_to_show ||= false
   editable ||= false
+  update_reruns_count ||= false
 %>
 <table class="table table-hover table-striped rerun_index">
   <thead>
@@ -48,3 +49,8 @@
 <% end %>
   </tbody>
 </table>
+<% if update_reruns_count %>
+  <script type="text/javascript">
+    $("#future_reruns_count").html(<%= reruns.count %>);
+  </script>
+<% end %>

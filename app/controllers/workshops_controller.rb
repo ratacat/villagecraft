@@ -58,7 +58,7 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1/reruns_partial
   def reruns_partial
     @reruns = @workshop.events.future.ordered_by_earliest_meeting_start_time.to_a
-    render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true, :editable => true}
+    render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true, :editable => true, :update_reruns_count => true}
   end
 
   # POST /workshops
