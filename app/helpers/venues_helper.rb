@@ -3,7 +3,8 @@ module VenuesHelper
   
   def users_venue_options(user)
     tbd = Venue.new(:name => "TBD")
-    [tbd] + user.owned_venues
+    add_new = Venue.new(:name => ADD_NEW_VENUE_PROMPT)
+    [tbd] + user.owned_venues + [add_new]
   end
   
   def blur_venue_location?(venue)
