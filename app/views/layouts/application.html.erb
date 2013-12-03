@@ -2,7 +2,8 @@
 <html>
 	<head>
 	  <title>Villagecraft</title>
-	  <%= stylesheet_link_tag    "application", :media => "all" %>
+	  <%= stylesheet_link_tag "application", :media => "all" %>
+	  <%= yield(:a_la_carte_css) -%>
 	  <%= csrf_meta_tags %>
 	</head>
 	<body>

@@ -22,6 +22,9 @@
   <%= javascript_include_tag 'a_la_carte/to-markdown' -%>
   <%= javascript_include_tag 'a_la_carte/bootstrap-markdown' -%>
 <%- end -%>
+<%- content_for(:a_la_carte_css) do -%>
+  <%= stylesheet_link_tag "a_la_carte/bootstrap-markdown.min", :media => "all" %>
+<%- end -%>
 <% ready_script do -%>
   $(":file").filestyle({
     input: false,
