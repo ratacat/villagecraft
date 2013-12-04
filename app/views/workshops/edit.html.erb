@@ -30,7 +30,7 @@
     $('.editable[data-name="default_venue_uuid"]').editable();
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
 
-    $('span.vc_editable').popover({
+    $('span.vc_editable.meeting_time').popover({
       html: true, 
       placement: 'top',
       container: 'body', 
@@ -50,6 +50,26 @@
       hide_vc_editable_popovers(this);
       init_datetime_picker(); 
     });
+    
+    $('span.vc_editable.venue').popover({
+      html: true, 
+      placement: 'top',
+      container: 'body', 
+      trigger: 'manual',
+      title: 'Add New Venue', 
+      content: function() {
+        var rerun_uuid = $(this).closest("tr").data("uuid");
+        return HandlebarsTemplates['venues/add_new']({
+          auth_token: auth_token(),
+          rerun_uuid: rerun_uuid
+        });
+      }
+    }).on('shown', function() {
+      hide_vc_editable_popovers(this);
+      $("#venue_name").focus();
+    });
+    
+    
   };
 <% end %>
 
@@ -60,7 +80,7 @@
     hide_vc_editable_popovers(this);
   });
   
-  $(document).on('click', "#edit_meeting button.editable-cancel", function(e) {
+  $(document).on('click', "button.editable-cancel", function(e) {
     e.stopPropagation();
     e.preventDefault();
     hide_vc_editable_popovers(this);
@@ -86,5 +106,13 @@
   $(document).keydown(function(e){
     if (e.keyCode === 27)
       hide_vc_editable_popovers(this);
+  });
+  
+  $(document).on('change', "td span.venue form select", function() {
+    if ($(this).val() === "Add new venue...") {
+      var venue_span = $(this).closest("td span.venue");
+      venue_span.find("span.editable").editable('hide');
+      venue_span.popover('show');
+    }
   });
 <% end -%>

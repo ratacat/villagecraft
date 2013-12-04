@@ -47,6 +47,13 @@ class VenuesController < ApplicationController
     
     respond_to do |format|
       if @venue.save
+        if params[:use_as_venue_for_rerun]
+          rerun = Event.find_by_uuid(params[:use_as_venue_for_rerun])
+          rerun.meetings.each do |meeting|
+            meeting.venue = @venue
+            meeting.save!
+          end
+        end
         format.js { render :refresh_venues_select }
         format.html { redirect_to @venue, notice: 'Venue was successfully created.' }
         format.json { render json: @venue, status: :created, location: @venue }
