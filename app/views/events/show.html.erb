@@ -1,7 +1,7 @@
 <% if (@event.host === current_user) or admin_session? %>
 <div class="row">
   <div class="span12 well">
-    <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, @event.workshop %> - 
+    <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %> - 
     <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
   <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
   <%= event_price(@event, :show_materials_fee => true) %> · 
