@@ -6,7 +6,7 @@ class Location < ActiveRecord::Base
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
-      # obj.street = geo.street_address  # when given city+state, this is set to some random address at the centroid
+      obj.street = geo.street_address  # when given city+state, this is set to some random address at the centroid
       obj.city = geo.city
       obj.state = geo.state
       obj.state_code = geo.state_code
@@ -89,6 +89,7 @@ class Location < ActiveRecord::Base
   validates :state_code, 
             :inclusion => { :in => Location.us_state_codes, :message => "is not the United States" }, 
             :unless => lambda {|loc| loc.state_code.blank? or (loc.country != 'US' and not loc.country.blank?)}
+  validates :country, :inclusion => { :in => ['US'], :message => "is not the United States" }
   
   def Location.new_from_address(address)
     l = Location.new
