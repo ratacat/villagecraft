@@ -63,7 +63,7 @@ class Event < ActiveRecord::Base
   
   # FIXME: temporary data migration tool from Events to Workshops > Reruns (temporarilly Events) > Meetings
   def create_corresponding_workshop_and_meeting
-    self.workshop = Workshop.create(:title => self.title, :description => self.description, :host => self.host)
+    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
     self.workshop.update_attribute(:image_id, self.image_id)
     self.save!
     meeting = Meeting.create(:start_time => self.start_time, :end_time => self.end_time)
