@@ -41,7 +41,6 @@
                 <% if current_user.try(:host?) %>
                   <li><%= link_to 'My Profile', current_user %></li>
                   <li><%= link_to 'Create Workshop', new_event_path %></li>
-                  <li><%= link_to "Old Workshops", my_events_path %></li>
                   <li class="divider"></li>
                 <% end %>
                 <li><%= link_to 'Settings', edit_preferences_path %></li>
