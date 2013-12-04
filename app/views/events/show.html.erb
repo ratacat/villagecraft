@@ -1,39 +1,13 @@
-from the series <%= link_to @event.workshop.title, @event.workshop %>:
-<h1 class="margin_top0"><%= @event.title %></h1>
-<p>
-  hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
-  <%= event_price(@event, :show_materials_fee => true) %> · 
-  <%= @event.max_attendees %> slots · 
-  <%= pluralize(@event.attendances.count, 'person') %> signed up · 
-  meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %>
-</p>
-<div class="row">
-  <div class="span2">
-    <img src="<%= @event.img_src(:medium) %>" class="img-rounded media-object">
-  </div>
-  <div class="span5">
-    <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => true %>
-  </div>
-</div>
-<div class="row">
-  <div class="span7">
-    <%= markdown(@event.description.try(:html_safe), :mkd_noheader) %>
-  </div>
-</div>
-
 <% if (@event.host === current_user) or admin_session? %>
 <div class="row">
   <div class="span12 well">
-    <h2 class="muted">Manage Workshop</h2>
-
-    <h3>Event URL</h3>
-
-    <div class="input-append">
-      <input type='text' id='fe_text' value="<%= root_url(:only_path => false, :anchor => @event.to_param) %>" readonly='readonly'></input>
-      <button class='btn btn-default' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button'>Copy to clipboard</button>
-    </button>
-    </div>
-
+    <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, @event.workshop %> - 
+    <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
+  <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+  <%= event_price(@event, :show_materials_fee => true) %> · 
+  <%= @event.max_attendees %> slots · 
+  <%= pluralize(@event.attendances.count, 'person') %> signed up · 
+  meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %></span>
     
     <%= render 'manage_attendances' %>
   </div>
