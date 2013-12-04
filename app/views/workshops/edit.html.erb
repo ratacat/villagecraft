@@ -94,7 +94,7 @@
     });
   });
   
-  $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
+  $(document).on('ajax:success', '#edit_meeting, a.delete_rerun, #new_venue', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
