@@ -33,9 +33,8 @@ module MeetingsHelper
     }
     options.reverse_merge!(defaults)
     options[:date_format] = options[:short_date] ? "%A %b" : "%A %B"
-
     html = []
-    html << content_tag(:span, meeting_date(meeting, :date_format => options[:date_format]), :class => 'date')
+    html << content_tag(:span, meeting_date(meeting, :short_date => options[:date_format]), :class => 'date')
     html << options[:spacer] if options[:spacer]
     html << content_tag(:span, meeting_time_interval(meeting), 
                         :'data-start_time_date' => l(meeting.localized_start_time, format: :date_picker_date_format).strip,
