@@ -1,18 +1,7 @@
 <%
   rerun ||= (@rerun || @event)
 %>
-<h3>Attendees</h3>
-<div class="row">
-  
-</div>
-<div><%= render :partial => 'events/attends_meter', :locals => { :event => @event } %></div>
-<dl>
-  <dt>Capacity</dt>
-  <dd><%= event_size(@event) %></dd>
-  <dt>Sign Ups</dt>
-  <dd><%= attends_status(@event) %> (<%= slots_status(@event) %>)</dd>
-</dl>
-
+<br>
 <table class="table table-bordered table-striped" id='event_attendees'>
   <thead>
     <tr>
