@@ -3,7 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter :sign_in_if_auth_token
   before_filter :fetch_notifications
   after_filter :store_location, :except => [:attend_by_email]
-  before_filter :require_admin, :only => [:dash]
+  before_filter :require_admin, :only => [:dash, :recent_activity]
+
+  ACTIVITIES_PER_PAGE = 100
 
   def store_location
     # store last url as long as it isn't a /users path
@@ -12,7 +14,22 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     session[:previous_url] || root_path
-  end  
+  end
+  
+  def current_ability
+    @current_ability ||= Ability.new(current_user, session)
+  end
+  
+  def recent_activity
+    @activities = PublicActivity::Activity.order(:created_at).reverse_order.limit(ACTIVITIES_PER_PAGE)
+  end
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_url, :alert => exception.message }
+      format.json { render :inline => exception.message, :status => :forbidden }
+    end
+  end
   
   protected
   def render_error(options={})
@@ -52,6 +69,14 @@ class ApplicationController < ActionController::Base
       @notifications = current_user.notifications.order('created_at desc').limit(10)
       @unseen_notifications_count = current_user.notifications.where(:seen => false).count
     end
+  end
+  
+  def be_host_or_be_admin(obj)
+    unless user_signed_in? and (current_user == obj.host or current_user.admin?)
+      render_error(:message => "You must be the #{obj.class.to_s.downcase}'s host or an admin to do that.", :status => :unauthorized)
+      return false
+    end
+    return true
   end
     
 end

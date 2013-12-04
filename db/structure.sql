@@ -117,38 +117,6 @@ ALTER SEQUENCE attendances_id_seq OWNED BY attendances.id;
 
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE courses (
-    id integer NOT NULL,
-    vclass_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(255)
-);
-
-
---
--- Name: courses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE courses_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: courses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE courses_id_seq OWNED BY courses.id;
-
-
---
 -- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -169,10 +137,12 @@ CREATE TABLE events (
     end_time timestamp without time zone,
     secret character varying(255),
     short_title character varying(255),
-    price numeric(10,2),
+    price integer,
     venue_id integer,
     uuid character varying(255),
-    image_id integer
+    image_id integer,
+    state character varying(255),
+    workshop_id integer
 );
 
 
@@ -274,6 +244,42 @@ ALTER SEQUENCE locations_id_seq OWNED BY locations.id;
 
 
 --
+-- Name: meetings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE meetings (
+    id integer NOT NULL,
+    start_time timestamp without time zone,
+    end_time timestamp without time zone,
+    snippet text,
+    venue_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    uuid character varying(255),
+    event_id integer
+);
+
+
+--
+-- Name: meetings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE meetings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meetings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE meetings_id_seq OWNED BY meetings.id;
+
+
+--
 -- Name: neighborhoods; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -348,7 +354,7 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 CREATE TABLE reviews (
     id integer NOT NULL,
-    vclass_id integer,
+    workshop_id integer,
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
@@ -445,39 +451,6 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: vclasses; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vclasses (
-    id integer NOT NULL,
-    admin_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(255),
-    image_id integer
-);
-
-
---
--- Name: vclasses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vclasses_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vclasses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vclasses_id_seq OWNED BY vclasses.id;
-
-
---
 -- Name: venues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -512,6 +485,42 @@ ALTER SEQUENCE venues_id_seq OWNED BY venues.id;
 
 
 --
+-- Name: workshops; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE workshops (
+    id integer NOT NULL,
+    title character varying(255),
+    description text,
+    frequency character varying(255),
+    image_id integer,
+    host_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    uuid character varying(255)
+);
+
+
+--
+-- Name: workshops_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE workshops_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: workshops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE workshops_id_seq OWNED BY workshops.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -523,13 +532,6 @@ ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_s
 --
 
 ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY courses ALTER COLUMN id SET DEFAULT nextval('courses_id_seq'::regclass);
 
 
 --
@@ -551,6 +553,13 @@ ALTER TABLE ONLY images ALTER COLUMN id SET DEFAULT nextval('images_id_seq'::reg
 --
 
 ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY meetings ALTER COLUMN id SET DEFAULT nextval('meetings_id_seq'::regclass);
 
 
 --
@@ -585,14 +594,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vclasses ALTER COLUMN id SET DEFAULT nextval('vclasses_id_seq'::regclass);
+ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
 
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
+ALTER TABLE ONLY workshops ALTER COLUMN id SET DEFAULT nextval('workshops_id_seq'::regclass);
 
 
 --
@@ -609,14 +618,6 @@ ALTER TABLE ONLY activities
 
 ALTER TABLE ONLY attendances
     ADD CONSTRAINT attendances_pkey PRIMARY KEY (id);
-
-
---
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY courses
-    ADD CONSTRAINT courses_pkey PRIMARY KEY (id);
 
 
 --
@@ -641,6 +642,14 @@ ALTER TABLE ONLY images
 
 ALTER TABLE ONLY locations
     ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meetings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY meetings
+    ADD CONSTRAINT meetings_pkey PRIMARY KEY (id);
 
 
 --
@@ -676,19 +685,19 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: vclasses_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vclasses
-    ADD CONSTRAINT vclasses_pkey PRIMARY KEY (id);
-
-
---
 -- Name: venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY venues
     ADD CONSTRAINT venues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workshops_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY workshops
+    ADD CONSTRAINT workshops_pkey PRIMARY KEY (id);
 
 
 --
@@ -727,13 +736,6 @@ CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
 
 
 --
--- Name: index_courses_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_courses_on_vclass_id ON courses USING btree (vclass_id);
-
-
---
 -- Name: index_events_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -748,10 +750,31 @@ CREATE INDEX index_events_on_venue_id ON events USING btree (venue_id);
 
 
 --
+-- Name: index_events_on_workshop_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_workshop_id ON events USING btree (workshop_id);
+
+
+--
 -- Name: index_locations_on_neighborhood_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighborhood_id);
+
+
+--
+-- Name: index_meetings_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_uuid ON meetings USING btree (uuid);
+
+
+--
+-- Name: index_meetings_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_venue_id ON meetings USING btree (venue_id);
 
 
 --
@@ -779,7 +802,7 @@ CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
 -- Name: index_reviews_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (vclass_id);
+CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
 
 
 --
@@ -825,20 +848,6 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
--- Name: index_vclasses_on_admin_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_vclasses_on_admin_id ON vclasses USING btree (admin_id);
-
-
---
--- Name: index_vclasses_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_vclasses_on_image_id ON vclasses USING btree (image_id);
-
-
---
 -- Name: index_venues_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -850,6 +859,27 @@ CREATE INDEX index_venues_on_location_id ON venues USING btree (location_id);
 --
 
 CREATE INDEX index_venues_on_owner_id ON venues USING btree (owner_id);
+
+
+--
+-- Name: index_workshops_on_host_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_host_id ON workshops USING btree (host_id);
+
+
+--
+-- Name: index_workshops_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_image_id ON workshops USING btree (image_id);
+
+
+--
+-- Name: index_workshops_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_uuid ON workshops USING btree (uuid);
 
 
 --
@@ -995,3 +1025,27 @@ INSERT INTO schema_migrations (version) VALUES ('20131020062302');
 INSERT INTO schema_migrations (version) VALUES ('20131020092041');
 
 INSERT INTO schema_migrations (version) VALUES ('20131029053448');
+
+INSERT INTO schema_migrations (version) VALUES ('20131108080816');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109000344');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109001607');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109002707');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109011456');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109012452');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109013703');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109013726');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109021024');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109073509');
+
+INSERT INTO schema_migrations (version) VALUES ('20131109074258');
+
+INSERT INTO schema_migrations (version) VALUES ('20131125065030');

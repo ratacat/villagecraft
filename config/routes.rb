@@ -1,11 +1,15 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
+  get "workshops/:id/reruns_partial" => 'workshops#reruns_partial', :as => :reruns_partial
+  post "workshops/:id/auto_add_rerun" => 'workshops#auto_add_rerun', :as => :auto_add_rerun
+  resources :workshops
+
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
-  get 'events/:id/manage_attendances(.:format)' => 'events#manage_attendances', :as => :manage_attendances
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee
   resources :events
+  resources :meetings, :only => [:update, :show]
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
@@ -17,8 +21,9 @@ Villagecraft::Application.routes.draw do
   match 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'attend_by_email/:id(.:format)' => 'events#attend_by_email', :as => :attend_by_email
   post 'cancel_attend/:id(.:format)' => 'events#cancel_attend', :as => :cancel_attend
-  get 'my_events' => 'events#my_events', :as => :my_events
+  get 'my_workshops' => 'workshops#my_workshops', :as => :my_workshops
 
+  get 'my_venues(.:format)' => 'venues#my_venues', :as => :my_venues
   resources :venues  
   resources :neighborhoods
 
@@ -32,6 +37,7 @@ Villagecraft::Application.routes.draw do
 
   get 'about' => 'pages#about'
   get '/dash' => 'application#dash', :as => :dash
+  get '/recent_activity' => 'application#recent_activity', :as => :recent_activity
   root :to => 'pages#home'
 
   # The priority is based upon order of creation:

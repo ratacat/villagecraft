@@ -1,6 +1,7 @@
 @import "bootstrap-variables";
 @import 'bootstrap';
 @import 'bootstrap-responsive';
+@import "editable/bootstrap2-editable";
 
 body h2 {
 
@@ -31,6 +32,11 @@ body h2 {
 
 .floatright {
   float: right;
+}
+
+.popover {
+  max-width: 300px;
+  width: auto;
 }
 
 .btn i {
@@ -95,8 +101,35 @@ ul.thumbnails {
     border: 0 none;
     box-shadow: none;
   }
+  .thumbnail.right-caption {
+    float: left;
+    > img {
+      float: left;
+      margin-right: 9px;
+    }
+    > .caption {
+      padding: 4px;
+    }
+  }
   .caption {
     padding-left: 4px;
+  }
+  .caption.right-caption {
+    span {
+      vertical-align: middle;
+    }
+  }
+  .caption.right-caption.thumb {
+    line-height: $thumb_thumb_size + 8px;
+  }
+  .caption.right-caption.small {
+    line-height: $small_thumb_size + 8px;
+  }
+  .caption.right-caption.medium {
+    line-height: $medium_thumb_size + 8px;
+  }
+  .caption.right-caption.large {
+    line-height: $large_thumb_size + 8px;
   }
 }
 
@@ -161,7 +194,7 @@ ul.thumbnails {
   margin-left:8px;
 }
 
-.event_time {
+.rerun_times, .event_time {
   span {
     display: block;
   }
@@ -188,8 +221,12 @@ tr.expandable {
   }
 }
 
-.table-hover tbody tr.event_detail:hover td {
+.table-hover > tbody tr.event_detail:hover td {
   background-color: white;
+}
+
+.table-hover > tbody tr.event_summary:hover table {
+  background-color: $tableBackgroundHover;
 }
 
 .linky {
@@ -330,4 +367,50 @@ table.table.when_where_host_table td.image {
 
 .text-error {
   color:#9031A8;
+}
+
+.table-hover {
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+tr.click_to_show {
+  cursor: pointer;
+}
+
+button.editable-submit, button.editable-cancel {
+  i {
+    padding: 0;
+  }
+}
+
+table.rerun_index {
+  th {
+    padding-left: 4px;
+  }
+  td {
+    text-align: left;
+  }
+  td.meeting_time > span > span:first-child {
+    display: inline-block;
+    width: 190px;
+  }
+}
+
+span.vc_editable {
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: dashed 1px #0088cc;
+}
+
+td span.editable {
+  cursor: pointer;
+}
+
+.activity {
+  margin-bottom: 10px;
+  .activity_thumb {
+    margin-right: 10px;
+  }
 }

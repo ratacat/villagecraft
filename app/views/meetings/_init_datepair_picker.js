@@ -1,45 +1,51 @@
-$('.datepair input.date').each(function(){
-	var $this = $(this);
+var DATEPICKER_FORMAT = "<%= t 'time.formats.php_style_time_picker_time_format' %>";
+var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
+var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
 
-	$this.datepicker({
-		'format': DATEPICKER_FORMAT,
-		'autoclose': true
-	});
+function init_datetime_picker() {
+  $('.datepair input.date').each(function(){
+  	var $this = $(this);
 
-	if ($this.hasClass('start') || $this.hasClass('end')) {
-		$this.on('changeDate change', doDatepair);
-	}
+  	$this.datepicker({
+  		'format': DATEPICKER_FORMAT,
+  		'autoclose': true
+  	});
 
-});
+  	if ($this.hasClass('start') || $this.hasClass('end')) {
+  		$this.on('changeDate change', doDatepair);
+  	}
 
-$('.datepair input.time').each(function() {
-	var $this = $(this);
-	
-	$this.timepicker({
-		'showDuration': true,
-		'timeFormat': TIMEPICKER_FORMAT,
-		'scrollDefaultNow': true
-	});
+  });
 
-	if ($this.hasClass('start') || $this.hasClass('end')) {
-		$this.on('changeTime change', doDatepair);
-	}
-	
-	if ($this.hasClass('end')) {
-		$this.on('focus', function(){$('.ui-timepicker-with-duration').scrollTop(0);});
-	}		
+  $('.datepair input.time').each(function() {
+  	var $this = $(this);
 
-});
+  	$this.timepicker({
+  		'showDuration': true,
+  		'timeFormat': TIMEPICKER_FORMAT,
+  		'scrollDefaultNow': true
+  	});
 
-$('.datepair').each(initDatepair);
+  	if ($this.hasClass('start') || $this.hasClass('end')) {
+  		$this.on('changeTime change', doDatepair);
+  	}
 
-$(".date-select-component span.add-on").on('click', function() {
-  $(this).siblings().datepicker('show');
-});
+  	if ($this.hasClass('end')) {
+  		$this.on('focus', function(){$('.ui-timepicker-with-duration').scrollTop(0);});
+  	}		
 
-$(".time-select-component span.add-on").on('click', function() {
-  $(this).siblings().timepicker('show');
-});
+  });
+
+  $('.datepair').each(initDatepair);
+
+  $(".date-select-component span.add-on").on('click', function() {
+    $(this).siblings().datepicker('show');
+  });
+
+  $(".time-select-component span.add-on").on('click', function() {
+    $(this).siblings().timepicker('show');
+  });  
+}
 
 function initDatepair()
 {

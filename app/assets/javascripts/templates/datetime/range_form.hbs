@@ -1,0 +1,40 @@
+<form accept-charset="UTF-8" action="/meetings/{{uuid}}" class="simple_form " id="edit_meeting" data-remote="true" method="put" novalidate="novalidate"><div style="margin:0;padding:0;display:inline">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="_method" type="hidden" value="put">
+  <input name="authenticity_token" type="hidden" value="{{auth_token}}" /></div>
+  <div class='datepair'>
+
+    <div class="input-append date-select-component">
+      <input class="start date" data-format="yyyy-MM-dd" id="meeting_start_time_date" name="meeting[start_time_date]" size="30" type="text" value="{{start_time_date}}" />
+      <span class="add-on"><i class="icon-calendar"></i></span>
+    </div>
+
+
+    <div class="input-append time-select-component">
+      <input class="start time" id="meeting_start_time_time" name="meeting[start_time_time]" size="30" type="text" value="{{start_time_time}}" />
+      <span class="add-on"><i class="icon-time"></i></span>
+    </div>
+
+    <label class="string optional control-label" for="meeting_to">To</label>
+
+    <div class="input-append time-select-component">
+      <input class="end time" id="meeting_end_time_time" name="meeting[end_time_time]" size="30" type="text" value="{{end_time_time}}" />
+      <span class="add-on"><i class="icon-time"></i></span>
+    </div>
+
+
+    <div class="input-append date-select-component">
+      <input class="end date" data-format="yyyy-MM-dd" id="meeting_end_time_date" name="meeting[end_time_date]" size="30" type="text" value="{{end_time_date}}" />
+      <span class="add-on"><i class="icon-calendar"></i></span>
+    </div>
+
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary editable-submit">
+      <i class="icon-ok icon-white"></i>
+    </button>
+    <button type="button" class="btn editable-cancel">
+      <i class="icon-remove"></i>
+    </button>
+  </div>
+</form>

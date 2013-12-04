@@ -1,0 +1,34 @@
+<%= simple_form_for(@workshop) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= image_tag @workshop.img_src(:medium), :class => "img-rounded pull-right" %>
+    <%= f.input :title, label: 'Title' %>
+    <div class="control-group">
+      <%= f.label "Event Image" %>
+      <div class="controls">
+        <%= f.file_field :image %><br/>
+      </div>
+    </div>
+    <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => "btn-primary" %>
+  </div>
+<% end %>
+<%- content_for(:a_la_carte_js) do -%>
+  <%= javascript_include_tag 'a_la_carte/markdown' -%>
+  <%= javascript_include_tag 'a_la_carte/to-markdown' -%>
+  <%= javascript_include_tag 'a_la_carte/bootstrap-markdown' -%>
+<%- end -%>
+<%- content_for(:a_la_carte_css) do -%>
+  <%= stylesheet_link_tag "a_la_carte/bootstrap-markdown.min", :media => "all" %>
+<%- end -%>
+<% ready_script do -%>
+  $(":file").filestyle({
+    input: false,
+    buttonText: "Choose photo",
+    icon: true 
+  });
+<% end %>

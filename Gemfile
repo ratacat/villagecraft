@@ -14,6 +14,8 @@ gem 'omniauth-facebook'
 gem 'paranoia', '~> 1.0'
 
 gem 'simple_form'
+gem 'x-editable-rails', :git => "git://github.com/bteitelb/x-editable-rails"
+gem 'cancan'
 gem 'validates_timeliness', '~> 3.0'
 gem 'bootstrap-generators', '~> 2.3'
 gem 'sass-rails',   '~> 3.2.3'
@@ -41,7 +43,7 @@ gem 'nexmo'
 # in production environments by default.
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass', '~> 2.2.2.0'
+  gem 'bootstrap-sass', '~> 2.3.2.0'
   gem 'font-awesome-sass-rails', :git => 'git://github.com/pduersteler/font-awesome-sass-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -60,7 +62,8 @@ group :development do
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
   gem "letter_opener"
-
+  gem 'rails-footnotes', '>= 3.7.9'
+  
   # To use debugger
   # If uncommenting gem 'debugger' doesn't work, try first uncommenting the following two lines and doing:
   # pushd `bundle show debugger-ruby_core_source`; rake add_source --trace VERSION=1.9.3-rc1; pushd

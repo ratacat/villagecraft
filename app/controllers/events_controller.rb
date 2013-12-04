@@ -1,39 +1,15 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
-  
-  before_filter :find_event, :except => [:index, :my_events, :new, :create]
-  before_filter :authenticate_user!, except: [:index, :show, :attendees, :attend_by_email]
-  before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :require_host, :only => [:my_events]
+  load_and_authorize_resource(:find_by => :find_by_seod_uuid)
   before_filter :find_venue, :only => [:create, :update]
-  before_filter :be_host_or_be_admin, :only => [:edit, :update, :manage_attendances, :accept_attendee, :cancel_attend]
-  
-  #before_filter :checkDate, :only => [:create, :update]
-  # GET /events
-  # GET /events.json
- # def checkDate
-  #  @events.date = DateTime.strptime(Event.date, "%Y-%m-%d")
-  #  @events.save
- # end
+  before_filter :check_lock, :only => [:update, :destroy]
  
   EVENTS_PER_PAGE = 20
 
-  def my_events
-    @upcomings_attends = current_user.attends.future.limit(EVENTS_PER_PAGE)
-    @attended_events = current_user.attends.completed.limit(EVENTS_PER_PAGE)
-    @upcoming_hostings = current_user.hostings.future.limit(EVENTS_PER_PAGE)
-    @hosted_events = current_user.hostings.completed.limit(EVENTS_PER_PAGE)
-
-    respond_to do |format|
-      format.html # my_events.html.erb
-      format.json { render json: @events }
-    end
-  end
-
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @future_events = Event.future.order(:start_time) # .limit(EVENTS_PER_PAGE)
-    @past_events = Event.past.order(:start_time) # .limit(EVENTS_PER_PAGE)
+    @future_events = Event.future.ordered_by_earliest_meeting_start_time # .limit(EVENTS_PER_PAGE)
+    @past_events = Event.past.ordered_by_latest_meeting_end_time # .limit(EVENTS_PER_PAGE)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -80,7 +56,6 @@ class EventsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
-        collate_when_errors
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -93,23 +68,10 @@ class EventsController < ApplicationController
     @event.venue = @venue
     respond_to do |format|
       @event.assign_attributes(params[:event])
-      @event.derive_times
-      @changes = @event.changes
       if @event.save
-        if @changes[:start_time] or @changes[:end_time]
-          @event.create_activity key: 'event.time_changed', 
-                                 owner: current_user, 
-                                 parameters: {:new_time => render_to_string(:partial => 'events/times', :layout => false, :locals => {:event => @event})}
-        end
-        if @changes[:venue_id]
-          @event.create_activity key: 'event.venue_changed', 
-                                 owner: current_user, 
-                                 parameters: {:new_venue_id => @event.venue_id}          
-        end
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else
-        collate_when_errors
         format.html { render action: "edit" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -119,10 +81,12 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+    @workshop = @event.workshop
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url }
+      format.js { head :no_content }
+      format.html { redirect_to edit_workshop_path(@workshop) }
       format.json { head :no_content }
     end
   end
@@ -170,7 +134,7 @@ class EventsController < ApplicationController
   # POST /cancel_attend/1.json
   def cancel_attend
     if params[:user_uuid]
-      return unless be_host_or_be_admin
+      return unless current_user.is_host_of?(@event)
       @user = User.find_by_uuid(params[:user_uuid])
       if @user.blank?
         render_error(:message => "User not found.", :status => 404)
@@ -193,10 +157,10 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      @notice = be_host_or_be_admin ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
+      @notice = current_user.is_host_of?(@event) ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
       format.js
       format.html {
-        if be_host_or_be_admin
+        if current_user.is_host_of?(@event)
           redirect_to manage_attendances_path(@event), notice: @notice
         else
           redirect_to @event, notice: @notice 
@@ -262,43 +226,15 @@ class EventsController < ApplicationController
     end
   end
   
-  # GET /events/1/manage_attendances
-  # GET /events/1/manage_attendances.json
-  def manage_attendances
-    # @interested = @event.attendances.with_state(:interested)
-    # @attending = @event.attendances.with_state(:attending)
-    # @confirmed = @event.attendances.with_state(:confirmed)
-  end
-  
   protected
-  def find_event
-    begin
-      @event = Event.find_by_uuid(params["id"].split('-').first)
-    rescue Exception => e
+  def check_lock
+    if @event.locked?
+      raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
     end
-    render_error(:message => "Event #{params["id"]} not found.", :status => 404) if @event.blank?
-  end  
+  end
   
   def find_venue
     @venue = Venue.find_by_uuid(params[:event][:venue_id])
     params[:event].delete(:venue_id)
   end
-  
-  def collate_when_errors
-    when_errors = []
-    [:start_date, :start_time, :end_date, :end_time].each do |attr|
-      when_errors << @event.errors.full_message(attr, @event.errors[attr].join(', ')) unless @event.errors[attr].blank?
-    end
-    when_errors = when_errors.flatten.compact
-    @event.errors.add(:when, when_errors.flatten.join('; ')) unless when_errors.blank?
-  end
-  
-  def be_host_or_be_admin
-    unless user_signed_in? and (current_user == @event.host or current_user.admin?)
-      render_error(:message => "You must be the event's host or an admin to do that.", :status => :unauthorized)
-      return false
-    end
-    return true
-  end
-  
 end

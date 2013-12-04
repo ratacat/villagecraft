@@ -5,7 +5,9 @@
   <tbody>
     <tr>
       <td class="when">
-        <div class="blocky_spns"><%= render :partial => 'events/times', :locals => {:event => event, :short_date => true, :no_tz => true} %><span class="muted" data-livestamp="<%= event.start_time %>"></span></div>
+        <div class="blocky_spns">
+          <%= render :partial => 'reruns/times', :locals => {:rerun => event} %>
+        </div>
         <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
       </td>
       <td class="where"><%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %></td>
@@ -20,16 +22,7 @@
       </td>
       <td class="host">
         <% if event.host %>
-          <ul class="thumbnails">
-              <li class="span2">
-                <div class="thumbnail">
-                  <%= user_thumb(event.host, {:size => :small, :linked => false}) %>
-                </div>
-              <div class="caption">
-                <%= contextualized_user_link(event.host, :linked => false) %>
-              </div>
-              </li>
-          </ul>
+          <%= render :partial => 'users/thumbnail', :locals => {:user => event.host, :span => 2} %>
         <% end %>
       </td>
     </tr>

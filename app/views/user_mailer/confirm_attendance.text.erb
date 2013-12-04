@@ -2,17 +2,11 @@ Hi <%= @user.name %>,
 
 You are confirmed to attend <%= @event.title %>, hosted by <%= @event.host.name %>.
 
-When
-----
+When and Where
+--------------
 
-<%= strip_tags(render(:partial => 'events/times.html.erb', :locals => {:event => @event, :short_date => true, :no_tz => true})) %>
-
-
-Where
------
-
-<%= @event.venue.blank? ? 'TBD' : @event.location.address %>
-
+<%= strip_tags(render :partial => 'reruns/meeting_times_list', 
+                      :locals => {:rerun => @event, :include_venue => true, :include_location => true, :br_on => true} ) %>
 
 Host
 ----

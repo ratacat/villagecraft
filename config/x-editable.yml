@@ -1,0 +1,17 @@
+class_options:
+  Event:
+    max_attendees:
+      type: number
+      min: 1
+      clear: false
+    price:
+      type: number
+      step: 1
+      min: 0
+    default_venue_uuid:
+      type: select
+      title: Venue
+      emptytext: TBD
+      source: <%= ::Rails.application.routes.url_helpers.my_venues_path(:add_new => true) %>
+      sourceCache: false
+      

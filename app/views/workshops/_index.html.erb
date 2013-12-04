@@ -1,0 +1,30 @@
+<%
+  show_host ||= false
+%>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th class="span6">Title</th>
+      <th>Reruns</th>
+      <th>Next Meeting</th>
+      <th>Last Meeting</th>
+      <% if show_host -%><th>Host</th><% end -%>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @workshops.each do |workshop| %>
+    <tr>
+      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true} %></td>
+      <td><%= workshop.events.count %></td>
+      <td class="blocky_spns">
+        <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>
+      </td>
+      <td class="blocky_spns">
+        <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.last_meeting.blank? %>
+      </td>
+      <% if show_host -%><td><%= link_to workshop.host.name, workshop.host %></td><% end -%>
+    </tr>
+<% end %>
+  </tbody>
+</table>

@@ -1,0 +1,8 @@
+<h1>All Workshops</h1>
+<div>
+  <% if @workshops.blank? %>
+    No workshops.
+  <% else %>
+    <%= render 'index', :workshops => @workshops, :show_host => true %>
+  <% end %>
+</div>

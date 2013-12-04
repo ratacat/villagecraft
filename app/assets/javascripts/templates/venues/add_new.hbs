@@ -1,0 +1,31 @@
+<form accept-charset="UTF-8" action="/venues?use_as_venue_for_rerun={{rerun_uuid}}" class="simple_form" id="new_venue" data-remote="true" method="post" novalidate="novalidate"><div style="margin:0;padding:0;display:inline">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="{{auth_token}}" /></div>
+  
+  <div class="control-group string required venue_name">
+    <label class="string required control-label" for="venue_name">
+      <abbr title="required">*</abbr>Name
+    </label>
+    <div class="controls">
+      <input class="string required" id="venue_name" name="venue[name]" size="50" type="text">
+    </div>
+  </div>
+
+  <div class="control-group string required venue_address">
+    <label class="string required control-label" for="venue_address">
+      <abbr title="required">*</abbr>Address
+    </label>
+    <div class="controls">
+      <input class="string required" id="venue_address" name="venue[address]" size="50" type="text">
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary editable-submit">
+      <i class="icon-ok icon-white"></i>
+    </button>
+    <button type="button" class="btn editable-cancel">
+      <i class="icon-remove"></i>
+    </button>
+  </div>
+</form>

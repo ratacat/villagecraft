@@ -1,14 +1,17 @@
+require "has_ordering_through_meetings"
+
 class Event < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :host, :course, :title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time, :short_title, :min_attendees, :max_attendees, :image
-  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  include ActiveRecord::Has::OrderingThroughMeetings
+  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid, :as => [:default, :system]
+  attr_accessible :workshop_id, :as => :system
   has_uuid(:length => 8)
-
+  
   belongs_to :host, :class_name => 'User'
-
-  belongs_to :course
-  has_one :vclass, :through => :course
   belongs_to :image, :class_name => 'Image'
+
+  belongs_to :workshop
+  has_many :meetings
   
   belongs_to :venue
   has_one :location, :through => :venue
@@ -29,14 +32,11 @@ class Event < ActiveRecord::Base
     end
   end
   
-  scope :completed, lambda { where(%{"events"."end_time" < ?}, Time.now ) }
-
   after_initialize :generate_secret_if_missing
-  before_validation :derive_times, :create_course_and_vclass_if_missing
-  normalize_attributes :title, :short_title, :description, :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  normalize_attributes :title, :short_title, :description
   
+  validates :workshop, :presence => true
   validates :host_id, presence: true
-  validates :course_id, presence: true
   validates :title, presence: true
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
@@ -52,71 +52,39 @@ class Event < ActiveRecord::Base
                                :unless => lambda {|e| e.max_attendees.blank?},
                                :only_integer => true }, 
             :presence => true
-
-  validates_datetime :end_time
-  validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
   
-  validates :description, :presence => true
+  # validates :description, :presence => true
   
-  def localized_start_time
-    self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
+  state_machine :initial => :published do
+    event :publish do
+      transition :staging => :published
+    end
   end
-
-  def localized_end_time
-    self.end_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 9:00pm", :zone => self.time_zone)
+  
+  # FIXME: temporary data migration tool from Events to Workshops > Reruns (temporarilly Events) > Meetings
+  def create_corresponding_workshop_and_meeting
+    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
+    self.workshop.update_attribute(:image_id, self.image_id)
+    self.save!
+    meeting = Meeting.create(:start_time => self.start_time, :end_time => self.end_time)
+    meeting.update_attribute(:venue_id, self.venue_id)
+    meeting.update_attribute(:event_id, self.id)
   end
   
   def occurred? 
-    self.start_time - Time.now < 0
+    self.meetings.future.count.blank?
   end
 
   def slots_left
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
-
-  def Event.starting_after(t)
-    where('"events"."start_time" > ?', t )
-  end
-
-  def Event.starting_before(t)
-    where('"events"."start_time" < ?', t )
-  end
-
-  def Event.ending_after(t)
-    where('"events"."end_time" > ?', t )
-  end
-
-  def Event.ending_before(t)
-    where('"events"."end_time" < ?', t )
-  end
-
-  def Event.future
-    starting_after(Time.now)
-  end
-
-  def Event.past
-    starting_before(Time.now)
-  end
   
-  def time_zone
-    self.location.try(:time_zone) || self.host.location.try(:time_zone) || "America/Los_Angeles"
-  end
-  
-  def find_zone
-    Time.find_zone(self.time_zone)
-  end
-  
-  def formatted_tz_offset
-    self.find_zone.formatted_offset
-  end
-  
-  def derive_times
-    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
-    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+  def locked?
+    self.attendances.count > 0
   end
   
   def venue_tbd?
-    self.venue.blank?
+    self.first_meeting.try(:venue).blank?
   end
   
   def to_param
@@ -127,6 +95,20 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def venue
+    self.first_meeting.try(:venue)
+  end
+  
+  def default_venue_uuid
+    self.venue.try(:uuid)
+  end
+  
+  # Set venue for all descendant meetings
+  def default_venue_uuid=(venue_uuid)
+    v = Venue.find_by_uuid(venue_uuid)
+    Meeting.update_all(["venue_id = ?", v], ["event_id = ?", self])
+  end
+  
   def img_src(size = :medium)
     if self.image.blank?
       Event.placeholder_src(size)
@@ -135,14 +117,58 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def first_meeting
+    self.meetings.order(:start_time).first
+  end
+  
   def Event.placeholder_src(size = :medium)
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"
   end
   
-  def image=(f)
-    i = Image.create!(:img => f, :user => self.host)
-    self.image_id = i.id
+  def Event.auto_create_from_workshop(workshop)
+    reruns = workshop.last_scheduled_reruns
+    m0, m1 = reruns.map(&:first_meeting)
+    
+    if reruns.size > 0
+      if reruns.size === 1
+        # This is the second scheduled rerun, default to 1 week from the previous rerun with same duration and venue
+        start_time = m0.start_time + 1.week
+      else
+        # There are already at least two workshops scheduled. Follow the pattern.
+        start_time = m0.start_time + (m0.start_time - m1.start_time)
+      end
+      # Inherit everything else from m0
+      end_time = start_time + m0.duration
+      title = m0.event.title
+      description = m0.event.description
+      price = m0.event.price
+      venue = m0.venue
+      max_attendees = m0.event.max_attendees
+    else
+      # This is the first scheduled rerun, default to tomorrow @7pm
+      default_tz_name = workshop.host.try(:location).try(:time_zone) || "America/Los_Angeles"
+      default_tz = Time.find_zone(default_tz_name)
+      start_time = Timeliness.parse("#{default_tz.now.tomorrow.to_date} 7:00pm", :zone => default_tz_name)
+      end_time = start_time + 2.hours
+      title = workshop.title
+      description = workshop.description
+      price = 0
+      venue = nil
+      max_attendees = 8
+    end
+
+    event = Event.create!({:title => title, 
+                           :description => description, 
+                           :host => workshop.host, 
+                           :price => price, 
+                           :max_attendees => max_attendees,
+                           :workshop_id => workshop.id}, :as => :system)
+    Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
+  end
+  
+  def Event.find_by_seod_uuid(id)
+    Event.find_by_uuid(id.split('-').first)
   end
   
   protected
@@ -160,10 +186,4 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def create_course_and_vclass_if_missing
-    if self.course.blank?
-      vclass = Vclass.create(:title => self.title, :admin => self.host)
-      self.course = Course.create(:title => self.title, :vclass => vclass)
-    end
-  end
 end

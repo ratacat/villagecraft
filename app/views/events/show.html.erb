@@ -1,42 +1,25 @@
-<% use_embedded_map = (blur_event_location?(@event) and @event.venue.location.neighborhood.nil?) %>
-<%= render :partial => 'title_n_times', :locals => {:event => @event} %>    
-<p>
-  <%= render :partial => 'events/attends_meter', :locals => { :event => @event } %>
-  <%= link_to pluralize(@event.attendances.with_state(:attending).count, 'attendee'), attendees_path(@event), 'data-toggle' => 'modal', 'data-target' => '#attendees_modal' %>
-  <% if @event.host === current_user %>
-    <%= link_to 'Manage', manage_attendances_path(@event), :class => 'btn btn-small' %>        
-  <% end %>
-</p>
-
-<% if @event.venue.blank? %>
-  location: TBD
-<% else %>
-  <address>
-    <strong><%= link_to @event.venue.name, @event.venue %></strong><br/>
-    <%= render :partial => 'locations/inline', :locals => {:location => @event.venue.location, :blur => blur_event_location?(@event)} %>
-    <p>
-      <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@event.venue.location)}) if use_embedded_map %></div>
-    </p>
-  </address>
+<% if (@event.host === current_user) or admin_session? %>
+<div class="row">
+  <div class="span12 well">
+    <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, @event.workshop %> - 
+    <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
+  <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+  <%= event_price(@event, :show_materials_fee => true) %> · 
+  <%= @event.max_attendees %> slots · 
+  <%= pluralize(@event.attendances.count, 'person') %> signed up · 
+  meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %></span>
+    
+    <%= render 'manage_attendances' %>
+  </div>
+</div>
 <% end %>
 
-<p>
-  <%= @event.description %>
-</p>
-
-<p>
-  hosted by: <%= contextualized_user_link @event.host %>
-</p>    
-<% unless @event.host === current_user %>
-  <%= render :partial => 'events/attend_status_and_call_to_action' %>  
-<% end %>
+<%# render :partial => 'events/attend_status_and_call_to_action' %>  
 
 <div class="row">
-  <%= render :partial => 'activities/index', :locals => {:activities => @event.activities} %>
+  <%# render :partial => 'activities/index', :locals => {:activities => @event.activities} %>
 </div>
-<%= render :partial => 'attendees_modal' %>
+<%# render :partial => 'attendees_modal' %>
 
 <% ready_script do -%>
-  $("#secret").popover();
-  <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @event.venue, :blur => blur_event_location?(@event)}) unless (use_embedded_map or @event.venue.blank?) %>
 <% end -%>

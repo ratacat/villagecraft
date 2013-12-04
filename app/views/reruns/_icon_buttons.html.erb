@@ -1,0 +1,13 @@
+<%
+  rerun ||= @rerun
+%>
+<%= link_to rerun, :title => 'view/manage workshop' do -%>
+  <i class="icon-play"></i>
+<% end -%>
+<% if rerun.locked? %>
+  <i class="icon-lock" title="locked because there are <%= pluralize(rerun.attendances.count, "attendee") %>"></i>
+<% else %>
+  <%= link_to rerun, :title => 'delete', method: :delete, confirm: "Really delete?", remote: true, class: "delete_rerun", disable_with: "..." do -%>
+    <i class="icon-remove-circle"></i>
+  <% end -%>  
+<% end %>

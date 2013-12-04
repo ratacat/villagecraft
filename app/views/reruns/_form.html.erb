@@ -1,0 +1,77 @@
+<%= simple_form_for(@event, html: {class: "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+    <%= f.input :title_and_description, label: 'Title/Description', required: false, wrapper_html: {class: 'customize_title_and_description'} do %>
+      <button class="customize_title_and_description">Customize</button>
+    <% end %>
+    <div class="hide customize_title_and_description">
+    	<%= f.input :title %>
+    	<%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'span5', :'data-provide' => "markdown"} %>
+    </div>
+  	<%# f.input :short_title, label: 'Short Title' %>
+
+    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
+      <%= f.input_field :start_time_date, :as => :date_select, :class => "start date", 
+          :value => l(@meeting.localized_start_time, format: :date_picker_date_format).strip %>
+      <%= f.input_field :start_time_time, :as => :time_select, :class => "start time",
+          :value => l(@meeting.localized_start_time, format: :time_picker_time_format).strip %> to 
+      <%= f.input_field :end_time_time, :as => :time_select, :class => "end time",
+          :value => l(@meeting.localized_end_time, format: :time_picker_time_format).strip %>
+      <%= f.input_field :end_time_date, :as => :date_select, :class => "end date",
+          :value => l(@meeting.localized_end_time, format: :date_picker_date_format).strip %>
+    <% end %>
+  	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
+    
+  	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
+  	<%= f.input :max_attendees, input_html: {:min => 0} %>
+
+    <%= f.input :price, label: 'Price', required: true, wrapper_html: {class: 'input-prepend input-append'} do %>
+      <span class="add-on">$</span>
+    	<%= f.input_field :price, :as => :decimal, :class => 'span1' %>
+      <span class="add-on">.00</span>
+    <% end %>
+    
+  	
+  	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "btn btn-primary" %>
+  </div>
+<% end %>
+<% body_script do -%>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+  function init_rerun_form() {
+    init_datetime_picker();
+    
+    $('#modal_rerun textarea[data-provide="markdown"]').markdown();
+    $("button.customize_title_and_description").click(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $(".customize_title_and_description").toggle();
+    });
+    
+    $("#event_venue_id").selectpicker({rightbutton: '+'});
+    $(".bootstrap-select .rightbutton").on('click', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    })
+    .popover({html: true, 
+              container: 'body', 
+              title: 'New Venue', 
+              content: "<%= escape_javascript(render :partial => 'venues/form', :locals => { :remote => true, :venue => Venue.new }) %>"});
+
+    $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
+      $(".bootstrap-select .rightbutton").popover('hide');
+      $("#event_venue_id").selectpicker('refresh');
+    });
+    $('body').on('click', function (e) {
+      $('.bootstrap-select .rightbutton').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          $(this).popover('hide');
+        }
+      });
+    });
+  }
+<% end -%>
+<% ready_script do -%>
+  $(".editable").editable({ajaxOptions: {type: 'PUT'}});
+<% end -%>

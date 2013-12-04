@@ -1,7 +1,7 @@
 class VenuesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update]
+  before_filter :authenticate_user!, :only => [:edit, :update, :my_venues]
   before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :find_venue, :except => [:index, :new, :create]
+  before_filter :find_venue, :except => [:index, :new, :create, :my_venues]
   before_filter :be_owner_or_be_admin, :only => [:edit, :update]
   
   # GET /venues
@@ -47,6 +47,13 @@ class VenuesController < ApplicationController
     
     respond_to do |format|
       if @venue.save
+        if params[:use_as_venue_for_rerun]
+          rerun = Event.find_by_uuid(params[:use_as_venue_for_rerun])
+          rerun.meetings.each do |meeting|
+            meeting.venue = @venue
+            meeting.save!
+          end
+        end
         format.js { render :refresh_venues_select }
         format.html { redirect_to @venue, notice: 'Venue was successfully created.' }
         format.json { render json: @venue, status: :created, location: @venue }
@@ -91,6 +98,16 @@ class VenuesController < ApplicationController
                           :formats => [:xml], :handlers => :builder, :layout => false, 
                           :locals => {:kml => @venue.location.neighborhood.as_kml} }
       format.json { render :json => @venue.location.neighborhood.as_json }
+    end
+  end
+  
+  # GET /my_venues
+  # GET /my_venues.json
+  def my_venues
+    @venues = [Venue.new(:name => 'TBD')] + current_user.owned_venues
+    @venues += [Venue.new(:name => 'Add new venue...')] if params[:add_new]
+    respond_to do |format|
+      format.json { render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}} }
     end
   end
   

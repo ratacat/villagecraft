@@ -1,0 +1,7 @@
+<%
+  rerun ||= @rerun
+%>
+<%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+<% if rerun.meetings.count > 1 %>
+  (first of <%= rerun.meetings.count %> meetings)
+<% end %>

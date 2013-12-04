@@ -42,9 +42,26 @@ function show_bootstrap_alert(opts) {
   $(options.selector).prepend(HandlebarsTemplates['alerts/show'](options));
 }
 
+function auth_token() {
+  return $("meta[name='csrf-token']").attr('content');
+}
+
 jQuery(function($) {
   raty_ratings();
   popover_maps();
   $(".tooltipify").tooltip();
   $.removeCookie('auto_attend_event');
+  $('.click_to_show').click(function(e) {
+    window.document.location = $(this).attr("href");
+  });
+  // Default AJAX error handler
+  $(document).on("ajax:error", function(evt, xhr, status, error) {
+    var errors = $.parseJSON(xhr.responseText).errors;
+    var message = $.parseJSON(xhr.responseText).message;
+    if (errors != '' && message) {
+      show_bootstrap_alert({type: 'error', text: message + ': ' + errors});
+    } else {
+      show_bootstrap_alert({type: 'error', text: message + errors});
+    };
+  });
 });

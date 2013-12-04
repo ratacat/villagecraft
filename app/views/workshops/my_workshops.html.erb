@@ -1,0 +1,14 @@
+<h1>Your Workshops</h1>
+<p>
+  <%= link_to new_workshop_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Workshop
+  <% end %>
+</p>
+<div>
+  <% if @workshops.blank? %>
+    No workshops.
+  <% else %>
+    <%= render 'index', :workshops => @workshops %>
+  <% end %>
+</div>

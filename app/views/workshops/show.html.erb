@@ -1,0 +1,35 @@
+<h1><%= @workshop.title %></h1>
+<p>
+  hosted by <%= contextualized_user_link(@workshop.host, :linked => true) %>
+</p>
+<div class="span6">
+  <%= link_to edit_workshop_path, :class => 'btn btn-primary pull-right' do %>
+    <i class="icon-edit icon-white"></i>
+    Edit
+  <% end %>
+  <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
+  <p>
+    <%= markdown(@workshop.description.try(:html_safe), :mkd_noheader) %>
+  </p>
+  <ul class="nav nav-tabs margin0">
+    <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
+    <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
+  </ul>
+
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active" id="future">
+      <% if @future_reruns.count == 0 %>
+        No future workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => true %>
+      <% end %>
+    </div>
+    <div class="tab-pane fade" id="past">
+      <% if @past_reruns.count == 0 %>
+        No past workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => true %>
+      <% end %>
+    </div>
+  </div>
+</div>

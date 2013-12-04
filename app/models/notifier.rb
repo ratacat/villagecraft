@@ -3,13 +3,21 @@ class Notifier < ActiveRecord::Observer
 
   # FIXME: make this asynchronous to keep the site responsive 
   def after_create(activity)
+    targets = []
     case activity.trackable_type
+    when 'Meeting'
+      meeting = activity.trackable
+      case activity.key
+      when 'meeting.time_changed'
+        # NOOP
+      when 'meeting.venue_changed'
+        # NOOP
+      end
     when 'Event'
       event = activity.trackable
       # targets = event.attendees.accepted
       targets = [event.host]
       case activity.key
-      when 'event.time_changed'
       when 'event.create'
         # target users who have attended any of host's past events
         event.host.hostings.each do |hosted_event|

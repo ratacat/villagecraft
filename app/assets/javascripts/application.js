@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require editable/bootstrap2-editable
+//= require editable/rails
 //= require vendor_javascripts
 //= require handlebars.runtime
 //= require_tree .

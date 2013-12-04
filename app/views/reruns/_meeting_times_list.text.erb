@@ -1,0 +1,15 @@
+<%
+  rerun ||= @rerun
+  include_venue ||= false
+  include_location ||= false
+%>
+<% rerun.meetings.order(:start_time).each do |meeting| -%>
+  <%= meeting_time(meeting, :no_tz => true, :show_livestamp => false, :spacer => ' ') %>
+  <% if include_venue %>
+    <%= inline_venue(meeting.venue, :linked => true) %>
+  <% end %>
+  <% if include_location %>
+    <%= meeting.venue.blank? ? 'TBD' : meeting.location.address %>
+  <% end %>
+  
+<% end -%>

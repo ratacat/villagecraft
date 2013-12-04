@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/bteitelb/x-editable-rails
+  revision: d4cc3c35cbb601d5b5cd064fe048123a4775e94d
+  specs:
+    x-editable-rails (1.5.0)
+      cancan
+      railties
+
+GIT
   remote: git://github.com/pduersteler/font-awesome-sass-rails
   revision: 50375dfa80a0f75746f4402e6831e06812191f43
   specs:
@@ -45,9 +53,10 @@ GEM
     bluecloth (2.2.0)
     bootstrap-generators (2.3.1.1)
       railties (~> 3.1)
-    bootstrap-sass (2.2.2.0)
+    bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.0.4)
+    cancan (1.6.10)
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
@@ -189,6 +198,8 @@ GEM
       activesupport (= 3.2.13)
       bundler (~> 1.0)
       railties (= 3.2.13)
+    rails-footnotes (3.7.9)
+      rails (>= 3.0.0)
     railties (3.2.13)
       actionpack (= 3.2.13)
       activesupport (= 3.2.13)
@@ -274,7 +285,8 @@ DEPENDENCIES
   attribute_normalizer
   awesome_print
   bootstrap-generators (~> 2.3)
-  bootstrap-sass (~> 2.2.2.0)
+  bootstrap-sass (~> 2.3.2.0)
+  cancan
   capistrano (~> 2.15.5)
   capistrano-unicorn
   capybara (= 1.1.2)
@@ -300,6 +312,7 @@ DEPENDENCIES
   public_activity
   rack-google_analytics
   rails (= 3.2.13)
+  rails-footnotes (>= 3.7.9)
   rspec-rails (~> 2.13)
   sass-rails (~> 3.2.3)
   simple_form
@@ -311,4 +324,5 @@ DEPENDENCIES
   uuidtools
   validates_timeliness (~> 3.0)
   verbs
+  x-editable-rails!
   zeroclipboard-rails

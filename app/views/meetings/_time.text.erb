@@ -1,0 +1,10 @@
+<% 
+ meeting ||= @meeting 
+ short_date ||= false
+ no_tz ||= false
+ date_format = short_date ? "%A %b" : "%A %B"
+%>
+<%= meeting.localized_start_time.strftime(date_format + " #{meeting.start_time.day.ordinalize}") %> <%= l meeting.localized_start_time, format: :short_time %> - <%= l meeting.localized_end_time, format: :short_time %> 
+<% unless no_tz %>
+  <%= friendly_time_zone_name(meeting.time_zone) %>
+<% end %>

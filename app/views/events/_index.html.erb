@@ -10,18 +10,8 @@
   <% events.each do |event| %>
     <tr class="event_summary expandable" name="<%= event.to_param %>">
       <td>
-         <% if user_signed_in? %>
-          <% if current_user.attending_event?(event) %>
-            <div class="span2 pull-right center-text" style="margin-top:15px;">
-            <span class="text-success" style="margin-top:25px;"><i class="icon-check icon-large"></i>&nbsp you are<br>signed up</span>
-          <% else %>
-            <div class="span2 pull-right center-text">
-            <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
-          <% end %>
-          <% else %>
-            <div class="span2 pull-right center-text">
-            <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
-         <% end %>
+        <div class="span2 pull-right center-text">
+          <h4 class="fee"><%= event_price(event, :show_materials_fee => false) %></h4>
         </div>
         <h3 class="event_title"><%= event.title %></h3>
         <div class="more muted very_faint"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
@@ -33,27 +23,21 @@
     <tr style="display: none;" class="event_detail">
       <td>
         <h3 class="event_title"><%= event.title %></h3>
-        
-         <% if user_signed_in? %>
-          <% if current_user.attending_event?(event) %>
-            <div class="span2 pull-right center-text" style="margin-bottom:35px;">
-            <span class="text-success" style="margin-top:25px;"><i class="icon-check icon-large"></i>&nbsp you are<br>signed up</span>
-          <% else %>
-            <div class="span2 pull-right center-text">
-            <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
-          <% end %>
-          <% else %>
-            <div class="span2 pull-right center-text">
-            <h4 class="fee"><%= event_price(event, :show_materials_fee => true) %></h4>
-         <% end %>
+        <div class="span2 pull-right center-text fee_cta">
+          <h4 class="fee"><%= event_price(event, :show_materials_fee => false) %></h4>
           <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></span><br/>
+          <%# FIXME: optimize this %>
+          <% upcoming_reruns = event.workshop.events.ordered_by_earliest_meeting_start_time.to_a; upcoming_reruns.shift %>
+          <% unless upcoming_reruns.blank? %>
+            <h4>Next Dates</h4>
+            <% upcoming_reruns.map(&:first_meeting).each do |m| -%>
+              <div><%= meeting_date(m, :short_date => true) %></div>
+            <% end -%>
+          <% end %>
         </div>
         <div class="event_description">
-          <%= markdown(event.description.html_safe, :mkd_noheader) %>
+          <%= markdown(event.description.try(:html_safe), :mkd_noheader) %>
         </div>
-        <% if (event.host === current_user) or admin_session? %>
-          <%= link_to 'Manage', manage_attendances_path(event), :class => 'btn btn-small' %>        
-        <% end %>
       </td>
       <td>
         <%= render :partial => 'events/when_where_host_table', :locals => {:event => event, :show_image => true} %>
