@@ -13,5 +13,5 @@ class_options:
       title: Venue
       emptytext: TBD
       source: <%= ::Rails.application.routes.url_helpers.my_venues_path(:add_new => true) %>
-      sourceCache: false
+      sourceCache: true
       
