@@ -90,6 +90,7 @@
     $.post("<%= auto_add_rerun_path(@workshop) %>", function(data, textStatus, jqXHR) {
       $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
         editablize_meetings();
+        $("#future_reruns tbody tr:last-child td").highlight();
       });
     });
   });
