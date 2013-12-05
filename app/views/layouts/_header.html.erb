@@ -2,9 +2,6 @@
           <% if not user_signed_in? %>
             <li><%= link_to "not logged in", new_user_session_path %></li>
           <% else %>
-            <% if current_user.try(:host?) %>
-              <li><%= link_to_unless_current "My Workshops", my_workshops_path %></li>
-            <% end %>
             <% if false # @notifications %>
               <li class="dropdown">
                 <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>
@@ -40,7 +37,7 @@
               <ul class="dropdown-menu" role="menu">
                 <% if current_user.try(:host?) %>
                   <li><%= link_to 'My Profile', current_user %></li>
-                  <li><%= link_to 'Create Workshop', new_event_path %></li>
+                  <li><%= link_to_unless_current "My Workshops", my_workshops_path %></li>
                   <li class="divider"></li>
                 <% end %>
                 <li><%= link_to 'Settings', edit_preferences_path %></li>
