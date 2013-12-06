@@ -71,6 +71,26 @@ class Neighborhood < ActiveRecord::Base
     Neighborhood.where("ST_Within(ST_SetSRID(ST_MakePoint(#{lon},#{lat}), 4326), geom)=true").first
   end
   
-  
+  def Neighborhood.new_from_kml(kml_fn)
+    db_config = ActiveRecord::Base.configurations[Rails.env]
+    host = db_config["host"]
+    db = db_config["database"]
+    username = db_config["username"]
+    password = db_config["password"]
+    ogr2ogr_options = '-append -nlt MULTIPOLYGON -nln neighborhoods -f "PostgreSQL"'
+    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : '/usr/share/gdal'
+    `export GDAL_DATA=#{gdal_data_path}; ogr2ogr #{ogr2ogr_options} PG:"host=#{host} user=#{username} dbname=#{db} password=#{password}" #{kml_fn}`
+
+    Neighborhood.where(:city => nil).each do |hood|
+      hood.reverse_geocode
+      if hood.save
+        Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
+          loc.save
+        end
+      else
+        hood.destroy  # destroy the invalid hood
+      end
+    end
+  end
   
 end
