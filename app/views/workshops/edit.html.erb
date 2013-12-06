@@ -102,6 +102,13 @@
     };
   });
   
+  $(document).on('ajax:beforeSend', '#new_venue', function(event, xhr, settings) {
+    var uuid = $(this).data('meeting_uuid');
+    vc_highlighter = function() {
+      $('tr[data-meeting_uuid="' + uuid + '"] span.vc_editable.venue').highlight();
+    };
+  });
+  
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
@@ -116,6 +123,7 @@
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop, :clear_source_cache => true) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
+      vc_highlighter();
     });
   });
   
