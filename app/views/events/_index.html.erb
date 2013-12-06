@@ -47,7 +47,7 @@
          <% end %>
           <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => event} %></span><br/>
           <%# FIXME: optimize this %>
-          <% upcoming_reruns = event.workshop.events.ordered_by_earliest_meeting_start_time.to_a; upcoming_reruns.shift %>
+          <% upcoming_reruns = event.workshop.events.future.ordered_by_earliest_meeting_start_time.to_a; upcoming_reruns.shift %>
           <% unless upcoming_reruns.blank? %>
             <h4>Next Dates</h4>
             <% upcoming_reruns.map(&:first_meeting).each do |m| -%>
