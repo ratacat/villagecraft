@@ -52,7 +52,7 @@ class VenuesController < ApplicationController
         format.html { redirect_to @venue, notice: 'Venue was successfully created.' }
         format.json { render json: @venue, status: :created, location: @venue }
       else
-        format.js { render :replace_form }
+        format.js { render :json => { :errors => @venue.errors.full_messages, :message => "Problem creating new venue" }, :status => :unprocessable_entity }
         format.html { render action: "new" }
         format.json { render json: @venue.errors, status: :unprocessable_entity }
       end
