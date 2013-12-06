@@ -70,6 +70,7 @@ namespace :db do
   task :load_kml_neighborhoods => :environment do
     kmls = Rails.root.join('db', 'neighborhoods', '*.kml')
     Dir.glob(kmls).each do |fn|
+      Rake::Task['db:load_kml_neighborhood'].reenable
       Rake::Task['db:load_kml_neighborhood'].invoke(fn)
     end
   end
