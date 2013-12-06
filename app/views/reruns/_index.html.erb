@@ -22,7 +22,11 @@
       class="click_to_show"
       href="<%= url_for(rerun) %>"
     <% end -%> data-uuid="<%= rerun.uuid %>">
-      <td class="meeting_time"><span class="vc_editable meeting_time"><%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %></span></td>
+      <td class="meeting_time">
+        <span class="vc_editable meeting_time" data-meeting_uuid="<%= rerun.first_meeting.uuid %>">
+          <%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+        </span>
+      </td>
       <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
       <td><%= editable rerun, :max_attendees %></td>
       <td><span class="vc_editable venue"><%= editable rerun, :default_venue_uuid, :sourceCache => (not clear_source_cache) %></span></td>
