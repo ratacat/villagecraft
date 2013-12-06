@@ -1,5 +1,7 @@
+require 'tempfile'
 class NeighborhoodsController < ApplicationController
   load_and_authorize_resource
+  skip_load_resource :only => :create
   
   # GET /neighborhoods
   # GET /neighborhoods.json
@@ -22,9 +24,38 @@ class NeighborhoodsController < ApplicationController
       format.json { render json: @neighborhood }
     end
   end
-  
+
+  # GET /neighborhoods/new
+  # GET /neighborhoods/new.json
+  def new
+    @neighborhood = Neighborhood.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @neighborhood }
+    end
+  end
+
   # GET /neighborhoods/1/edit
   def edit
+  end
+
+  # create new neighborhood from given KML
+  # POST /neighborhoods
+  # POST /neighborhoods.json
+  def create
+    name = params[:neighborhood][:name]
+    kml = params[:neighborhood][:kml]
+
+    kml.gsub! /<name>.*<\/name>/, "<name>#{name}</name>"
+    
+    Tempfile.open('neighborhood_kml', Rails.root.join('tmp') ) do |f|
+      f.print(kml)
+      f.flush
+      Neighborhood.new_from_kml(f.path)
+    end
+    
+    redirect_to edit_neighborhood_path(Neighborhood.last), notice: 'Neighborhood successfully created.'
   end
 
   # PUT /neighborhoods/1
