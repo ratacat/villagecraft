@@ -1,0 +1,20 @@
+<div class="page-header">
+  <%= link_to neighborhoods_path, :class => 'btn' do %>
+    <i class="icon-list-alt"></i>
+    All neighborhoods
+  <% end %>
+  <%= link_to @neighborhood, :class => 'btn btn-primary' do %>
+    <i class="icon-info-sign icon-white"></i>
+    Show
+  <% end %>
+  <h1>Editing neighborhood</h1>
+</div>
+
+<div class="pull-right">
+  <div id="map-canvas" class="img-polaroid"></div>
+</div>
+<% ready_script do -%>
+  loadGMap({title: "<%= @neighborhood.name %>", geo_json: <%= @neighborhood.as_geo_json.html_safe %>});
+<% end -%>
+
+<%= render 'form' %>

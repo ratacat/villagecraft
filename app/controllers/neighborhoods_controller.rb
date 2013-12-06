@@ -1,6 +1,5 @@
 class NeighborhoodsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :require_admin, :except => [:show]
+  load_and_authorize_resource
   
   # GET /neighborhoods
   # GET /neighborhoods.json
@@ -23,5 +22,35 @@ class NeighborhoodsController < ApplicationController
       format.json { render json: @neighborhood }
     end
   end
+  
+  # GET /neighborhoods/1/edit
+  def edit
+  end
+
+  # PUT /neighborhoods/1
+  # PUT /neighborhoods/1.json
+  def update
+    respond_to do |format|
+      if @neighborhood.update_attributes(params[:neighborhood])
+        format.html { redirect_to @neighborhood, notice: 'Neighborhood was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @neighborhood.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  # DELETE /neighborhoods/1
+  # DELETE /neighborhoods/1.json
+  def destroy
+    @neighborhood.destroy
+
+    respond_to do |format|
+      format.html { redirect_to neighborhoods_url }
+      format.json { head :no_content }
+    end
+  end
+  
 
 end

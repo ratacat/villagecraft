@@ -1,4 +1,5 @@
 class Neighborhood < ActiveRecord::Base
+  attr_accessible :name, :city, :state, :county
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
 
   reverse_geocoded_by :latitude, :longitude do |obj, results|

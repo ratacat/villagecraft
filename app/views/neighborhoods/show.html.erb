@@ -1,5 +1,17 @@
 <% neighborhood ||= @neighborhood %>
-<h2><%= neighborhood.name %></h2>
+<div class="page-header">
+  <%= link_to neighborhoods_path, :class => 'btn' do %>
+    <i class="icon-list-alt"></i>
+    All neighborhoods
+  <% end %>
+  <% if can? :edit, @eighborhood %>
+    <%= link_to edit_neighborhood_path(@neighborhood), :class => 'btn btn-primary' do %>
+      <i class="icon-pencil icon-white"></i>
+      Edit
+    <% end %>
+  <% end %>
+  <h2><%= neighborhood.name %></h2>
+</div>
 <address>
   <%= neighborhood.city %>, <%= neighborhood.state %> (<%= neighborhood.county %> county)
   <p>

@@ -1,0 +1,18 @@
+<% 
+   remote ||= false 
+   neighborhood ||= @neighborhood
+%>
+<%= simple_form_for(neighborhood, :remote => remote, :html => {:class => remote ? 'remote_neighborhood' : nil}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: 'Name' %>
+    <%= f.input :city, label: 'City' %>
+    <%= f.input :state, label: 'State' %>
+    <%= f.input :county, label: 'County' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => "btn-primary" %>
+  </div>
+<% end %>

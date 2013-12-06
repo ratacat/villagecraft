@@ -3,7 +3,7 @@
     <i class="icon-plus icon-white"></i>
     New Neighborhood
   <% end %>
-  <h1>Listing neighborhoods</h1>
+  <h1>Neighborhoods</h1>
 </div>
 
 <table class="table table-bordered table-striped">
@@ -25,8 +25,19 @@
       <td><%= neighborhood.city %></td>
       <td><%= neighborhood.state %></td>
       <td><%= neighborhood.county %></td>
-      <td><span class="popover_map" data-content='<img src="<%= static_gmap_url(neighborhood) %>"/>' data-title="<%= neighborhood.name %>"><%= link_to 'View', neighborhood %></span></td>
-      <td><%= link_to 'Destroy', neighborhood, confirm: 'Are you sure?', method: :delete %></td>
+      <td>
+        <span class="popover_map" data-content='<img src="<%= static_gmap_url(neighborhood) %>"/>' data-title="<%= neighborhood.name %>">
+          <%= link_to neighborhood, class: 'icon_button', title: 'view' do -%>
+            <i class="icon-play"></i> 
+          <% end -%>
+        </span>
+        <%= link_to edit_neighborhood_path(neighborhood), class: 'icon_button', title: 'edit' do -%>
+          <i class="icon-pencil"></i> 
+        <% end -%>
+        <%= link_to neighborhood, confirm: 'Are you sure?', method: :delete, class: 'icon_button', title: 'delete' do -%>
+          <i class="icon-remove-circle"></i> 
+        <% end %>
+      </td>
     </tr>
 <% end %>
   </tbody>
