@@ -58,10 +58,10 @@
       trigger: 'manual',
       title: 'Add New Venue', 
       content: function() {
-        var rerun_uuid = $(this).closest("tr").data("uuid");
+        var meeting_uuid = $(this).closest("tr").data("meeting_uuid");
         return HandlebarsTemplates['venues/add_new']({
           auth_token: auth_token(),
-          rerun_uuid: rerun_uuid
+          meeting_uuid: meeting_uuid
         });
       }
     }).on('shown', function() {
