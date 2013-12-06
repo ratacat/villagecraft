@@ -98,7 +98,7 @@
   $(document).on('ajax:beforeSend', '#edit_meeting', function(event, xhr, settings) {
     var uuid = $(this).data('meeting_uuid');
     vc_highlighter = function() {
-      $('span.vc_editable.meeting_time[data-meeting_uuid="' + uuid + '"]').highlight();
+      $('tr[data-meeting_uuid="' + uuid + '"] span.vc_editable.meeting_time').highlight();
     };
   });
   
