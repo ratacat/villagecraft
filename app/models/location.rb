@@ -106,9 +106,11 @@ class Location < ActiveRecord::Base
   end
   
   def lookup_time_zone
-    tz_lookup_result = GoogleTimezone.fetch(self.latitude, self.longitude)
-    if tz_lookup_result.success?
-      self.time_zone = tz_lookup_result.time_zone_id
+    unless self.latitude.blank? or self.longitude.blank?
+      tz_lookup_result = GoogleTimezone.fetch(self.latitude, self.longitude)
+      if tz_lookup_result.success?
+        self.time_zone = tz_lookup_result.time_zone_id
+      end
     end
   end
   
