@@ -60,9 +60,12 @@ namespace :db do
 
     Neighborhood.where(:city => nil).each do |hood|
       hood.reverse_geocode
-      hood.save
-      Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
-        loc.save
+      if hood.save
+        Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
+          loc.save
+        end
+      else
+        hood.destroy  # destroy the invalid hood
       end
     end
   end
