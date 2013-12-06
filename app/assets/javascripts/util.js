@@ -56,7 +56,7 @@ jQuery(function($) {
   });
   // Default AJAX error handler
   $(document).on("ajax:error", function(evt, xhr, status, error) {
-    var errors = $.parseJSON(xhr.responseText).errors;
+    var errors = $.parseJSON(xhr.responseText).errors.join("; ");
     var message = $.parseJSON(xhr.responseText).message;
     if (errors != '' && message) {
       show_bootstrap_alert({type: 'error', text: message + ': ' + errors});
