@@ -30,8 +30,8 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
-    @future_reruns = @workshop.events.future.ordered_by_earliest_meeting_start_time.to_a
-    @past_reruns = @workshop.events.past.ordered_by_latest_meeting_end_time.to_a
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+    @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @workshop }
@@ -52,13 +52,13 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops/1/edit
   def edit
-    @future_reruns = @workshop.events.future.ordered_by_earliest_meeting_start_time.to_a
-    @past_reruns = @workshop.events.past.ordered_by_latest_meeting_end_time.to_a
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+    @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
   end
 
   # GET /workshops/1/reruns_partial
   def reruns_partial
-    @reruns = @workshop.events.future.ordered_by_earliest_meeting_start_time.to_a
+    @reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true, :editable => true, :update_reruns_count => true, :clear_source_cache => params[:clear_source_cache]}
   end
 
