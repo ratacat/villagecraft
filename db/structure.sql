@@ -142,7 +142,8 @@ CREATE TABLE events (
     uuid character varying(255),
     image_id integer,
     state character varying(255),
-    workshop_id integer
+    workshop_id integer,
+    first_meeting_id integer
 );
 
 
@@ -736,6 +737,13 @@ CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
 
 
 --
+-- Name: index_events_on_first_meeting_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_first_meeting_id ON events USING btree (first_meeting_id);
+
+
+--
 -- Name: index_events_on_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1049,3 +1057,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131109073509');
 INSERT INTO schema_migrations (version) VALUES ('20131109074258');
 
 INSERT INTO schema_migrations (version) VALUES ('20131125065030');
+
+INSERT INTO schema_migrations (version) VALUES ('20131208193226');
+
+INSERT INTO schema_migrations (version) VALUES ('20131208201630');

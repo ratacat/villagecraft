@@ -12,6 +12,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :workshop
   has_many :meetings
+  belongs_to :first_meeting, :class_name => 'Meeting'
   
   belongs_to :venue
   has_one :location, :through => :venue
@@ -115,10 +116,6 @@ class Event < ActiveRecord::Base
     else
       self.image.img.url(size)
     end
-  end
-  
-  def first_meeting
-    self.meetings.order(:start_time).first
   end
   
   def Event.placeholder_src(size = :medium)

@@ -22,6 +22,8 @@ class Meeting < ActiveRecord::Base
   validates_datetime :end_time
   validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
   
+  after_save :possibly_update_parents_first_meeting_cache
+  
   def title
     self.event.title
   end
@@ -53,6 +55,14 @@ class Meeting < ActiveRecord::Base
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+  end
+
+  protected
+  def possibly_update_parents_first_meeting_cache
+    # FIXME: theoretically, with multiple hosts and high concurrancy, we could have a race condition here; so, we might want to lock the event record
+    self.event.first_meeting ||= (self.event.meetings.order(:start_time).first || self)
+    self.event.first_meeting = self if self.event.first_meeting.start_time > self.start_time
+    self.event.save
   end
   
 end
