@@ -1,27 +1,29 @@
-<div class="row">
-  <h2>Settings</h2>
-  <div class="span-4">
-    <%= simple_form_for(@user, :url => update_preferences_path, :html => { :method => :put, class: "form-horizontal" }) do |f| %>
-    <%= f.error_notification %>
+<div class="span8">
+  <div class="row">
+    <h2>Settings</h2>
+    <div class="span-4">
+      <%= simple_form_for(@user, :url => update_preferences_path, :html => { :method => :put, class: "form-horizontal" }) do |f| %>
+      <%= f.error_notification %>
 
-    <%= f.input :email_notifications, hint: 'Receive updates by email about events you are hosting or attending.' %>
-    <div class="form-actions"><%= f.submit "Update", class: "btn btn-primary" %></div>
-    <% end %>
+      <%= f.input :email_notifications, hint: 'Receive updates by email about events you are hosting or attending.' %>
+      <div class="form-actions"><%= f.submit "Update", class: "btn btn-primary" %></div>
+      <% end %>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <h2>Account Management</h2>
-  <div class="span-4">
-    <%= link_to 'change password', edit_user_registration_path %> | <%= link_to 'cancel account', edit_user_registration_path(:anchor => 'cancel') %>
+  <div class="row">
+    <h2>Account Management</h2>
+    <div class="span-4">
+      <%= link_to 'change password', edit_user_registration_path %> | <%= link_to 'cancel account', edit_user_registration_path(:anchor => 'cancel') %>
+    </div>
   </div>
-</div>
 
-<% if current_user.admin? %>
-<div class="row">
-  <h2>Admin-only Area</h2>
-  <div class="span-4">
-    <%= render :partial => 'admin_mode_toggle_button' %>
+  <% if current_user.admin? %>
+  <div class="row">
+    <h2>Admin-only Area</h2>
+    <div class="span-4">
+      <%= render :partial => 'admin_mode_toggle_button' %>
+    </div>
   </div>
+  <% end %>
 </div>
-<% end %>
