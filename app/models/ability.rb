@@ -17,6 +17,9 @@ class Ability
       if user.host?
         can [:new], Event
         can :manage_as_host, Event, :host_id => user.id
+        cannot :cancel_attend, Event do |event|
+          event.occurred?
+        end
         can :update, Meeting      
       end
       

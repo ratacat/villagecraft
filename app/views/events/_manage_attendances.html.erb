@@ -20,10 +20,14 @@
       <td><%= attendance.user.name %></td>
       <td><%= attendance.user.email %></td>
       <td class="user_phone"><%= attendance.user.phone %></td>
-      <td><%= button_to 'Cancel', 
-                        cancel_attend_path(@event, :user_uuid => attendance.user.uuid), :method => :post, :remote => true,
-                        :class => "btn btn-default", :form_class => "margin0", 
-                        :confirm => 'Really cancel?' %></td>
+      <td>
+        <% if can? :cancel_attend, @event %>
+          <%= button_to 'Cancel', 
+                          cancel_attend_path(@event, :user_uuid => attendance.user.uuid), :method => :post, :remote => true,
+                          :class => "btn btn-default", :form_class => "margin0", 
+                          :confirm => 'Really cancel?' %>
+        <% end %>
+      </td>
     </tr>
 <% end %>
   </tbody>
