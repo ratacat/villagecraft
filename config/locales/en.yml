@@ -6,7 +6,7 @@ en:
     manage:
       all: "Sorry, you are not authorized to %{action} %{subject}."
     manage_as_host:
-      event: "You must be the host of that %{subject} to do that."
+      event: "You must be the host of that workshop to do that."
   time:
     formats:
       friendly_at_time: "%b %d, %Y @ %l:%M%P"
