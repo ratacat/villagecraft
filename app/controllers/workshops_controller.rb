@@ -53,6 +53,7 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1/edit
   def edit
     @future_reruns = @workshop.events.future.ordered_by_earliest_meeting_start_time.to_a
+    @past_reruns = @workshop.events.past.ordered_by_latest_meeting_end_time.to_a
   end
 
   # GET /workshops/1/reruns_partial

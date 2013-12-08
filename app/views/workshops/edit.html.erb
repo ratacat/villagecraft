@@ -5,7 +5,8 @@
 </div>
 <div class="span8">
   <ul class="nav nav-tabs margin0">
-    <li class="active"><a href="#future" data-toggle="tab"><span id='future_reruns_count'><%= @future_reruns.count %></span> scheduled</a></li>
+    <li class="active"><a href="#future_reruns" data-toggle="tab">Coming Up (<span id='future_reruns_count'><%= @future_reruns.count %></span>)</a></li>
+    <li><a href="#past_reruns" data-toggle="tab">Past (<span id='past_reruns_count'><%= @past_reruns.count %></span>)</a></li>
     <button class="btn btn-success" id="add_rerun_button" style="margin: 4px 6px"><i class="icon icon-plus"></i>Add</button>
   </ul>
   <div id="myTabContent" class="tab-content">
@@ -14,6 +15,13 @@
         No future workshops.
       <% else %>
         <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :show_icons => true, :editable => true %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="past_reruns">
+      <% if @past_reruns.count == 0 %>
+        No past workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :show_icons => true, :editable => false %>
       <% end %>
     </div>
   </div>
