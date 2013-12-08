@@ -72,7 +72,7 @@ class Event < ActiveRecord::Base
   end
   
   def occurred? 
-    self.meetings.future.count.blank?
+    self.meetings.future.count === 0
   end
 
   def slots_left
