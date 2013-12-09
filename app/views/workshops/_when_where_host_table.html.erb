@@ -1,0 +1,44 @@
+<% workshop ||= @workshop 
+   show_image ||= false
+   event = workshop.next_rerun
+%>
+<table class="table borderless when_where_host_table">
+  <tbody>
+    <tr>
+      <td class="when">
+        <% if event %>
+          <div class="blocky_spns">
+            <%= render :partial => 'reruns/times', :locals => {:rerun => event} %>
+          </div>
+          <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
+        <% end %>
+      </td>
+      <td class="where">
+        <% if event %>
+          <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %>
+        <% end %>
+      </td>
+      <td class="attends">
+        <% if event %>
+          <div class="blocky_spns">
+            <% if event.slots_left == 0 %>
+              <span class="blocky_attend text-error"><%= event.attendances.count %></span><span class="text-error">going</span>
+            <% else %>
+              <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
+            <% end %>
+          </div>
+        <% end %>
+      </td>
+      <td class="host">
+        <% if workshop.host %>
+          <%= render :partial => 'users/thumbnail', :locals => {:user => workshop.host, :span => 2} %>
+        <% end %>
+      </td>
+    </tr>
+    <% if show_image %>
+      <tr>
+        <td colspan="4" class="image"><img src="<%= workshop.img_src(:larger) %>" class="img-rounded"></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

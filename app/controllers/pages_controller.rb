@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   def home
     # FIXME: this isn't cheap; maybe cache it or move more of it into a fancy SQL query
-    @events = Workshop.future.ordered_by_earliest_meeting_start_time.map(&:next_rerun)
+    @workshops_with_upcoming_or_ongoing_reruns = Workshop.joins(:first_meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
+    @workshops = (@workshops_with_upcoming_or_ongoing_reruns + Workshop.where("id NOT IN (?)", @workshops_with_upcoming_or_ongoing_reruns))
   end
 
   def about

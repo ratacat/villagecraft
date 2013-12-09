@@ -1,8 +1,5 @@
-require "has_ordering_through_meetings"
-
 class Workshop < ActiveRecord::Base
   extend ActiveSupport::Memoizable
-  include ActiveRecord::Has::OrderingThroughMeetings
 
   attr_accessible :description, :frequency, :title, :image
   has_uuid(:length => 8)
@@ -11,6 +8,7 @@ class Workshop < ActiveRecord::Base
   belongs_to :host, :class_name => 'User'
   has_many :events # , :dependent => :destroy
   has_many :meetings, :through => :events
+  has_many :first_meetings, :through => :events
   has_many :reviews, :dependent => :destroy
   
   validates :title, presence: true
@@ -44,13 +42,18 @@ class Workshop < ActiveRecord::Base
   end
   memoize :next_meeting
   
+  def upcoming_reruns
+    self.events.where_first_meeting_starts_in_future
+  end
+  memoize :upcoming_reruns
+  
   def next_rerun
-    self.events.future.ordered_by_earliest_meeting_start_time.first
+    self.upcoming_reruns.first
   end
   memoize :next_rerun
   
   def last_rerun
-    self.events.past.ordered_by_earliest_meeting_start_time.last
+    self.events.where_first_meeting_starts_in_past.first
   end
   memoize :last_rerun
 
@@ -62,7 +65,7 @@ class Workshop < ActiveRecord::Base
   protected
   
   def propagate_changes_to_future_events
-    self.events.future.readonly(false).each do |event|
+    self.events.where_first_meeting_starts_in_future.readonly(false).each do |event|
       event.update_attributes(:title => self.title, :description => self.description)
     end
   end
