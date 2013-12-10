@@ -6,7 +6,6 @@ class Ability
     
     # anyone
     can [:show, :attend_by_email], Event
-    can [:show], Neighborhood
     
     # signed-in user  
     if not user.blank?
