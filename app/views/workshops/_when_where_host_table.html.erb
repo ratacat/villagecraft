@@ -1,32 +1,32 @@
 <% workshop ||= @workshop 
    show_image ||= false
-   event = workshop.next_rerun
+   next_rerun = workshop.next_rerun
 %>
 <table class="table borderless when_where_host_table">
   <tbody>
     <tr>
       <td class="when">
-        <% if event %>
+        <% if next_rerun %>
           <div class="blocky_spns">
-            <%= render :partial => 'reruns/times', :locals => {:rerun => event} %>
+            <%= render :partial => 'reruns/times', :locals => {:rerun => next_rerun} %>
           </div>
-          <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
+          <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
         <% else %>
           <span class="muted">no upcoming dates</span>
         <% end %>
       </td>
       <td class="where">
-        <% if event %>
-          <%= event.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(event.venue.location, :show_popover_map => false) %>
+        <% if next_rerun %>
+          <%= next_rerun.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false) %>
         <% end %>
       </td>
       <td class="attends">
-        <% if event %>
+        <% if next_rerun %>
           <div class="blocky_spns">
-            <% if event.slots_left == 0 %>
-              <span class="blocky_attend text-error"><%= event.attendances.count %></span><span class="text-error">going</span>
+            <% if next_rerun.slots_left == 0 %>
+              <span class="blocky_attend text-error"><%= next_rerun.attendances.count %></span><span class="text-error">going</span>
             <% else %>
-              <span class="blocky_attend"><%= event.attendances.count %></span><span>going</span>
+              <span class="blocky_attend"><%= next_rerun.attendances.count %></span><span>going</span>
             <% end %>
           </div>
         <% end %>
