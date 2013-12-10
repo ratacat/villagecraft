@@ -2,6 +2,8 @@ class Neighborhood < ActiveRecord::Base
   attr_accessible :name, :city, :state, :county
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
 
+  after_save :check_whether_any_locations_sans_hood_are_in_the_new_hood
+  
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
       obj.city = geo.city
@@ -91,6 +93,14 @@ class Neighborhood < ActiveRecord::Base
         hood.destroy  # destroy the invalid hood
       end
     end
+    
+  end
+  
+  protected
+  def check_whether_any_locations_sans_hood_are_in_the_new_hood
+    Location.where(:neighborhood_id => nil).readonly(false) do |location|
+      location.lookup_and_set_neighborhood
+    end    
   end
   
 end

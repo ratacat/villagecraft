@@ -98,6 +98,11 @@ class Location < ActiveRecord::Base
     l.reverse_geocode
     l
   end
+  
+  def lookup_and_set_neighborhood
+    self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)
+    self.save
+  end
 
   protected
   
