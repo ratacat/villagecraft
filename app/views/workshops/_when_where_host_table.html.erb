@@ -22,7 +22,15 @@
       </td>
       <td class="where">
         <% if next_rerun %>
-          <%= next_rerun.venue.blank? ? 'TBD' : neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false) %>
+          <% if next_rerun.venue.blank? %>
+            TBD
+          <% else %>
+            <% if user_signed_in? and current_user.attending_event?(next_rerun) %>
+              <%= address(next_rerun.venue.location) %>
+            <% else %>
+              <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false) %>
+            <% end %>
+          <% end %>
         <% end %>
       </td>
       <td class="attends">

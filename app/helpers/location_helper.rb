@@ -33,6 +33,20 @@ module LocationHelper
     content_tag(:span, city_n_state(location), :class => 'muted')
   end
   
+  def address(location, options={})
+    defaults = {
+      :show_popover_map => false
+    }
+    options.reverse_merge!(defaults)
+
+    content_tag(:div, :class => "blocky_spns#{ ' popover_map' if options[:show_popover_map]}", 
+                      :'data-content' => popover_neighborhood_map(location), 
+                      :'data-title' => hood_name_in_city(location, :show_in => true).gsub('"', "'")) do
+      content_tag(:span, location.street) +
+      content_tag(:span, city_n_state(location))
+    end    
+  end
+  
   def neighborhood_or_city_n_state(location, options={})
     defaults = {
       :show_popover_map => false
