@@ -12,7 +12,7 @@ module LocationHelper
   end
   
   def city_n_state(location)
-    "#{location.city}, #{location.state_code}"
+    "#{location.city.capitalize}, #{location.state_code.upcase}"
   end
   
   def popover_neighborhood_map(location)
