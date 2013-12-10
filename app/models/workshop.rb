@@ -1,7 +1,7 @@
 class Workshop < ActiveRecord::Base
   extend ActiveSupport::Memoizable
   include PublicActivity::Model
-  tracked :owner => Proc.new{ |controller, model| controller.current_user },
+  tracked :owner => Proc.new{ |controller, model| controller.try(:current_user) },
           :on => {:create  => proc {|model, controller| controller  },
                   :update  => proc {|model, controller| controller  },
                   :destroy => proc {|model, controller| controller  }}
