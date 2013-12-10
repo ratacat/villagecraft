@@ -11,6 +11,8 @@
             <%= render :partial => 'reruns/times', :locals => {:rerun => event} %>
           </div>
           <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => event} %></p>
+        <% else %>
+          <span class="muted">no upcoming dates</span>
         <% end %>
       </td>
       <td class="where">
