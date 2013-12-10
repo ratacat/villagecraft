@@ -250,6 +250,10 @@ table.table.when_where_host_table {
   min-width: 500px;
   margin-bottom: 0px;
   table-layout: fixed;
+  .workshop_img {
+    text-align: left;
+    vertical-align: middle;
+  }
 }
 
 table.table.when_where_host_table tr td.when, table.table.when_where_host_table tr td.where {
@@ -265,11 +269,6 @@ table.table.when_where_host_table tr td.attends {
 table.table.when_where_host_table tr td.host {
   width: 160px;
   min-width: 160px;
-}
-
-table.table.when_where_host_table td.image {
-  text-align: center; 
-  vertical-align: middle;
 }
 
 .initially_hidden {
