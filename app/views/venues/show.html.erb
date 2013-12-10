@@ -19,7 +19,7 @@
   </p>
 </address>
 
-<%= render :partial => 'events/index', :locals => {:events => @venue.events.order("start_time DESC")} %>
+<%# render :partial => 'reruns/index', :locals => {:reruns => @venue.events.order("start_time DESC")} %>
 
 <% ready_script do -%>
   <%= render(:partial => 'venues/load_gmap.js', :locals => {:venue => @venue, :blur => blur_venue_location?(@venue)}) unless use_embedded_map %>
