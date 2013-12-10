@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include PublicActivity::StoreController
+  
   protect_from_forgery
   before_filter :sign_in_if_auth_token
   before_filter :fetch_notifications

@@ -36,6 +36,8 @@ class Notifier < ActiveRecord::Observer
 
         # For MVP, only target host(s)
       end
+    when 'Workshop'
+      # NOOP
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"
     end

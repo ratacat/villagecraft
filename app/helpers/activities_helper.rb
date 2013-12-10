@@ -43,7 +43,10 @@ module ActivitiesHelper
     when 'event.host_cancels_attend'
       html << "are no longer signed up to attend"
     else
-      ''
+      if /(.*)\.(create|update|destroy)/.match(activity.key)
+        html << "#{($2).verb.conjugate :person => verb_person, :tense => :past, :aspect => :perfective}"
+        html << " the #{$1}" if activity.trackable
+      end
     end
 
     # To something...
