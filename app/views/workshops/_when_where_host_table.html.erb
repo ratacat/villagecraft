@@ -1,6 +1,6 @@
 <% workshop ||= @workshop 
    show_image ||= false
-   next_rerun = workshop.next_rerun
+   next_rerun = workshop.ongoing_or_next_rerun
 %>
 <table class="table borderless when_where_host_table">
   <tbody>
@@ -8,7 +8,12 @@
       <td class="when">
         <% if next_rerun %>
           <div class="blocky_spns">
-            <%= render :partial => 'reruns/times', :locals => {:rerun => next_rerun} %>
+            <% if next_rerun.first_meeting.ongoing? %>
+              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+              <span class="muted">happening right now</span>
+            <% else %>
+              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+            <% end %>
           </div>
           <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
         <% else %>

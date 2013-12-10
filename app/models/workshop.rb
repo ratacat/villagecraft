@@ -47,11 +47,21 @@ class Workshop < ActiveRecord::Base
   end
   memoize :next_meeting
   
+  def ongoing_or_upcoming_reruns
+    self.events.where_first_meeting_ends_in_future
+  end
+  memoize :ongoing_or_upcoming_reruns
+
   def upcoming_reruns
     self.events.where_first_meeting_starts_in_future
   end
   memoize :upcoming_reruns
   
+  def ongoing_or_next_rerun
+    self.ongoing_or_upcoming_reruns.first
+  end
+  memoize :ongoing_or_next_rerun
+
   def next_rerun
     self.upcoming_reruns.first
   end

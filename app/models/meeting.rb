@@ -57,6 +57,11 @@ class Meeting < ActiveRecord::Base
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
   end
 
+  def ongoing?
+    now = Time.now
+    (now >= self.start_time) and (now < self.end_time)
+  end
+  
   protected
   def possibly_update_parents_first_meeting_cache
     # FIXME: theoretically, with multiple hosts and high concurrancy, we could have a race condition here; so, we might want to lock the event record
