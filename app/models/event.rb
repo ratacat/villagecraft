@@ -154,6 +154,14 @@ class Event < ActiveRecord::Base
       venue = nil
       max_attendees = 8
     end
+    
+    # don't allow new rerun to start in the past
+    if start_time < Time.now
+      duration = end_time - start_time
+      weeks_ago = (((Time.now) - start_time)/(7*24*60*60)).ceil
+      start_time += weeks_ago.weeks
+      end_time = start_time + duration
+    end
 
     event = Event.create!({:title => title, 
                            :description => description, 
