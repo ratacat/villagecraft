@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   belongs_to :image, :class_name => 'Image'
 
   belongs_to :workshop
-  has_many :meetings
+  has_many :meetings, :dependent => :destroy
   belongs_to :first_meeting, :class_name => 'Meeting'
   
   belongs_to :venue
