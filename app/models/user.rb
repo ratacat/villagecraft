@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   attr_writer :city, :state
   has_uuid(:length => 8)
 
+  has_many :workshops, :class_name => 'Event', :foreign_key => :host_id
   has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
   has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id
 
@@ -25,7 +26,6 @@ class User < ActiveRecord::Base
       where("attendances.state = 'confirmed'")
     end
   end
-  has_many :vclasses, :class_name => 'Vclass', :foreign_key => :admin_id
 
   has_many :reviews, :foreign_key => :author_id, :dependent => :destroy
   belongs_to :location
