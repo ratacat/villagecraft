@@ -5,7 +5,7 @@ module EventsHelper
     }
     options.reverse_merge!(defaults)
     
-    if event.price.blank?
+    if event.price.blank? or event.price === 0
       'Free!'
     else
       html = number_to_currency(event.price)
