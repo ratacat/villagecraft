@@ -5,9 +5,7 @@ class Venue < ActiveRecord::Base
 
   belongs_to :owner, :class_name => 'User'
   belongs_to :location
-  has_many :events, :dependent => :destroy
-  has_many :courses, :through => :events
-  has_many :vclasses, :through => :events
+  has_many :meetings
   
   before_validation :find_or_create_location_from_address
   
