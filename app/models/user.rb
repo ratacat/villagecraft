@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_uuid(:length => 8)
 
   has_many :workshops, :foreign_key => :host_id, :dependent => :destroy
-  has_many :hostings, :class_name => 'Event', :foreign_key => :host_id
+  has_many :events, :class_name => 'Event', :foreign_key => :host_id
   has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id
 
   has_many :attendances, :dependent => :destroy

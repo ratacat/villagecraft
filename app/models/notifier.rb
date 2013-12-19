@@ -20,7 +20,7 @@ class Notifier < ActiveRecord::Observer
       case activity.key
       when 'event.create'
         # target users who have attended any of host's past events
-        event.host.hostings.each do |hosted_event|
+        event.host.events.each do |hosted_event|
           hosted_event.attendees.each do |past_attendee|
             # temporarilly disable for MVP
             # targets << past_attendee
