@@ -2,6 +2,7 @@ class Location < ActiveRecord::Base
   attr_accessible :name, :city, :state_code, :street, :address
   has_many :venues, :dependent => :destroy
   belongs_to :neighborhood
+  acts_as_paranoid
 
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude do |obj, results|

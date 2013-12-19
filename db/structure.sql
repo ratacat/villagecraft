@@ -224,7 +224,8 @@ CREATE TABLE locations (
     country character varying(255),
     state_code character varying(255),
     time_zone character varying(255),
-    neighborhood_id integer
+    neighborhood_id integer,
+    deleted_at timestamp without time zone
 );
 
 
@@ -794,6 +795,13 @@ CREATE INDEX index_images_on_deleted_at ON images USING btree (deleted_at);
 
 
 --
+-- Name: index_locations_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_locations_on_deleted_at ON locations USING btree (deleted_at);
+
+
+--
 -- Name: index_locations_on_neighborhood_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1141,3 +1149,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131219072140');
 INSERT INTO schema_migrations (version) VALUES ('20131219072508');
 
 INSERT INTO schema_migrations (version) VALUES ('20131219072535');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219225835');
