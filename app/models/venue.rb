@@ -2,6 +2,7 @@ class Venue < ActiveRecord::Base
   attr_accessible :name, :street, :city, :state_code, :address
   attr_writer :street, :city, :state_code, :address
   has_uuid(:length => 8)
+  acts_as_paranoid
 
   belongs_to :owner, :class_name => 'User'
   belongs_to :location

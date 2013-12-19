@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid, :as => [:default, :system]
   attr_accessible :workshop_id, :as => :system
   has_uuid(:length => 8)
+  acts_as_paranoid
   
   belongs_to :host, :class_name => 'User'
   belongs_to :image, :class_name => 'Image'

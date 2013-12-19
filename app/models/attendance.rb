@@ -1,5 +1,7 @@
 class Attendance < ActiveRecord::Base
   has_uuid
+  acts_as_paranoid
+  
   attr_accessible :confirmed, :guests
 
   belongs_to :event

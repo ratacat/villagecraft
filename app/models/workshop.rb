@@ -5,9 +5,9 @@ class Workshop < ActiveRecord::Base
           :on => {:create  => proc {|model, controller| controller  },
                   :update  => proc {|model, controller| controller  },
                   :destroy => proc {|model, controller| controller  }}
-    
   attr_accessible :description, :frequency, :title, :image
   has_uuid(:length => 8)
+  acts_as_paranoid
 
   belongs_to :image
   belongs_to :host, :class_name => 'User'

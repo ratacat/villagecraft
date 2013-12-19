@@ -10,6 +10,7 @@ class Meeting < ActiveRecord::Base
   normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time
 
   has_uuid(:length => 8)
+  acts_as_paranoid
   
   belongs_to :event
   has_one :host, :through => :event

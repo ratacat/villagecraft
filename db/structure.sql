@@ -93,7 +93,8 @@ CREATE TABLE attendances (
     updated_at timestamp without time zone NOT NULL,
     state character varying(255),
     message text,
-    uuid character varying(255)
+    uuid character varying(255),
+    deleted_at timestamp without time zone
 );
 
 
@@ -143,7 +144,8 @@ CREATE TABLE events (
     image_id integer,
     state character varying(255),
     workshop_id integer,
-    first_meeting_id integer
+    first_meeting_id integer,
+    deleted_at timestamp without time zone
 );
 
 
@@ -179,7 +181,8 @@ CREATE TABLE images (
     img_file_name character varying(255),
     img_content_type character varying(255),
     img_file_size integer,
-    img_updated_at timestamp without time zone
+    img_updated_at timestamp without time zone,
+    deleted_at timestamp without time zone
 );
 
 
@@ -257,7 +260,8 @@ CREATE TABLE meetings (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     uuid character varying(255),
-    event_id integer
+    event_id integer,
+    deleted_at timestamp without time zone
 );
 
 
@@ -326,7 +330,8 @@ CREATE TABLE notifications (
     sent boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uuid character varying(255)
+    uuid character varying(255),
+    deleted_at timestamp without time zone
 );
 
 
@@ -359,7 +364,8 @@ CREATE TABLE reviews (
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -462,7 +468,8 @@ CREATE TABLE venues (
     location_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uuid character varying(255)
+    uuid character varying(255),
+    deleted_at timestamp without time zone
 );
 
 
@@ -498,7 +505,8 @@ CREATE TABLE workshops (
     host_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    uuid character varying(255)
+    uuid character varying(255),
+    deleted_at timestamp without time zone
 );
 
 
@@ -723,6 +731,13 @@ CREATE INDEX index_activities_on_trackable_id_and_trackable_type ON activities U
 
 
 --
+-- Name: index_attendances_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_attendances_on_deleted_at ON attendances USING btree (deleted_at);
+
+
+--
 -- Name: index_attendances_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -734,6 +749,13 @@ CREATE INDEX index_attendances_on_event_id ON attendances USING btree (event_id)
 --
 
 CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
+
+
+--
+-- Name: index_events_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_deleted_at ON events USING btree (deleted_at);
 
 
 --
@@ -765,10 +787,24 @@ CREATE INDEX index_events_on_workshop_id ON events USING btree (workshop_id);
 
 
 --
+-- Name: index_images_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_images_on_deleted_at ON images USING btree (deleted_at);
+
+
+--
 -- Name: index_locations_on_neighborhood_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighborhood_id);
+
+
+--
+-- Name: index_meetings_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_deleted_at ON meetings USING btree (deleted_at);
 
 
 --
@@ -793,6 +829,13 @@ CREATE INDEX index_notifications_on_activity_id ON notifications USING btree (ac
 
 
 --
+-- Name: index_notifications_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_deleted_at ON notifications USING btree (deleted_at);
+
+
+--
 -- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -804,6 +847,13 @@ CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_i
 --
 
 CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
+
+
+--
+-- Name: index_reviews_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
 
 
 --
@@ -856,6 +906,13 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_venues_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_venues_on_deleted_at ON venues USING btree (deleted_at);
+
+
+--
 -- Name: index_venues_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -867,6 +924,13 @@ CREATE INDEX index_venues_on_location_id ON venues USING btree (location_id);
 --
 
 CREATE INDEX index_venues_on_owner_id ON venues USING btree (owner_id);
+
+
+--
+-- Name: index_workshops_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_deleted_at ON workshops USING btree (deleted_at);
 
 
 --
@@ -1061,3 +1125,19 @@ INSERT INTO schema_migrations (version) VALUES ('20131125065030');
 INSERT INTO schema_migrations (version) VALUES ('20131208193226');
 
 INSERT INTO schema_migrations (version) VALUES ('20131208201630');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219070410');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219070514');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219070526');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219072112');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219072125');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219072140');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219072508');
+
+INSERT INTO schema_migrations (version) VALUES ('20131219072535');

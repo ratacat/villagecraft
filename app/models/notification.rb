@@ -1,6 +1,7 @@
 class Notification < ActiveRecord::Base
   attr_accessible :user, :activity
   has_uuid(:length => 8)
+  acts_as_paranoid
 
   belongs_to :user
   alias :target :user

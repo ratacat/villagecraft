@@ -1,6 +1,7 @@
 class Image < ActiveRecord::Base
   belongs_to :user
   has_uuid
+  acts_as_paranoid
   
   attr_accessible :img, :user
   has_attached_file :img, 
