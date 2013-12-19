@@ -11,7 +11,7 @@ gem 'pg'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'paranoia', '~> 1.0'
+gem 'paranoia', :git => "git://github.com/radar/paranoia.git"
 
 gem 'simple_form'
 gem 'x-editable-rails', :git => "git://github.com/bteitelb/x-editable-rails"
