@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 
   has_many :workshops, :foreign_key => :host_id, :dependent => :destroy
   has_many :events, :class_name => 'Event', :foreign_key => :host_id
-  has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id
+  has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id, :dependent => :destroy
 
   has_many :attendances, :dependent => :destroy
   has_many :venues, :through => :attendances, :uniq => true
