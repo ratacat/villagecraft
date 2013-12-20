@@ -4,11 +4,14 @@
 
   <div class="form-inputs">
 
-    <div class="control-group">
-      <%= f.label "Profile Image" %>
-      <div class="controls">
+    <div class="fileinput fileinput-new" data-provides="fileinput">
+      <%= f.label :photo %><br />
+      <div class="fileinput-preview control-group" data-trigger="fileinput" data-orig-img-url="<%= @user.profile_img_src(:large) %>">      
         <%= image_tag @user.profile_img_src(:large), :class => "img-rounded" %>
-        <%= f.file_field :profile_image %><br/>
+      </div>
+      <div class="control-group">
+        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><%= f.file_field :profile_image %></span>
+        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
       </div>
     </div>
 
@@ -34,13 +37,16 @@
 <% end %>
 <%= link_to "Change Password or Email", edit_user_registration_path %>
 <%= ready_script do -%>
-  $(":file").filestyle({ 
-    textField: false,
-    buttonText: "Choose photo",
-    icon: true 
+  // Use Jansy's fileinput extensions and some home-brewed CSS magic to preview what the image will look like cropped
+  $('.fileinput').fileinput().on('change.bs.fileinput', function() {
+    var img = $(this).find("img"),
+        frame = img.parent();
+    frame.css("background-color", "none");
+    frame.css("background-image", "url(" + img.attr('src') + ")");
+    img.hide();
+  }).on('clear.bs.fileinput', function() {
+    var frame = $(this).find(".fileinput-preview");
+    frame.css("background-image", "url(" + frame.data('orig-img-url') + ")");
   });
-  $("#user_profile_image").change(function() {
-      $(this).closest("form").submit();
-    }
-  );
+  
 <% end -%>

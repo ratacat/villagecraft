@@ -1,0 +1,114 @@
+// Fileinput.less
+// CSS for file upload button and fileinput widget
+// ------------------------------------------------
+
+@import "bootstrap-variables";
+
+.btn-file {
+  overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+  > input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    transform: translate(-300px, 0) scale(4);
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
+  }
+}
+
+.fileinput {
+  margin-bottom: 9px;
+  display: inline-block;
+  .uneditable-input {
+    display: inline-block;
+    margin-bottom: 0px;
+    vertical-align: middle;
+    cursor: text;
+  }
+  .thumbnail {
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 5px;
+    vertical-align: middle;
+    text-align: center;
+    > img {
+      max-height: 100%;
+    }
+  }
+  .btn {
+    vertical-align: middle;
+  }
+}
+.fileinput-exists .fileinput-new,
+.fileinput-new .fileinput-exists {
+  display: none;
+}
+.fileinput-inline .fileinput-controls {
+  display: inline;
+}
+
+.fileinput .uneditable-input {
+  white-space: normal;
+}
+
+// Not 100% correct, but helps in typical use case
+.fileinput-new .input-group .btn-file {
+  border-radius: 0 $baseBorderRadius $baseBorderRadius 0;
+}
+.fileinput-new .input-group .btn-file.btn-xs,
+.fileinput-new .input-group .btn-file.btn-sm {
+  border-radius: 0 $borderRadiusSmall $borderRadiusSmall 0;
+}
+.fileinput-new .input-group .btn-file.btn-lg {
+  border-radius: 0 $borderRadiusLarge $borderRadiusLarge 0;
+}
+
+.form-group.has-warning .fileinput {
+  .uneditable-input {
+    color: $warningText;
+    border-color: $warningBorder;
+  }
+  .fileinput-preview {
+    color: $warningText;
+  }
+  .thumbnail {
+    border-color: $warningBorder;
+  }
+}
+.form-group.has-error .fileinput {
+  .uneditable-input {
+    color: $errorText;
+    border-color: $errorBorder;
+  }
+  .fileinput-preview {
+    color: $errorText;
+  }
+  .thumbnail {
+    border-color: $errorBorder;
+  }
+}
+.form-group.has-success .fileinput {
+  .uneditable-input {
+    color: $successText;
+    border-color: $successBorder;
+  }
+  .fileinput-preview {
+    color: $successText;
+  }
+  .thumbnail {
+    border-color: $successBorder;
+  }
+}
+
+
+// Input group fixes
+
+.input-group-addon:not(:first-child) {
+  border-left: 0;
+}

@@ -418,3 +418,18 @@ td span.editable {
 a.icon_button, a.icon_button:hover {
   text-decoration: none;
 }
+
+.fileinput-preview {
+  height: $large_thumb_size;
+  width: $large_thumb_size;
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  @include border-radius($borderRadiusLarge);
+  img {
+    position: absolute;
+    @include border-radius($borderRadiusLarge);
+  }
+}
