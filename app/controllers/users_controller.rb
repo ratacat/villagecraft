@@ -75,6 +75,10 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
+    if params[:user][:host] and admin_session?
+      @user.host = params[:user][:host]
+      params[:user].delete(:host)
+    end
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
