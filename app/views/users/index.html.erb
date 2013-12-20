@@ -13,6 +13,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>Sign Ins</th>
+      <th>Privileges</th>
       <th></th>
     </tr>
   </thead>
@@ -23,7 +24,8 @@
       <td><%= user.id %></td>
       <td><%= link_to user.name, user %></td>
       <td><%= user.email %></td>
-      <td><%= user.sign_in_count.to_s + " sign ins" %></td>
+      <td><%= user.sign_in_count.to_s %></td>
+      <td><%= user.privileges.join(', ') %></td>
       <td>
         <%= link_to user, class: 'icon_button', title: 'view' do -%>
           <i class="icon-play"></i> 

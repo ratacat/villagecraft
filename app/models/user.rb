@@ -109,6 +109,13 @@ class User < ActiveRecord::Base
   def confirmed_attend_at_event?(e)
     self.attends.confirmed.where('"attendances"."event_id"=?', e.id).exists?
   end
+  
+  def privileges
+    ret = []
+    ret << 'host' if self.host?
+    ret << 'admin' if self.admin?
+    ret
+  end
 
   def send_sms(msg)
     if Rails.env.development?
