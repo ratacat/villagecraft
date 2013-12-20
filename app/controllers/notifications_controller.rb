@@ -37,7 +37,7 @@ class NotificationsController < ApplicationController
   end
   
   def be_user_or_be_admin
-    unless (current_user == @notification.target or current_user.admin?)
+    unless (current_user == @notification.target or admin_session?)
       render_error(:message => "You are not authorized to access this notification.", :status => :unauthorized)
     end
   end

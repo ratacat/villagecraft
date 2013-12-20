@@ -111,7 +111,7 @@ class UsersController < ApplicationController
   end  
   
   def be_user_or_be_admin
-    unless (current_user == @user or current_user.admin?)
+    unless (current_user == @user or admin_session?)
       render_error(:message => "You are not authorized to access this information.", :status => :unauthorized)
     end
   end
