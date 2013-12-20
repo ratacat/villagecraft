@@ -23,7 +23,7 @@ class Ability
       end
       
       # admin
-      if admin_session?
+      if user.admin? and session[:admin_mode]
         can :manage, :all
       end
     end
