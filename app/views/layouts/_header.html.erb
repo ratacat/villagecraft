@@ -37,7 +37,7 @@
               <ul class="dropdown-menu" role="menu">
                 <% if current_user.try(:host?) %>
                   <li><%= link_to 'My Profile', current_user %></li>
-                  <li><%= link_to_unless_current "My Workshops", my_workshops_path %></li>
+                  <li><%= link_to "My Workshops", my_workshops_path %></li>
                   <li class="divider"></li>
                 <% end %>
                 <li><%= link_to 'Settings', edit_preferences_path %></li>
