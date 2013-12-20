@@ -14,8 +14,6 @@
       <th>Email</th>
       <th>Sign Ins</th>
       <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
@@ -23,12 +21,20 @@
 <% @users.each do |user| %>
     <tr>
       <td><%= user.id %></td>
-      <td><%= user.name %></td>
+      <td><%= link_to user.name, user %></td>
       <td><%= user.email %></td>
       <td><%= user.sign_in_count.to_s + " sign ins" %></td>
-      <td><%= link_to 'View Profile', user %></td>
-      <td><%= link_to 'Edit', edit_user_path(user) %></td>
-      <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+      <td>
+        <%= link_to user, class: 'icon_button', title: 'view' do -%>
+          <i class="icon-play"></i> 
+        <% end -%>
+        <%= link_to edit_user_path(user), class: 'icon_button', title: 'edit' do -%>
+          <i class="icon-pencil"></i> 
+        <% end -%>
+        <%= link_to user, confirm: 'Are you sure?', method: :delete, class: 'icon_button', title: 'delete' do -%>
+          <i class="icon-remove-circle"></i> 
+        <% end %>
+      </td>
     </tr>
 <% end %>
   </tbody>
