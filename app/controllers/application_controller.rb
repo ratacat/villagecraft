@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
   end
   
   def be_host_or_be_admin(obj)
-    unless user_signed_in? and (current_user == obj.host or current_user.admin?)
+    unless user_signed_in? and (current_user == obj.host or admin_session?)
       render_error(:message => "You must be the #{obj.class.to_s.downcase}'s host or an admin to do that.", :status => :unauthorized)
       return false
     end
