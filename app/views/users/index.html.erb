@@ -9,7 +9,6 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>ID</th>
       <th>Name</th>
       <th>Email</th>
       <th>Sign Ins</th>
@@ -21,7 +20,6 @@
   <tbody>
 <% @users.each do |user| %>
     <tr>
-      <td><%= user.id %></td>
       <td><%= link_to user.name, user %></td>
       <td><%= user.email %></td>
       <td><%= user.sign_in_count.to_s %></td>
