@@ -17,6 +17,7 @@ class Workshop < ActiveRecord::Base
   has_many :reviews, :dependent => :destroy
   
   validates :title, presence: true
+  validates :host_id, presence: true
   
   after_update :propagate_changes_to_future_events
   
