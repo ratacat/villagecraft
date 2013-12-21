@@ -145,7 +145,9 @@ CREATE TABLE events (
     state character varying(255),
     workshop_id integer,
     first_meeting_id integer,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    external boolean,
+    external_url character varying(255)
 );
 
 
@@ -507,7 +509,9 @@ CREATE TABLE workshops (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     uuid character varying(255),
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    external boolean,
+    external_url character varying(255)
 );
 
 
@@ -760,6 +764,13 @@ CREATE INDEX index_events_on_deleted_at ON events USING btree (deleted_at);
 
 
 --
+-- Name: index_events_on_external; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_external ON events USING btree (external);
+
+
+--
 -- Name: index_events_on_first_meeting_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -939,6 +950,13 @@ CREATE INDEX index_venues_on_owner_id ON venues USING btree (owner_id);
 --
 
 CREATE INDEX index_workshops_on_deleted_at ON workshops USING btree (deleted_at);
+
+
+--
+-- Name: index_workshops_on_external; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_external ON workshops USING btree (external);
 
 
 --
@@ -1151,3 +1169,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131219072508');
 INSERT INTO schema_migrations (version) VALUES ('20131219072535');
 
 INSERT INTO schema_migrations (version) VALUES ('20131219225835');
+
+INSERT INTO schema_migrations (version) VALUES ('20131220083733');
+
+INSERT INTO schema_migrations (version) VALUES ('20131220083747');
