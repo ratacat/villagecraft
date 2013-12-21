@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/bteitelb/validates_url.git
+  revision: 15dc46f0970e70d35a2e635f77c0eaceeb3dd306
+  specs:
+    validate_url (0.2.0)
+      activemodel (>= 3.0.0)
+
+GIT
   remote: git://github.com/bteitelb/x-editable-rails
   revision: d4cc3c35cbb601d5b5cd064fe048123a4775e94d
   specs:
@@ -327,6 +334,7 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   uuidtools
+  validate_url!
   validates_timeliness (~> 3.0)
   verbs
   x-editable-rails!

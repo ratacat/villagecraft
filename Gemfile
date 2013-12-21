@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'x-editable-rails', :git => "git://github.com/bteitelb/x-editable-rails"
 gem 'cancan'
 gem 'validates_timeliness', '~> 3.0'
+gem "validate_url", :git => "git://github.com/bteitelb/validates_url.git"
 gem 'bootstrap-generators', '~> 2.3'
 gem 'sass-rails',   '~> 3.2.3'
 

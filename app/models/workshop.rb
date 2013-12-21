@@ -18,6 +18,7 @@ class Workshop < ActiveRecord::Base
   
   validates :title, presence: true
   validates :host_id, presence: true
+  validates :external_url, :url => {:allow_nil => true}
   
   after_update :propagate_changes_to_future_events
   
