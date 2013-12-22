@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   helper :application, :users, :activities, :events, :meetings, :venues
-  default from: "villagecraft@villagecraft.org"
+  default from: "notifications@villagecraft.org"
 
   def confirm_attendance(attendance)
     @user = attendance.user
