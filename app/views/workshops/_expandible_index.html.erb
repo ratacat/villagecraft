@@ -42,11 +42,7 @@
                 <div style="margin: 15px 0;">
                   <span class="text-success"><i class="icon-check icon-large"></i>&nbsp you are<br>signed up</span>
                 </div>
-              <% else %>
-                <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => true) %></h4>
               <% end %>
-            <% else %>
-              <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => true) %></h4>
             <% end %>
             <% unless workshop.ongoing_or_next_rerun.first_meeting.ongoing? %>
               <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => workshop.ongoing_or_next_rerun} %></span>
