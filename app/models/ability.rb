@@ -2,15 +2,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, session)
-    alias_action :update, :destroy, :accept_attendee, :cancel_attend, :to => :manage_as_host
-    
+    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :to => :manage_as_host
+
     # anyone
     can [:show, :attend_by_email], Event
     
     # signed-in user  
     if not user.blank?
       can [:show, :attend, :attend_by_email], Event
-      cannot :manage_as_host
+      cannot :manage_as_host, Event
+      
+      can [:show], User
+      can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
       
       # host
       if user.host?

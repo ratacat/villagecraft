@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
-  before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :find_user, :except => [:index, :new, :create, :edit_preferences, :update_preferences]
-  before_filter :be_user_or_be_admin, :only => [:edit, :update]
+  load_and_authorize_resource(:find_by => :uuid)
   
   # GET /users
   # GET /users.json
