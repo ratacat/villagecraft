@@ -39,6 +39,7 @@ Villagecraft::Application.routes.draw do
   namespace :admin do 
     get '' => 'dashboard#index', as: '/'
     get 'recent_activity' => 'dashboard#recent_activity', :as => :recent_activity
+    resources :users
   end
     
   root :to => 'pages#home'

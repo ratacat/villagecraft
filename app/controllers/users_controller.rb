@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
+  before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
   load_and_authorize_resource(:find_by => :uuid)
   
   # GET /users
