@@ -37,10 +37,10 @@ Villagecraft::Application.routes.draw do
 
   get 'about' => 'pages#about'
   namespace :admin do 
-    get '', to: 'dashboard#index', as: '/'
+    get '' => 'dashboard#index', as: '/'
+    get 'recent_activity' => 'dashboard#recent_activity', :as => :recent_activity
   end
     
-  get '/recent_activity' => 'application#recent_activity', :as => :recent_activity
   root :to => 'pages#home'
 
   # The priority is based upon order of creation:
