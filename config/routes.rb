@@ -36,7 +36,10 @@ Villagecraft::Application.routes.draw do
   get '/tos' => 'application#tos', :as => :tos
 
   get 'about' => 'pages#about'
-  get '/dash' => 'application#dash', :as => :dash
+  namespace :admin do 
+    get '', to: 'dashboard#index', as: '/'
+  end
+    
   get '/recent_activity' => 'application#recent_activity', :as => :recent_activity
   root :to => 'pages#home'
 

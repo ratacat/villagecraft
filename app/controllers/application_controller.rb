@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :sign_in_if_auth_token
   before_filter :fetch_notifications
   after_filter :store_location, :except => [:attend_by_email]
-  before_filter :require_admin, :only => [:dash, :recent_activity]
+  before_filter :require_admin, :only => [:recent_activity]
 
   ACTIVITIES_PER_PAGE = 100
 

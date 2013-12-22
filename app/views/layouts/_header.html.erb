@@ -42,10 +42,10 @@
                 <% end %>
                 <li><%= link_to 'Settings', edit_preferences_path %></li>
                 <% if session[:admin_mode] %>
-                <li class="divider"></li>
-                <li><%= link_to 'Admin Dashboard', dash_path %></li>                
-                <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>                
-                <li class="divider"></li>
+                  <li class="divider"></li>
+                  <li><%= link_to 'Admin Dashboard', admin_path %></li>                
+                  <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>                
+                  <li class="divider"></li>
                 <% end %>
                 <li><%= link_to "Log Out", destroy_user_session_path, method: :delete %></li>
               </ul>
