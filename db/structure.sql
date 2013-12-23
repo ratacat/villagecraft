@@ -138,7 +138,7 @@ CREATE TABLE events (
     end_time timestamp without time zone,
     secret character varying(255),
     short_title character varying(255),
-    price integer,
+    price numeric(8,2) DEFAULT 0,
     venue_id integer,
     uuid character varying(255),
     image_id integer,
@@ -437,7 +437,8 @@ CREATE TABLE users (
     name character varying(255),
     host boolean,
     authentication_token character varying(255),
-    email_notifications boolean DEFAULT true
+    email_notifications boolean DEFAULT true,
+    external boolean
 );
 
 
@@ -904,6 +905,13 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
+-- Name: index_users_on_external; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_external ON users USING btree (external);
+
+
+--
 -- Name: index_users_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1173,3 +1181,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131219225835');
 INSERT INTO schema_migrations (version) VALUES ('20131220083733');
 
 INSERT INTO schema_migrations (version) VALUES ('20131220083747');
+
+INSERT INTO schema_migrations (version) VALUES ('20131222080919');
+
+INSERT INTO schema_migrations (version) VALUES ('20131223092627');
