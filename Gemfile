@@ -24,7 +24,7 @@ gem 'sass-rails',   '~> 3.2.3'
 gem 'attribute_normalizer'
 
 gem 'geocoder'
-gem  'googlestaticmap'
+gem 'googlestaticmap'
 
 gem 'google_timezone'
 gem 'uuidtools'
