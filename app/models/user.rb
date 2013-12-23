@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   acts_as_paranoid
 
   # Include default devise modules. Others available are:
@@ -17,7 +18,7 @@ class User < ActiveRecord::Base
   end
   
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
+  # attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
   attr_writer :city, :state
   has_uuid(:length => 8)
 

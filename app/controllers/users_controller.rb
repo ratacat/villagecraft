@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
+
+  # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
+  before_filter do
+    params[:user] &&= user_params
+  end
   load_and_authorize_resource(:find_by => :uuid)
   
   # GET /users
@@ -47,7 +52,7 @@ class UsersController < ApplicationController
   def update_preferences
     @user = current_user
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html { redirect_to root_path, notice: 'Your preferences have been updated.' }
         format.json { head :no_content }
       else
@@ -74,12 +79,8 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    if params[:user][:host] and admin_session?
-      @user.host = params[:user][:host]
-      params[:user].delete(:host)
-    end
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
@@ -115,4 +116,9 @@ class UsersController < ApplicationController
     end
   end
   
+  def user_params
+    ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications]
+    ok_params += [:host, :external] if admin_session?
+    params[:user].permit(*ok_params)
+  end
 end

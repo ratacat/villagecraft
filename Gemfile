@@ -21,6 +21,7 @@ gem "validate_url", :git => "git://github.com/bteitelb/validates_url.git"
 gem 'bootstrap-generators', '~> 2.3'
 gem 'sass-rails',   '~> 3.2.3'
 
+gem 'strong_parameters'
 gem 'attribute_normalizer'
 
 gem 'geocoder'
