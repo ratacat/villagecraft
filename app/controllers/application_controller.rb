@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   include PublicActivity::StoreController
   
   protect_from_forgery
-  before_filter :sign_in_if_auth_token
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :authenticate_user_from_token!  # from https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
   before_filter :fetch_notifications
   after_filter :store_location, :except => [:attend_by_email]
 
@@ -55,13 +56,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def sign_in_if_auth_token
-    if params[:auth_token].present?
-      @user = User.find_by_authentication_token(params[:auth_token])
-      sign_in @user if @user
-    end
-  end
-    
   def fetch_notifications
     if user_signed_in?
       @notifications = current_user.notifications.order('created_at desc').limit(10)
@@ -76,5 +70,30 @@ class ApplicationController < ActionController::Base
     end
     return true
   end
-    
+  
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << :name
+    devise_parameter_sanitizer.for(:sign_up) << :phone
+  end
+   
+  # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
+  private
+  # For this example, we are simply using token authentication
+  # via parameters. However, anyone could use Rails's token
+  # authentication features to get the token from a header.
+  
+  # FIXME: consider getting paranoid about timing attacks and requiring email + auth_token and using secure_compare per Jose Valim's suggestion in the gist and here:
+  # http://blog.plataformatec.com.br/2013/08/devise-3-1-now-with-more-secure-defaults/
+  def authenticate_user_from_token!
+    user_token = params[:auth_token].presence
+    user       = user_token && User.find_by_authentication_token(user_token.to_s)
+ 
+    if user
+      # Notice we are passing store false, so the user is not
+      # actually stored in the session and a token is needed
+      # for every request. If you want the token to work as a
+      # sign in token, you can simply remove store: false.
+      sign_in user, store: false
+    end
+  end
 end
