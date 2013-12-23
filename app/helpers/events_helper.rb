@@ -1,12 +1,13 @@
 module EventsHelper
   def event_price(event, options={})
     defaults = {
-      :show_materials_fee => false
+      :show_materials_fee => false,
+      :free_msg => 'Free!'
     }
     options.reverse_merge!(defaults)
     
     if event.price.blank? or event.price === 0
-      'Free!'
+      options[:free_msg]
     else
       html = number_to_currency(event.price)
       html += ' materials fee' if options[:show_materials_fee]
