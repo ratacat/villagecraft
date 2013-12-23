@@ -1,4 +1,4 @@
-<%= simple_form_for(@user, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
+<%= simple_form_for(@user, :url => controller.is_a?(Admin::UsersController) ? "/admin/users" : "/users", :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
   
 
@@ -16,15 +16,19 @@
     </div>
 
     <%= f.input :name, label: 'Name' %>
+    <% if admin_session? %>
+      <%= f.input :email, label: 'Email' %>
+    <% end %>
     <%= f.input :phone, label: 'Mobile Number' %>
     <%= f.input :city, label: 'City' %>
     <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
     
     <% if admin_session? %>
     <div class="well">
-      <h4 class="admin_color">Admin-only Area</h4>
+      <h4 class="admin_color margin_top0">Admin-only Area</h4>
       <div class="control-group">
         <%= f.input :host, inline_label: 'Host', label: false %>
+        <%= f.input :external, inline_label: 'External User', label: false %>
       </div>
     </div>
     <% end %>
