@@ -94,28 +94,20 @@ class EventsController < ApplicationController
   # POST /attend/1
   # POST /attend/1.json
   def attend
-    unless @event.slots_left > 0
+    if @event.external?
+      render_error(:message => "Event is external; you cannot sign up for it through Villagecraft", :status => 403)
+    elsif @event.slots_left <= 0
       render_error(:message => "Event is full", :status => 403)
-      return
-    end
-    
-    begin
+    elsif current_user.attending_event?(@event)
+      render_error(:message => "You are already attending this event", :status => 403)
+    else
       current_user.attends << @event
-    rescue ActiveRecord::RecordInvalid => e
+      @event.create_activity key: 'event.interested', owner: current_user
       respond_to do |format|
-        format.html { redirect_to root_path, notice: "You are already attending this event" }
+        format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
         format.json { head :no_content }
       end
-      return
     end
-    
-    @event.create_activity key: 'event.interested', owner: current_user
-    
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
-      format.json { head :no_content }
-    end
-    
   end
   
   # POST /attend_by_email/1
