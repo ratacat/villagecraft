@@ -25,7 +25,8 @@ class Ability
         cannot :cancel_attend, Event do |event|
           event.occurred?
         end
-        can :update, Meeting      
+        
+        can :update, Meeting
       end
       
       # admin
