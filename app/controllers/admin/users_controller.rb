@@ -16,7 +16,7 @@ class Admin::UsersController < UsersController
   def create
     @user.password ||= Devise.friendly_token[0,20]
     respond_to do |format|
-      if @user.save!
+      if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
