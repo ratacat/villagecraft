@@ -1,16 +1,22 @@
 <% if event %>
-  <% if event.slots_left > 0 %>
-    <% if user_signed_in? %>
-      <% unless current_user.attending_event?(event) %>
-        <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
-          <i class="icon-check icon-large"></i>Do it
-        <% end -%>
+  <% if event.external? %>
+    <%= link_to event.external_url, :title => event.external_url, :target => "_blank" do -%>
+      more info <i class="icon-external-link"></i>
+    <% end -%>
+  <% else %>
+    <% if event.slots_left > 0 %>
+      <% if user_signed_in? %>
+        <% unless current_user.attending_event?(event) %>
+          <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
+            <i class="icon-check icon-large"></i>Do it
+          <% end -%>
+        <% end %>
+      <% else %>
+        <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large"><i class="icon-check icon-large text-success"></i><%= event_price(event, :free_msg => 'Free') %></button>
       <% end %>
     <% else %>
-      <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large"><i class="icon-check icon-large text-success"></i><%= event_price(event, :free_msg => 'Free') %></button>
+      <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
     <% end %>
-  <% else %>
-    <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
   <% end %>
 <% else %>
   None upcoming
