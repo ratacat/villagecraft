@@ -34,7 +34,7 @@
         <% end %>
       </td>
       <td class="attends">
-        <% if next_rerun %>
+        <% if next_rerun and not next_rerun.external? %>
           <div class="blocky_spns">
             <% if next_rerun.slots_left == 0 %>
               <span class="blocky_attend text-error"><%= next_rerun.attendances.count %></span><span class="text-error">going</span>
