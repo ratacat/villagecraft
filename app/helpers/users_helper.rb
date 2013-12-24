@@ -18,7 +18,8 @@ module UsersHelper
   def contextualized_user_link(user, options={})
     defaults = {
       :linked => true,
-      :only_path => true
+      :only_path => true,
+      :annotate => false
     }
     options.reverse_merge!(defaults)
     if options[:linked]
@@ -37,12 +38,18 @@ module UsersHelper
   end
   
   def contextualized_user_name(user, options={})
-    viewing_user = (options[:viewer] || current_user)
+    defaults = {
+      :annotate => false,
+      :viewer => current_user
+    }
+    options.reverse_merge!(defaults)
     name = 
     if user.blank?
       'a former user'
-    elsif user === viewing_user
+    elsif user === options[:viewer]
       options[:capitalize] ? 'You' : 'you'
+    elsif options[:annotate]
+      annotated_user_name(user)
     else
       user.name
     end
