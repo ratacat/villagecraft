@@ -17,6 +17,9 @@ class Ability
       
       # host
       if user.host?
+        can :manage, Workshop, :host_id => user.id
+        can :my_workshops, Workshop
+        
         can [:new], Event
         can :manage_as_host, Event, :host_id => user.id
         cannot :cancel_attend, Event do |event|

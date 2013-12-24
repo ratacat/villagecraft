@@ -1,11 +1,11 @@
 class Workshop < ActiveRecord::Base
   extend ActiveSupport::Memoizable
+  include ActiveModel::ForbiddenAttributesProtection
   include PublicActivity::Model
   tracked :owner => Proc.new{ |controller, model| controller.try(:current_user) },
           :on => {:create  => proc {|model, controller| controller  },
                   :update  => proc {|model, controller| controller  },
                   :destroy => proc {|model, controller| controller  }}
-  attr_accessible :description, :frequency, :title, :image
   has_uuid(:length => 8)
   acts_as_paranoid
 

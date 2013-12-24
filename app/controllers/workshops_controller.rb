@@ -1,9 +1,10 @@
 class WorkshopsController < ApplicationController
-  before_filter :find_workshop, :except => [:index, :my_workshops, :new, :create]
-  before_filter :authenticate_user!, except: [:index, :show]
-  before_filter :require_admin, :only => [:index]
-  before_filter :require_host, :only => [:my_workshops]
-  before_filter :only => [:edit, :update] { |c| c.be_host_or_be_admin(@workshop) }
+  
+  # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
+  before_filter do
+    params[:workshop] &&= workshop_params
+  end
+  load_and_authorize_resource(:find_by => :uuid)
   
   def my_workshops
     @workshops = Workshop.where(:host_id => current_user).order(:updated_at).reverse_order
@@ -42,7 +43,11 @@ class WorkshopsController < ApplicationController
   # GET /workshops/new.json
   def new
     @workshop = Workshop.new
-    @workshop.host = current_user
+    if admin_session? and params[:external]
+      @workshop.external = true
+    else
+      @workshop.host = current_user
+    end
     
     respond_to do |format|
       format.html # new.html.erb
@@ -65,8 +70,10 @@ class WorkshopsController < ApplicationController
   # POST /workshops
   # POST /workshops.json
   def create
-    @workshop = Workshop.new(params[:workshop])
-    @workshop.host = current_user
+    @workshop = Workshop.new(workshop_params)
+    unless admin_session?
+      @workshop.host = current_user
+    end
     
     respond_to do |format|
       if @workshop.save
@@ -83,7 +90,7 @@ class WorkshopsController < ApplicationController
   # PUT /workshops/1.json
   def update
     respond_to do |format|
-      if @workshop.update_attributes(params[:workshop])
+      if @workshop.update_attributes(workshop_params)
         format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop successfully updated.' }
         format.json { head :no_content }
       else
@@ -101,13 +108,11 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  protected
-  def find_workshop
-    begin
-      @workshop = Workshop.find_by_uuid(params["id"].split('-').first)
-    rescue Exception => e
-    end
-    render_error(:message => "workshop #{params["id"]} not found.", :status => 404) if @workshop.blank?
-  end  
+  protected  
+  def workshop_params
+    ok_params = [:title, :description, :frequency, :image]
+    ok_params += [:external, :external_url] if admin_session?
+    params[:workshop].permit(*ok_params)
+  end
   
 end
