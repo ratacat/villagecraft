@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid, :as => [:default, :system]
-  attr_accessible :workshop_id, :as => :system
+  attr_accessible :workshop_id, :external, :external_url, :as => :system
   has_uuid(:length => 8)
   acts_as_paranoid
   
@@ -156,7 +156,7 @@ class Event < ActiveRecord::Base
       venue = nil
       max_attendees = 8
     end
-    
+        
     # don't allow new rerun to start in the past
     if start_time < Time.now
       duration = end_time - start_time
@@ -170,6 +170,8 @@ class Event < ActiveRecord::Base
                            :host => workshop.host, 
                            :price => price, 
                            :max_attendees => max_attendees,
+                           :external => workshop.external,  # always inherit external attributes from parent workshop
+                           :external_url => workshop.external_url,
                            :workshop_id => workshop.id}, :as => :system)
     Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
   end
