@@ -1,6 +1,5 @@
-<%= simple_form_for(@user, :url => controller.is_a?(Admin::UsersController) ? "/admin/users" : "/users", :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
+<%= simple_form_for(@user, :url => controller.is_a?(Admin::UsersController) ? "/admin/users" : @user, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
-  
 
   <div class="form-inputs">
 
