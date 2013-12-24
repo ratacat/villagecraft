@@ -9,15 +9,11 @@
 <ul class="thumbnails">
   <li class="span<%= span %>">
     <div class="thumbnail<%= " right-caption" if right_caption %>">
-      <% if linked %>
-        <%= link_to image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), linked_to %>
-      <% end %>
+      <%= link_to image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), linked_to %>
     </div>
     <div class="caption <%= thumb_size %><%= " right-caption" if right_caption %>">
       <span>
-        <% if linked %>
-          <%= link_to workshop.title, linked_to %>
-        <% end %>
+        <%= link_to annotated_workshop_title(workshop), linked_to, :title => "#{'external workshop' if workshop.external?}" %>
       </span>
     </div>
   </li>

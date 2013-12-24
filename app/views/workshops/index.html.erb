@@ -1,4 +1,8 @@
-<h1>All Workshops</h1>
+<%= link_to new_workshop_path(:external => true), :class => 'btn btn-warning pull-right' do %>
+  <i class="icon-external-link icon-white"></i>
+  New External Workshop
+<% end %>
+<h1>Workshops</h1>
 <div>
   <% if @workshops.blank? %>
     No workshops.

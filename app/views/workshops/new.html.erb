@@ -1,6 +1,5 @@
-<h1>New Workshop</h1>
-
-<div class="span5">
+<div class="row">
+  <h1>New <%= @workshop.external ? 'External Workshop' : 'Workshop' %></h1>
   <%= render 'form' %>
 </div>
 
