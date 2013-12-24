@@ -49,6 +49,14 @@ module UsersHelper
     name
   end
   
+  def annotated_name(user, options={})
+    html = user.name
+    if user.external?
+      html += " " + content_tag(:i, '', :class => 'icon-external-link')      
+    end
+    html.html_safe
+  end
+  
   def rich_user_thumbnail(user, options={})
     defaults = {
       :thumbnail_classes => 'thumbnail right-caption clearfix',

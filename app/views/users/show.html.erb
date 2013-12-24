@@ -13,10 +13,13 @@
       <% end %>
       <dt>Joined Villagecraft</dt>
       <dd><%= time_ago(@user.created_at) %></dd>
+      <% if @user.external? %>
+        <dt>External User</dt>
+      <% end %>
     </dl>  
   </div>
   <img src="<%= @user.profile_img_src %>" class="img-rounded">
-  <h1><%= @user.name %><br/><small><%= @user.city %>, <%= @user.state %></small></h1>
+  <h1><%= annotated_name(@user) %><br/><small><%= @user.city %>, <%= @user.state %></small></h1>
   <% if current_user === @user %>
     <%= link_to "Edit Profile", edit_user_path(current_user) %>
   <% end %>

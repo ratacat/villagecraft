@@ -121,6 +121,7 @@ class User < ActiveRecord::Base
     ret = []
     ret << 'host' if self.host?
     ret << 'admin' if self.admin?
+    ret << 'external' if self.external?
     ret
   end
 
