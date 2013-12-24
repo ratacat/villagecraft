@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       redirect_to root_path, :alert => "You have left admin mode and are again just a normal user."
     else
       session[:admin_mode] = true
-      redirect_to root_path, :alert => "Admin mode enabled for this session."      
+      redirect_to admin_path, :alert => "Admin mode enabled for this session."      
     end
   end
   
