@@ -25,7 +25,7 @@
             <% end %>
           </div>
         <% end %>
-        <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= workshop.title %></h3>
+        <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= annotated_workshop_title(workshop) %></h3>
         <div class="more muted very_faint"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
       <td>
@@ -34,7 +34,7 @@
     </tr>
     <tr style="display: none;" class="event_detail">
       <td>
-        <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= workshop.title %></h3>
+        <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= annotated_workshop_title(workshop) %></h3>
         <div class="span2 pull-right center-text">
           <% if workshop.ongoing_or_next_rerun %>
             <% if user_signed_in? %>
