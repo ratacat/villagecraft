@@ -4,7 +4,7 @@
 en:
   unauthorized:
     manage:
-      all: "Sorry, you are not authorized to %{action} %{subject}."
+      all: "Sorry, you are not authorized to %{action} that %{subject}."
     manage_as_host:
       event: "You must be the host of that workshop to do that."
   time:
