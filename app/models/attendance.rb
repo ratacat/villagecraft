@@ -9,6 +9,7 @@ class Attendance < ActiveRecord::Base
   belongs_to :user
   
   validates_uniqueness_of :user_id, :scope => :event_id
+  validate :event_is_not_external
   
   after_create :send_confirmation_email
   
@@ -32,4 +33,9 @@ class Attendance < ActiveRecord::Base
     UserMailer.confirm_attendance(self).deliver
   end
   
+  def event_is_not_external
+    if self.event.external?
+      errors.add(:event, "is external; you cannot sign up for it through Villagecraft")
+    end
+  end
 end
