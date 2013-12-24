@@ -23,7 +23,7 @@
       <td class="blocky_spns">
         <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.last_meeting.blank? %>
       </td>
-      <% if show_host -%><td><%= link_to workshop.host.name, workshop.host %></td><% end -%>
+      <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>
     </tr>
 <% end %>
   </tbody>

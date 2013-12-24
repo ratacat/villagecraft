@@ -19,7 +19,7 @@
     </dl>  
   </div>
   <img src="<%= @user.profile_img_src %>" class="img-rounded">
-  <h1><%= annotated_name(@user) %><br/>
+  <h1><%= annotated_user_name(@user) %><br/>
   <% unless @user.location.blank? %>
     <small><%= city_n_state(@user.location) %></small>
   <% end %>

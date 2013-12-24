@@ -20,7 +20,7 @@
   <tbody>
 <% @users.each do |user| %>
     <tr>
-      <td><%= link_to annotated_name(user), user %></td>
+      <td><%= link_to annotated_user_name(user), user %></td>
       <td><%= user.email %></td>
       <td><%= user.sign_in_count.to_s %></td>
       <td><%= user.privileges.join(', ') %></td>

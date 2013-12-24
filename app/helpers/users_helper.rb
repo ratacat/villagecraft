@@ -49,7 +49,7 @@ module UsersHelper
     name
   end
   
-  def annotated_name(user, options={})
+  def annotated_user_name(user, options={})
     html = user.name
     if user.external?
       html += " " + content_tag(:i, '', :class => 'icon-external-link')      
