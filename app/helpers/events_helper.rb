@@ -16,6 +16,14 @@ module EventsHelper
   end
   alias :rerun_price :event_price
   
+  def annotated_event_title(event, options={})
+    html = event.title
+    if event.external?
+      html += " " + content_tag(:i, '', :class => 'icon-external-link')      
+    end
+    html.html_safe
+  end
+  
   def blur_event_location?(event)
     not (user_signed_in? and (current_user === event.host or current_user.attending_event?(event)))
   end
