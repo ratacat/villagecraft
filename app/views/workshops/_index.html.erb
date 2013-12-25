@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <th class="span6">Title</th>
+      <th>Link</th>
       <th>Reruns</th>
       <th>Next Meeting</th>
       <th>Last Meeting</th>
@@ -16,6 +17,7 @@
 <% @workshops.each do |workshop| %>
     <tr>
       <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true} %></td>
+      <td><%= render :partial => 'promo_link', :locals => {:workshop => workshop} %></td>
       <td><%= workshop.events.count %></td>
       <td class="blocky_spns">
         <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>

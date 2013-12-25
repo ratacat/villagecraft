@@ -54,6 +54,10 @@ jQuery(function($) {
   $('.click_to_show').click(function(e) {
     window.document.location = $(this).attr("href");
   });
+    
+  var zclip = new ZeroClipboard($('button.zero_clip_button'));
+  $(zclip.htmlBridge).tooltip({title: "copy to clipboard", placement: 'bottom', delay: { show: 10, hide: 400 }});
+
   // Default AJAX error handler
   $(document).on("ajax:error", function(evt, xhr, status, error) {
     var errors = $.parseJSON(xhr.responseText).errors.join("; ");
