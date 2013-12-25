@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
       self.authentication_token = generate_authentication_token
     end
   end
+  after_create :welcome_the_new_user
   
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
@@ -84,6 +85,10 @@ class User < ActiveRecord::Base
     else
       0
     end
+  end
+
+  def first_name
+    self.name.split[0]
   end
 
   def city
@@ -180,6 +185,10 @@ class User < ActiveRecord::Base
   protected
   def find_or_create_location_from_address
     self.location ||= Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
+  end
+  
+  def welcome_the_new_user
+    UserMailer.welcome_email(self).deliver unless self.external?
   end
   
   def normalize_phone

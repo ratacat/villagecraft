@@ -19,4 +19,9 @@ class UserMailer < ActionMailer::Base
     @user = notification.user
     mail(to: @user.email, subject: notification.to_s)    
   end
+  
+  def welcome_email(user)
+    @user = user
+    mail(to: @user.email, subject: "Welcome to Villagecraft")
+  end
 end
