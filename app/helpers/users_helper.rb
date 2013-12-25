@@ -39,11 +39,9 @@ module UsersHelper
   
   def contextualized_user_name(user, options={})
     defaults = {
-      :annotate => false,
-      :viewer => defined?(current_user) ? current_user : nil
+      :annotate => false
     }
     options.reverse_merge!(defaults)
-    raise "Must specify viewer in contextualized_user_name" if options[:viewer].blank?
     name = 
     if user.blank?
       'a former user'
