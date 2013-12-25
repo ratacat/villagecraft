@@ -1,6 +1,6 @@
 class Neighborhood < ActiveRecord::Base
   attr_accessible :name, :city, :state, :county
-  has_many :locations, :dependent => :destroy
+  has_many :locations, :dependent => :destroy, :conditions => {:deleted_at => nil}
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
 
   after_save :check_whether_any_locations_sans_hood_are_in_the_new_hood

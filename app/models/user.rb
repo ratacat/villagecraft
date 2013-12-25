@@ -22,11 +22,11 @@ class User < ActiveRecord::Base
   attr_writer :city, :state
   has_uuid(:length => 8)
 
-  has_many :workshops, :foreign_key => :host_id, :dependent => :destroy
+  has_many :workshops, :foreign_key => :host_id, :dependent => :destroy, :conditions => {:deleted_at => nil}
   has_many :events, :class_name => 'Event', :foreign_key => :host_id
-  has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id, :dependent => :destroy
+  has_many :owned_venues, :class_name => 'Venue', :foreign_key => :owner_id, :dependent => :destroy, :conditions => {:deleted_at => nil}
 
-  has_many :attendances, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil}
   has_many :venues, :through => :attendances, :uniq => true
   has_many :attends, :through => :attendances, :source => :event, :uniq => true do
     def confirmed
@@ -34,9 +34,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :reviews, :foreign_key => :author_id, :dependent => :destroy
+  has_many :reviews, :foreign_key => :author_id, :dependent => :destroy, :conditions => {:deleted_at => nil}
   belongs_to :location
-  has_many :images, :dependent => :destroy
+  has_many :images, :dependent => :destroy, :conditions => {:deleted_at => nil}
   belongs_to :profile_image, :class_name => 'Image'
 
   has_many :notifications

@@ -12,13 +12,13 @@ class Event < ActiveRecord::Base
   belongs_to :image, :class_name => 'Image'
 
   belongs_to :workshop
-  has_many :meetings, :dependent => :destroy
+  has_many :meetings, :dependent => :destroy, :conditions => {:deleted_at => nil}
   belongs_to :first_meeting, :class_name => 'Meeting'
   
   belongs_to :venue
   has_one :location, :through => :venue
   
-  has_many :attendances, :dependent => :destroy do
+  has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)
       where(:state => state)
     end

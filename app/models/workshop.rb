@@ -11,10 +11,10 @@ class Workshop < ActiveRecord::Base
 
   belongs_to :image
   belongs_to :host, :class_name => 'User'
-  has_many :events, :dependent => :destroy
+  has_many :events, :dependent => :destroy, :conditions => {:deleted_at => nil}
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
-  has_many :reviews, :dependent => :destroy
+  has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
   validates :title, presence: true
   validates :host_id, presence: true
