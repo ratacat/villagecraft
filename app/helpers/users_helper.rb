@@ -39,7 +39,8 @@ module UsersHelper
   
   def contextualized_user_name(user, options={})
     defaults = {
-      :annotate => false
+      :annotate => false,
+      :viewer => defined?(current_user) ? current_user : nil
     }
     options.reverse_merge!(defaults)
     name = 
