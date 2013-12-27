@@ -35,6 +35,14 @@ namespace :nginx do
   end
 end
 
+namespace :deploy do
+  desc "build missing paperclip styles"
+  task :build_missing_paperclip_styles, :roles => :app do
+    run "cd #{release_path}; RAILS_ENV=production bundle exec rake paperclip:refresh:missing_styles"
+  end
+end
+
+after("deploy:update_code", "deploy:build_missing_paperclip_styles")
 after 'deploy:restart', 'deploy:migrate', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
 # if you want to clean up old releases on each deploy uncomment this:
