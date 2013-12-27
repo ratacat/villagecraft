@@ -323,7 +323,7 @@ table.table.when_where_host_table tr td.host {
   margin-left:240px;
 }
 
-.required abbr[title="required"] {visibility:hidden;}
+label abbr[title] { border: none; }
 
 #footer {
   margin-top: 2000px;
