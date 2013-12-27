@@ -94,6 +94,7 @@ class UsersController < ApplicationController
   def user_params
     ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications]
     ok_params += [:host, :external] if admin_session?
+    ok_params += [:description] if current_user.host?
     params[:user].permit(*ok_params)
   end
 end

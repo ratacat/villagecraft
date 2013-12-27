@@ -438,7 +438,8 @@ CREATE TABLE users (
     host boolean,
     authentication_token character varying(255),
     email_notifications boolean DEFAULT true,
-    external boolean
+    external boolean,
+    description text
 );
 
 
@@ -1185,3 +1186,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131220083747');
 INSERT INTO schema_migrations (version) VALUES ('20131222080919');
 
 INSERT INTO schema_migrations (version) VALUES ('20131223092627');
+
+INSERT INTO schema_migrations (version) VALUES ('20131227181226');

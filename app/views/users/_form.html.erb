@@ -18,6 +18,9 @@
     <% if admin_session? %>
       <%= f.input :email, label: 'Email' %>
     <% end %>
+    <% if @user.host? %>
+      <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+    <% end %>
     <%= f.input :phone, label: 'Mobile Number' %>
     <%= f.input :city, label: 'City' %>
     <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
@@ -39,6 +42,8 @@
   </div>
 <% end %>
 <%= link_to "Change Password or Email", edit_user_registration_path %>
+
+<%= render :partial => 'shared/markdown_a_la_carte' %>
 <%= ready_script do -%>
   // Use Jansy's fileinput extensions and some home-brewed CSS magic to preview what the image will look like cropped
   $('.fileinput').fileinput().on('change.bs.fileinput', function() {
