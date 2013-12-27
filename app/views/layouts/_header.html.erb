@@ -54,9 +54,11 @@
         </ul>
 
       <!-- Be sure to leave the brand out there if you want it shown -->
-      <div style="villagecraft-header">
-        <%= link_to(image_tag("villagecraft250.png", class: "villagecraft-image"), "/") %>
-        <%= link_to(image_tag("villagecraft-eb.png"), "/") %>
+      <div>
+        <%= link_to "/" do -%>
+          <%= image_tag "villagecraft_logo_100.png" %>
+          <%= image_tag "villagecraft_wordmark_75.png" %>
+        <% end -%>
       </div>
 
         <!-- .nav, .navbar-search, .navbar-form, etc -->
