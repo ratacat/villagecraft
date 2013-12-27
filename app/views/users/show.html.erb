@@ -1,4 +1,5 @@
 <div class="page-header">
+  <% if false %>
   <div class="well well-small" style="float: right;">
     <dl class="dl-horizontal">
       <% if false %>
@@ -18,13 +19,34 @@
       <% end %>
     </dl>  
   </div>
-  <img src="<%= @user.profile_img_src %>" class="img-rounded">
-  <h1><%= annotated_user_name(@user) %><br/>
-  <% unless @user.location.blank? %>
-    <small><%= city_n_state(@user.location) %></small>
   <% end %>
-  </h1>
+  <div class="row">
+    <div class="span3">
+      <%= image_tag @user.profile_img_src(:xlarge), :class => "img-rounded" %>      
+    </div>
+    <div class="span6">
+      <h1 class="margin_top0"><%= annotated_user_name(@user) %>
+      <% unless @user.location.blank? %>
+        <small><%= city_n_state(@user.location) %></small>
+      <% end %>
+      </h1>
+      <p>
+        <span class="badge badge-info vc_badge"><%= pluralize(@workshops.count, "workshop") %></span>
+      </p>
+      <div class="normalized_markdown">
+        <%= markdown(@user.description.try(:html_safe), :mkd_noheader) %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <h3>Workshops Hosted</h3>
+      <%= render :partial => 'workshops/expandible_index', :locals => {:workshops => @workshops} %>    
+    </div>
+  </div>
+
   <% if current_user === @user %>
+    <hr>
     <%= link_to "Edit Profile", edit_user_path(current_user) %>
   <% end %>
 </div>

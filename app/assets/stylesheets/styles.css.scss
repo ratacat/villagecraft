@@ -34,6 +34,12 @@ body h2 {
   float: right;
 }
 
+.vc_badge {
+  font-size: 120%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .popover {
   max-width: 300px;
   width: auto;
@@ -310,15 +316,6 @@ table.table.when_where_host_table tr td.host {
 
 }
 
-#villagecraft-header {
-  height:100px;
-
-}
-
-.villagecraft-image {
-  display: inline;
-}
-
 .modal-letsdoit {
   margin-left:240px;
 }
@@ -357,7 +354,7 @@ button.zero_clip_button {
 }
 
 /* normalize all markdown-generated headers to Bootstrap's H4 styling */
-.event_description {
+.event_description, .normalized_markdown {
   h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
     font-weight: bold;

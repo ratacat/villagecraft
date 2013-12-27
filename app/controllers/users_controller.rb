@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @workshops = Workshop.where(:host_id => @user)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
