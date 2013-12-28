@@ -36,7 +36,8 @@
               <% end %>
               <ul class="dropdown-menu pull-right" role="menu">
                 <% if current_user.try(:host?) %>
-                  <li><%= link_to 'My Profile', current_user %></li>
+                <li><%= link_to 'My Profile', current_user %></li>
+                <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
                   <li><%= link_to "My Workshops", my_workshops_path %></li>
                   <li class="divider"></li>
                 <% end %>
