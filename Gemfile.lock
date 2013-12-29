@@ -148,10 +148,13 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     kgio (2.7.4)
-    launchy (2.0.5)
+    launchy (2.1.0)
       addressable (~> 2.2.6)
-    letter_opener (0.0.2)
-      launchy
+    letter_opener (1.0.0)
+      launchy (>= 2.0.4)
+    letter_opener_web (1.1.2)
+      letter_opener (~> 1.0)
+      rails (>= 3.2)
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -322,7 +325,7 @@ DEPENDENCIES
   googlestaticmap
   handlebars_assets
   jquery-rails
-  letter_opener
+  letter_opener_web (~> 1.1.0)
   nexmo
   omniauth
   omniauth-facebook

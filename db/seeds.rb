@@ -116,4 +116,6 @@ Come learn the joys of coldpressing your coffee!
     end
   end
   
+  Launchy.open("http://localhost:3000/letter_opener")
+  
 end

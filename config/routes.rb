@@ -32,6 +32,10 @@ Villagecraft::Application.routes.draw do
       post 'clear'
     end
   end
+  
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener", as: 'letter_opener'
+  end
 
   get '/tos' => 'application#tos', :as => :tos
 
