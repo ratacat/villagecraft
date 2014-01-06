@@ -8,8 +8,11 @@
   <div class="modal-body" id='collect_email_address'>
     <%= simple_form_for(:user, :as => :user, :url => registration_path(:user), html: { class: 'form-horizontal', id: 'attend_by_email_form'}) do |f| %>
       <%= f.input :email %>
-
-      	<%= f.submit "Lets do it", :class => "btn btn-primary floatright", :style => "margin-right:190px;" %>
+      <div class="control-group">
+        <div class="controls">
+    	    <%= f.submit "Let's do it", :class => "btn btn-success" %>
+        </div>
+    	</div>
     <% end %>
   </div>
   <div class="modal-body initially_hidden" id='register_new_user'>
