@@ -3,7 +3,7 @@
     <a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Log in with <b>Facebook</b></a>  
   </div>
 <% end %>
-<h2>Log In</h2>
+<h2>Sign in</h2>
 <div class="span-4">
   <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
     <%= f.input :email %>
@@ -11,7 +11,7 @@
     <%# f.input :remember_me, as: :boolean %>
 
     <div class="form-actions">
-      <%= f.submit "Log in", class: "btn btn-primary" %>
+      <%= f.submit "Sign in", class: "btn" %>
       <%= render "devise/shared/links" %>
     </div>
   <% end %>

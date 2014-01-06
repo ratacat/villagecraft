@@ -1,6 +1,7 @@
-        <ul class="nav pull-right" style="margin-right:20px;position:relative;">
+        <ul class="nav nav-pills pull-right" style="margin: 10px;">
           <% if not user_signed_in? %>
-            <li><%= link_to "not logged in", new_user_session_path %></li>
+            <li><%= link_to "Sign in", new_user_session_path %></li>
+            <li><%= link_to 'Sign up', new_user_registration_path, :class => "btn-success" %></li>
           <% else %>
             <% if false # @notifications %>
               <li class="dropdown">
