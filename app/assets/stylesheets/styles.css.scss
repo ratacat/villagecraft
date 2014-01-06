@@ -316,8 +316,9 @@ table.table.when_where_host_table tr td.host {
 
 }
 
-.modal-letsdoit {
-  margin-left:240px;
+.help-block,
+.help-inline {
+  color: lighten($textColor, 45%); // lighten the text some for contrast
 }
 
 label abbr[title] { border: none; }
