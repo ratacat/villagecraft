@@ -434,3 +434,16 @@ a.icon_button, a.icon_button:hover, a.undecorated {
     @include border-radius($borderRadiusLarge);
   }
 }
+
+.simple_boxed_form {
+  background: none;
+  @include border-radius($borderRadiusLarge);
+  border-width: 10px;
+  margin: 0;
+  .form-actions {
+    border: none;
+    background: none;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

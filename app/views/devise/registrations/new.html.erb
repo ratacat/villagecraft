@@ -1,10 +1,12 @@
-<div class="pull-right well hidden">
-  <p>
-    To get started even faster:    
-  </p>
-  <a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Sign up with <b>Facebook</b></a>  
-</div>
 <h2>Get Started with Villagecraft</h2>
-<div class="span-4">
-  <%= render :partial => 'form' %>
-</div>
+
+<p><a id="fb_sign_in" class="btn-auth btn-facebook large" href="#">Sign up with <b>Facebook</b></a></p>
+
+<p><strong>or</strong></p>
+
+<p>
+  <div class="well well-small span-3 simple_boxed_form">
+    <legend>Sign up with your email address</legend>
+    <%= render :partial => 'form' %>
+  </div>
+</p>      
