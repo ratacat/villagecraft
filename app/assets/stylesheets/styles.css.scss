@@ -421,17 +421,37 @@ a.icon_button, a.icon_button:hover, a.undecorated {
 }
 
 .fileinput-preview {
-  height: $large_thumb_size;
-  width: $large_thumb_size;
-  position: relative;
-  overflow: hidden;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  max-height: 270px;
+  max-width: 270px;
   @include border-radius($borderRadiusLarge);
   img {
-    position: absolute;
     @include border-radius($borderRadiusLarge);
+  }
+  &.crop {
+    &.small {
+      height: $small_thumb_size;
+      width: $small_thumb_size;
+    }
+    &.medium {
+      height: $medium_thumb_size;
+      width: $medium_thumb_size;
+    }
+    &.large {
+      height: $large_thumb_size;
+      width: $large_thumb_size;
+    }
+    &.large_orig {
+      height: $large_thumb_size;
+      width: $large_thumb_size;
+    }
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    img {
+      position: absolute;
+    }
   }
 }
 

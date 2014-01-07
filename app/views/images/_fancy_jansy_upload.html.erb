@@ -1,0 +1,32 @@
+<%
+  size ||= :medium
+  img_url ||= @image.img.url(size)
+  img_field_name ||= :image
+  crop ||= false
+%>
+<div class="fileinput fileinput-new" data-provides="fileinput">
+  <div class="fileinput-preview <%= size.to_s %> <%= 'crop' if crop %> control-group" data-trigger="fileinput" data-orig-img-url="<%= img_url %>">      
+    <%= image_tag img_url, :class => "img-rounded" %>
+  </div>
+  <div class="control-group">
+    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><%= f.file_field img_field_name %></span>
+    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+  </div>
+</div>
+
+<% ready_script do -%>
+  // Use Jansy's fileinput extensions and some home-brewed CSS magic to preview what the image will look like cropped
+  var fj_file_input = $('.fileinput').fileinput();
+  <% if crop -%>
+    fj_file_input.on('change.bs.fileinput', function() {
+      var img = $(this).find("img"),
+          frame = img.parent();
+      frame.css("background-color", "none");
+      frame.css("background-image", "url(" + img.attr('src') + ")");
+      img.hide();
+    }).on('clear.bs.fileinput', function() {
+      var frame = $(this).find(".fileinput-preview");
+      frame.css("background-image", "url(" + frame.data('orig-img-url') + ")");
+    });
+  <% end -%>
+<% end %>

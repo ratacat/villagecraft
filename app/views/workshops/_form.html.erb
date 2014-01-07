@@ -3,12 +3,9 @@
 
   <div class="form-inputs">
     <div class="clearfix">
-      <div class="control-group pull-right">
-        <%= image_tag @workshop.img_src(:medium), :class => "img-rounded" %>
-        <div class="controls">
-          <br/>
-          <%= f.file_field :image %>
-        </div>
+      <div class="pull-right">
+        <%= f.label :photo %>
+        <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @workshop.img_src(:large_orig)} %>
       </div>
       <%= f.input :title, label: 'Title', input_html: {class: 'span6'} %>
       <% if admin_session? and @workshop.external %>
@@ -29,10 +26,3 @@
   </div>
 <% end %>
 <%= render :partial => 'shared/markdown_a_la_carte' %>
-<% ready_script do -%>
-  $(":file").filestyle({
-    input: false,
-    buttonText: "Choose photo",
-    icon: true 
-  });
-<% end %>

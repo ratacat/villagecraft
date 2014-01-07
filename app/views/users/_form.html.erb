@@ -2,17 +2,10 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-
-    <div class="fileinput fileinput-new" data-provides="fileinput">
-      <%= f.label :photo %><br />
-      <div class="fileinput-preview control-group" data-trigger="fileinput" data-orig-img-url="<%= @user.profile_img_src(:large) %>">      
-        <%= image_tag @user.profile_img_src(:large), :class => "img-rounded" %>
-      </div>
-      <div class="control-group">
-        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><%= f.file_field :profile_image %></span>
-        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-      </div>
-    </div>
+    <%= f.label :photo %><br />
+    <%= render :partial => 'images/fancy_jansy_upload', 
+               :locals => {:f => f, :img_field_name => :profile_image, 
+                           :size => :large, :img_url => @user.profile_img_src(:large), :crop => true} %>
 
     <%= f.input :name, label: 'Name' %>
     <% if admin_session? %>
@@ -43,17 +36,3 @@
 <%= link_to "Change Password or Email", edit_user_registration_path %>
 
 <%= render :partial => 'shared/markdown_a_la_carte' %>
-<%= ready_script do -%>
-  // Use Jansy's fileinput extensions and some home-brewed CSS magic to preview what the image will look like cropped
-  $('.fileinput').fileinput().on('change.bs.fileinput', function() {
-    var img = $(this).find("img"),
-        frame = img.parent();
-    frame.css("background-color", "none");
-    frame.css("background-image", "url(" + img.attr('src') + ")");
-    img.hide();
-  }).on('clear.bs.fileinput', function() {
-    var frame = $(this).find(".fileinput-preview");
-    frame.css("background-image", "url(" + frame.data('orig-img-url') + ")");
-  });
-  
-<% end -%>
