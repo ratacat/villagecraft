@@ -2,7 +2,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
     if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+      sign_in_and_redirect @user, :event => :authentication # this will throw if @user is not activated; it will also save the @user, persisting the @user.auth_provider and @user.auth_provider_uid in the case that the FB identity was merged into an existing user account
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
       auto_attend
     else
