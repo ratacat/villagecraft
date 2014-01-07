@@ -10,7 +10,7 @@
           <%= f.file_field :image %>
         </div>
       </div>
-      <%= f.input :title, label: 'Title' %>
+      <%= f.input :title, label: 'Title', input_html: {class: 'span6'} %>
       <% if admin_session? and @workshop.external %>
         <%= f.hidden_field :external %>
 
