@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 #  validates :city, :presence => true
 #  validates :state, :presence => true
 #  validates :location, :presence => true
-  validates :phone, :presence => true, :uniqueness => true, :format => { :with => /\A\+1[0123456789]{10}\z/, :message => "is not a 10-digit US phone number" }, :allow_blank => true
+  validates :phone, :presence => {:unless => lambda {|u| (not u.persisted?) and u.auth_provider?}}, :uniqueness => true, :format => { :with => /\A\+1[0123456789]{10}\z/, :message => "is not a 10-digit US phone number" }, :allow_blank => true
 #  validates_associated :location
 
   def profile_img_src(size = :medium)
