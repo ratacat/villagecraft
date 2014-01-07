@@ -1,10 +1,12 @@
 <% if event %>
   <% if event.external? %>
-    <div class="well">
-      <%= link_to event.external_url, :title => event.external_url, :target => "_blank" do -%>
-        more info <i class="icon-external-link"></i>
-      <% end -%>
-    </div>
+    <% unless event.external_url.blank? %>
+      <div class="well">
+        <%= link_to event.external_url, :title => event.external_url, :target => "_blank" do -%>
+          more info <i class="icon-external-link"></i>
+        <% end -%>
+      </div>
+    <% end %>
   <% else %>
     <% if event.slots_left > 0 %>
       <% if user_signed_in? %>
