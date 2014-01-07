@@ -6,6 +6,7 @@ class WorkshopsController < ApplicationController
   end
   load_and_authorize_resource(:find_by => :uuid)
   
+  before_filter :get_future_and_past_reruns, :only => [:edit, :update, :show]
   def my_workshops
     @workshops = Workshop.where(:host_id => current_user).order(:updated_at).reverse_order
     
@@ -31,8 +32,6 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
-    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
-    @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @workshop }
@@ -57,8 +56,6 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops/1/edit
   def edit
-    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
-    @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
   end
 
   # GET /workshops/1/reruns_partial
@@ -108,11 +105,15 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  protected  
+  protected
   def workshop_params
     ok_params = [:title, :description, :frequency, :image]
     ok_params += [:external, :external_url, :host_id] if admin_session?
     params[:workshop].permit(*ok_params)
   end
   
+  def get_future_and_past_reruns
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+    @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
+  end
 end
