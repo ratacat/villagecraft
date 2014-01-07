@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
+  skip_before_filter :possibly_nag_for_phone, only: [:edit_preferences]
 
   # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
   before_filter do
