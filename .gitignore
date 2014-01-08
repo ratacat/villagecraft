@@ -21,3 +21,5 @@
 
 # Ignore local Paperclip attachments
 public/system/images/
+
+public/system/paperclip_attachments.yml
