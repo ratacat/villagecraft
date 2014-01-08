@@ -83,7 +83,9 @@ class Event < ActiveRecord::Base
   end
   
   def locked?
-    self.attendances.count > 0
+    # self.attendances.count > 0
+    # FIXME: temporarily disable 
+    false
   end
   
   def venue_tbd?
