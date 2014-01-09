@@ -6,7 +6,6 @@
     <tr>
       <th class="span6">Title</th>
       <th>Link</th>
-      <th>Reruns</th>
       <th>Next Meeting</th>
       <th>Last Meeting</th>
       <% if show_host -%><th>Host</th><% end -%>
@@ -18,12 +17,17 @@
     <tr>
       <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true} %></td>
       <td style="text-align: center; vertical-align: middle;"><%= render :partial => 'promo_link', :locals => {:workshop => workshop} %></td>
-      <td><%= workshop.events.count %></td>
       <td class="blocky_spns">
-        <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.next_meeting.blank? %>
+        <% unless workshop.next_meeting.blank? %>
+          <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+          <%= iconic_link_to "Manage attendees", workshop.next_meeting.event, :icon => 'group', :class => 'btn' %>
+        <% end %>
       </td>
       <td class="blocky_spns">
-        <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) unless workshop.last_meeting.blank? %>
+        <% unless workshop.last_meeting.blank? %>
+          <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+          <%= iconic_link_to "Manage attendees", workshop.last_meeting.event, :icon => 'group', :class => 'btn' %>
+        <% end %>
       </td>
       <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>
     </tr>
