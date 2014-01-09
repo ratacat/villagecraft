@@ -1,6 +1,6 @@
 <% neighborhood ||= @neighborhood %>
 <div class="page-header">
-  <% if can? :manage, @eighborhood %>
+  <% if can? :manage, @neighborhood %>
     <%= link_to neighborhoods_path, :class => 'btn' do %>
       <i class="icon-list-alt"></i>
       All neighborhoods
