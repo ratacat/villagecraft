@@ -2,14 +2,10 @@
   no_button ||= false
 %>
 <% if event %>
-  <% if event.external? %>
-    <% unless event.external_url.blank? %>
-      <div class="well">
-        <%= link_to event.external_url, :title => event.external_url, :target => "_blank" do -%>
-          more info <i class="icon-external-link"></i>
-        <% end -%>
-      </div>
-    <% end %>
+  <% if event.external? and not event.external_url.blank? and not no_button %>
+    <%= link_to event.external_url, :title => 'more information off-site', :class => "btn btn-large", :target => '_blank' do -%>
+      <%= event_price(event) %> <i class="icon-external-link icon-large"></i>
+    <% end -%>              
   <% else %>
     <% if event.slots_left > 0 %>
       <% if user_signed_in? %>
@@ -17,8 +13,8 @@
           <div style="margin: 15px 0;">
             <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
           </div>
-          <% else %>
-          <% if no_button or event.first_meeting.ongoing? %>
+        <% else %>
+          <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
             <h4 class="fee"><%= event_price(event) %></h4>
           <% else %>
             <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
@@ -26,8 +22,8 @@
             <% end -%>
           <% end %>
         <% end %>
-      <% else %>
-        <% if no_button or event.first_meeting.ongoing? %>
+      <% else %> <!-- not user_signed_in? -->
+        <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
           <h4 class="fee"><%= event_price(event) %></h4>
         <% else %>
           <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large">
