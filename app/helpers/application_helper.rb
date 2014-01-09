@@ -8,6 +8,12 @@ module ApplicationHelper
     l dt.in_time_zone(tz), format: :friendly_at_time
   end
   
+  def iconic_link_to(name, path, options={})
+    link_to(path, options) do
+      content_tag(:i, '', :class => "icon-#{options[:icon]}") + name
+    end
+  end
+  
   def icon_meter(options={})
     defaults = {
       :rows => 2, 
