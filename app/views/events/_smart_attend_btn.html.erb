@@ -1,3 +1,6 @@
+<% 
+  no_button ||= false
+%>
 <% if event %>
   <% if event.external? %>
     <% unless event.external_url.blank? %>
@@ -10,15 +13,27 @@
   <% else %>
     <% if event.slots_left > 0 %>
       <% if user_signed_in? %>
-        <% unless current_user.attending_event?(event) %>
-          <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
-            <i class="icon-check icon-large text-success"></i><%= event_price(event, :free_msg => 'Free') %>
-          <% end -%>
+        <% if current_user.attending_event?(event) %>
+          <div style="margin: 15px 0;">
+            <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
+          </div>
+          <% else %>
+          <% if no_button or event.first_meeting.ongoing? %>
+            <h4 class="fee"><%= event_price(event) %></h4>
+          <% else %>
+            <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
+              <i class="icon-check icon-large text-success"></i><%= event_price(event) %>
+            <% end -%>
+          <% end %>
         <% end %>
       <% else %>
-        <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large">
-          <i class="icon-check icon-large text-success"></i><%= event_price(event, :free_msg => 'Free') %>
-        </button>
+        <% if no_button or event.first_meeting.ongoing? %>
+          <h4 class="fee"><%= event_price(event) %></h4>
+        <% else %>
+          <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large">
+            <i class="icon-check icon-large text-success"></i><%= event_price(event) %>
+          </button>
+        <% end %>
       <% end %>
     <% else %>
       <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>

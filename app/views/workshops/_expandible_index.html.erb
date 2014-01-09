@@ -10,21 +10,9 @@
   <% workshops.each do |workshop| %>
     <tr class="event_summary expandable" name="<%= workshop.to_param %>">
       <td>
-        <% if workshop.ongoing_or_next_rerun %>
-          <div class="span2 pull-right center-text">
-            <% if user_signed_in? %>
-              <% if current_user.attending_event?(workshop.ongoing_or_next_rerun) %>
-                <div style="margin: 15px 0;">
-                  <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
-                </div>
-              <% else %>
-                <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => false) %></h4>
-              <% end %>
-            <% else %>
-              <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => false) %></h4>
-            <% end %>
-          </div>
-        <% end %>
+        <div class="span2 pull-right center-text">
+          <%= render :partial => 'events/smart_attend_btn', :locals => {:event => workshop.ongoing_or_next_rerun, :no_button => true} %>
+        </div>
         <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= annotated_workshop_title(workshop) %></h3>
         <div class="more muted very_faint"><i class="icon-sort-down"></i> <span>click to expand</span> <i class="icon-sort-down"></i></div>
       </td>
@@ -36,27 +24,20 @@
       <td>
         <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= annotated_workshop_title(workshop) %><%= render :partial => "workshops/promo_link", :locals => {:workshop => workshop} %></h3>
         <div class="span2 pull-right center-text">
-          <% if workshop.ongoing_or_next_rerun %>
-            <% if user_signed_in? %>
-              <% if current_user.attending_event?(workshop.ongoing_or_next_rerun) %>
-                <div style="margin: 15px 0;">
-                  <span class="text-success"><i class="icon-check icon-large"></i>&nbsp you are<br>signed up</span>
-                </div>
-              <% end %>
-            <% end %>
-            <% unless workshop.ongoing_or_next_rerun.first_meeting.ongoing? %>
-              <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => workshop.ongoing_or_next_rerun} %></span>
-            <% end %>
-            <br/>
-          <% end %>
-          <%# FIXME: optimize this %>
-          <% upcoming_reruns = workshop.upcoming_reruns; upcoming_reruns.shift %>
+          <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => workshop.ongoing_or_next_rerun} %></span>
+
+          <%
+            # FIXME: optimize this
+            upcoming_reruns = workshop.upcoming_reruns
+            upcoming_reruns.shift
+          %>
           <% unless upcoming_reruns.blank? %>
             <h4>Next Dates</h4>
             <% upcoming_reruns.map(&:first_meeting).each do |m| -%>
               <div><%= meeting_date(m, :short_date => true) %></div>
             <% end -%>
           <% end %>
+
         </div>
         <div class="event_description">
           <%= markdown(workshop.description.try(:html_safe), :mkd_noheader) %>
