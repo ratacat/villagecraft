@@ -45,9 +45,14 @@ body h2 {
   width: auto;
 }
 
-.btn i {
-  vertical-align: middle;
-  padding: 0 0.75em  0 0;
+.btn {
+  i {
+    vertical-align: middle;
+    padding: 0 0.75em  0 0;
+  }
+  &.icon_only i {
+    padding: 0;
+  }
 }
 
 .table.meter {
