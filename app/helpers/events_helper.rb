@@ -2,7 +2,7 @@ module EventsHelper
   def event_price(event, options={})
     defaults = {
       :show_materials_fee => false,
-      :free_msg => 'Free!'
+      :free_msg => 'Free'
     }
     options.reverse_merge!(defaults)
     
