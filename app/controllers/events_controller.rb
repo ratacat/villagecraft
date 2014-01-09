@@ -25,6 +25,15 @@ class EventsController < ApplicationController
       format.json { render json: @event }
     end
   end
+  
+  # GET /events/1/manage
+  # GET /events/1.json/manage
+  def manage_attendees
+    respond_to do |format|
+      format.html { render 'show' }
+      format.json { render json: @event }
+    end
+  end
 
   # GET /events/new
   # GET /events/new.json

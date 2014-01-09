@@ -8,6 +8,7 @@ Villagecraft::Application.routes.draw do
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee
+  get 'events/:id/manage' => 'events#manage_attendees', :as => :manage_event
   resources :events
   resources :meetings, :only => [:update, :show]
 
