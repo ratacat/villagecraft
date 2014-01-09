@@ -18,10 +18,10 @@
                   <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
                 </div>
               <% else %>
-                <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => true) %></h4>
+                <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => false) %></h4>
               <% end %>
             <% else %>
-              <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => true) %></h4>
+              <h4 class="fee"><%= event_price(workshop.ongoing_or_next_rerun, :show_materials_fee => false) %></h4>
             <% end %>
           </div>
         <% end %>
