@@ -31,17 +31,17 @@ set :user, "villagecraft"
 namespace :daemons do
   desc "Start Rails daemons"
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "cd #{release_path}; bundle exec script/daemons start"
+    run "cd #{release_path}; bundle exec rake daemons:start"
   end
 
   desc "Stop Rails daemons"
   task :stop, :roles => :app, :except => { :no_release => true } do
-    run "cd #{release_path}; bundle exec script/daemons stop"
+    run "cd #{release_path}; bundle exec rake daemons:stop"
   end
   
   desc "Restart Rails daemons"
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "cd #{release_path}; bundle exec script/daemons restart"
+    run "cd #{release_path}; bundle exec ./lib/daemons/daemons restart"
   end
 end
 
@@ -60,7 +60,7 @@ namespace :deploy do
 end
 
 after("deploy:update_code", "deploy:build_missing_paperclip_styles")
-after 'deploy:restart', 'deploy:migrate', 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
+after 'deploy:restart', 'deploy:migrate', "daemons:restart", 'unicorn:duplicate' # before_fork hook implemented (zero downtime deployments)
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
