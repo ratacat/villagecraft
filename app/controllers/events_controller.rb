@@ -50,7 +50,13 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.js { head :no_content }
-      format.html { redirect_to edit_workshop_path(@workshop), notice: notice }
+      format.html { 
+        if request.xhr?
+          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: (not @event.locked?)}
+        else
+          redirect_to edit_workshop_path(@workshop), notice: notice
+        end
+      }
       format.json { head :no_content }
     end
   end

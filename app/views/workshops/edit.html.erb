@@ -125,6 +125,12 @@
   }).on('ajax:error', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
   });
+
+  $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
+    var row = $(this).closest('tr');
+    row.replaceWith(data);
+    editablize_meetings();
+  });
   
   $(document).on('ajax:success', '#new_venue', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
