@@ -4,6 +4,8 @@ class EventsController < ApplicationController
   before_filter :find_venue, :only => [:create, :update]
   before_filter :check_lock, :only => [:update, :destroy]
  
+  # FIXME: prevent non-admins from changing events (and meetings) that have occurred
+ 
   EVENTS_PER_PAGE = 20
 
   def index
