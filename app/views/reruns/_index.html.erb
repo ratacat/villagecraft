@@ -17,45 +17,11 @@
     <% end %>
   </thead>
   <tbody>
+
 <% reruns.each do |rerun| %>
-  <% if editable and not rerun.locked? %>
-    <tr <% if click_to_show -%>
-      class="click_to_show"
-      href="<%= url_for(rerun) %>"
-    <% end -%> data-meeting_uuid="<%= rerun.first_meeting.uuid %>">
-      <td class="meeting_time">
-        <span class="vc_editable meeting_time">
-          <%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
-        </span>
-      </td>
-      <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-      <td><%= rerun.attendances.count %></td>
-      <td><%= editable rerun, :max_attendees %></td>
-      <td><span class="vc_editable venue"><%= editable rerun, :default_venue_uuid, :sourceCache => (not clear_source_cache) %></span></td>
-      <td><%= editable rerun, :price %></td>
-      <% if show_icons %>
-      <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
-      <% end %>
-    </tr>
-  <% else %>
-    <tr <% if click_to_show -%>
-      class="click_to_show"
-      href="<%= url_for(rerun) %>"
-    <% end -%>>
-      <td class="meeting_time"><span><%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %></span></td>
-      <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-      <td><%= rerun.attendances.count %></td>
-      <td><%= rerun.max_attendees %></td>
-      <td><%= inline_venue(rerun.venue) %></td>
-      <td><%= rerun_price(rerun) %></td>
-      <% if show_icons %>
-      <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
-      <% end %>
-    </tr>
-  <% end %>    
+  <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache %>
 <% end %>
-  </tbody>
-</table>
+
 <% if update_reruns_count %>
   <script type="text/javascript">
     $("#future_reruns_count").html(<%= reruns.count %>);
