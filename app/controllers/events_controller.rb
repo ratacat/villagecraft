@@ -35,6 +35,26 @@ class EventsController < ApplicationController
     end
   end
 
+  # POST /events/1/toggle_lock
+  # POST /events/1.json/toggle_lock
+  def toggle_lock
+    if @event.unlocked_at.nil?
+      @event.update_attribute(:unlocked_at, Time.now)
+      notice = "workshop rerun unlocked for #{Event::UNLOCK_TIMEOUT} minutes"
+    else
+      @event.update_attribute(:unlocked_at, nil)
+      notice = "workshop rerun locked"
+    end
+
+    @workshop = @event.workshop
+
+    respond_to do |format|
+      format.js { head :no_content }
+      format.html { redirect_to edit_workshop_path(@workshop), notice: notice }
+      format.json { head :no_content }
+    end
+  end
+
   # GET /events/new
   # GET /events/new.json
   def new

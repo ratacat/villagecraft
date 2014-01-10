@@ -2,8 +2,11 @@
   rerun ||= @rerun
 %>
 <%= iconic_link_to("Manage attendees", manage_event_path(rerun), :icon => 'group', :class => 'btn btn-small') %>
-<% if rerun.locked? %>
-  <i class="icon-lock" title="locked because there are <%= pluralize(rerun.attendances.count, "attendee") %>"></i>
+<% if rerun.attended? %>
+  <%= iconic_link_to('', toggle_event_lock_path(rerun), 
+                     icon: rerun.locked? ? 'lock' : 'unlock', class: 'btn btn-small', 
+                     title: %Q(locked because #{pluralize(rerun.attendances.count, "attendee")} signed up),
+                     method: :post, confirm: rerun.locked? ? "Really unlock?" : nil, remote: true) %>
 <% else %>
   <%= iconic_link_to('', rerun, icon: 'remove', class: 'btn btn-small delete_rerun', title: 'delete', method: :delete, confirm: "Really delete?", remote: true, disable_with: "...") %>
 <% end %>
