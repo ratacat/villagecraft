@@ -27,7 +27,7 @@ module Villagecraft
     end
 
     # Activate observers that should always be running.
-    config.active_record.observers = :notifier
+    config.active_record.observers = :notifier, :meeting_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

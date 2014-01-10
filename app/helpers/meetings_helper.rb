@@ -10,9 +10,9 @@ module MeetingsHelper
   
   def meeting_time_interval(meeting)
     if meeting.end_time - meeting.start_time >= 2.days
-      time_interval = "#{l meeting.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(meeting.start_time, meeting.end_time)} later)"
+      time_interval = "#{I18n.l meeting.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(meeting.start_time, meeting.end_time)} later)"
     else
-      time_interval = "#{l meeting.localized_start_time, format: :short_time} - #{l meeting.localized_end_time, format: :short_time}"
+      time_interval = "#{I18n.l meeting.localized_start_time, format: :short_time} - #{I18n.l meeting.localized_end_time, format: :short_time}"
       time_interval += " (+#{distance_of_time_in_words(meeting.start_time, meeting.end_time)})" if meeting.end_time - meeting.start_time >= 1.day
     end
     time_interval
