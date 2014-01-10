@@ -28,6 +28,23 @@ set :scm_verbose, true
 
 set :user, "villagecraft"
 
+namespace :daemons do
+  desc "Start Rails daemons"
+  task :start, :roles => :app, :except => { :no_release => true } do
+    run "cd #{release_path}; bundle exec script/daemons start"
+  end
+
+  desc "Stop Rails daemons"
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "cd #{release_path}; bundle exec script/daemons stop"
+  end
+  
+  desc "Restart Rails daemons"
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "cd #{release_path}; bundle exec script/daemons restart"
+  end
+end
+
 namespace :nginx do
   desc "Restart nginx"
   task :restart do

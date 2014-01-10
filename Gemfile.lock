@@ -101,6 +101,10 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    daemons (1.1.9)
+    daemons-rails (1.2.1)
+      daemons
+      multi_json (~> 1.0)
     debugger (1.6.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -314,6 +318,7 @@ DEPENDENCIES
   capistrano-unicorn
   capybara (= 1.1.2)
   coffee-rails (~> 3.2.1)
+  daemons-rails
   debugger
   devise
   execjs
