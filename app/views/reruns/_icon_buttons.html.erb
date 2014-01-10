@@ -1,16 +1,19 @@
 <%
   rerun ||= @rerun
+  editable ||= false
 %>
 <%= iconic_link_to("Manage attendees", manage_event_path(rerun), :icon => 'group', :class => 'btn btn-small') %>
-<% if rerun.attended? %>
-  <%= iconic_link_to('', toggle_event_lock_path(rerun), 
-                     :icon => rerun.locked? ? 'lock' : 'unlock',
-                     :class => "btn btn-small lock_toggle#{' btn-danger' unless rerun.locked?}", 
-                     :title => rerun.locked? ? %Q(locked because #{pluralize(rerun.attendances.count, "attendee")} signed up) : %Q(tread carefully: attendees (#{rerun.attendances.count}) will be notified of any changes you make),
-                     :method => :post, 
-                     :confirm => rerun.locked? ? %Q(This workshop is locked because #{pluralize(rerun.attendances.count, "person")} signed up. You may unlock it to make changes, but tread carefully! Anyone signed up will be notified of each change you make.) : nil, 
-                     :remote => true, 
-                     :'data-type' => :html) %>
-<% else %>
-  <%= iconic_link_to('', rerun, icon: 'remove', class: 'btn btn-small delete_rerun', title: 'delete', method: :delete, confirm: "Really delete?", remote: true, disable_with: "...") %>
+<% if editable %>
+  <% if rerun.attended? %>
+    <%= iconic_link_to('', toggle_event_lock_path(rerun), 
+                       :icon => rerun.locked? ? 'lock' : 'unlock',
+                       :class => "btn btn-small lock_toggle#{' btn-danger' unless rerun.locked?}", 
+                       :title => rerun.locked? ? %Q(locked because #{pluralize(rerun.attendances.count, "attendee")} signed up) : %Q(tread carefully: attendees (#{rerun.attendances.count}) will be notified of any changes you make),
+                       :method => :post, 
+                       :confirm => rerun.locked? ? %Q(This workshop is locked because #{pluralize(rerun.attendances.count, "person")} signed up. You may unlock it to make changes, but tread carefully! Anyone signed up will be notified of each change you make.) : nil, 
+                       :remote => true, 
+                       :'data-type' => :html) %>
+  <% else %>
+    <%= iconic_link_to('', rerun, icon: 'remove', class: 'btn btn-small delete_rerun', title: 'delete', method: :delete, confirm: "Really delete?", remote: true, disable_with: "...") %>
+  <% end %>
 <% end %>
