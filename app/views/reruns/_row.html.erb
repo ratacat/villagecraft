@@ -20,7 +20,7 @@
     <td><span class="vc_editable venue"><%= editable rerun, :venue_uuid, :sourceCache => (not clear_source_cache) %></span></td>
     <td><%= editable rerun, :price %></td>
     <% if show_icons %>
-    <td><%= render 'reruns/icon_buttons', :rerun => rerun, :editable => true %></td>
+    <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
     <% end %>
   </tr>
 <% else %>
@@ -34,8 +34,8 @@
     <td><%= rerun.max_attendees %></td>
     <td><%= inline_venue(rerun.venue) %></td>
     <td><%= rerun_price(rerun) %></td>
-    <% if show_icons %>
-    <td><%= render 'reruns/icon_buttons', :rerun => rerun, :editable => false %></td>
+    <% if show_icons and not rerun.occurred? %>
+    <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
     <% end %>
   </tr>
 <% end %>    

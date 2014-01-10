@@ -1,7 +1,7 @@
 class MeetingObserver < ActiveRecord::Observer
   include MeetingsHelper
   
-  def before_save(meeting)
+  def before_update(meeting)
     if meeting.start_time_changed? or meeting.end_time_changed?
       meeting.create_activity key: 'meeting.time_changed', 
                               owner: meeting.host, 
