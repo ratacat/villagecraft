@@ -330,12 +330,13 @@ CREATE TABLE notifications (
     id integer NOT NULL,
     user_id integer,
     activity_id integer,
-    seen boolean DEFAULT false,
-    sent boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     uuid character varying(255),
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    emailed_at timestamp without time zone,
+    smsed_at timestamp without time zone,
+    seen_at timestamp without time zone
 );
 
 
@@ -858,6 +859,27 @@ CREATE INDEX index_notifications_on_deleted_at ON notifications USING btree (del
 
 
 --
+-- Name: index_notifications_on_emailed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_emailed_at ON notifications USING btree (emailed_at);
+
+
+--
+-- Name: index_notifications_on_seen_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_seen_at ON notifications USING btree (seen_at);
+
+
+--
+-- Name: index_notifications_on_smsed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_smsed_at ON notifications USING btree (smsed_at);
+
+
+--
 -- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1191,3 +1213,11 @@ INSERT INTO schema_migrations (version) VALUES ('20131223092627');
 INSERT INTO schema_migrations (version) VALUES ('20131227181226');
 
 INSERT INTO schema_migrations (version) VALUES ('20140110003604');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110205239');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110205504');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110205629');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110205655');
