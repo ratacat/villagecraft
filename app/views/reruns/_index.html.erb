@@ -17,10 +17,11 @@
     <% end %>
   </thead>
   <tbody>
-
-<% reruns.each do |rerun| %>
-  <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache %>
-<% end %>
+    <% reruns.each do |rerun| %>
+      <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache %>
+    <% end %>
+  </tbody>
+</table>
 
 <% if update_reruns_count %>
   <script type="text/javascript">
