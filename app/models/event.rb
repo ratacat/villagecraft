@@ -34,6 +34,8 @@ class Event < ActiveRecord::Base
     end
   end
   
+  UNLOCK_TIMEOUT = 5 # minutes that unlocking lasts 
+  
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
   
@@ -82,10 +84,12 @@ class Event < ActiveRecord::Base
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
   
+  def attended?
+    self.attendances.count > 0
+  end
+  
   def locked?
-    # self.attendances.count > 0
-    # FIXME: temporarily disable 
-    false
+    self.attended? and (self.unlocked_at.nil? or self.unlocked_at < Event::UNLOCK_TIMEOUT.minutes.ago)
   end
   
   def venue_tbd?

@@ -147,7 +147,8 @@ CREATE TABLE events (
     first_meeting_id integer,
     deleted_at timestamp without time zone,
     external boolean,
-    external_url character varying(255)
+    external_url character varying(255),
+    unlocked_at timestamp without time zone
 );
 
 
@@ -1188,3 +1189,5 @@ INSERT INTO schema_migrations (version) VALUES ('20131222080919');
 INSERT INTO schema_migrations (version) VALUES ('20131223092627');
 
 INSERT INTO schema_migrations (version) VALUES ('20131227181226');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110003604');
