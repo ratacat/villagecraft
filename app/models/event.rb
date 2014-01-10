@@ -199,7 +199,9 @@ class Event < ActiveRecord::Base
   
   def propogate_changes_to_dependant_meetings
     if self.venue_id_changed?
-      Meeting.update_all(["venue_id = ?", self.venue_id], ["event_id = ?", self])      
+      self.meetings.find_each do |meeting|
+        meeting.update_attribute(:venue_id, self.venue_id)
+      end
     end
   end
 end
