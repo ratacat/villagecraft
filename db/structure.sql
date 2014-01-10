@@ -336,7 +336,8 @@ CREATE TABLE notifications (
     deleted_at timestamp without time zone,
     emailed_at timestamp without time zone,
     smsed_at timestamp without time zone,
-    seen_at timestamp without time zone
+    seen_at timestamp without time zone,
+    email_me boolean
 );
 
 
@@ -859,6 +860,13 @@ CREATE INDEX index_notifications_on_deleted_at ON notifications USING btree (del
 
 
 --
+-- Name: index_notifications_on_email_me; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_notifications_on_email_me ON notifications USING btree (email_me);
+
+
+--
 -- Name: index_notifications_on_emailed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1221,3 +1229,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140110205504');
 INSERT INTO schema_migrations (version) VALUES ('20140110205629');
 
 INSERT INTO schema_migrations (version) VALUES ('20140110205655');
+
+INSERT INTO schema_migrations (version) VALUES ('20140110210757');
