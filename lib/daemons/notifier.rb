@@ -17,8 +17,8 @@ end
 while($running) do
   
   # Replace this with your code
-  Rails.logger.auto_flushing = true
-  Rails.logger.info "This daemon is still running at #{Time.now}.\n"
+  # Rails.logger.auto_flushing = true
+  # Rails.logger.info "This daemon is still running at #{Time.now}.\n"
   
-  sleep 10
+  sleep 30
 end
