@@ -3,7 +3,7 @@ require "has_ordering_through_meetings"
 class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
-  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :default_venue_uuid, :as => [:default, :system]
+  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :as => [:default, :system]
   attr_accessible :workshop_id, :external, :external_url, :as => :system
   has_uuid(:length => 8)
   acts_as_paranoid
@@ -38,6 +38,7 @@ class Event < ActiveRecord::Base
   
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
+  before_save :propogate_changes_to_dependant_meetings
   
   validates :workshop, :presence => true
   validates :host_id, presence: true
@@ -93,7 +94,7 @@ class Event < ActiveRecord::Base
   end
   
   def venue_tbd?
-    self.first_meeting.try(:venue).blank?
+    self.try(:venue).blank?
   end
   
   def to_param
@@ -104,18 +105,13 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def venue
-    self.first_meeting.try(:venue)
-  end
-  
-  def default_venue_uuid
+  def venue_uuid
     self.venue.try(:uuid)
   end
   
-  # Set venue for all descendant meetings
-  def default_venue_uuid=(venue_uuid)
+  def venue_uuid=(venue_uuid)
     v = Venue.find_by_uuid(venue_uuid)
-    Meeting.update_all(["venue_id = ?", v], ["event_id = ?", self])
+    self.update_attribute(:venue_id, v.id)
   end
   
   def img_src(size = :medium)
@@ -201,4 +197,9 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def propogate_changes_to_dependant_meetings
+    if self.venue_id_changed?
+      Meeting.update_all(["venue_id = ?", self.venue_id], ["event_id = ?", self])      
+    end
+  end
 end

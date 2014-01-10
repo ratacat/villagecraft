@@ -8,7 +8,7 @@ class_options:
       type: number
       step: 1
       min: 0
-    default_venue_uuid:
+    venue_uuid:
       type: select
       title: Venue
       emptytext: TBD

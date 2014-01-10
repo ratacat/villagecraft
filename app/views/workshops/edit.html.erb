@@ -34,7 +34,7 @@
 
   function editablize_meetings() {
     $('.editable[data-name="max_attendees"]').editable();
-    $('.editable[data-name="default_venue_uuid"]').editable();
+    $('.editable[data-name="venue_uuid"]').editable();
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
 
     $('span.vc_editable.meeting_time').popover({
@@ -65,10 +65,10 @@
       trigger: 'manual',
       title: 'Add New Venue', 
       content: function() {
-        var meeting_uuid = $(this).closest("tr").data("meeting_uuid");
+        var event_uuid = $(this).closest("tr").data("rerun_uuid");
         return HandlebarsTemplates['venues/add_new']({
           auth_token: auth_token(),
-          meeting_uuid: meeting_uuid
+          event_uuid: event_uuid
         });
       }
     }).on('shown', function() {
@@ -110,9 +110,9 @@
   });
   
   $(document).on('ajax:beforeSend', '#new_venue', function(event, xhr, settings) {
-    var uuid = $(this).data('meeting_uuid');
+    var uuid = $(this).data('rerun_uuid');
     vc_highlighter = function() {
-      $('tr[data-meeting_uuid="' + uuid + '"] span.vc_editable.venue').highlight();
+      $('tr[data-rerun_uuid="' + uuid + '"] span.vc_editable.venue').highlight();
     };
   });
   
