@@ -7,3 +7,20 @@
                     :only_path => false,
                     :show_ago => false) %>
 </p>
+
+<% if @change %>
+  <h3>When and Where (updated)</h3>
+  <p>
+    <%= render :partial => 'reruns/meeting_times_list', 
+               :locals => {:rerun => @event, :include_venue => true, :include_location => true, :br_on => true} %>
+  </p>
+  <h3>Host</h3>
+  <p>
+    <strong><%= @event.host.name %></strong><br/>
+    <strong>email</strong>: <%= @event.host.email %><br/>
+    <strong>mobile#</strong>: <%= user_phone(@event.host) %> 
+  </p>
+  <p>
+    Sorry for any inconvenience this change may have caused.
+  </p>  
+<% end %>

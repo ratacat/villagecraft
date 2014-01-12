@@ -1,5 +1,5 @@
 class Notification < ActiveRecord::Base
-  attr_accessible :user, :activity
+  attr_accessible :user, :activity, :email_me, :emailed_at
   has_uuid(:length => 8)
   acts_as_paranoid
 
@@ -8,14 +8,11 @@ class Notification < ActiveRecord::Base
 
   belongs_to :activity, :class_name => 'PublicActivity::Activity'
   has_one :event, :through => :activity, :source => :trackable, :source_type => "Event"
-  attr_accessible :seen, :sent
 
   validates :user_id, presence: true
   validates :activity_id, presence: true
-  
-#  after_create :send_sms
-  after_create :notify_by_email
 
+  # DON'T USE / FIXME: daemon chokes here: undefined  `inline_venue'
   def to_s
     action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
     action_view.class_eval <<-EVAL 
@@ -34,15 +31,6 @@ class Notification < ActiveRecord::Base
       end
     EVAL
     action_view.render inline: "<%= strip_tags(render_activity notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false).strip.html_safe %>", locals: {:notification => self}
-  end
-
-  protected
-  def send_sms
-    self.user.send_sms(self.to_s)
-  end
-  
-  def notify_by_email
-    UserMailer.notification_email(self).deliver
   end
 
 end

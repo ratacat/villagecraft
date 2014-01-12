@@ -1,1 +1,18 @@
-<%= @notification.to_s %>
+<%= strip_tags(render_activity(@notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false, :viewer => @user)).strip %>
+
+<% if @change %>
+When and Where
+--------------
+
+<%= strip_tags(render :partial => 'reruns/meeting_times_list', 
+                      :locals => {:rerun => @event, :include_venue => true, :include_location => true, :br_on => true} ) %>
+
+Host
+----
+
+<%= @event.host.name %>
+email: <%= @event.host.email %>
+mobile#: <%= user_phone(@event.host) %> 
+
+Sorry for any inconvenience this change may have caused.
+<% end %>

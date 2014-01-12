@@ -9,9 +9,9 @@ class Notifier < ActiveRecord::Observer
       meeting = activity.trackable
       case activity.key
       when 'meeting.time_changed'
-        # NOOP
+        targets += meeting.event.attendees
       when 'meeting.venue_changed'
-        # NOOP
+        targets += meeting.event.attendees
       end
     when 'Event'
       event = activity.trackable
@@ -44,7 +44,7 @@ class Notifier < ActiveRecord::Observer
     targets.uniq!
     # targets -= [activity.owner]
     targets.each do |user|
-      Notification.create(:user => user, :activity => activity)
+      Notification.create(:user => user, :activity => activity, :email_me => user.email_notifications)
     end
   end
 end

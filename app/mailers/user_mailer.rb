@@ -15,9 +15,31 @@ class UserMailer < ActionMailer::Base
   end
   
   def notification_email(notification)
+    activity = notification.activity
     @notification = notification
     @user = notification.user
-    mail(to: @user.email, subject: notification.to_s)    
+    @event = 
+      case activity.trackable
+      when Event
+        activity.trackable
+      when Meeting
+        activity.trackable.event
+      when Workshop
+        activity.trackable.next_meeting
+      end
+    @change = ['meeting.time_changed', 'meeting.venue_changed'].include?(activity.key)
+    subject = 
+      case activity.key
+      when 'meeting.time_changed'
+        "New Time for Villagecraft Workshop: #{@event.title}"
+      when 'meeting.venue_changed'
+        "New Venue for Villagecraft Workshop: #{@event.title}"
+      when 'event.interested'
+        "#{activity.owner.name} is interested in attending #{@event.title}"        
+      else
+        "Villagecraft Notification"
+      end
+    mail(to: @user.email, subject: subject)    
   end
   
   def welcome_email(user)

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :authenticate_user_from_token!  # from https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
-  before_filter :fetch_notifications
+#  before_filter :fetch_notifications
   before_filter :possibly_nag_for_phone
   after_filter :store_location, :except => [:attend_by_email]
 
@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   def fetch_notifications
     if user_signed_in?
       @notifications = current_user.notifications.order('created_at desc').limit(10)
-      @unseen_notifications_count = current_user.notifications.where(:seen => false).count
+      @unseen_notifications_count = current_user.notifications.where(:seen_at => nil).count
     end
   end
   

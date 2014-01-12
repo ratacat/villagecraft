@@ -16,9 +16,11 @@ end
 
 while($running) do
   
-  # Replace this with your code
-  # Rails.logger.auto_flushing = true
-  # Rails.logger.info "This daemon is still running at #{Time.now}.\n"
+  Notification.where(:email_me => true).each do |n|
+    UserMailer.notification_email(n).deliver
+    n.update_attributes(:emailed_at => Time.now, :email_me => false)
+    Rails.logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
+  end
   
   sleep 30
 end
