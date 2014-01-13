@@ -1,10 +1,7 @@
 <% use_embedded_map = (blur_venue_location?(@venue) and @venue.location.neighborhood.nil?) %>
 <div class="page-header">
   <% if @venue.owner === current_user %>
-    <%= link_to edit_venue_path(@venue), :class => 'btn btn-primary' do %>
-      <i class="icon-pencil icon-white"></i>
-      Edit
-    <% end %>
+    <%= iconic_link_to 'Edit', edit_venue_path(@venue), :class => 'btn btn-primary' %>
   <% end %>
   <h1><%= @venue.name %></h1>
   <p>

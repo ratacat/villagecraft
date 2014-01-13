@@ -25,15 +25,8 @@
       <td><%= user.sign_in_count.to_s %></td>
       <td><%= user.privileges.join(', ') %></td>
       <td>
-        <%= link_to user, class: 'icon_button', title: 'view' do -%>
-          <i class="icon-play"></i> 
-        <% end -%>
-        <%= link_to edit_user_path(user), class: 'icon_button', title: 'edit' do -%>
-          <i class="icon-pencil"></i> 
-        <% end -%>
-        <%= link_to user, confirm: 'Are you sure?', method: :delete, class: 'icon_button', title: 'delete' do -%>
-          <i class="icon-remove-circle"></i> 
-        <% end %>
+        <%= iconic_link_to 'Edit', edit_user_path(user), class: 'btn btn-mini', title: 'edit' %>
+        <%= iconic_link_to 'Delete', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-mini btn-danger', title: 'delete' %>
       </td>
     </tr>
 <% end %>

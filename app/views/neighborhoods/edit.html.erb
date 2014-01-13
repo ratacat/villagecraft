@@ -3,10 +3,7 @@
     <i class="icon-list-alt"></i>
     All neighborhoods
   <% end %>
-  <%= link_to @neighborhood, :class => 'btn btn-primary' do %>
-    <i class="icon-info-sign icon-white"></i>
-    Show
-  <% end %>
+  <%= iconic_link_to 'Show', @neighborhood, :class => 'btn btn-primary' %>
   <h1>Editing neighborhood</h1>
 </div>
 
