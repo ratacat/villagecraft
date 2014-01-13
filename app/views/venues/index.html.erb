@@ -5,29 +5,4 @@
   <% end %>
   <h1>Listing venues</h1>
 </div>
-
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Owner</th>
-      <th>Location</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-<% @venues.each do |venue| %>
-    <tr>
-      <td><%= link_to venue.name, venue %></td>
-      <td><%= link_to venue.owner.name, venue.owner %></td>
-      <td><%= link_to_google_maps(venue.location) %></td>
-      <td><%= link_to 'Show', venue %></td>
-      <td><%= link_to 'Edit', edit_venue_path(venue) %></td>
-      <td><%= link_to 'Destroy', venue, confirm: 'Are you sure?', method: :delete %></td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+<%= render 'index', :venues => @venues %>
