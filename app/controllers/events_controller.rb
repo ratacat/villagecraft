@@ -37,16 +37,11 @@ class EventsController < ApplicationController
     end
   end
 
-  # POST /events/1/toggle_lock
-  # POST /events/1.json/toggle_lock
-  def toggle_lock
-    if @event.unlocked_at.nil?
-      @event.update_attribute(:unlocked_at, Time.now)
-      notice = "workshop rerun unlocked for #{Event::UNLOCK_TIMEOUT} minutes"
-    else
-      @event.update_attribute(:unlocked_at, nil)
-      notice = "workshop rerun locked"
-    end
+  # POST /events/1/lock
+  # POST /events/1.json/lock
+  def lock
+    @event.update_attribute(:unlocked_at, nil)
+    notice = "workshop rerun locked"
 
     @workshop = @event.workshop
 
@@ -54,7 +49,29 @@ class EventsController < ApplicationController
       format.js { head :no_content }
       format.html { 
         if request.xhr?
-          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: (not @event.locked?)}
+          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: false}
+        else
+          redirect_to edit_workshop_path(@workshop), notice: notice
+        end
+      }
+      format.json { head :no_content }
+    end
+  end
+
+
+  # POST /events/1/unlock
+  # POST /events/1.json/unlock
+  def unlock
+    @event.update_attribute(:unlocked_at, Time.now)
+    notice = "workshop rerun unlocked for #{Event::UNLOCK_TIMEOUT} minutes"
+
+    @workshop = @event.workshop
+
+    respond_to do |format|
+      format.js { head :no_content }
+      format.html { 
+        if request.xhr?
+          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: true}
         else
           redirect_to edit_workshop_path(@workshop), notice: notice
         end
