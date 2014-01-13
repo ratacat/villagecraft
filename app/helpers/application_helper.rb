@@ -10,6 +10,17 @@ module ApplicationHelper
   
   def iconic_link_to(name, path, options={})
     options[:class] += ' icon_only' if name.blank?
+    if options[:icon].blank?
+      options[:icon] =
+        case name.downcase
+        when 'show'
+          'info-sign'
+        when 'edit'
+          'pencil'
+        when 'destroy', 'delete', 'remove'
+          'remove'
+        end
+    end
     link_to(path, options) do
       content_tag(:i, '', :class => "icon-#{options[:icon]}") + name
     end
