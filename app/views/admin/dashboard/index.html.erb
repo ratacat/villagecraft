@@ -1,8 +1,12 @@
 <h2>Dashboard</h2>
+<p>
 <%= link_to 'Workshops', workshops_path %> | 
+<%= link_to 'Venues', venues_path %> |
 <%= link_to 'Neighborhoods', neighborhoods_path %> |
 <%= link_to 'Users', admin_users_path %> | 
 <%= link_to 'Activity', admin_recent_activity_path %>
 <% if Rails.env.development? %>
   | <%= link_to 'Sent Email (dev only)', letter_opener_path %>
 <% end %>
+</p>
+<%= render :partial => 'users/admin_mode_toggle_button' %>
