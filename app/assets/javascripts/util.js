@@ -20,13 +20,15 @@ function raty_ratings() {
 }
 
 function popover_maps() {
-  $('.popover_map').popover({
-    html: true,
-    placement: 'left',
-    template: '<div class="popover" style="width: 480px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
-    trigger: 'hover'
+  $('.popover_map').each(function() {
+    var _this = $(this);
+    _this.popover({
+      html: true,
+      placement: _this.data('placement') || 'left',
+      template: '<div class="popover" style="width: 480px"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+      trigger: 'hover'
+    });
   });
-
 }
 
 function show_bootstrap_alert(opts) {
