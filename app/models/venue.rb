@@ -46,6 +46,8 @@ class Venue < ActiveRecord::Base
       self.location = Location.new_from_address(self.address)
     else
       self.location = Location.find_or_create_by_street_and_city_and_state_code(:street => self.street, :city => self.city, :state_code => self.state_code)
+      self.location.geocode
+      self.location.reverse_geocode
     end
   end
   

@@ -2,6 +2,7 @@
 <div class="page-header">
   <% if @venue.owner === current_user %>
     <%= iconic_link_to 'Edit', edit_venue_path(@venue), :class => 'btn btn-primary' %>
+    <%= iconic_link_to 'My Venues', my_venues_path, :class => 'btn', :icon => 'list' %>
   <% end %>
   <h1><%= @venue.name %></h1>
   <p>

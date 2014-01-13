@@ -10,7 +10,7 @@
     
     <%= f.input :street, label: 'Street' %>
     <%= f.input :city, label: 'City' %>
-    <%= f.input :state_code, collection: Location.us_states_select_collection, label: 'State' %>
+    <%= f.input :state_code, collection: Location.us_states_select_collection, label: 'State', selected: venue.state_code || 'CA' %>
   </div>
 
   <div class="form-actions">
