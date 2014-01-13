@@ -5,6 +5,8 @@ en:
   unauthorized:
     my_workshops:
       workshop: 'My Workshops is a host-only feature.'
+    my_venues:
+      venue: 'My Venues is a host-only feature.'
     manage:
       all: "Sorry, you are not authorized to %{action} that %{subject}."
     manage_as_host:

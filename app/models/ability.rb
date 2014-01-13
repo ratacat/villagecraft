@@ -28,6 +28,11 @@ class Ability
         end
         
         can :update, Meeting
+        
+        can :manage, Venue, :owner_id => user.id
+        cannot :index, Venue
+        can :my_venues, Venue
+        
       end
       
       # admin

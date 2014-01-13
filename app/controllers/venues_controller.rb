@@ -1,8 +1,5 @@
 class VenuesController < ApplicationController
-  before_filter :authenticate_user!, :only => [:edit, :update, :my_venues]
-  before_filter :require_admin, :only => [:index, :destroy]
-  before_filter :find_venue, :except => [:index, :new, :create, :my_venues]
-  before_filter :be_owner_or_be_admin, :only => [:edit, :update]
+  load_and_authorize_resource(:find_by => :uuid)
   
   # GET /venues
   # GET /venues.json
@@ -108,20 +105,4 @@ class VenuesController < ApplicationController
       format.html
     end
   end
-  
-  protected
-  def find_venue
-    begin
-      @venue = Venue.find_by_uuid(params["id"])
-    rescue Exception => e
-      render_error(:message => "Venue not found.", :status => 404) if @venue.blank?
-    end
-  end  
-  
-  def be_owner_or_be_admin
-    unless user_signed_in? and (current_user == @venue.owner or admin_session?)
-      render_error(:message => "You are not authorized to edit this venue.", :status => :unauthorized)
-    end
-  end
-  
 end
