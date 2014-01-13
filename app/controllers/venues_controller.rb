@@ -98,10 +98,14 @@ class VenuesController < ApplicationController
   # GET /my_venues
   # GET /my_venues.json
   def my_venues
-    @venues = [Venue.new(:name => 'TBD')] + current_user.owned_venues
-    @venues += [Venue.new(:name => 'Add new venue...')] if params[:add_new]
+    @venues = current_user.owned_venues
     respond_to do |format|
-      format.json { render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}} }
+      format.json {
+        @venues = [Venue.new(:name => 'TBD')] + @venues
+        @venues += [Venue.new(:name => 'Add new venue...')] if params[:add_new]
+        render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}} 
+      }
+      format.html
     end
   end
   

@@ -1,0 +1,14 @@
+<h1>Your Venues</h1>
+<p>
+  <%= link_to new_venue_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Venue
+  <% end %>
+</p>
+<div>
+  <% if @venues.blank? %>
+    No venues.
+  <% else %>
+    <%= render 'index', :venues => @venues %>
+  <% end %>
+</div>
