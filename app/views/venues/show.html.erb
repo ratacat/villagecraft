@@ -10,12 +10,12 @@
   </p>
 </div>
 
-<address>
+<p>
   <%= render :partial => 'locations/inline', :locals => {:location => @venue.location, :blur => blur_venue_location?(@venue)} %>
   <p>
     <div id="map-canvas" class="img-polaroid"><%= render(:partial => 'locations/embedded_gmap', :locals => {:q => city_n_state(@venue.location)}) if use_embedded_map %></div>
   </p>
-</address>
+</p>
 
 <%# render :partial => 'reruns/index', :locals => {:reruns => @venue.events.order("start_time DESC")} %>
 
