@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
   load_and_authorize_resource(:find_by => :find_by_seod_uuid)
-  before_filter :find_venue, :only => [:create, :update]
   before_filter :check_lock, :only => [:update, :destroy]
  
   # FIXME: prevent non-admins from changing events (and meetings) that have occurred
@@ -102,7 +101,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     @event.host = current_user
-    @event.venue = @venue
     
     respond_to do |format|
       if @event.save
@@ -119,7 +117,6 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event.venue = @venue
     respond_to do |format|
       @event.assign_attributes(params[:event])
       if @event.save
@@ -277,10 +274,5 @@ class EventsController < ApplicationController
     if @event.locked?
       raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
     end
-  end
-  
-  def find_venue
-    @venue = Venue.find_by_uuid(params[:event][:venue_id])
-    params[:event].delete(:venue_id)
-  end
+  end  
 end
