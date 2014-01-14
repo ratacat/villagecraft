@@ -15,7 +15,7 @@
           <%= f.input_field :external_url %><span class="add-on"><i class="icon-external-link"></i></span>
         <% end %>
 
-        <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.) %>
+        <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
       <% end %>
     </div>
     <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
