@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :as => [:default, :system]
-  attr_accessible :workshop_id, :external, :external_url, :as => :system
+  attr_accessible :workshop_id, :external, :external_url, :venue, :as => :system
   has_uuid(:length => 8)
   acts_as_paranoid
   
@@ -171,6 +171,7 @@ class Event < ActiveRecord::Base
                            :description => description, 
                            :host => workshop.host, 
                            :price => price, 
+                           :venue => venue, 
                            :max_attendees => max_attendees,
                            :external => workshop.external,  # always inherit external attributes from parent workshop
                            :external_url => workshop.external_url,
