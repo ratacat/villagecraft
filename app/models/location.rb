@@ -5,7 +5,23 @@ class Location < ActiveRecord::Base
   belongs_to :neighborhood
   acts_as_paranoid
 
-  geocoded_by :address
+  geocoded_by :address_or_sythesized_address do |obj, results|
+    if geo = results.first
+      obj.latitude = geo.latitude
+      obj.longitude = geo.longitude
+      
+      obj.address ||= geo.formatted_address
+      
+      obj.street ||= geo.street_address
+      obj.city ||= geo.city
+      obj.state ||= geo.state
+      obj.state_code ||= geo.state_code
+      obj.zip ||= geo.postal_code
+      obj.country ||= geo.country_code
+      [obj.latitude, obj.longitude]
+    end
+  end
+  
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
       obj.street = geo.street_address  # when given city+state, this is set to some random address at the centroid
@@ -16,7 +32,7 @@ class Location < ActiveRecord::Base
       obj.country = geo.country_code
     end
   end
-  before_validation :sythesize_address, :geocode
+  before_validation :geocode
   
   validates :latitude, :presence => true
   validates :longitude, :presence => true
@@ -93,6 +109,7 @@ class Location < ActiveRecord::Base
             :unless => lambda {|loc| loc.state_code.blank? or (loc.country != 'US' and not loc.country.blank?)}
   validates :country, :inclusion => { :in => ['US'], :message => "is not the United States" }
   
+  # replace use of this with find_or_smart_create
   def Location.new_from_address(address)
     l = Location.new
     l.address = address
@@ -100,7 +117,7 @@ class Location < ActiveRecord::Base
     l.reverse_geocode
     l
   end
-  
+
   def lookup_and_set_neighborhood
     self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)
     self.save
@@ -108,8 +125,8 @@ class Location < ActiveRecord::Base
 
   protected
   
-  def sythesize_address
-    self.address ||= "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
+  def address_or_sythesized_address
+    self.address || "#{self.street}#{',' unless self.street.blank?} #{self.city}, #{self.state_code} #{self.zip}".strip
   end
   
   def lookup_time_zone

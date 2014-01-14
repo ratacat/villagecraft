@@ -144,7 +144,7 @@ class User < ActiveRecord::Base
       fb_profile_img_uri.query = "type=large"
       random_pwd = Devise.friendly_token[0,20]
 
-      location = Location.new_from_address(auth.info.location)
+      location = Location.create(:address => auth.info.location)
 
       user = User.find_by_email(auth.info.email) ||
              User.new(:email => auth.info.email,
@@ -166,7 +166,7 @@ class User < ActiveRecord::Base
   def User.new_with_session(params, session)
     if session["devise.facebook_data"]
       fb_params = session["devise.facebook_data"][:info].slice(:email, :first_name, :last_name)
-      location = Location.new_from_address(session["devise.facebook_data"][:info][:location])
+      location = Location.create(:address => session["devise.facebook_data"][:info][:location])
       fb_params[:city] = location.city
       fb_params[:state] = location.state_code
       new(fb_params, without_protection: true) do |user|

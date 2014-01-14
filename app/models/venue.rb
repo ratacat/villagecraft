@@ -8,7 +8,7 @@ class Venue < ActiveRecord::Base
   belongs_to :location
   has_many :meetings
   
-  before_validation :find_or_create_location_from_address
+  before_validation :create_location
   
   validates :name, :presence => true
   validates :owner, :presence => true
@@ -41,14 +41,8 @@ class Venue < ActiveRecord::Base
   end
   
   protected
-  def find_or_create_location_from_address
-    if self.address
-      self.location = Location.new_from_address(self.address)
-    else
-      self.location = Location.find_or_create_by_street_and_city_and_state_code(:street => self.street, :city => self.city, :state_code => self.state_code)
-      self.location.geocode
-      self.location.reverse_geocode
-    end
+  def create_location
+    self.location = Location.create(:address => self.address, :street => self.street, :city => self.city, :state_code => self.state_code)
   end
   
 end
