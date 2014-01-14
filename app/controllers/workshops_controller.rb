@@ -68,7 +68,7 @@ class WorkshopsController < ApplicationController
   # POST /workshops.json
   def create
     @workshop = Workshop.new(workshop_params)
-    unless admin_session?
+    unless admin_session? and @workshop.external?
       @workshop.host = current_user
     end
     
