@@ -41,10 +41,13 @@ class VenuesController < ApplicationController
   def create
     @venue = Venue.new(params[:venue])
     @venue.owner = current_user
-    
+    if params[:use_as_venue_for_event]
+      @event = Event.find_by_uuid(params[:use_as_venue_for_event])
+      @venue.owner = @event.host if admin_session?  #admin acting on behalf of event host
+    end
     respond_to do |format|
       if @venue.save
-        Event.find_by_uuid(params[:use_as_venue_for_event]).update_attribute(:venue, @venue) if params[:use_as_venue_for_event]
+        @event.update_attribute(:venue, @venue) unless @event.blank?
         format.js { render :refresh_venues_select }
         format.html { redirect_to @venue, notice: 'Venue was successfully created.' }
         format.json { render json: @venue, status: :created, location: @venue }
@@ -95,7 +98,12 @@ class VenuesController < ApplicationController
   # GET /my_venues
   # GET /my_venues.json
   def my_venues
-    @venues = current_user.owned_venues
+    @venues = 
+      if admin_session?
+        User.find_by_uuid(params[:for_user]).try(:owned_venues)
+      else
+        current_user.owned_venues
+      end
     respond_to do |format|
       format.json {
         @venues = [Venue.new(:name => 'TBD')] + @venues
