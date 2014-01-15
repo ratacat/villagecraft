@@ -220,7 +220,7 @@ Devise.setup do |config|
   #
   # Facebook Auth
   # Credentials for Villagecraft-dev Facebook App
-  config.omniauth :facebook, Rails.configuration.facebook_app_id, Rails.configuration.facebook_app_secret
+  config.omniauth :facebook, Rails.configuration.facebook_app_id, Rails.configuration.facebook_app_secret, {:provider_ignores_state => true}
   # Could add :scope option to the above, listing a comma-separated list of requested permissions (see: http://developers.facebook.com/docs/reference/api/permissions)
 
   # ==> Warden configuration
