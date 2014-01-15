@@ -24,7 +24,7 @@
 	  <%= render :partial => 'devise/registrations/modal_signup' %>
 	  
     <%= body_script do -%>
-      <%= render :partial => 'devise/shared/facebook.js' %>
+      <%= render :partial => 'devise/shared/facebook', :formats => [:js] %>
     <% end -%>
 
 	<% end %>
