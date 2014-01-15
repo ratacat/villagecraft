@@ -4,13 +4,11 @@ deploy_to = "/home/villagecraft/www"
 current_path = "#{deploy_to}/current"
 shared_path = "#{deploy_to}/shared"
 
-require "#{current_path}/config/unicorn_constants"
-
 # Set unicorn options
 
 # Use at least one worker per core if you're on a dedicated server,
 # more will usually help for _short_ waits on databases/caches.
-worker_processes UnicornConstants::NUM_WORKERS
+worker_processes 4
 preload_app true
 
 # nuke workers after X seconds instead of (60 seconds default)
