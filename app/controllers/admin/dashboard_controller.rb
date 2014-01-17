@@ -24,7 +24,7 @@ class Admin::DashboardController < ApplicationController
         ORDER BY id) t 
       GROUP BY grp, owner_id 
       ORDER BY max(id) 
-      DESC LIMIT #{ACTIVITIES_PER_PAGE};
+      DESC LIMIT #{n};
     )    
     records_array = ActiveRecord::Base.connection.execute(fancy_windowing_sql)
     ids = records_array.map {|e| e["id"]}
