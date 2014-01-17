@@ -83,10 +83,18 @@ module ActivitiesHelper
       ''
     end
     
+    html << '<div class="muted">'
     # At a certain time...
     if options[:show_ago]
-      html << content_tag(:div, time_ago(activity.created_at))      
+      html << time_ago(activity.created_at)
     end
+    
+    # Extra html if there is any
+    if options[:extra_html]
+      html << "&#xb7;"
+      html << options[:extra_html]
+    end
+    html << '</div>'   # close <div class="muted">
     html << '</div>'   # close <div class="activity_body">
     html << '</div>'   # close <div class="activity">
     html.join(' ').html_safe
