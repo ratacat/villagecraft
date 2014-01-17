@@ -13,7 +13,7 @@
     </div>
     <div class="caption <%= thumb_size %><%= " right-caption" if right_caption %>">
       <span>
-        <%= link_to annotated_workshop_title(workshop), linked_to, :title => "#{'external workshop' if workshop.external?}" %>
+        <%= annotated_workshop_title(workshop, :linked_to => linked_to) %>
       </span>
     </div>
   </li>
