@@ -1,11 +1,16 @@
 class Admin::DashboardController < ApplicationController
   def index
     dash_auth! :index, :dashboard
+    set_activities_n_counts(20)
   end
   
   def recent_activity
     dash_auth! :recent_activity, :dashboard
-    
+    set_activities_n_counts
+  end
+  
+  protected
+  def set_activities_n_counts(n=ACTIVITIES_PER_PAGE)
     # returns an arrays of ids, like_ids, and a count; each record looks something like this:
     # {"id"=>"451", "like_ids"=>"{456,451,452,453,454,455}", "like_id_count"=>"6"}
     fancy_windowing_sql = %Q(
@@ -24,10 +29,8 @@ class Admin::DashboardController < ApplicationController
     records_array = ActiveRecord::Base.connection.execute(fancy_windowing_sql)
     ids = records_array.map {|e| e["id"]}
     counts = records_array.map {|e| e["like_id_count"].to_i}
-    @activities_n_counts = [PublicActivity::Activity.where(:id => ids).order(:id).reverse_order, counts].transpose
+    @activities_n_counts = [PublicActivity::Activity.where(:id => ids).order(:id).reverse_order, counts].transpose    
   end
-  
-  protected
   
   def dash_auth!(action, subject)
     authorize! action, subject, :message => "The admin dashboard is only for admins in admin mode."

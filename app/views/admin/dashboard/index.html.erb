@@ -10,3 +10,6 @@
 <% end %>
 </p>
 <%= render :partial => 'users/admin_mode_toggle_button' %>
+
+<h3>Recent System Activity</h3>
+<%= render :partial => 'activities/index', :locals => {:activities =>  @activities_n_counts} %>
