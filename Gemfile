@@ -26,6 +26,8 @@ gem 'sass-rails',   '~> 3.2.3'
 gem 'strong_parameters'
 gem 'attribute_normalizer'
 
+gem 'public_suffix'
+
 gem 'geocoder'
 gem 'googlestaticmap'
 

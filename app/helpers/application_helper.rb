@@ -26,6 +26,13 @@ module ApplicationHelper
     end
   end
   
+  def domain_suffix(u)
+    uri = URI.parse(u)
+    return nil if uri.host.blank?
+    domain = PublicSuffix.parse(uri.host)
+    domain.domain
+  end
+  
   def icon_meter(options={})
     defaults = {
       :rows => 2, 
