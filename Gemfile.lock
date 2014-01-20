@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/bteitelb/validates_url.git
-  revision: 465fd5eba0a136773313bd2351c4e150a6e63a0a
+  revision: 35bf5859d65346545f34f3a6895b6fa02288d842
   specs:
-    validate_url (0.2.2)
+    validate_url (0.2.3)
       activemodel (>= 3.0.0)
       addressable (>= 2.3)
 
