@@ -122,6 +122,10 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def manageable?
+    not self.external? and self.rsvp?
+  end
+  
   def Event.placeholder_src(size = :medium)
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"

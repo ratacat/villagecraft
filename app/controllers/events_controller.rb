@@ -30,9 +30,19 @@ class EventsController < ApplicationController
   # GET /events/1/manage
   # GET /events/1.json/manage
   def manage_attendees
-    respond_to do |format|
-      format.html { render 'show' }
-      format.json { render json: @event }
+    if @event.manageable?
+      respond_to do |format|
+        format.html { render 'show' }
+        format.json { render json: @event }
+      end
+    else
+      if not @event.rsvp
+        render_error(:message => 'Cannot manage attendees because RSVP is not set for this workshop', :status => :unauthorized)
+      elsif @event.external
+        render_error(:message => 'Cannot manage attendees of an external workshop', :status => :unauthorized)
+      else
+        render_error(:message => 'Workshop unmanageable for some reason', :status => :unauthorized)
+      end
     end
   end
 

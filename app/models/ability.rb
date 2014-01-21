@@ -38,7 +38,6 @@ class Ability
       # admin
       if user.admin? and session[:admin_mode]
         can :manage, :all
-        cannot :manage_attendees, Event, :external => true
       end
     end
 
