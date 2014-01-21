@@ -23,9 +23,9 @@
     <tr style="display: none;" class="event_detail">
       <td>
         <h3 class="event_title<%= %q( muted) unless workshop.ongoing_or_next_rerun %>"><%= annotated_workshop_title(workshop) %><%= render :partial => "workshops/promo_link", :locals => {:workshop => workshop} %></h3>
-        <div class="span2 pull-right center-text">
+        <div class="span2 pull-right center-text margin10">
           <span class="cta"><%= render :partial => 'events/smart_attend_btn', :locals => {:event => workshop.ongoing_or_next_rerun} %></span>
-
+          <%= content_tag(:div, event_price(workshop.ongoing_or_next_rerun), :class => 'muted') unless workshop.ongoing_or_next_rerun.blank? %>
           <%
             # FIXME: optimize this
             upcoming_reruns = workshop.upcoming_reruns

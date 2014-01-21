@@ -2,10 +2,18 @@
   no_button ||= false
 %>
 <% if event %>
-  <% if event.external? and not event.external_url.blank? and not no_button %>
-    <%= link_to event.external_url, :title => 'more information off-site', :class => "btn btn-large", :target => '_blank' do -%>
-      <%= event_price(event) %> <i class="icon-external-link icon-large"></i>
-    <% end -%>              
+  <% if event.external? %>
+    <% unless event.external_url.blank? or no_button %>
+      <% if event.rsvp? %>
+        <%= link_to event.external_url, :title => 'sign up off-site', :class => "btn btn-large", :target => '_blank' do -%>
+          Sign up <i class="icon-external-link icon-large"></i>
+        <% end -%>
+      <% else %>
+        <%= link_to event.external_url, :title => 'more information off-site', :class => "btn btn-large", :target => '_blank' do -%>
+          More info <i class="icon-external-link icon-large"></i>
+        <% end -%>
+      <% end %>
+    <% end %>
   <% else %>
     <% if event.slots_left > 0 %>
       <% if user_signed_in? %>
@@ -14,11 +22,9 @@
             <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
           </div>
         <% else %>
-          <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
-            <h4 class="fee"><%= event_price(event) %></h4>
-          <% else %>
+          <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
             <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
-              <i class="icon-check icon-large text-success"></i><%= event_price(event) %>
+              <i class="icon-check icon-large text-success"></i>RSVP
             <% end -%>
           <% end %>
         <% end %>

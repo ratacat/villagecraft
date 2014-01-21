@@ -25,10 +25,14 @@
           <% if next_rerun.venue.blank? %>
             TBD
           <% else %>
-            <% if user_signed_in? and current_user.attending_event?(next_rerun) %>
+            <% if next_rerun.external? %>
               <%= address(next_rerun.venue.location) %>
             <% else %>
-              <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false) %>
+              <% if (not next_rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(next_rerun)) %>
+                <%= address(next_rerun.venue.location) %>
+              <% else %>
+                <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false) %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>
