@@ -3,8 +3,8 @@ require "has_ordering_through_meetings"
 class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
-  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :as => [:default, :system]
-  attr_accessible :workshop_id, :external, :external_url, :venue, :as => :system
+  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :external, :external_url, :rsvp, :as => [:default, :system]
+  attr_accessible :workshop_id, :venue, :as => :system
   has_uuid(:length => 8)
   acts_as_paranoid
   

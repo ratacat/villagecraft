@@ -148,7 +148,8 @@ CREATE TABLE events (
     deleted_at timestamp without time zone,
     external boolean,
     external_url character varying(255),
-    unlocked_at timestamp without time zone
+    unlocked_at timestamp without time zone,
+    rsvp boolean DEFAULT true
 );
 
 
@@ -790,6 +791,13 @@ CREATE INDEX index_events_on_image_id ON events USING btree (image_id);
 
 
 --
+-- Name: index_events_on_rsvp; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_events_on_rsvp ON events USING btree (rsvp);
+
+
+--
 -- Name: index_events_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1231,3 +1239,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140110205629');
 INSERT INTO schema_migrations (version) VALUES ('20140110205655');
 
 INSERT INTO schema_migrations (version) VALUES ('20140110210757');
+
+INSERT INTO schema_migrations (version) VALUES ('20140120192240');
