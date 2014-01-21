@@ -16,12 +16,12 @@
     </td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
     <td>
-      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0 rsvp_toggle' }) do |f| -%>
+      <%= form_for(rerun, :remote => true, :format => :json, :html => { :method => :put, :class => 'margin0 rsvp_toggle' }) do |f| -%>
         <%= f.check_box :rsvp, :class => 'submit_on_click' %>
       <% end -%>
     </td>
     <td>
-      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0 external_toggle' }) do |f| -%>
+      <%= form_for(rerun, :remote => true, :format => :json, :html => { :method => :put, :class => 'margin0 external_toggle' }) do |f| -%>
         <%= f.check_box :external, :class => 'submit_on_click' %>
       <% end -%>
       <div class="external_url<%= ' initially_hidden' unless rerun.external %>">
