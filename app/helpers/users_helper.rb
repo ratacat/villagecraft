@@ -57,11 +57,13 @@ module UsersHelper
   end
   
   def annotated_user_name(user, options={})
-    html = user.name
+    html = ''.html_safe
+    html << user.name
     if user.external?
-      html += " " + content_tag(:i, '', :class => 'icon-external-link')      
+      html << " ".html_safe
+      html << content_tag(:i, '', :class => 'icon-external-link')      
     end
-    html.html_safe
+    html
   end
   
   def rich_user_thumbnail(user, options={})

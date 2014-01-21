@@ -9,52 +9,54 @@ module ActivitiesHelper
     }
     options.reverse_merge!(defaults)
     options[:viewer] ||= current_user
-    html = []
+    html = ''.html_safe
 
-    html << '<div class="activity">'
+    html << '<div class="activity">'.html_safe
     # Somebody...
     unless options[:profile_image_size] === :none
-      html << %Q(<div class="pull-left activity_thumb #{options[:profile_image_size]}">)
+      html << %Q(<div class="pull-left activity_thumb #{options[:profile_image_size]}">).html_safe
       html << user_thumb(activity.owner, :size => options[:profile_image_size], :linked => (not options[:plaintext]), :only_path => options[:only_path])      
-      html << '</div>'
+      html << '</div>'.html_safe
     end
-    html << '<div class="activity_body">'
+    html << '<div class="activity_body">'.html_safe
     if options[:plaintext]
       html << content_tag(:strong, contextualized_user_name(activity.owner, :capitalize => true, :viewer => options[:viewer]))
     else
-      html << contextualized_user_link(activity.owner, :capitalize => true, :viewer => options[:viewer], :only_path => options[:only_path])
+      html << contextualized_user_link(activity.owner, :capitalize => true, :viewer => options[:viewer], :only_path => options[:only_path]).html_safe
     end
     verb_person = (activity.owner === options[:viewer]) ? :second : :third
+    html << ' '.html_safe
 
     # Did something...
     case activity.key
     when 'meeting.time_changed'
-      html << 'changed the meeting time'
+      html << 'changed the meeting time'.html_safe
     when 'meeting.venue_changed'
-      html << 'changed the meeting venue'
+      html << 'changed the meeting venue'.html_safe
     when 'event.create'
-      html << 'created the event'
+      html << 'created the event'.html_safe
     when 'event.interested'
-      html << "#{:be.verb.conjugate :person => verb_person} interested in attending"
+      html << "#{:be.verb.conjugate :person => verb_person} interested in attending".html_safe
     when 'event.attend'
-      html << "#{:plan.verb.conjugate :person => verb_person} to attend"
+      html << "#{:plan.verb.conjugate :person => verb_person} to attend".html_safe
     when 'event.cancel_attend'
-      html << "no longer #{:plan.verb.conjugate :person => verb_person} to attend"
+      html << "no longer #{:plan.verb.conjugate :person => verb_person} to attend".html_safe
     when 'event.host_cancels_attend'
-      html << "are no longer signed up to attend"
+      html << "are no longer signed up to attend".html_safe
     else
       if /(.*)\.(create|update|destroy)/.match(activity.key)
         html << "#{($2).verb.conjugate :person => verb_person, :tense => :past, :aspect => :perfective}"
         html << " the #{$1}" if activity.trackable
       end
     end
+    html << ' '.html_safe
 
     # To something...
     if options[:show_trackable]
       trackable = activity.trackable
       case activity.key
       when 'meeting.time_changed', 'meeting.venue_changed'
-        html << 'of'
+        html << 'of '.html_safe
       else
         ''
       end
@@ -68,6 +70,7 @@ module ActivitiesHelper
         end
       end
     end
+    html << ' '.html_safe
     
     # Extra info about what happened (e.g. time or venue changed to what?)...
     case activity.key
@@ -83,7 +86,7 @@ module ActivitiesHelper
       ''
     end
     
-    html << '<div class="muted">'
+    html << '<div class="muted">'.html_safe
     # At a certain time...
     if options[:show_ago]
       html << time_ago(activity.created_at)
@@ -91,14 +94,12 @@ module ActivitiesHelper
     
     # Extra html if there is any
     if options[:extra_html]
-      html << "&#xb7;"
+      html << " &#xb7; ".html_safe
       html << options[:extra_html]
     end
-    html << '</div>'   # close <div class="muted">
-    html << '</div>'   # close <div class="activity_body">
-    html << '</div>'   # close <div class="activity">
-    html.join(' ').html_safe
-    
-
+    html << '</div>'.html_safe   # close <div class="muted">
+    html << '</div>'.html_safe   # close <div class="activity_body">
+    html << '</div>'.html_safe   # close <div class="activity">
+    html
   end
 end
