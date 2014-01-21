@@ -17,11 +17,13 @@ module EventsHelper
   alias :rerun_price :event_price
   
   def annotated_event_title(event, options={})
-    html = event.title
+    html = ''.html_safe
+    html << event.title
     if event.external?
-      html += " " + content_tag(:i, '', :class => 'icon-external-link')      
+      html << " ".html_safe
+      html << content_tag(:i, '', :class => 'icon-external-link').html_safe
     end
-    html.html_safe
+    html
   end
   
   def blur_event_location?(event)
