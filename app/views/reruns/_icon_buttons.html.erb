@@ -1,7 +1,9 @@
 <%
   rerun ||= @rerun
 %>
-<%= iconic_link_to("Manage attendees", manage_event_path(rerun), :icon => 'group', :class => 'btn btn-small') %>
+<span class="manage_attendees<%= ' initially_hidden' unless rerun.rsvp %>">
+  <%= iconic_link_to("Manage attendees", manage_event_path(rerun), :icon => 'group', :class => "btn btn-small") %>
+</span>
 <% if rerun.attended? %>
   <% if rerun.locked? %>
   <%= iconic_link_to('', unlock_event_path(rerun), 

@@ -16,7 +16,7 @@
     </td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
     <td>
-      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0' }) do |f| -%>
+      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0 rsvp_toggle' }) do |f| -%>
         <%= f.check_box :rsvp, :class => 'submit_on_click' %>
       <% end -%>
     </td>

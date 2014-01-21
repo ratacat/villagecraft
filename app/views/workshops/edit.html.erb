@@ -127,6 +127,16 @@
     }
   });
   
+  $(document).on('ajax:complete', 'form.rsvp_toggle', function(event, data, status, xhr) {
+    var manage_attendees_button = $(this).closest('tr').find('.manage_attendees');
+    console.log(manage_attendees_button);
+    if( $(this).find("input:checkbox").is(':checked') ) {
+      manage_attendees_button.show();
+    } else {
+      manage_attendees_button.hide();
+    }
+  });
+  
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
