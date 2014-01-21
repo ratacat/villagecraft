@@ -39,7 +39,7 @@ gem 'public_activity'
 gem "paperclip", "~> 3.0"
 
 gem 'state_machine'
-gem 'formatize'
+gem 'bluecloth'
 
 gem 'verbs'
 gem 'zeroclipboard-rails'

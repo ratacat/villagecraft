@@ -40,7 +40,7 @@
 
         </div>
         <div class="event_description">
-          <%= markdown(workshop.description.try(:html_safe), :mkd_noheader) %>
+          <%= BlueCloth.new(workshop.description, :filter_html).to_html.html_safe %>
         </div>
       </td>
       <td>

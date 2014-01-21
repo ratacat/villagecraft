@@ -32,7 +32,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    RedCloth (4.2.9)
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
       mail (~> 2.5.3)
@@ -130,10 +129,6 @@ GEM
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
     ffi (1.9.3)
-    formatize (1.1.0)
-      RedCloth (~> 4.2)
-      actionpack (~> 3.0)
-      bluecloth (~> 2.2)
     geocoder (1.1.9)
     google_timezone (0.0.1)
     googlestaticmap (1.1.4)
@@ -319,6 +314,7 @@ PLATFORMS
 DEPENDENCIES
   attribute_normalizer
   awesome_print
+  bluecloth
   bootstrap-generators (~> 2.3)
   bootstrap-sass (~> 2.3.2.0)
   cancan
@@ -332,7 +328,6 @@ DEPENDENCIES
   execjs
   factory_girl_rails
   font-awesome-sass-rails!
-  formatize
   geocoder
   google_timezone
   googlestaticmap
