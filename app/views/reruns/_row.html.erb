@@ -15,7 +15,20 @@
       </span>
     </td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-    <td><%= rerun.attendances.count %></td>
+    <td>
+      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0' }) do |f| -%>
+        <%= f.check_box :rsvp, :class => 'submit_on_click' %>
+      <% end -%>
+    </td>
+    <td>
+      <%= form_for(rerun, :remote => true, :html => { :method => :put, :class => 'margin0 external_toggle' }) do |f| -%>
+        <%= f.check_box :external, :class => 'submit_on_click' %>
+      <% end -%>
+      <div class="external_url<%= ' initially_hidden' unless rerun.external %>">
+        <%= editable rerun, :external_url %>        
+      </div>
+    </form>
+    </td>
     <td><%= editable rerun, :max_attendees %></td>
     <td><span class="vc_editable venue"><%= editable rerun, :venue_uuid, :sourceCache => (not clear_source_cache), :source => my_venues_path(:add_new => true, :for_user => @workshop.host.uuid) %></span></td>
     <td><%= editable rerun, :price %></td>
@@ -30,7 +43,15 @@
   <% end -%> data-rerun_uuid="<%= rerun.uuid %>">
     <td class="meeting_time"><span><%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %></span></td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-    <td><%= rerun.attendances.count %></td>
+    <td>
+      <%= check_box_tag '', 1, rerun.rsvp, disabled: true %>
+    </td>
+    <td>
+      <%= check_box_tag '', 1, rerun.external, disabled: true %><br/>
+      <% if rerun.external %>
+        <span class="muted"><%= rerun.external_url.truncate(27) %></span>
+      <% end %>
+    </td>
     <td><%= rerun.max_attendees %></td>
     <td><%= inline_venue(rerun.venue) %></td>
     <td><%= rerun_price(rerun) %></td>

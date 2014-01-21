@@ -35,6 +35,8 @@
   function editablize_meetings() {
     $('.editable[data-name="max_attendees"]').editable();
     $('.editable[data-name="venue_uuid"]').editable();
+    $('.editable[data-name="external"]').editable({display: yes_or_no_display});
+    $('.editable[data-name="external_url"]').editable({display: click_to_edit_url_display});
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
 
     $('span.vc_editable.meeting_time').popover({
@@ -116,6 +118,15 @@
     };
   });
   
+  $(document).on('ajax:complete', 'form.external_toggle', function(event, data, status, xhr) {
+    var external_url_input = $(this).closest('td').find('.external_url');
+    if( $(this).find("input:checkbox").is(':checked') ) {
+      external_url_input.show();
+    } else {
+      external_url_input.hide();
+    }
+  });
+  
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
@@ -144,6 +155,8 @@
     if (e.keyCode === 27)
       hide_vc_editable_popovers(this);
   });
+  
+  $(".external_check").popover({content: "Use this option to promote an external event on Villagecraft.  Users will be directed off-site to sign up, contact the host or learn more.", trigger: 'hover', placement: 'left'});
   
   $(document).on('change', "td span.venue form select", function() {
     if ($(this).val() === "Add new venue...") {

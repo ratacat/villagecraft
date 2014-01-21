@@ -7,6 +7,13 @@ if(!String.prototype.trim) {
   };
 }
 
+if(!String.prototype.trunc) {
+  String.prototype.trunc = String.prototype.trunc ||
+      function(n){
+          return this.length>n ? this.substr(0,n-1)+'&hellip;' : this;
+      };
+}
+
 function raty_ratings() {
   $('div.star_rating').raty({
     path: '/assets', 
@@ -56,7 +63,11 @@ jQuery(function($) {
   $('.click_to_show').click(function(e) {
     window.document.location = $(this).attr("href");
   });
-    
+  
+  $(document).on('click', 'form input.submit_on_click', function(e) {
+    $(this).closest('form').submit();
+  });
+  
   var zclip = new ZeroClipboard($('button.zero_clip_button'));
   $(zclip.htmlBridge).tooltip({title: "copy to clipboard", placement: 'bottom', delay: { show: 10, hide: 400 }});
   

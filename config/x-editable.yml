@@ -8,6 +8,10 @@ class_options:
       type: number
       step: 1
       min: 0
+    external_url:
+      type: text
+      title: 'External URL'
+      placeholder: URL of external event
     venue_uuid:
       type: select
       title: Venue

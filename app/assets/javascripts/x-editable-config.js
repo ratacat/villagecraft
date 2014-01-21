@@ -11,4 +11,13 @@ var editable_currency_display =
     var html = value > 0 ? '$' + Number(value).toFixed(0) : 'Free'; 
     $(this).html(html);
   };
-  
+
+var click_to_edit_url_display = 
+  function(value, response) { 
+    $(this).html(value.trunc(25));
+  };
+
+var yes_or_no_display = 
+  function(value, response) { 
+    $(this).html(value ? 'yes' : 'no');
+  };
