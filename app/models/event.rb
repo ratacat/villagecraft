@@ -146,6 +146,9 @@ class Event < ActiveRecord::Base
       price = m0.event.price
       venue = m0.venue
       max_attendees = m0.event.max_attendees
+      rsvp = m0.event.rsvp
+      external = m0.event.external
+      external_url = m0.event.external_url
     else
       # This is the first scheduled rerun, default to tomorrow @7pm
       default_tz_name = workshop.host.try(:location).try(:time_zone) || "America/Los_Angeles"
@@ -157,6 +160,9 @@ class Event < ActiveRecord::Base
       price = 0
       venue = nil
       max_attendees = 8
+      rsvp = true
+      external = workshop.external
+      external_url = workshop.external_url
     end
         
     # don't allow new rerun to start in the past
@@ -173,8 +179,9 @@ class Event < ActiveRecord::Base
                            :price => price, 
                            :venue => venue, 
                            :max_attendees => max_attendees,
-                           :external => workshop.external,  # always inherit external attributes from parent workshop
-                           :external_url => workshop.external_url,
+                           :rsvp => rsvp,
+                           :external => external,
+                           :external_url => external_url,
                            :workshop_id => workshop.id}, :as => :system)
     Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
   end
