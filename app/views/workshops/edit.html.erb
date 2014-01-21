@@ -32,6 +32,17 @@
     $('span.vc_editable').not(_this).popover('hide');    
   };
 
+  function hide_or_show_manage_attendees_button(row) {
+    var manage_attendees_button = row.find('.manage_attendees');
+    var rsvp_toggle = row.find("form.rsvp_toggle input:checkbox")
+    var external_toggle = row.find("form.external_toggle input:checkbox")
+    if( rsvp_toggle.is(':checked') && ! external_toggle.is(':checked')) {
+      manage_attendees_button.show();
+    } else {
+      manage_attendees_button.hide();
+    }
+  }
+
   function editablize_meetings() {
     $('.editable[data-name="max_attendees"]').editable();
     $('.editable[data-name="venue_uuid"]').editable();
@@ -120,6 +131,7 @@
   
   $(document).on('ajax:complete', 'form.external_toggle', function(event, data, status, xhr) {
     var external_url_input = $(this).closest('td').find('.external_url');
+    hide_or_show_manage_attendees_button($(this).closest('tr'))
     if( $(this).find("input:checkbox").is(':checked') ) {
       external_url_input.show();
     } else {
@@ -128,13 +140,7 @@
   });
   
   $(document).on('ajax:complete', 'form.rsvp_toggle', function(event, data, status, xhr) {
-    var manage_attendees_button = $(this).closest('tr').find('.manage_attendees');
-    console.log(manage_attendees_button);
-    if( $(this).find("input:checkbox").is(':checked') ) {
-      manage_attendees_button.show();
-    } else {
-      manage_attendees_button.hide();
-    }
+    hide_or_show_manage_attendees_button($(this).closest('tr'));
   });
   
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
