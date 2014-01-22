@@ -43,10 +43,14 @@ module ActivitiesHelper
       html << "no longer #{:plan.verb.conjugate :person => verb_person} to attend".html_safe
     when 'event.host_cancels_attend'
       html << "are no longer signed up to attend".html_safe
+    when 'event.sms'
+      html << "sent a message to the attendees of".html_safe
     else
       if /(.*)\.(create|update|destroy)/.match(activity.key)
         html << "#{($2).verb.conjugate :person => verb_person, :tense => :past, :aspect => :perfective}"
         html << " the #{$1}" if activity.trackable
+      else
+        html << 'did something to'.html_safe
       end
     end
     html << ' '.html_safe
@@ -75,29 +79,37 @@ module ActivitiesHelper
     # Extra info about what happened (e.g. time or venue changed to what?)...
     case activity.key
     when 'event.host_cancels_attend'
-      html << "(the host has cancelled your attendance)"
+      html << "(the host has cancelled your attendance)".html_safe
     when 'meeting.time_changed'
       html << "to #{activity.parameters[:new_time]}"
     when 'meeting.venue_changed'
       venue = Venue.find_by_id(activity.parameters[:new_venue_id])
-      html << "to "
+      html << "to ".html_safe
       html << inline_venue(venue, :linked => (not options[:plaintext]), :only_path => options[:only_path])
-    else
-      ''
     end
     
+    # Muted line below main activity line
     html << '<div class="muted">'.html_safe
     # At a certain time...
     if options[:show_ago]
       html << time_ago(activity.created_at)
     end
     
-    # Extra html if there is any
+    # Extra html if there is any (e.g. "5 similar activities hidden")
     if options[:extra_html]
       html << " &#xb7; ".html_safe
       html << options[:extra_html]
     end
     html << '</div>'.html_safe   # close <div class="muted">
+    
+    # Activity body (image thumbnail, new venue, new time, SMS message, etc.)
+    case activity.key
+    when 'event.sms'
+      html << ': "'.html_safe if options[:plaintext]
+      html << content_tag(:blockquote, activity.parameters[:message], :class => "fancy indent-#{options[:profile_image_size]}")
+      html << '"'.html_safe if options[:plaintext]
+    end
+    
     html << '</div>'.html_safe   # close <div class="activity_body">
     html << '</div>'.html_safe   # close <div class="activity">
     html

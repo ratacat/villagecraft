@@ -35,6 +35,8 @@ class Notifier < ActiveRecord::Observer
         # FIXME: add additional targets here, e.g. friend of attendee
 
         # For MVP, only target host(s)
+      when 'event.sms'
+        targets += event.attendees
       end
     when 'Workshop'
       # NOOP
@@ -44,7 +46,7 @@ class Notifier < ActiveRecord::Observer
     targets.uniq!
     # targets -= [activity.owner]
     targets.each do |user|
-      Notification.create(:user => user, :activity => activity, :email_me => user.email_notifications)
+      user.notify(activity)
     end
   end
 end

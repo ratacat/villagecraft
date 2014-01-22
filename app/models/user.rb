@@ -130,6 +130,16 @@ class User < ActiveRecord::Base
     ret
   end
 
+  # route the notification appropriately, depending on the user's settings
+  def notify(activity)
+    case activity.key
+    when 'event.sms'
+      Notification.create(:user => self, :activity => activity, :email_me => (self.email_notifications or self.email_short_messages), :sms_me => self.sms_short_messages)
+    else
+      Notification.create(:user => self, :activity => activity, :email_me => self.email_notifications)
+    end
+  end
+
   def send_sms(msg)
     if Rails.env.development?
       Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)

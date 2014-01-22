@@ -1,5 +1,5 @@
 class Notification < ActiveRecord::Base
-  attr_accessible :user, :activity, :email_me, :emailed_at
+  attr_accessible :user, :activity, :email_me, :emailed_at, :sms_me, :smsed_at
   has_uuid(:length => 8)
   acts_as_paranoid
 
@@ -31,6 +31,15 @@ class Notification < ActiveRecord::Base
       end
     EVAL
     action_view.render inline: "<%= strip_tags(render_activity notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false).strip.html_safe %>", locals: {:notification => self}
+  end
+  
+  def to_sms
+    case self.activity.key
+    when 'event.sms'
+      self.activity.parameters[:message]
+    else
+      raise "Don't know how to do to_sms for #{self.activity.key} notification"
+    end
   end
 
 end
