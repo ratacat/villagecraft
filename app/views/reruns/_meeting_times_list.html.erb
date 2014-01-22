@@ -4,8 +4,9 @@
   include_location ||= false
   li_class ||= nil
   br_on ||= false
+  inline ||= false
 %>
-<ul>
+<ul class="<%= 'inline' if inline %>">
   <% rerun.meetings.order(:start_time).each do |meeting| -%>
     <li <%= "class='#{li_class}'" if li_class %>>
       <span><%= meeting_time(meeting, :no_tz => true, :show_livestamp => false, :spacer => ' ') %></span>

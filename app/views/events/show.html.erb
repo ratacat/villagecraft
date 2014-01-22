@@ -1,13 +1,17 @@
 <% if (@event.host === current_user) or admin_session? %>
   <div class="row">
     <div class="span12 well">
-      <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %> - <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
-      <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+      <h3 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h3>
+      <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
         <%= event_price(@event, :show_materials_fee => true) %> · 
         <%= @event.max_attendees %> slots · 
         <%= pluralize(@event.attendances.count, 'person') %> signed up · 
-        meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %></span>
-        <%= render 'manage_attendances' %>
+        meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %>
+      </p>
+      <p>
+        <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
+      </p>
+      <%= render 'manage_attendances' %>
     </div>
   </div>
 <% end %>
