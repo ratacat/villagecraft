@@ -1,0 +1,12 @@
+<%= simple_form_for(:sms, :url => sms_attendees_path(rerun), :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
+  <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3"}, :wrapper_html => {:class => 'margin0'} %>
+  <%= f.submit 'Send SMS', :class => 'btn btn-default' %>
+<% end %>
+
+<% ready_script do -%>
+  $("#send_sms_form").bind('ajax:success', function(evt, data, status, xhr) {
+    show_bootstrap_alert({text: "Message sent to attendees"});
+  }).bind('ajax:complete', function(evt, xhr, status) {
+    $("#send_sms_form textarea").val('');
+  });
+<% end -%>

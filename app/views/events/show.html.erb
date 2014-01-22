@@ -1,19 +1,19 @@
 <% if (@event.host === current_user) or admin_session? %>
-  <div class="row">
-    <div class="span12 well">
-      <h3 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h3>
-      <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
-        <%= event_price(@event, :show_materials_fee => true) %> · 
-        <%= @event.max_attendees %> slots · 
-        <%= pluralize(@event.attendances.count, 'person') %> signed up · 
-        meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %>
-      </p>
-      <p>
-        <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
-      </p>
-      <%= render 'manage_attendances' %>
-    </div>
+  <div class="hero-unit margin0">
+    <h3 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h3>
+    <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+      <%= event_price(@event, :show_materials_fee => true) %> · 
+      <%= @event.max_attendees %> slots · 
+      <%= pluralize(@event.attendances.count, 'person') %> signed up · 
+      meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %>
+    </p>
+    <p>
+      <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
+    </p>
+    <h4 class="muted">Send a short message to attendees</h4>
+    <%= render 'reruns/message_attendees', :rerun => @event %>
   </div>
+  <%= render 'manage_attendances' %>
 <% end %>
 
 <%# render :partial => 'events/attend_status_and_call_to_action' %>  
