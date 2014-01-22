@@ -16,10 +16,15 @@ end
 
 while($running) do
   
-  Notification.where(:email_me => true).each do |n|
+  Notification.where(:email_me => true, :emailed_at => nil).each do |n|
     UserMailer.notification_email(n).deliver
-    n.update_attributes(:emailed_at => Time.now, :email_me => false)
+    n.update_attribute(:emailed_at, Time.now)
     Rails.logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
+  end
+
+  Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
+    n.user.send_sms(n.to_sms)
+    n.update_attribute(:smsed_at, Time.now)
   end
   
   sleep 30
