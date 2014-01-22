@@ -10,14 +10,14 @@
     <%= f.input :email, label: 'Email', :hint => link_to('change your email address', edit_user_registration_path), :input_html => {:disabled => true} %>
 
     <h3>Short Messages</h3>
-    <p class="help-block">Where would you like to receive short messages from workshop hosts?  Example: "Workshop has been moved to the park across the street!".</p>
+    <p class="help-block">Where would you like to receive short messages from workshop hosts?  Example: "Workshop has been moved to the park across the street!"</p>
     <hr/>
     <div class="control-group">
       <label class="checkbox controls">
-        <%= f.input_field :sms_short_messages, as: :boolean, boolean_style: :inline %> Send by SMS
+        <%= f.input_field :sms_short_messages, as: :boolean, boolean_style: :inline %> SMS to my mobile phone
       </label>      
       <label class="checkbox controls">
-        <%= f.input_field :email_short_messages, as: :boolean, boolean_style: :inline %> Send by email
+        <%= f.input_field :email_short_messages, as: :boolean, boolean_style: :inline %> Send to email
       </label>      
     </div>
 
