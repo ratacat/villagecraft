@@ -49,7 +49,9 @@ class UsersController < ApplicationController
     @user = current_user
     respond_to do |format|
       if @user.update_attributes(user_params)
-        format.html { redirect_to root_path, notice: 'Your preferences have been updated.' }
+        format.html { 
+          redirect_to edit_preferences_path, notice: 'Your preferences have been updated.' 
+        }
         format.json { head :no_content }
       else
         format.html { render action: "edit_preferences" }
@@ -99,7 +101,7 @@ class UsersController < ApplicationController
   end
   
   def user_params
-    ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications]
+    ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications, :sms_short_messages, :email_short_messages]
     ok_params += [:host, :external] if admin_session?
     ok_params += [:description] if current_user.host?
     params[:user].permit(*ok_params)
