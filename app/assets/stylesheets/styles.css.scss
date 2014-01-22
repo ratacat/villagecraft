@@ -482,3 +482,43 @@ a.icon_button, a.icon_button:hover, a.undecorated {
   text-decoration: none;
   font-size: 80%;
 }
+
+.indent-thumb {
+  margin-left: $thumb_thumb_size + 10;
+}
+
+blockquote.fancy {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  width: 500px;
+//  margin: 0.25em 0;
+  border: none;
+  padding: 0.35em 20px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+  margin-bottom: 0;
+}
+
+blockquote.fancy:before {
+  display: block;
+  padding-left: 10px;
+  content: "\201C";
+  font-size: 50px;
+  position: absolute;
+  left: -20px;
+  top: -12px;
+  color: #7a7a7a;
+}
+
+blockquote.fancy cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote.fancy cite:before {
+  content: "\2014 \2009";
+}
