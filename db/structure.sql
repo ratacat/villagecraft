@@ -443,7 +443,9 @@ CREATE TABLE users (
     authentication_token character varying(255),
     email_notifications boolean DEFAULT true,
     external boolean,
-    description text
+    description text,
+    sms_short_messages boolean,
+    email_short_messages boolean DEFAULT false
 );
 
 
@@ -945,6 +947,13 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
+-- Name: index_users_on_email_short_messages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_email_short_messages ON users USING btree (email_short_messages);
+
+
+--
 -- Name: index_users_on_external; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -970,6 +979,13 @@ CREATE INDEX index_users_on_profile_image_id ON users USING btree (profile_image
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_sms_short_messages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_sms_short_messages ON users USING btree (sms_short_messages);
 
 
 --
@@ -1241,3 +1257,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140110205655');
 INSERT INTO schema_migrations (version) VALUES ('20140110210757');
 
 INSERT INTO schema_migrations (version) VALUES ('20140120192240');
+
+INSERT INTO schema_migrations (version) VALUES ('20140122060716');
+
+INSERT INTO schema_migrations (version) VALUES ('20140122060741');
