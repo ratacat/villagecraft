@@ -10,7 +10,7 @@
     <p>
       <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
     </p>
-    <h4 class="muted">Send a short message to attendees</h4>
+    <h4 class="muted">Short message for attendees (SMS)</h4>
     <%= render 'reruns/message_attendees', :rerun => @event %>
   </div>
   <%= render 'manage_attendances' %>

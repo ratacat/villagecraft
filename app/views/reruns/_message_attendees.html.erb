@@ -1,7 +1,7 @@
 <%= simple_form_for(:sms, :url => sms_attendees_path(rerun), :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
   <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3"}, :wrapper_html => {:class => 'margin0'} %>
   <div id="my_counter" class="counter"></div>
-  <%= f.submit 'Send SMS', :class => 'btn btn-default' %>
+  <%= f.submit 'Send', :class => 'btn btn-default' %>
 <% end %>
 
 <%- content_for(:a_la_carte_js) do -%>
