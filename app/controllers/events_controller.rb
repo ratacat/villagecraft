@@ -46,6 +46,11 @@ class EventsController < ApplicationController
     end
   end
 
+  # POST /events/1/sms_attendees
+  def sms_attendees
+    render :json => @event.create_activity(key: 'event.sms', owner: current_user, parameters: {:message => params[:sms][:message]})
+  end
+
   # POST /events/1/lock
   # POST /events/1.json/lock
   def lock
