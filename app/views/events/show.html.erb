@@ -1,17 +1,15 @@
 <% if (@event.host === current_user) or admin_session? %>
-<div class="row">
-  <div class="span12 well">
-    <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %> - 
-    <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
-  <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
-  <%= event_price(@event, :show_materials_fee => true) %> · 
-  <%= @event.max_attendees %> slots · 
-  <%= pluralize(@event.attendances.count, 'person') %> signed up · 
-  meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %></span>
-    
-    <%= render 'manage_attendances' %>
+  <div class="row">
+    <div class="span12 well">
+      <h3 style="position:relative;top:-22px;"> <%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %> - <%= render 'reruns/meeting_times_single', :rerun => @event, :include_venue => false %></h3>
+      <span style="position:relative;top:-35px;">hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+        <%= event_price(@event, :show_materials_fee => true) %> · 
+        <%= @event.max_attendees %> slots · 
+        <%= pluralize(@event.attendances.count, 'person') %> signed up · 
+        meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %></span>
+        <%= render 'manage_attendances' %>
+    </div>
   </div>
-</div>
 <% end %>
 
 <%# render :partial => 'events/attend_status_and_call_to_action' %>  
