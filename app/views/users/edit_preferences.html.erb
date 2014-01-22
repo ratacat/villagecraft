@@ -1,15 +1,37 @@
 <div class="span8">
   <div class="row">
-    <h2>Settings</h2>
-    <div class="span-4">
-      <%= simple_form_for(@user, :url => update_preferences_path, :html => { :method => :put, class: "form-horizontal" }) do |f| %>
-      <%= f.error_notification %>
+  <h2>Settings</h2>
+  <%= simple_form_for(@user, :url => update_preferences_path, :html => { :method => :put, class: "form-horizontal" }) do |f| %>
+    <%= f.error_notification %>
 
-      <%= f.input :phone, label: 'Mobile Phone', :hint => 'to receive SMS notifications of last-minute changes' %>
-      <%= f.input :email_notifications, hint: 'Receive updates by email about events you are hosting or attending.' %>
-      <div class="form-actions"><%= f.submit "Update", class: "btn btn-primary" %></div>
-      <% end %>
+    <h3>Contact Information</h3>
+    <hr/>
+    <%= f.input :phone, label: 'Mobile Phone', :hint => 'used for SMS notifications (e.g. last-minute changes)' %>
+    <%= f.input :email, label: 'Email', :hint => link_to('change your email address', edit_user_registration_path), :input_html => {:disabled => true} %>
+
+    <h3>Short Messages</h3>
+    <p class="help-block">Where would you like to receive short messages from workshop hosts?  Example: "Workshop has been moved to the park across the street!".</p>
+    <hr/>
+    <div class="control-group">
+      <label class="checkbox controls">
+        <%= f.input_field :sms_short_messages, as: :boolean, boolean_style: :inline %> Send by SMS
+      </label>      
+      <label class="checkbox controls">
+        <%= f.input_field :email_short_messages, as: :boolean, boolean_style: :inline %> Send by email
+      </label>      
     </div>
+
+    <h3>Other Notifications</h3>
+    <p class="help-block">Updates about events you are attending (or hosting).</p>
+    <hr/>
+    <div class="control-group">
+      <label class="checkbox controls">
+        <%= f.input_field :email_notifications, as: :boolean, boolean_style: :inline %> Send to email
+      </label>      
+    </div>
+    
+    <div class="form-actions"><%= f.submit "Update settings", class: "btn btn-primary" %></div>
+  <% end %>
   </div>
 
   <div class="row">
