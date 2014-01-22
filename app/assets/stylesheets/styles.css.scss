@@ -522,3 +522,16 @@ blockquote.fancy cite {
 blockquote.fancy cite:before {
   content: "\2014 \2009";
 }
+
+#send_sms_form {
+  width: 250px;
+  textarea {
+    width: 250px;
+  }
+  .counter {
+    float: right;
+   &.exceeded {
+     color: $red;
+   }
+ }
+}
