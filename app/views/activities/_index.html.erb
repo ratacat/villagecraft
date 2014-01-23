@@ -2,9 +2,28 @@
   activities_n_counts  ||=  @activities_n_counts  
   plaintext_activities ||= false
 %>
-<% activities_n_counts.each do |a_and_c| %>
-  <div>
-    <% extra_html = (a_and_c[:count] > 1) ? "#{pluralize(a_and_c[:count] - 1, 'similar activity')} hidden" : nil %>
-    <%= render_activity a_and_c[:activity], :plaintext => plaintext_activities, :show_trackable => true, :extra_html => extra_html %>
-  </div>
+<% if activities_n_counts.first.is_a? PublicActivity::Activity %>
+  <% activities_n_counts.each do |a| %>
+    <div>
+      <%= render_activity a, :plaintext => plaintext_activities, :show_trackable => true %>
+    </div>
+  <% end %>
+<% else %>
+  <% activities_n_counts.each do |a_and_c| %>
+    <div>
+      <% extra_html = (a_and_c[:count] > 1) ? 
+                      "#{link_to(pluralize(a_and_c[:count] - 1, 'similar activity'), fetch_activity_range_path, class: 'fetch_activity', format: :html, data: { method: :post, remote: true, params: { min: a_and_c[:oldest_id], max: a_and_c[:activity].id}.to_param })} hidden".html_safe
+                      : nil %>
+      <%= render_activity a_and_c[:activity], :plaintext => plaintext_activities, :show_trackable => true, :extra_html => extra_html %>
+    </div>
+  <% end %>
 <% end %>
+
+<% ready_script do -%>  
+  $(document).on('ajax:success', 'a.fetch_activity', function(e, data, status, xhr) {
+    var parent = $(e.target).closest('div.activity').parent();
+    var new_stuff = $(data);
+    parent.replaceWith(new_stuff);
+    new_stuff.highlight();
+  });
+<% end -%>
