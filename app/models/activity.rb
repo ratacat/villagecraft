@@ -22,7 +22,7 @@ class Activity < PublicActivity::Activity
         SELECT id, 
                owner_id, 
                created_at, 
-               row_number() OVER (ORDER BY id) - row_number() OVER (PARTITION BY trackable_id, trackable_type, owner_id, owner_type, key ORDER BY id) AS grp 
+               row_number() OVER (ORDER BY id) - row_number() OVER (PARTITION BY trackable_id, trackable_type, owner_id, owner_type, key, parameters ORDER BY id) AS grp 
         FROM activities 
         #{@where_clause} 
         ORDER BY id) t 
