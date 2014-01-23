@@ -189,4 +189,11 @@
     trigger: 'manual'
   }).popover('show');
   
+  $(document).on('change.bs.fileinput', function() {
+    $('#add_rerun_button').popover('show');
+  }).on('clear.bs.fileinput', function() {
+    $('#add_rerun_button').popover('show');
+  });
+  
+  
 <% end -%>
