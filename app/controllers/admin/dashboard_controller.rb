@@ -11,7 +11,7 @@ class Admin::DashboardController < ApplicationController
   
   protected
   def set_activities_n_counts(n=ACTIVITIES_PER_PAGE)
-    @activities_n_counts = Activity.activities_n_counts(n)
+    @activities_n_counts = Activity.activities_n_counts(:limit => n)
   end
   
   def dash_auth!(action, subject)
