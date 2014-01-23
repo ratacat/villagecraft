@@ -1,9 +1,7 @@
 class Activity < PublicActivity::Activity
   def self.activities_n_counts(n)
-    # returns an arrays of ids, like_ids, and a count; each record looks something like this:
-    # {"id"=>"451", "like_ids"=>"{456,451,452,453,454,455}", "like_id_count"=>"6"}
     fancy_windowing_sql = %Q(
-      SELECT min(id) AS id, array_agg(id) AS like_ids, count(id) AS like_id_count 
+      SELECT max(id) AS max_id, min(id) as min_id, count(id) AS like_id_count 
       FROM ( 
         SELECT id, 
                owner_id, 
@@ -12,20 +10,22 @@ class Activity < PublicActivity::Activity
         FROM activities 
         ORDER BY id) t 
       GROUP BY grp, owner_id 
-      ORDER BY max(id) 
+      ORDER BY max_id 
       DESC LIMIT #{n};
     )    
     records_array = ActiveRecord::Base.connection.execute(fancy_windowing_sql)
     ids = []
     counts = []
     like_ids = []
+    mins = []
+    maxs = []
     records_array.each do |e|
-      ids << e['id']
+      ids << e['max_id']
       counts << e["like_id_count"].to_i
-      like_ids << e["like_ids"]
+      mins << e['min_id']
     end
     PublicActivity::Activity.where(:id => ids).order(:id).reverse_order.each_with_index.map do |a, i|
-      {:activity => a, :count => counts[i], :like_ids => like_ids[i]}
+      {:activity => a, :count => counts[i], :oldest_id => mins[i]}
     end
   end
   
