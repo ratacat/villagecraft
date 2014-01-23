@@ -4,7 +4,7 @@
 %>
 <% activities_n_counts.each do |a_and_c| %>
   <div>
-    <% extra_html = (a_and_c[1] > 1) ? "#{pluralize(a_and_c[1] - 1, 'similar activity')} hidden" : nil %>
-    <%= render_activity a_and_c[0], :plaintext => plaintext_activities, :show_trackable => true, :extra_html => extra_html %>
+    <% extra_html = (a_and_c[:count] > 1) ? "#{pluralize(a_and_c[:count] - 1, 'similar activity')} hidden" : nil %>
+    <%= render_activity a_and_c[:activity], :plaintext => plaintext_activities, :show_trackable => true, :extra_html => extra_html %>
   </div>
 <% end %>
