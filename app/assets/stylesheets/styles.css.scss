@@ -535,3 +535,12 @@ blockquote.fancy cite:before {
    }
  }
 }
+
+.has_help_bubble ~ .popover {
+  background: $sticky_note_yellow;
+  &.right {
+    .arrow:after {
+      border-right-color: $sticky_note_yellow;
+    }
+  } 
+}

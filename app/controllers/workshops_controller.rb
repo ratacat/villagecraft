@@ -56,6 +56,12 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops/1/edit
   def edit
+    @add_button_help =
+      if @future_reruns.count + @past_reruns.count == 0
+        'When you are happy with the title, description, and photo for your workshop, schedule the first occurance'
+      else
+        'Offer this workshop again'
+      end
   end
 
   # GET /workshops/1/reruns_partial
@@ -74,7 +80,7 @@ class WorkshopsController < ApplicationController
     
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to edit_workshop_path(@workshop), notice: 'To publish this workshop, schedule the first one.' }
+        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop createdt' }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
         format.html { render action: "new" }
