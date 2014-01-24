@@ -21,6 +21,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @activities_n_counts = Activity.activities_n_counts(:limit => 20, :trackable => @event)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
@@ -31,6 +32,7 @@ class EventsController < ApplicationController
   # GET /events/1.json/manage
   def manage_attendees
     if @event.manageable?
+      @activities_n_counts = Activity.activities_n_counts(:limit => 20, :trackable => @event)
       respond_to do |format|
         format.html { render 'show' }
         format.json { render json: @event }

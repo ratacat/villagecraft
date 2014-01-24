@@ -1,5 +1,5 @@
 <% if (@event.host === current_user) or admin_session? %>
-  <div class="hero-unit margin0">
+  <div class="hero-unit">
     <h3 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h3>
     <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
       <%= event_price(@event, :show_materials_fee => true) %> · 
@@ -13,7 +13,22 @@
     <h4 class="muted">Short message for attendees (SMS)</h4>
     <%= render 'reruns/message_attendees', :rerun => @event %>
   </div>
-  <%= render 'manage_attendances' %>
+  <div class="row">
+    <div class="span12">
+      <ul class="nav nav-tabs margin0">
+        <li class="active"><a href="#attendees" data-toggle="tab">Attendees</a></li>
+        <li><a href="#activity" data-toggle="tab">Activity</a></li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active" id="attendees">
+          <%= render 'manage_attendances' %>
+        </div>
+        <div class="tab-pane" id="activity">
+          <%= render :partial => 'activities/index', :locals => {:activities_n_counts =>  @activities_n_counts} %>
+        </div>
+      </div>
+    </div>
+</div>
 <% end %>
 
 <%# render :partial => 'events/attend_status_and_call_to_action' %>  
@@ -22,6 +37,3 @@
   <%# render :partial => 'activities/index', :locals => {:activities => @event.activities} %>
 </div>
 <%# render :partial => 'attendees_modal' %>
-
-<% ready_script do -%>
-<% end -%>
