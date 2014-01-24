@@ -1,5 +1,5 @@
 <%= simple_form_for(:sms, :url => sms_attendees_path(rerun), :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
-  <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3"}, :wrapper_html => {:class => 'margin0'} %>
+  <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3", :class => 'has_help_bubble'}, :wrapper_html => {:class => 'margin0'} %>
   <div id="my_counter" class="counter"></div>
   <%= f.submit 'Send', :class => 'btn btn-default' %>
 <% end %>
@@ -15,4 +15,11 @@
   }).bind('ajax:complete', function(evt, xhr, status) {
     $("#send_sms_form textarea").val('');
   });
+  
+  $('#sms_message').popover({
+    placement: 'right',
+    content: "Be sure to let folks know which workshop your message is about.",
+    trigger: 'manual'
+  }).focus(function() { $(this).popover('show'); })
+  
 <% end -%>
