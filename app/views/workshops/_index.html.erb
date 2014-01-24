@@ -20,13 +20,13 @@
       <td class="blocky_spns">
         <% unless workshop.next_meeting.blank? %>
           <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-          <%= iconic_link_to("Manage attendees", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.next_meeting.event %>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.next_meeting.event %>
         <% end %>
       </td>
       <td class="blocky_spns">
         <% unless workshop.last_meeting.blank? %>
           <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-          <%= iconic_link_to("Manage attendees", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.last_meeting.event %>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.last_meeting.event %>
         <% end %>
       </td>
       <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>
