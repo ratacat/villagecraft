@@ -7,14 +7,14 @@ class Activity < PublicActivity::Activity
     }
     options.reverse_merge!(defaults)
     
-    @where_conditions = []
+    where_conditions = []
     if options[:owner]
-      @where_conditions << %Q("activities"."owner_id" = #{options[:owner].id} AND "activities"."owner_type" = 'User')
+      where_conditions << %Q("activities"."owner_id" = #{options[:owner].id} AND "activities"."owner_type" = 'User')
     end
     if options[:trackable]
-      @where_conditions << %Q("activities"."trackable_id" = #{options[:trackable].id} AND "activities"."trackable_type" = '#{options[:trackable].class.to_s}')
+      where_conditions << %Q("activities"."trackable_id" = #{options[:trackable].id} AND "activities"."trackable_type" = '#{options[:trackable].class.to_s}')
     end
-    @where_clause = %Q(WHERE #{@where_conditions.join(" AND ")}) unless @where_conditions.blank?
+    where_clause = where_conditions.blank? ? '' : %Q(WHERE #{where_conditions.join(" AND ")})
     
     fancy_windowing_sql = %Q(
       SELECT max(id) AS max_id, min(id) as min_id, count(id) AS like_id_count, array_agg(id) AS like_ids
@@ -24,7 +24,7 @@ class Activity < PublicActivity::Activity
                created_at, 
                row_number() OVER (ORDER BY id) - row_number() OVER (PARTITION BY trackable_id, trackable_type, owner_id, owner_type, key, parameters ORDER BY id) AS grp 
         FROM activities 
-        #{@where_clause} 
+        #{where_clause} 
         ORDER BY id) t 
       GROUP BY grp, owner_id 
       ORDER BY max_id 
