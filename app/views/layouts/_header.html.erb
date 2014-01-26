@@ -1,71 +1,72 @@
-        <ul class="nav nav-pills pull-right" style="margin: 10px;">
-          <% if not user_signed_in? %>
-            <li><%= link_to "Sign in", new_user_session_path %></li>
-            <li><%= link_to 'Sign up', new_user_registration_path, :class => "btn-success" %></li>
-          <% else %>
-            <% if false # @notifications %>
-              <li class="dropdown">
-                <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>
-                  <i class="icon-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info" id="notifications_count"><%= @unseen_notifications_count %></span><% end %>
-                <% end %>
-                <div class="dropdown-menu notifications" role="menu">
-                  <ul>
-                    <% @notifications.each do |notification| %>
-                      <li>
-                        <div class="thumbnail right-caption">
-                          <%= link_to notification.activity.trackable do -%>
-                            <% render_activity(notification.activity, :plaintext => true, :show_trackable => true) %>
-                          <% end -%>
-                        </div>
-                      </li>
-                      <li class="divider"></li>
-                    <% end %>
-                  </ul>
-                  <div class="center-text well well-small margin0">
-                    <%= link_to 'See all notifications', notifications_path %>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-            <li class="dropdown">
-              <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
-                <% if session[:admin_mode] %>
-                  <span class="admin_color"><%= "#{current_user.name} (admin mode)" %></span>
-                <% else %>
-                  <span><%= current_user.name %></span>
-                <% end %>
-              <% end %>
-              <ul class="dropdown-menu pull-right" role="menu">
-                <% if current_user.try(:host?) %>
-                <li><%= link_to 'My Profile', current_user %></li>
-                <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
-                <li class="divider"></li>
-                <li><%= link_to "My Workshops", my_workshops_path %></li>
-                <li><%= link_to "My Venues", my_venues_path %></li>
-                <li class="divider"></li>
-                <% end %>
-                <li><%= link_to 'Settings', edit_preferences_path %></li>
-                <% if session[:admin_mode] %>
-                  <li class="divider"></li>
-                  <li><%= link_to 'Admin Dashboard', admin_path %></li>                
-                  <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>                
-                  <li class="divider"></li>
-                <% end %>
-                <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
-              </ul>
-            </li>
+<div class="vc_navbar">
+  <ul class="nav nav-pills pull-right">
+    <% if not user_signed_in? %>
+      <li><%= link_to "Sign in", new_user_session_path %></li>
+      <li><%= link_to 'Sign up', new_user_registration_path, :class => "btn-success" %></li>
+    <% else %>
+      <% if false # @notifications %>
+        <li class="dropdown">
+          <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>
+            <i class="icon-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info" id="notifications_count"><%= @unseen_notifications_count %></span><% end %>
           <% end %>
+          <div class="dropdown-menu notifications" role="menu">
+            <ul>
+              <% @notifications.each do |notification| %>
+                <li>
+                  <div class="thumbnail right-caption">
+                    <%= link_to notification.activity.trackable do -%>
+                      <% render_activity(notification.activity, :plaintext => true, :show_trackable => true) %>
+                    <% end -%>
+                  </div>
+                </li>
+                <li class="divider"></li>
+              <% end %>
+            </ul>
+            <div class="center-text well well-small margin0">
+              <%= link_to 'See all notifications', notifications_path %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+      <li class="dropdown">
+        <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
+          <% if session[:admin_mode] %>
+            <span class="admin_color"><%= "#{current_user.name} (admin mode)" %></span>
+          <% else %>
+            <span><%= current_user.name %></span>
+          <% end %>
+        <% end %>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <% if current_user.try(:host?) %>
+          <li><%= link_to 'My Profile', current_user %></li>
+          <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
+          <li class="divider"></li>
+          <li><%= link_to "My Workshops", my_workshops_path %></li>
+          <li><%= link_to "My Venues", my_venues_path %></li>
+          <li class="divider"></li>
+          <% end %>
+          <li><%= link_to 'Settings', edit_preferences_path %></li>
+          <% if session[:admin_mode] %>
+            <li class="divider"></li>
+            <li><%= link_to 'Admin Dashboard', admin_path %></li>                
+            <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>                
+            <li class="divider"></li>
+          <% end %>
+          <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
         </ul>
+      </li>
+    <% end %>
+  </ul>
 
-      <!-- Be sure to leave the brand out there if you want it shown -->
-      <div>
-        <%= link_to "/", :class => "undecorated" do -%>
-          <%= image_tag "villagecraft_logo_100.png" %>
-          <%= image_tag "villagecraft_wordmark_75.png" %>
-        <% end -%>
-      </div>
+  <!-- Be sure to leave the brand out there if you want it shown -->
+  <div>
+    <%= link_to "/", :class => "undecorated" do -%>
+      <%= image_tag "villagecraft_logo_107x100.png" %>
+      <%= image_tag "villagecraft_wordmark_75.png" %>
+    <% end -%>
+  </div>
 
-        <!-- .nav, .navbar-search, .navbar-form, etc -->
+</div>        <!-- .nav, .navbar-search, .navbar-form, etc -->
 
 <% ready_script do -%>
   $('#notifications_toggle').on('click', function() {
