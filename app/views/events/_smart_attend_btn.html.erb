@@ -1,16 +1,20 @@
 <% 
   no_button ||= false
+  show_price ||= false
+  no_check ||= false
+  btn_classes ||= 'btn-large'
+  cta ||= 'RSVP'
 %>
 <% if event %>
   <% if event.external? %>
     <% unless event.external_url.blank? or no_button %>
       <% if event.rsvp? %>
-        <%= link_to event.external_url, :title => 'sign up off-site', :class => "btn btn-large", :target => '_blank' do -%>
-          Sign up <i class="icon-external-link icon-large"></i>
+        <%= link_to event.external_url, :title => 'sign up off-site', :class => "btn #{btn_classes}", :target => '_blank' do -%>
+          Sign up <%= content_tag(:i, '', :class => "icon-external-link icon-large") %>
         <% end -%>
       <% else %>
-        <%= link_to event.external_url, :title => 'more information off-site', :class => "btn btn-large", :target => '_blank' do -%>
-          More info <i class="icon-external-link icon-large"></i>
+        <%= link_to event.external_url, :title => 'more information off-site', :class => "btn #{btn_classes}", :target => '_blank' do -%>
+          More info <%= content_tag(:i, '', :class => "icon-external-link icon-large") %>
         <% end -%>
       <% end %>
     <% end %>
@@ -19,12 +23,12 @@
       <% if user_signed_in? %>
         <% if current_user.attending_event?(event) %>
           <div style="margin: 15px 0;">
-            <span class="text-success" ><i class="icon-check icon-large"></i> you are<br>signed up</span>                  
+            <span class="text-success" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you are signed up</span>                  
           </div>
         <% else %>
           <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
-            <%= link_to attend_path(event), :class => "btn btn-success btn-large attend_event", :method => :post do -%>
-              <i class="icon-check icon-large text-success"></i>RSVP
+            <%= link_to attend_path(event), :class => "btn btn-success #{btn_classes} attend_event", :method => :post do -%>
+              <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %></i><%= cta %>
             <% end -%>
           <% end %>
         <% end %>
@@ -32,11 +36,12 @@
         <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
           <h4 class="fee"><%= event_price(event) %></h4>
         <% else %>
-          <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success btn-large">
-            <i class="icon-check icon-large text-success"></i><%= event_price(event) %>
+          <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success <%= btn_classes %>">
+            <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %><%= cta %>
           </button>
         <% end %>
       <% end %>
+      <%= event_price(event) if show_price %>
     <% else %>
       <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
     <% end %>

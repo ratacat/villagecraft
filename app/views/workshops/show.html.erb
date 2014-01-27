@@ -1,35 +1,95 @@
+<%
+  next_rerun = @workshop.ongoing_or_next_rerun
+%>
 <h1><%= @workshop.title %></h1>
-<p>
-  hosted by <%= contextualized_user_link(@workshop.host, :linked => true) %>
-</p>
-<div class="span6">
-  <%= link_to edit_workshop_path, :class => 'btn btn-primary pull-right' do %>
-    <i class="icon-edit icon-white"></i>
-    Edit
-  <% end %>
-  <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded") %>
-  <p>
-    <%= markdown(@workshop.description.try(:html_safe), :mkd_noheader) %>
-  </p>
-  <ul class="nav nav-tabs margin0">
-    <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
-    <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
-  </ul>
-
-  <div id="myTabContent" class="tab-content">
-    <div class="tab-pane active" id="future">
-      <% if @future_reruns.count == 0 %>
-        No future workshops.
+<div class="row">
+  <div class="span2">
+    <p class="hidden-phone">
+      <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
+      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign me up', :btn_classes => 'btn-large btn-block' %>
+    </p>
+    <p class="hidden-tablet hidden-desktop pull-right" style="margin: 0 0 10px 10px;">
+      <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded large_page_thumb") %><br/>
+      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign me up', :btn_classes => '' %>
+    </p>
+  </div>
+  <div class="span6">
+    <div class="span2">    
+      <% if next_rerun %>
+        <div class="blocky_spns">
+          <% if next_rerun.first_meeting.ongoing? %>
+            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+            <span class="muted">happening right now</span>
+          <% else %>
+            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+          <% end %>
+        </div>
+        <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
       <% else %>
-        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => true %>
+        <span class="muted">no upcoming dates</span>
       <% end %>
     </div>
-    <div class="tab-pane fade" id="past">
-      <% if @past_reruns.count == 0 %>
-        No past workshops.
-      <% else %>
-        <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => true %>
+
+    <div class="span2">
+      <p>
+        <% if next_rerun %>
+          <% if next_rerun.venue.blank? %>
+            TBD
+          <% else %>
+            <% if next_rerun.external? %>
+              <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
+            <% else %>
+              <% if (not next_rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(next_rerun)) %>
+                <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
+              <% else %>
+                <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </p>
+    </div>
+  
+    <div class="span1">
+      <% if next_rerun %>
+        <p>
+          <%= event_price(next_rerun) %>
+        </p>
       <% end %>
+    </div>
+    
+    <div class="event_description span6">
+      <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
+    </div>
+  </div>
+  <div class="pull-right">
+    hosted by:
+    <%= render 'users/mini_profile', :user => @workshop.host %>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="span9">
+    <ul class="nav nav-tabs margin0">
+      <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
+      <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active" id="future">
+        <% if @future_reruns.count == 0 %>
+          No future workshops.
+        <% else %>
+          <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false %>
+        <% end %>
+      </div>
+      <div class="tab-pane fade" id="past">
+        <% if @past_reruns.count == 0 %>
+          No past workshops.
+        <% else %>
+          <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

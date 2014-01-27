@@ -6,6 +6,7 @@ class Ability
 
     # anyone
     can [:show, :attend_by_email], Event
+    can [:show], Workshop
     
     # signed-in user  
     if not user.blank?

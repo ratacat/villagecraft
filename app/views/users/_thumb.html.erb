@@ -1,0 +1,14 @@
+<% # possible replacement for _thumbnail.html.erb  
+  user ||= @user
+  linked ||= false
+  thumb_size ||= :small
+  bottom_caption ||= false
+%>
+<div class="media">
+  <a class="pull-left" href="#">
+    <%= user_thumb(user, {:size => thumb_size, :linked => linked}) %>
+  </a>
+  <div class="media-body caption <%= thumb_size %><%= " bottom_caption" if bottom_caption %>">
+    <span><%= contextualized_user_link(user, :linked => linked) %></span>
+  </div>
+</div>

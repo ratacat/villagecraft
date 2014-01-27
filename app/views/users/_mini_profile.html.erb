@@ -1,0 +1,3 @@
+<% user ||= @user %>
+<%= render 'users/thumb', :user => user, :bottom_caption => true, :linked => true %>
+<span><%= pluralize(user.workshops.count, "workshop") %></span>

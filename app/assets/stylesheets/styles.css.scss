@@ -111,6 +111,7 @@ form div.controls-row.event_when input {
   width: 8em;
 }
 
+// deprecated ???
 ul.thumbnails {
   margin: 0;
   li {
@@ -161,6 +162,12 @@ ul.thumbnails {
 .thumbnail img.small {
   min-height: 50px;
   min-width: 50px;
+}
+
+.media {
+  .bottom_caption {
+    clear: left;
+  }
 }
 
 .notifications {
@@ -291,6 +298,10 @@ table.table.when_where_host_table tr td.host {
   min-width: 160px;
 }
 
+.large_page_thumb {
+  margin-bottom: 10px;
+}
+
 .initially_hidden {
   display: none;
 }
@@ -409,7 +420,7 @@ table.rerun_index {
   }
   td.meeting_time > span > span:first-child {
     display: inline-block;
-    width: 190px;
+    padding-right: 0.5em;
   }
 }
 

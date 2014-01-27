@@ -4,12 +4,15 @@
   editable ||= false
   update_reruns_count ||= false
   clear_source_cache ||= false
+  hide_flags ||= false
 %>
 <table class="table table-hover table-striped rerun_index">
   <thead>
     <th colspan="2">Time</th>
-    <th>RSVP</th>
-    <th>External</th>
+    <% if hide_flags %>
+      <th>RSVP</th>
+      <th>External</th>
+    <% end %>
     <th>Slots</th>
     <th>Venue</th>
     <th>Price</th>
@@ -19,7 +22,7 @@
   </thead>
   <tbody>
     <% reruns.each do |rerun| %>
-      <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache %>
+      <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache, hide_flags: hide_flags %>
     <% end %>
   </tbody>
 </table>
