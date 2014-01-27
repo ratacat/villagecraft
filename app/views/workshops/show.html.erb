@@ -66,6 +66,8 @@
   <div class="span3">
     <h4 class="muted margin0">Host</h4>
     <%= render 'users/mini_profile', :user => @workshop.host %>
+    <h4 class="muted">Attendees (<%= next_rerun.attendees.count %>)</h4>
+    <%= next_rerun.attendees.map(&:first_name_plus_last_initial).join(', ') %>
   </div>
 </div>
 <br/>

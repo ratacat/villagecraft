@@ -91,6 +91,14 @@ class User < ActiveRecord::Base
     self.name.split[0]
   end
 
+  def last_name
+    self.name.split.pop
+  end
+  
+  def first_name_plus_last_initial
+    "#{self.first_name} #{self.last_name[0,1]}."
+  end
+
   def city
     @city || self.location.try(:city)
   end
