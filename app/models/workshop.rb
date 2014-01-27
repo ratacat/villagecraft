@@ -22,6 +22,14 @@ class Workshop < ActiveRecord::Base
   
   after_update :propagate_changes_to_future_events
   
+  def to_param
+    "#{self.uuid} #{self.title}}".parameterize
+  end
+
+  def Workshop.find_by_seod_uuid(id)
+    Workshop.find_by_uuid(id.split('-').first)
+  end
+
   def img_src(size = :medium)
     if self.image.blank?
       Workshop.placeholder_img_src(size)
