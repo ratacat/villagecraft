@@ -22,9 +22,7 @@
     <% if event.slots_left > 0 %>
       <% if user_signed_in? %>
         <% if current_user.attending_event?(event) %>
-          <div style="margin: 15px 0;">
-            <span class="text-success" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you are signed up</span>                  
-          </div>
+          <span class="text-success you_r_signed_up" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you are signed up</span>                  
         <% else %>
           <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
             <%= link_to attend_path(event), :class => "btn btn-success #{btn_classes} attend_event", :method => :post do -%>
