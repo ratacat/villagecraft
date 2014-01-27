@@ -14,56 +14,57 @@
     </p>
   </div>
   <div class="span6">
-    <div class="span2">    
-      <% if next_rerun %>
-        <div class="blocky_spns">
-          <% if next_rerun.first_meeting.ongoing? %>
-            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
-            <span class="muted">happening right now</span>
+    <div class="row">
+        <div class="span2">    
+          <% if next_rerun %>
+            <div class="blocky_spns">
+              <% if next_rerun.first_meeting.ongoing? %>
+                <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+                <span class="muted">happening right now</span>
+              <% else %>
+                <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+              <% end %>
+            </div>
+            <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
           <% else %>
-            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+            <span class="muted">no upcoming dates</span>
           <% end %>
         </div>
-        <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
-      <% else %>
-        <span class="muted">no upcoming dates</span>
-      <% end %>
-    </div>
-
-    <div class="span2">
-      <p>
-        <% if next_rerun %>
-          <% if next_rerun.venue.blank? %>
-            TBD
-          <% else %>
-            <% if next_rerun.external? %>
-              <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
-            <% else %>
-              <% if (not next_rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(next_rerun)) %>
-                <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
+    
+        <div class="span2">
+          <p>
+            <% if next_rerun %>
+              <% if next_rerun.venue.blank? %>
+                TBD
               <% else %>
-                <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
+                <% if next_rerun.external? %>
+                  <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
+                <% else %>
+                  <% if (not next_rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(next_rerun)) %>
+                    <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
+                  <% else %>
+                    <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
+                  <% end %>
+                <% end %>
               <% end %>
             <% end %>
+          </p>
+        </div>
+      
+        <div class="span1">
+          <% if next_rerun %>
+            <p>
+              <%= event_price(next_rerun) %>
+            </p>
           <% end %>
-        <% end %>
-      </p>
-    </div>
-  
-    <div class="span1">
-      <% if next_rerun %>
-        <p>
-          <%= event_price(next_rerun) %>
-        </p>
-      <% end %>
-    </div>
-    
-    <div class="event_description span6">
+        </div>
+        </div>
+    <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
-    </div>
+    </p>
   </div>
-  <div class="pull-right">
-    hosted by:
+  <div class="span3">
+    <h4 class="muted margin0">Host</h4>
     <%= render 'users/mini_profile', :user => @workshop.host %>
   </div>
 </div>
