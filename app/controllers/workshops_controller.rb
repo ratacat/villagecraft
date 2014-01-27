@@ -111,6 +111,18 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  # DELETE /workshops/1
+  # DELETE /workshops/1.json
+  def destroy
+    @workshop.destroy
+
+    respond_to do |format|
+      format.js { head :no_content }
+      format.html { redirect_to workshops_path }
+      format.json { head :no_content }
+    end
+  end
+  
   protected
   def workshop_params
     ok_params = [:title, :description, :frequency, :image]
