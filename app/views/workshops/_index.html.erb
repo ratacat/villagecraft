@@ -4,19 +4,18 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th class="span6">Title</th>
-      <th>Link</th>
+      <th>Title</th>
       <th>Next Meeting</th>
       <th>Last Meeting</th>
       <% if show_host -%><th>Host</th><% end -%>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
 <% @workshops.each do |workshop| %>
     <tr>
-      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true} %></td>
-      <td style="text-align: center; vertical-align: middle;"><%= render :partial => 'promo_link', :locals => {:workshop => workshop} %></td>
+      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true, :span => 4} %></td>
       <td class="blocky_spns">
         <% unless workshop.next_meeting.blank? %>
           <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
@@ -30,6 +29,10 @@
         <% end %>
       </td>
       <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>
+      <td>
+        <%= iconic_link_to 'Edit', edit_workshop_path(workshop), class: 'btn btn-mini', title: 'edit' %>
+        <%= iconic_link_to 'Delete', workshop, confirm: 'Are you sure?', method: :delete, class: 'btn btn-mini btn-danger', title: 'delete' %>
+      </td>
     </tr>
 <% end %>
   </tbody>
