@@ -2,11 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs row">
-    <div class="pull-right">
-      <%= f.label :photo %>
-      <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @workshop.img_src(:large_orig)} %>
-    </div>
-    <div class="span8">
+    <div class="span9">
       <%= f.input :title, label: 'Title', input_html: {class: 'span8'} %>
       <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
       <% if admin_session? # and @workshop.external %>
@@ -20,6 +16,10 @@
           <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
         </div>
       <% end %>
+    </div>
+    <div class="span3">
+      <%= f.label :photo %>
+      <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @workshop.img_src(:large_orig)} %>
     </div>
   </div>
 
