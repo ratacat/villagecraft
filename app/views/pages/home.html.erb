@@ -1,9 +1,9 @@
-<% if params[:v] === '2' %>
+<% if params[:v] === 'old' %>
+  <%= render :partial => 'workshops/expandible_index', :locals => {:workshops => @workshops} %>
+<% else %>
 <div class="row">
   <div class="span8">
     <%= render 'workshops/index' %>
   </div>
 </div>
-<% else %>
-  <%= render :partial => 'workshops/expandible_index', :locals => {:workshops => @workshops} %>
 <% end %>
