@@ -282,6 +282,13 @@ tr.expandable {
   }
 }
 
+@media (max-width: 480px) {
+  .media .pull-left,
+  .media .pull-right {
+    float: left;
+  }
+}
+
 table.table.borderless th, table.table.borderless td { 
    border-top: none; 
 }
