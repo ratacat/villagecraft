@@ -61,7 +61,7 @@ module UsersHelper
     html << user.name
     if user.external?
       html << " ".html_safe
-      html << content_tag(:i, '', :class => 'icon-external-link')      
+      html << content_tag(:sup, content_tag(:i, '', :class => 'icon-external-link'))
     end
     html
   end
