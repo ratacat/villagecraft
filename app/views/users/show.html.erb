@@ -29,9 +29,6 @@
       <% unless @user.location.blank? %>
         <h3 class="muted"><%= city_n_state(@user.location) %></h3>
       <% end %>
-      <p>
-        <span class="badge badge-info vc_badge"><%= pluralize(@workshops.count, "workshop") %></span>
-      </p>
       <div class="normalized_markdown">
         <%= BlueCloth.new(@user.description, :filter_html).to_html.html_safe %>
       </div>
@@ -40,7 +37,7 @@
 
   <div class="row">
     <div class="span12">
-      <h3>Workshops Hosted</h3>
+      <h3><%= pluralize(@workshops.count, "Workshop") %> Hosted</h3>
       <%= render 'workshops/index' %>
     </div>
   </div>
