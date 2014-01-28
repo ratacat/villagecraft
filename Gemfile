@@ -42,6 +42,7 @@ gem 'state_machine'
 gem 'bluecloth'
 
 gem 'verbs'
+gem 'possessive'
 gem 'zeroclipboard-rails'
 gem 'nexmo'
 

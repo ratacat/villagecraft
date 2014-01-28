@@ -87,6 +87,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def possessable_name(options={})
+    defaults = {
+      :full => false
+    }
+    options.reverse_merge!(defaults)
+    if self.external? or options[:full]
+      self.name
+    else
+      self.first_name
+    end
+  end
+  
   def first_name
     self.name.split[0]
   end

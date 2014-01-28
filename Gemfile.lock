@@ -197,6 +197,7 @@ GEM
       mime-types
     pg (0.17.1)
     polyglot (0.3.3)
+    possessive (1.0.1)
     public_activity (1.4.1)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0)
@@ -340,6 +341,7 @@ DEPENDENCIES
   paperclip (~> 3.0)
   paranoia!
   pg
+  possessive
   public_activity
   public_suffix
   rack-google_analytics
