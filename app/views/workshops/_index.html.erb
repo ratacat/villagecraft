@@ -1,8 +1,8 @@
 <% workshops ||= @workshops %>
 <ul class="media-list">
   <% workshops.each do |workshop| %>
-    <li class="media">
-      <a class="pull-left badged" href="<%= workshop_path(workshop) %>">
+    <li class="media badged clearfix">
+      <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
         <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
         <%= image_tag workshop.host.profile_img_src(:thumb), :class => 'thumb_badge' %>
       </a>
