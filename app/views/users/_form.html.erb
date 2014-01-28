@@ -18,11 +18,11 @@
     <%= f.input :state, collection: Location.us_states_select_collection, label: 'State' %>
     
     <% if admin_session? %>
-    <div class="well">
-      <h4 class="admin_color margin_top0">Admin-only Area</h4>
+    <div class="well admin-only">
       <div class="control-group">
         <%= f.input :host, inline_label: 'Host', label: false %>
-        <%= f.input :external, inline_label: 'External User', label: false %>
+        <%= f.input :external, inline_label: 'External user', label: false %>
+        <%= f.input :promote_host, inline_label: 'Promote host on home page', label: false %>
       </div>
     </div>
     <% end %>

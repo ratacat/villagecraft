@@ -446,7 +446,8 @@ CREATE TABLE users (
     external boolean,
     description text,
     sms_short_messages boolean,
-    email_short_messages boolean DEFAULT false
+    email_short_messages boolean DEFAULT false,
+    promote_host boolean
 );
 
 
@@ -1271,3 +1272,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140122060716');
 INSERT INTO schema_migrations (version) VALUES ('20140122060741');
 
 INSERT INTO schema_migrations (version) VALUES ('20140122073707');
+
+INSERT INTO schema_migrations (version) VALUES ('20140128213504');

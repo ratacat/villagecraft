@@ -4,10 +4,12 @@
     <li class="media badged clearfix">
       <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
         <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
-        <%= image_tag workshop.host.profile_img_src(:thumb), :class => 'thumb_badge' %>
+        <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>
       </a>
       <div class="media-body">
-        <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
+        <% if workshop.host.promote_host %>
+          <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
+        <% end %>
         <h4 class="media-heading"><%= link_to annotated_workshop_title(workshop), workshop_path(workshop) %></h4>
         <div class="row">
           <%= render 'reruns/when_where_price', :rerun => workshop.ongoing_or_next_rerun %>
