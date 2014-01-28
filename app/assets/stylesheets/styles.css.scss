@@ -289,6 +289,18 @@ tr.expandable {
   }
 }
 
+.admin-only {
+  position: relative;
+  &:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: "admin-only";
+    padding: 5px;
+    color: orange;
+  };
+}
+
 table.table.borderless th, table.table.borderless td { 
    border-top: none; 
 }
