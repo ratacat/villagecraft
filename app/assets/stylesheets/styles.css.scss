@@ -276,6 +276,12 @@ tr.expandable {
   }
 }
 
+.vc_badge {
+  font-size: 120%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 @media (max-width: 480px) {
   .media .pull-left,
   .media .pull-right {
