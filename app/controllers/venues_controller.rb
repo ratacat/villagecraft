@@ -104,6 +104,7 @@ class VenuesController < ApplicationController
       else
         current_user.owned_venues
       end
+    @venues ||= []
     respond_to do |format|
       format.json {
         @venues = [Venue.new(:name => 'TBD')] + @venues

@@ -33,7 +33,7 @@
       </td>
     <% end %>
     <td><%= editable rerun, :max_attendees %></td>
-    <td><span class="vc_editable venue"><%= editable rerun, :venue_uuid, :sourceCache => (not clear_source_cache), :source => my_venues_path(:add_new => true, :for_user => @workshop.host.uuid) %></span></td>
+    <td><span class="vc_editable venue"><%= editable rerun, :venue_uuid, :sourceCache => (not clear_source_cache), :source => my_venues_path(:add_new => true, :for_user => @workshop.host.try(:uuid)) %></span></td>
     <td><%= editable rerun, :price %></td>
     <% if show_icons %>
     <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
