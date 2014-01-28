@@ -15,8 +15,12 @@ module WorkshopsHelper
     end
   
     if workshop.external? and not workshop.external_url.blank?
-      html << content_tag(:span, " (#{domain_suffix(workshop.external_url)})", :class => 'domain_annotation').html_safe
+      html << external_domain(workshop)
     end
     html
+  end
+  
+  def external_domain(workshop)
+    content_tag(:span, " (#{domain_suffix(workshop.external_url)})", :class => 'external_domain').html_safe
   end
 end
