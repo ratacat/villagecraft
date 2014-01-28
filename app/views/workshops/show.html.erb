@@ -43,14 +43,14 @@
         <% if @future_reruns.count == 0 %>
           No future workshops.
         <% else %>
-          <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false %>
+          <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :hide_flags => true %>
         <% end %>
       </div>
       <div class="tab-pane fade" id="past">
         <% if @past_reruns.count == 0 %>
           No past workshops.
         <% else %>
-          <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false %>
+          <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :hide_flags => true %>
         <% end %>
       </div>
     </div>

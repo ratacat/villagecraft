@@ -9,7 +9,7 @@
 <table class="table table-hover table-striped rerun_index">
   <thead>
     <th colspan="2">Time</th>
-    <% if hide_flags %>
+    <% unless hide_flags %>
       <th>RSVP</th>
       <th>External</th>
     <% end %>

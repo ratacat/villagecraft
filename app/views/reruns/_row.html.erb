@@ -16,7 +16,7 @@
       </span>
     </td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-    <% if hide_flags %>
+    <% unless hide_flags %>
       <td>
         <%= form_for(rerun, :remote => true, :format => :json, :html => { :method => :put, :class => 'margin0 rsvp_toggle' }) do |f| -%>
           <%= f.check_box :rsvp, :class => 'submit_on_click' %>
@@ -46,7 +46,7 @@
   <% end -%> data-rerun_uuid="<%= rerun.uuid %>">
     <td class="meeting_time"><span><%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %></span></td>
     <td><%= "#{rerun.meetings.count}x" if rerun.meetings.count > 1 %></td>
-    <% if hide_flags %>
+    <% unless hide_flags %>
       <td>
         <%= check_box_tag '', 1, rerun.rsvp, disabled: true %>
       </td>
