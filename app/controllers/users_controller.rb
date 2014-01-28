@@ -28,7 +28,7 @@ class UsersController < ApplicationController
               .where(:host_id => @user)
               .where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
               .order(%Q(#{Meeting.quoted_table_column(:start_time)})).to_a.uniq
-    @future_workshops = (@workshops_with_upcoming_or_ongoing_reruns + Workshop.where(:host_id => @user).where("id NOT IN (?)", @workshops_with_upcoming_or_ongoing_reruns))
+    @workshops = (@workshops_with_upcoming_or_ongoing_reruns + Workshop.where(:host_id => @user).where("id NOT IN (?)", @workshops_with_upcoming_or_ongoing_reruns))
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

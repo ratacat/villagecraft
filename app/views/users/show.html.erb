@@ -40,15 +40,13 @@
     </div>
   </div>
 
-  <% if @future_workshops.count > 0 %>
-    <div class="row">
-      <div class="span12">
-        <h3><%= pluralize(@future_workshops.count, "Workshop") %> Coming Up</h3>
-        <%= render 'workshops/index', :workshops => @future_workshops %>
-      </div>
+  <div class="row">
+    <div class="span12">
+      <h3><%= pluralize(@workshops.count, "Workshop") %> Hosted</h3>
+      <%= render 'workshops/index' %>
     </div>
-  <% end %>
-  
+  </div>
+
   <% if current_user === @user %>
     <hr>
     <%= link_to "Edit Profile", edit_user_path(current_user) %>
