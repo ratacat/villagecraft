@@ -164,7 +164,7 @@ class User < ActiveRecord::Base
     if Rails.env.development?
       Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)
     else
-      User.nexmo.send_message!({:to => self.phone, :from => NEXMO_NUMBER, :text => msg})
+      User.nexmo.send_message({:to => self.phone, :from => NEXMO_NUMBER, :text => msg})
     end
   end
 
