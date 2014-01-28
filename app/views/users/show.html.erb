@@ -25,11 +25,10 @@
       <%= image_tag @user.profile_img_src(:xlarge), :class => "img-rounded" %>      
     </div>
     <div class="span6">
-      <h1 class="margin_top0"><%= annotated_user_name(@user) %>
+      <h1 class="margin_top0"><%= annotated_user_name(@user) %></h1>
       <% unless @user.location.blank? %>
-        <small><%= city_n_state(@user.location) %></small>
+        <h3 class="muted"><%= city_n_state(@user.location) %></h3>
       <% end %>
-      </h1>
       <p>
         <span class="badge badge-info vc_badge"><%= pluralize(@workshops.count, "workshop") %></span>
       </p>
