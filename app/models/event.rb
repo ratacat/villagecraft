@@ -151,8 +151,11 @@ class Event < ActiveRecord::Base
       venue = m0.venue
       max_attendees = m0.event.max_attendees
       rsvp = m0.event.rsvp
-      external = m0.event.external
-      external_url = m0.event.external_url
+      if external = m0.event.external
+        external_url = m0.event.external_url.blank? ? workshop.external_url : m0.event.external_url
+      else
+        external_url = nil
+      end
     else
       # This is the first scheduled rerun, default to tomorrow @7pm
       default_tz_name = workshop.host.try(:location).try(:time_zone) || "America/Los_Angeles"
