@@ -7,6 +7,9 @@
     <p class="hidden-phone">
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
       <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign me up', :btn_classes => 'btn-large btn-block' %>
+      <% if @workshop.external? and not @workshop.external_url.blank? %>
+        <%= external_domain(@workshop) %>
+      <% end %>      
     </p>
     <p class="hidden-tablet hidden-desktop pull-right" style="margin: 0 0 10px 10px;">
       <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded large_page_thumb") %><br/>
