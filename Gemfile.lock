@@ -120,6 +120,9 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.2)
     erubis (2.7.0)
+    exception_notification (4.0.0)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.0.2)
     factory_girl (4.3.0)
       activesupport (>= 3.0.0)
@@ -326,6 +329,7 @@ DEPENDENCIES
   daemons-rails
   debugger
   devise
+  exception_notification
   execjs
   factory_girl_rails
   font-awesome-sass-rails!

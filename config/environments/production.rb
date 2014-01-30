@@ -80,4 +80,11 @@ Villagecraft::Application.configure do
   
   config.facebook_app_id = "215395121943347"
   config.facebook_app_secret = "82d5e3ab69b26620339c224601c6bac5"
+  
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[Villagecraft Exception] ",
+      :sender_address => %{"Villagecraft Exception Notifier" <notifications@villagecraft.org>},
+      :exception_recipients => %w{ben@teitelbaum.us}
+    }
 end
