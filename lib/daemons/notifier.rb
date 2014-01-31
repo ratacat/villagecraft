@@ -47,7 +47,9 @@ while($running) do
 		
     @logger.error "Error in daemon #{__FILE__} - #{e.class.name}: #{e}"
     @logger.info e.backtrace.join("\n")
-        
+    
+    ExceptionNotifier.notify_exception(e)
+    
     # If something bad happened, sleep a little more so any external issues can settle down.
     Kernel.sleep 60
   end
