@@ -3,9 +3,13 @@ module ApplicationHelper
     content_tag(:span, distance_of_time_in_words(time, Time.now) + ' ago', :'data-livestamp' => time, :class => 'muted')
   end
   
-  def datetime_localized_to_current_user(dt)
+  def datetime_localized_to_current_user(dt, options={})
+    defaults = {
+      :format => :friendly_at_time # day_month_date
+    }
+    options.reverse_merge!(defaults)
     tz = current_user.time_zone
-    l dt.in_time_zone(tz), format: :friendly_at_time
+    l dt.in_time_zone(tz), format: options[:format]
   end
   
   def iconic_link_to(name, path, options={})
