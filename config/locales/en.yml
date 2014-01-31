@@ -14,6 +14,7 @@ en:
   time:
     formats:
       friendly_at_time: "%b %d, %Y @ %l:%M%P"
+      day_month_date: "%A, %b %e"
       short_time: "%l:%M%p"
       time_picker_time_format: "%l:%M%P"
       date_picker_date_format: "%-m/%-d/%Y"

@@ -1,20 +1,30 @@
-<% workshops ||= @workshops %>
+<% 
+  workshops ||= @workshops 
+  w_by_day = workshops.chunk do |w|
+    w.ongoing_or_next_rerun.try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day)
+  end
+%>
 <ul class="media-list">
-  <% workshops.each do |workshop| %>
-    <li class="media badged clearfix">
-      <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
-        <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
-        <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>
-      </a>
-      <div class="media-body">
-        <% if workshop.host.promote_host %>
-          <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
-        <% end %>
-        <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
-        <div class="row">
-          <%= render 'reruns/when_where_price', :rerun => workshop.ongoing_or_next_rerun %>
-        </div>
-      </div>
-    </li>
+  <% w_by_day.each do |day, workshops_that_day| %>
+    <h3 class="muted chunk_header"><%= datetime_localized_to_current_user(day, :format => :day_month_date) %></h3>
+    <div class="day_chunk">
+      <% workshops_that_day.each do |workshop| %>
+        <li class="media badged clearfix">
+          <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
+            <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
+            <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>
+          </a>
+          <div class="media-body">
+            <% if workshop.host.promote_host %>
+              <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
+            <% end %>
+            <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
+            <div class="row">
+              <%= render 'reruns/when_where_price', :rerun => workshop.ongoing_or_next_rerun %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </div>
   <% end %>
 </ul>

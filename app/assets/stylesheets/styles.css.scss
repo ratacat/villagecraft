@@ -596,3 +596,15 @@ blockquote.fancy cite:before {
 .tab-pane {
   padding: 10px 0;
 }
+
+.chunk_header {
+  margin-bottom: 0px;
+}
+
+.day_chunk {
+  li.media {
+    background: $vc_greengrayLight;
+    padding: 10px;
+    margin: 0 0 2px 0;    
+  }
+}
