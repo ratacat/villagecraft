@@ -25,6 +25,8 @@ module MeetingsHelper
   def meeting_time(meeting, options = {})
     defaults = {
       :short_date => false,
+      :show_date => true,
+      :show_end_time => true,
       :show_livestamp => false,
       :no_tz => false,
       :wrapper_tag => nil,
@@ -32,17 +34,23 @@ module MeetingsHelper
       :wrapper_options => {}
     }
     options.reverse_merge!(defaults)
-    options[:date_format] = options[:short_date] ? "%A %b" : "%A %B"
     html = []
-    html << content_tag(:span, meeting_date(meeting, :short_date => options[:date_format]), :class => 'date')
-    html << options[:spacer] if options[:spacer]
-    html << content_tag(:span, meeting_time_interval(meeting), 
-                        :'data-start_time_date' => l(meeting.localized_start_time, format: :date_picker_date_format).strip,
-                        :'data-start_time_time' => l(meeting.localized_start_time, format: :time_picker_time_format).strip,
-                        :'data-end_time_date' => l(meeting.localized_end_time, format: :date_picker_date_format).strip,
-                        :'data-end_time_time' => l(meeting.localized_end_time, format: :time_picker_time_format).strip,
-                        :'data-uuid' => meeting.uuid,
-                        :class => 'time_range')
+    if options[:show_date]
+      options[:date_format] = options[:date_format] || (options[:short_date] ? "%A %b" : "%A %B")
+      html << content_tag(:span, meeting_date(meeting, :short_date => options[:date_format]), :class => 'date')      
+      html << options[:spacer] if options[:spacer]
+    end
+    if options[:show_end_time]
+      html << content_tag(:span, meeting_time_interval(meeting), 
+                          :'data-start_time_date' => l(meeting.localized_start_time, format: :date_picker_date_format).strip,
+                          :'data-start_time_time' => l(meeting.localized_start_time, format: :time_picker_time_format).strip,
+                          :'data-end_time_date' => l(meeting.localized_end_time, format: :date_picker_date_format).strip,
+                          :'data-end_time_time' => l(meeting.localized_end_time, format: :time_picker_time_format).strip,
+                          :'data-uuid' => meeting.uuid,
+                          :class => 'time_range')
+    else
+      html << I18n.l(meeting.localized_start_time, format: :short_time)
+    end
     if options[:show_livestamp]
       html << options[:spacer] if options[:spacer]
       html << content_tag(:span, '', :class => 'muted', :'data-livestamp' => meeting.start_time)

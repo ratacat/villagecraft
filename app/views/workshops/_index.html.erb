@@ -10,6 +10,18 @@
     <div class="day_chunk">
       <% workshops_that_day.each do |workshop| %>
         <li class="media badged clearfix">
+          <h4 class="start_time">
+            <% if rerun = workshop.ongoing_or_next_rerun %>
+              <% if rerun.first_meeting.ongoing? %>
+                <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
+              <span class="muted">happening right now</span>
+              <% else %>
+                <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
+              <% end %>
+            <% else %>
+              no upcoming dates
+            <% end %>    
+          </h4>
           <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
             <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
             <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>

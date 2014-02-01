@@ -1,20 +1,4 @@
 <% rerun ||= (@rerun || @event) %>
-<div class="span2">    
-  <% if rerun %>
-  <div class="blocky_spns">
-    <% if rerun.first_meeting.ongoing? %>
-      <%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
-    <span class="muted">happening right now</span>
-    <% else %>
-      <%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-    <% end %>
-  </div>
-  <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => rerun} %></p>
-  <% else %>
-    <span class="muted">no upcoming dates</span>
-  <% end %>
-</div>
-
 <div class="span3">
   <p>
     <% if rerun %>

@@ -599,12 +599,19 @@ blockquote.fancy cite:before {
 
 .chunk_header {
   margin-bottom: 0px;
+  padding-left: 8px;
 }
 
 .day_chunk {
   li.media {
     background: $vc_greengrayLight;
-    padding: 10px;
+    padding: 5px 10px 10px;
     margin: 0 0 2px 0;    
+  }
+  .start_time {
+    margin-top: 0;
+    margin-bottom: 3px;
+    color: $grayLight;
+    padding-left: 4px;
   }
 }
