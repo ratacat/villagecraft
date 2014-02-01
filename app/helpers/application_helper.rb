@@ -8,7 +8,7 @@ module ApplicationHelper
       :format => :friendly_at_time # day_month_date
     }
     options.reverse_merge!(defaults)
-    tz = current_user.time_zone
+    tz = current_user.try(:time_zone) || "America/Los_Angeles"
     l dt.in_time_zone(tz), format: options[:format]
   end
   

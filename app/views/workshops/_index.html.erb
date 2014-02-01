@@ -1,7 +1,8 @@
 <% 
-  workshops ||= @workshops 
+  workshops ||= @workshops
+  tz = current_user.try(:time_zone) || "America/Los_Angeles"
   w_by_day = workshops.chunk do |w|
-    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day) || :none
+    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
   end
 %>
 <ul class="media-list">
