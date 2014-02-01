@@ -1,12 +1,18 @@
 <% 
   workshops ||= @workshops 
   w_by_day = workshops.chunk do |w|
-    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day)
+    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day) || :none
   end
 %>
 <ul class="media-list">
   <% w_by_day.each do |day, workshops_that_day| %>
-    <h3 class="muted chunk_header"><%= datetime_localized_to_current_user(day, :format => :day_month_date) %></h3>
+    <h3 class="muted chunk_header">
+      <% if day === :none %>
+        No upcoming dates
+      <% else %>
+        <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
+      <% end %>
+    </h3>
     <div class="day_chunk">
       <% workshops_that_day.each do |workshop| %>
         <li class="media badged clearfix">
@@ -18,8 +24,6 @@
               <% else %>
                 <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
               <% end %>
-            <% else %>
-              no upcoming dates
             <% end %>    
           </h4>
           <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
