@@ -1,7 +1,7 @@
 <% 
   workshops ||= @workshops 
   w_by_day = workshops.chunk do |w|
-    w.ongoing_or_next_rerun.try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day)
+    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, current_user.time_zone).try(:beginning_of_day)
   end
 %>
 <ul class="media-list">
