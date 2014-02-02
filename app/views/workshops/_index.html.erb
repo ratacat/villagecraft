@@ -24,6 +24,9 @@
               <% else %>
                 <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
               <% end %>
+              <% if rerun.first_meeting.start_time - Time.now < 10.days %>
+                <%= content_tag(:span, '', :class => 'muted pull-right', :'data-livestamp' => rerun.first_meeting.start_time) %>
+              <% end %>
             <% end %>    
           </h4>
           <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
