@@ -20,8 +20,7 @@
           <h4 class="start_time">
             <% if rerun = workshop.ongoing_or_next_rerun %>
               <% if rerun.first_meeting.ongoing? %>
-                <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
-              <span class="muted">happening right now</span>
+                <span class="muted">happening now</span>
               <% else %>
                 <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
               <% end %>
