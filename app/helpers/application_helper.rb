@@ -13,6 +13,8 @@ module ApplicationHelper
   end
   
   def iconic_link_to(name, path, options={})
+    options[:class] ||= ''
+    options[:class] += ' iconic_link_to'
     options[:class] += ' icon_only' if name.blank?
     if options[:icon].blank?
       options[:icon] =

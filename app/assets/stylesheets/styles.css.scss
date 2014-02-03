@@ -62,6 +62,18 @@ body h2 {
   }
 }
 
+a.iconic_link_to {
+  i {
+    vertical-align: middle;
+    text-decoration: none;
+  }
+  &:hover {
+    i {
+      text-decoration: none;      
+    }
+  }
+}
+
 .table.meter {
   table-layout: fixed;
   font-size: 120%;
