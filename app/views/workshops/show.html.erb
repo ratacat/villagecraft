@@ -18,7 +18,7 @@
   </div>
   <div class="span6">
     <div class="row">
-      <%= render 'reruns/when_where_price', :rerun => next_rerun %>
+      <%= render 'reruns/when_where_price', :rerun => next_rerun, :show_time => true %>
     </div>
     <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
