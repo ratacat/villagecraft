@@ -1,6 +1,9 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
 %>
+<div class="row">
+  <%= iconic_link_to 'back to search listing', root_path, :icon => 'chevron-left' %>
+</div>
 <h1><%= @workshop.title %></h1>
 <div class="row">
   <div class="span2">
