@@ -19,10 +19,8 @@
   </p>
 </div>
 
-<div class="span1">
+<div class="span2">
   <% if rerun %>
-    <p>
-      <%= event_price(rerun) %>
-    </p>
+    <span class="label label-success price_tag"><%= event_price(rerun) %></span>
   <% end %>
 </div>
