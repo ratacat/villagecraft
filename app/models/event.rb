@@ -84,6 +84,11 @@ class Event < ActiveRecord::Base
   def slots_left
     self.max_attendees - self.attendances.count # self.attendances.with_state(:attending).count
   end
+  alias :spots_left :slots_left
+  
+  def full?
+    self.rsvp? and self.spots_left <= 0
+  end
   
   def attended?
     self.attendances.count > 0
