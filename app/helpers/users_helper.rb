@@ -22,7 +22,15 @@ module UsersHelper
       :annotate => false
     }
     options.reverse_merge!(defaults)
-    if options[:linked]
+    linked = 
+      if options[:linked] == true
+        true
+      elsif (options[:linked] == :to_hosts_only) and (user.host?)
+        true
+      else
+        false
+      end
+    if linked
       link_to contextualized_user_name(user, options), user_url(user, :only_path => options[:only_path])
     else
       contextualized_user_name(user, options)
