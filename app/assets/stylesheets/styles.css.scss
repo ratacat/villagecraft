@@ -66,6 +66,7 @@ a.iconic_link_to {
   i {
     vertical-align: middle;
     text-decoration: none;
+    padding: 0 5px;
   }
   &:hover {
     i {
@@ -636,4 +637,18 @@ blockquote.fancy cite:before {
   font-size: 120%;
   font-weight: normal;
   padding: 0.5em;
+  background: $vc_bluegreen;
+}
+
+ul.attendees {
+  li {
+    margin-bottom: 10px;
+  }
+}
+
+.side_content {
+  h4 {
+    padding-bottom: 2px;
+    border-bottom: 1px solid #eee;
+  }
 }

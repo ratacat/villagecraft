@@ -1,25 +1,22 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
 %>
-<div class="row">
-  <%= iconic_link_to 'back to search listing', root_path, :icon => 'chevron-left' %>
-</div>
-<h1><%= @workshop.title %></h1>
+
 <div class="row">
   <div class="span2">
     <p class="hidden-phone">
+      <%= iconic_link_to 'back to search listing', root_path, :icon => 'chevron-left' %>
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
-      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign me up', :btn_classes => 'btn-large btn-block' %>
       <% if @workshop.external? and not @workshop.external_url.blank? %>
         <%= external_domain(@workshop) %>
       <% end %>      
     </p>
     <p class="hidden-tablet hidden-desktop pull-right" style="margin: 0 0 10px 10px;">
       <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded large_page_thumb") %><br/>
-      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign me up', :btn_classes => '' %>
     </p>
   </div>
-  <div class="span6">
+  <div class="span5">
+    <h1><%= @workshop.title %></h1>
     <div class="row">
       <%= render 'reruns/when_where_price', :rerun => next_rerun, :show_time => true %>
     </div>
@@ -28,17 +25,30 @@
     </p>
   </div>
   <div class="span3">
-    <h4 class="muted margin0">Host</h4>
+    <div class="row">    
+      <div class="span2">
+        <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'RSVP', :btn_classes => 'btn-block' %>          
+      </div>
+      <div class="span1">
+        <button class="disabled btn btn-default btn-mini btn-block">Remind me</button>
+        <button class="disabled btn btn-default btn-mini btn-block">Share</button>
+        <button class="disabled btn btn-default btn-mini btn-block">Message</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span3">
+        <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun %>
+      </div>
+    </div>
+  </div>
+  <div class="span2">
+    <h4 class="muted margin0">hosted by:</h4>
     <%= render 'users/mini_profile', :user => @workshop.host %>
-    <% if next_rerun and not next_rerun.external? and next_rerun.rsvp? and next_rerun.attendees.count > 0 %>
-      <h4 class="muted">Attendees (<%= next_rerun.attendees.count %>)</h4>
-      <%= next_rerun.attendees.map(&:first_name_plus_last_initial).join(', ') %>
-    <% end %>
   </div>
 </div>
 <br/>
 <div class="row">
-  <div class="span9">
+  <div class="span7">
     <ul class="nav nav-tabs margin0">
       <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
       <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
