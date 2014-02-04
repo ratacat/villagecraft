@@ -33,7 +33,13 @@ class WorkshopsController < ApplicationController
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
     respond_to do |format|
-      format.html # show.html.erb
+      format.html {
+        if params[:v] == 'alt'
+          render 'show_alt'
+        else
+          render 'show'
+        end
+      }
       format.json { render json: @workshop }
     end
   end
