@@ -23,21 +23,7 @@
 
 <div class="span2">
   <p>
-    <% if rerun %>
-      <% if rerun.venue.blank? %>
-        TBD
-      <% else %>
-        <% if rerun.external? %>
-          <%= address(rerun.venue.location, :wrapper_tag => :span) %>
-        <% else %>
-          <% if (not rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(rerun)) %>
-            <%= address(rerun.venue.location, :wrapper_tag => :span) %>
-          <% else %>
-            <%= neighborhood_or_city_n_state(rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= render('reruns/location', :rerun => rerun) if rerun %>
   </p>
 </div>
 
