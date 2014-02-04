@@ -26,7 +26,7 @@
       <button class="disabled btn btn-default btn-mini">Message</button>
     </p>
     <div class="row">
-      <div class="span3">
+      <div class="span2">
         <div class="pull-right hidden-tablet hidden-desktop">
           <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
         </div>
@@ -34,10 +34,9 @@
         <% if next_rerun %>
           <div class="blocky_spns">
             <% if next_rerun.first_meeting.ongoing? %>
-              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
-              <span class="muted">happening right now</span>
+              <span class="muted">happening now</span>
             <% else %>
-              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
             <% end %>
           </div>
           <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
@@ -45,23 +44,9 @@
           <span class="muted">no upcoming dates</span>
         <% end %>
       </div>
-      <div class="span2">
+      <div class="span3">
         <p>
-          <% if next_rerun %>
-            <% if next_rerun.venue.blank? %>
-              TBD
-            <% else %>
-              <% if next_rerun.external? %>
-                <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
-              <% else %>
-                <% if (not next_rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(next_rerun)) %>
-                  <%= address(next_rerun.venue.location, :wrapper_tag => :span) %>
-                <% else %>
-                  <%= neighborhood_or_city_n_state(next_rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
-                <% end %>
-              <% end %>
-            <% end %>
-          <% end %>
+          <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
         </p>
       </div>
 
