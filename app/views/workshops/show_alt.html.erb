@@ -27,6 +27,10 @@
     </p>
     <div class="row">
       <div class="span3">
+        <div class="pull-right hidden-tablet hidden-desktop">
+          <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
+        </div>
+      
         <% if next_rerun %>
           <div class="blocky_spns">
             <% if next_rerun.first_meeting.ongoing? %>
@@ -66,7 +70,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row hidden-phone">
       <div class="span7">
         <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
       </div>
