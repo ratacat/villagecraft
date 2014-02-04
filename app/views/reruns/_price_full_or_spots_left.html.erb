@@ -1,0 +1,10 @@
+<% if rerun %>
+  <p><span class="label price_tag"><%= event_price(rerun) %></span></p>
+  <% if rerun.rsvp? %>
+    <% if rerun.full? %>
+      <p>full</p>
+    <% elsif (spots = rerun.spots_left) <  8 %>
+      <p><%= pluralize(spots, 'spot') %> left</p>
+    <% end %>
+  <% end %>
+<% end %>

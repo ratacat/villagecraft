@@ -21,7 +21,7 @@
   </div>
 <% end %>
 
-<div class="span3">
+<div class="span2">
   <p>
     <% if rerun %>
       <% if rerun.venue.blank? %>
@@ -41,15 +41,6 @@
   </p>
 </div>
 
-<div class="span2">
-  <% if rerun %>
-    <p><span class="label label-success price_tag"><%= event_price(rerun) %></span></p>
-    <% if rerun.rsvp? %>
-      <% if rerun.full? %>
-        <p>full</p>
-      <% elsif (spots = rerun.spots_left) <  8 %>
-        <p><%= pluralize(spots, 'spot') %> left</p>
-      <% end %>
-    <% end %>
-  <% end %>
+<div class="span1">
+  <%= render 'reruns/price_full_or_spots_left', :rerun => rerun %>
 </div>
