@@ -86,7 +86,7 @@ class WorkshopsController < ApplicationController
     
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop createdt' }
+        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop created' }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
         format.html { render action: "new" }
