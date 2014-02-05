@@ -14,6 +14,7 @@ class Workshop < ActiveRecord::Base
   has_many :events, :dependent => :destroy, :conditions => {:deleted_at => nil}
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
+  has_many :locations, :through => :events
   has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
   validates :title, presence: true
