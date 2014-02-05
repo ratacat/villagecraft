@@ -1,4 +1,5 @@
 class MeetingObserver < ActiveRecord::Observer
+  include ActionView::Helpers::DateHelper
   include MeetingsHelper
   
   def before_update(meeting)
