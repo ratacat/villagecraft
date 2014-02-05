@@ -1,70 +1,54 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
 %>
-<div class="row">
-  <div class="span3">
-    <%= iconic_link_to 'back', root_path, :icon => 'chevron-left' %>
-  </div>
-</div>
+
 <div class="row">
   <div class="span2">
     <p class="hidden-phone">
+      <%= iconic_link_to 'back to search listing', root_path, :icon => 'chevron-left' %>
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
       <% if @workshop.external? and not @workshop.external_url.blank? %>
         <%= external_domain(@workshop) %>
       <% end %>      
-      <button class="disabled btn btn-default btn-mini btn-block">Remind me</button>
-      <button class="disabled btn btn-default btn-mini btn-block">Share</button>
-      <button class="disabled btn btn-default btn-mini btn-block">Message</button>
+    </p>
+    <p class="hidden-tablet hidden-desktop pull-right" style="margin: 0 0 10px 10px;">
+      <%= image_tag(@workshop.img_src(:medium), :class => "img-rounded large_page_thumb") %><br/>
     </p>
   </div>
-  <div class="span7">
-    <h1 class="margin_top0"><%= @workshop.title %></h1>
-    <p class="hidden-tablet hidden-desktop">
-      <button class="disabled btn btn-default btn-mini">Remind me</button>
-      <button class="disabled btn btn-default btn-mini">Share</button>
-      <button class="disabled btn btn-default btn-mini">Message</button>
-    </p>
+  <div class="span5">
+    <h1><%= @workshop.title %></h1>
     <div class="row">
-      <div class="span2">
-        <div class="pull-right hidden-tablet hidden-desktop">
-          <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
-        </div>
-      
-        <% if next_rerun %>
-          <div class="blocky_spns">
-            <% if next_rerun.first_meeting.ongoing? %>
-              <span class="muted">happening now</span>
-            <% else %>
-              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
-            <% end %>
-          </div>
-          <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
-        <% else %>
-          <span class="muted">no upcoming dates</span>
-        <% end %>
-      </div>
-      <div class="span3">
-        <p>
-          <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
-        </p>
-      </div>
-
-      <div class="span2">
-        <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
-      </div>
+      <%= render 'reruns/when_where_price', :rerun => next_rerun, :show_time => true %>
     </div>
-
-    <div class="row hidden-phone">
-      <div class="span7">
-        <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
-      </div>
-    </div>
-    
     <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
-    
+  </div>
+  <div class="span3">
+    <div class="row">    
+      <div class="span2">
+        <p><%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'RSVP', :btn_classes => 'btn-block' %> </p>         
+      </div>
+      <div class="span1">
+        <button class="disabled btn btn-default btn-mini btn-block">Remind me</button>
+        <button class="disabled btn btn-default btn-mini btn-block">Share</button>
+        <button class="disabled btn btn-default btn-mini btn-block">Message</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span3">
+        <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun %>
+      </div>
+    </div>
+  </div>
+  <div class="span2">
+    <h4 class="muted margin0">hosted by:</h4>
+    <%= render 'users/mini_profile', :user => @workshop.host %>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="span7">
     <ul class="nav nav-tabs margin0">
       <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
       <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
@@ -84,17 +68,6 @@
         <% else %>
           <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :hide_flags => true %>
         <% end %>
-      </div>
-    </div>
-    
-  </div>
-  <div class="span3 side_content">
-    <h4 class="muted">Host</h4>
-    <%= render 'users/mini_profile', :user => @workshop.host %>
-    <h4 class="muted">People</h4>
-    <div class="row">
-      <div class="span3">
-        <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
       </div>
     </div>
   </div>
