@@ -31,6 +31,14 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    respond_to do |format|
+      format.js { render :json => { :errors => [exception.message], :message => "Not found" }, :status => 404 }
+      format.html { redirect_to root_url, :alert => exception.message }
+      format.json { render :inline => exception.message, :status => 404 }
+    end
+  end
+  
   protected
   def render_error(options={})
     respond_to do |format|

@@ -4,7 +4,7 @@ class WorkshopsController < ApplicationController
   before_filter do
     params[:workshop] &&= workshop_params
   end
-  load_and_authorize_resource(:find_by => :find_by_seod_uuid)
+  load_and_authorize_resource(:find_by => :seod_uuid)
   
   before_filter :get_future_and_past_reruns, :only => [:edit, :update, :show]
   def my_workshops

@@ -27,8 +27,8 @@ class Workshop < ActiveRecord::Base
     "#{self.uuid} #{self.title}}".parameterize
   end
 
-  def Workshop.find_by_seod_uuid(id)
-    Workshop.find_by_uuid(id.split('-').first)
+  def Workshop.find_by_seod_uuid!(id)
+    Workshop.find_by_uuid!(id.split('-').first)
   end
 
   def img_src(size = :medium)

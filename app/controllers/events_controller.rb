@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
-  load_and_authorize_resource(:find_by => :find_by_seod_uuid)
+  load_and_authorize_resource(:find_by => :seod_uuid)
   before_filter :check_lock, :only => [:update, :destroy]
  
   # FIXME: prevent non-admins from changing events (and meetings) that have occurred
