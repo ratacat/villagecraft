@@ -91,8 +91,10 @@ class Workshop < ActiveRecord::Base
   protected
   
   def propagate_changes_to_future_events
-    self.events.where_first_meeting_starts_in_future.readonly(false).each do |event|
-      event.update_attributes(:title => self.title, :description => self.description)
+    if self.title_changed? or self.description_changed?
+      self.events.where_first_meeting_starts_in_future.readonly(false).each do |event|
+        event.update_attributes(:title => self.title, :description => self.description)
+      end      
     end
   end
 
