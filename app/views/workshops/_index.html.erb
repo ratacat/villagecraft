@@ -1,59 +1,44 @@
 <% 
   workshops ||= @workshops
-  tz = current_user.try(:time_zone) || "America/Los_Angeles"
-  w_by_day = workshops.chunk do |w|
-    w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
-  end
 %>
 <ul class="media-list">
-  <% w_by_day.each do |day, workshops_that_day| %>
-    <h3 class="muted chunk_header">
-      <% if day === :none %>
-        No upcoming dates
-      <% else %>
-        <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
-      <% end %>
-    </h3>
+  <% if session[:sort_order] == 'distance' %>
     <div class="day_chunk">
-      <% workshops_that_day.each do |workshop| %>
-        <li class="media badged clearfix">
-          <h4 class="start_time">
-            <% if rerun = workshop.ongoing_or_next_rerun %>
-              <% if rerun.first_meeting.ongoing? %>
-                <span class="muted">happening now</span>
-              <% else %>
-                <%= meeting_time(rerun.first_meeting, :show_date => false, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
-                <% if rerun.first_meeting.start_time - Time.now < 10.days %>
-                  <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
-                <% end %>
-              <% end %>
-            <% end %>    
-          </h4>
-          <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
-            <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
-            <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>
-          </a>
-          <div class="media-body">
-            <% if workshop.host.promote_host %>
-              <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
-            <% end %>
-            <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
-            <div class="row">
-              <% if rerun = workshop.ongoing_or_next_rerun %>
-                <div class="span3">
-                  <p>
-                    <%= render 'reruns/location', :rerun => rerun %>
-                  </p>
-                </div>
-
-                <div class="span1">
-                  <%= render 'reruns/price_full_or_spots_left', :rerun => rerun %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </li>
+      <% workshops.each do |workshop| %>
+        <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
       <% end %>
     </div>
+    <% unless @other_workshops.blank? %>
+      <h3 class="muted chunk_header">
+        No upcoming dates
+      </h3>
+      <div class="day_chunk">
+        <% @other_workshops.each do |workshop| %>
+          <%= render 'workshops/show_in_index', :workshop => workshop %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <%
+      workshops += @other_workshops
+      tz = current_user.try(:time_zone) || "America/Los_Angeles"
+      w_by_day = workshops.chunk do |w|
+        w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
+      end
+    %>
+    <% w_by_day.each do |day, workshops_that_day| %>
+      <h3 class="muted chunk_header">
+        <% if day === :none %>
+          No upcoming dates
+        <% else %>
+          <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
+        <% end %>
+      </h3>
+      <div class="day_chunk">
+        <% workshops_that_day.each do |workshop| %>
+          <%= render 'workshops/show_in_index', :workshop => workshop %>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </ul>
