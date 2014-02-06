@@ -10,6 +10,7 @@
   <% end %>
 <% else %>
   <% activities_n_counts.each do |a_and_c| %>
+    <% next if a_and_c[:activity].owner.nil? %>
     <div>
       <% extra_html = (a_and_c[:count] > 1) ? 
                       "#{link_to(pluralize(a_and_c[:count] - 1, 'similar activity'), 

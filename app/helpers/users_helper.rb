@@ -30,7 +30,9 @@ module UsersHelper
       else
         false
       end
-    if linked
+    if user.nil?
+      'a deleted user'
+    elsif linked
       link_to contextualized_user_name(user, options), user_url(user, :only_path => options[:only_path])
     else
       contextualized_user_name(user, options)
