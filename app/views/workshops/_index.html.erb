@@ -10,7 +10,7 @@
     </div>
     <% unless @other_workshops.blank? %>
       <h3 class="muted chunk_header">
-        No upcoming dates
+        Workshops with no upcoming dates
       </h3>
       <div class="day_chunk">
         <% @other_workshops.each do |workshop| %>
@@ -29,7 +29,7 @@
     <% w_by_day.each do |day, workshops_that_day| %>
       <h3 class="muted chunk_header">
         <% if day === :none %>
-          No upcoming dates
+          Workshops with no upcoming dates
         <% else %>
           <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
         <% end %>
