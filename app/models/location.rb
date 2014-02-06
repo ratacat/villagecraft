@@ -38,6 +38,7 @@ class Location < ActiveRecord::Base
   validates :longitude, :presence => true
   
   after_validation :lookup_time_zone, :lookup_neighborhood
+  after_save :update_point_from_lon_lat
   
   def Location.us_states
     @US_STATES ||= us_states_select_collection.map(&:first)
@@ -141,6 +142,14 @@ class Location < ActiveRecord::Base
   def lookup_neighborhood
     unless self.street.blank?
       self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)
+    end
+  end
+  
+  def update_point_from_lon_lat
+    unless self.longitude.blank? or self.latitude.blank?
+      ActiveRecord::Base.connection.execute(%{
+        UPDATE "locations" SET "updated_at" = '#{Time.now}', "point" = ST_GeomFromText('POINT(#{self.longitude} #{self.latitude})', 4326) WHERE "locations"."id" = #{self.id}
+      })      
     end
   end
   
