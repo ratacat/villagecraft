@@ -40,6 +40,10 @@ class Location < ActiveRecord::Base
   after_validation :lookup_time_zone, :lookup_neighborhood
   after_save :update_point_from_lon_lat
   
+  def Location.by_distance_from(l)
+    order("ST_Distance(#{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326))")
+  end
+  
   def Location.us_states
     @US_STATES ||= us_states_select_collection.map(&:first)
   end
