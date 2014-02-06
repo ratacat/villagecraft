@@ -24,7 +24,7 @@ class Meeting < ActiveRecord::Base
   validates_datetime :start_time, :before => :end_time, :before_message => 'must be before end time'
   
   after_save :possibly_update_parents_first_meeting_cache
-  after_update :percolate_venue
+  after_update :percolate_venue, :if => lambda { |meeting| meeting.venue_id_changed? }
   
   def title
     self.event.title
@@ -73,10 +73,8 @@ class Meeting < ActiveRecord::Base
   end
   
   def percolate_venue
-    if self.venue_id_changed?
-      self.event.update_attribute(:venue_id, self.venue_id)
-      self.workshop.update_attribute(:venue_id, self.venue_id)      
-    end
+    self.event.update_attribute(:venue_id, self.venue_id)
+    self.workshop.update_attribute(:venue_id, self.venue_id)      
   end
   
 end
