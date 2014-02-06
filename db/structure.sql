@@ -229,7 +229,8 @@ CREATE TABLE locations (
     state_code character varying(255),
     time_zone character varying(255),
     neighborhood_id integer,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    point geometry(Point,4326)
 );
 
 
@@ -300,7 +301,8 @@ CREATE TABLE neighborhoods (
     city character varying(64),
     name character varying(64),
     regionid numeric,
-    geom geometry(MultiPolygon,4326)
+    geom geometry(MultiPolygon,4326),
+    foo geometry(MultiPolygon,4326)
 );
 
 
@@ -838,6 +840,13 @@ CREATE INDEX index_locations_on_neighborhood_id ON locations USING btree (neighb
 
 
 --
+-- Name: index_locations_on_point; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_locations_on_point ON locations USING gist (point);
+
+
+--
 -- Name: index_meetings_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1284,3 +1293,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140122073707');
 INSERT INTO schema_migrations (version) VALUES ('20140128213504');
 
 INSERT INTO schema_migrations (version) VALUES ('20140206020811');
+
+INSERT INTO schema_migrations (version) VALUES ('20140206061556');
