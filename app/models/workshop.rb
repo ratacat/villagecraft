@@ -26,6 +26,14 @@ class Workshop < ActiveRecord::Base
   
   after_update :propagate_changes_to_future_events
   
+  def Workshop.by_distance_from(l)
+    joins(:location).order("ST_Distance(#{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326))")
+  end
+  
+  def Workshop.first_meeting_in_the_future
+    joins(:first_meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
+  end
+  
   def to_param
     "#{self.uuid} #{self.title}}".parameterize
   end
