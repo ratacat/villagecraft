@@ -521,7 +521,8 @@ CREATE TABLE workshops (
     uuid character varying(255),
     deleted_at timestamp without time zone,
     external boolean,
-    external_url character varying(255)
+    external_url character varying(255),
+    venue_id integer
 );
 
 
@@ -1054,6 +1055,13 @@ CREATE INDEX index_workshops_on_uuid ON workshops USING btree (uuid);
 
 
 --
+-- Name: index_workshops_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_venue_id ON workshops USING btree (venue_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1274,3 +1282,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140122060741');
 INSERT INTO schema_migrations (version) VALUES ('20140122073707');
 
 INSERT INTO schema_migrations (version) VALUES ('20140128213504');
+
+INSERT INTO schema_migrations (version) VALUES ('20140206020811');

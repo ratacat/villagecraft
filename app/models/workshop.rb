@@ -21,6 +21,9 @@ class Workshop < ActiveRecord::Base
   validates :host_id, presence: true
   validates :external_url, :url => {:if => lambda {|workshop| workshop.external?}}, :allow_blank => true
   
+  belongs_to :venue
+  has_one :location, :through => :venue
+  
   after_update :propagate_changes_to_future_events
   
   def to_param
