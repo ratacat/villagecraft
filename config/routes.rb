@@ -33,6 +33,8 @@ Villagecraft::Application.routes.draw do
   resources :venues  
   resources :neighborhoods
 
+  resources :locations, :only => [:update]
+
   resources :notifications, :only => [:index, :show] do
     collection do
       post 'clear'

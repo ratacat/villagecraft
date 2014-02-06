@@ -127,6 +127,10 @@ class Location < ActiveRecord::Base
     self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)
     self.save
   end
+  
+  def address_contains_city_state
+    not self.address.match(/(#{self.city}).+(#{self.state_code})/i).nil?
+  end
 
   protected
   

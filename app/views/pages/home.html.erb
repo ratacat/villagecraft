@@ -3,7 +3,39 @@
 <% else %>
 <div class="row">
   <div class="span8">
+    <ul class="nav nav-pills">
+      <li<%= ' class=active' unless (session[:sort_order] === 'distance') %>>
+        <%= link_to 'Sort by date', root_path(:sort => :date), :method => :post %>
+      </li>
+      <li<%= ' class=active' if (session[:sort_order] === 'distance') %>>
+        <%= link_to 'Sort by distance', root_path(:sort => :distance), :method => :post %>
+      </li>
+      <li class='editable_location<%= ' muted' unless (session[:sort_order] === 'distance') %>'>
+        from <%= editable @location, :address %> <span id="in_city_state"><%= "(#{city_n_state(@location)})" unless @location.address_contains_city_state %></span>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="span8">
     <%= render 'workshops/index' %>
   </div>
 </div>
+<% end %>
+<% if session[:sort_order] === 'distance' %>
+  <% ready_script do -%>
+    $(".editable").editable({
+      ajaxOptions: {type: 'PUT'},
+      error: function(response, newValue) {
+        show_bootstrap_alert({type: 'error', text: 'Not a valid address.'});
+      },
+      success: function(response, newValue) {
+        if (response.address_contains_city_state) {
+          $("#in_city_state").hide();
+        } else {
+          $("#in_city_state").text('(' + response.location.city + ', ' + response.location.state_code + ')').show();
+        }
+      }
+    });
+  <% end -%>
 <% end %>

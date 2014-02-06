@@ -36,15 +36,19 @@ module LocationHelper
   def address(location, options={})
     defaults = {
       :show_popover_map => false,
-      :wrapper_tag => :div
+      :wrapper_tag => :div,
+      :address => nil
     }
     options.reverse_merge!(defaults)
 
     content_tag(options[:wrapper_tag], :class => "blocky_spns#{ ' popover_map' if options[:show_popover_map]}", 
                       :'data-content' => popover_neighborhood_map(location), 
                       :'data-title' => hood_name_in_city(location, :show_in => true).gsub('"', "'")) do
-      content_tag(:span, location.street) +
-      content_tag(:span, city_n_state(location))
+      if options[:address]
+        options[:address]
+      else
+        content_tag(:span, location.street) + content_tag(:span, city_n_state(location))
+      end
     end    
   end
   
