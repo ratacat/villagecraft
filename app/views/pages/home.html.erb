@@ -35,6 +35,7 @@
         } else {
           $("#in_city_state").text('(' + response.location.city + ', ' + response.location.state_code + ')').show();
         }
+        location.reload(true);
       }
     });
   <% end -%>
