@@ -17,7 +17,7 @@
         <% if rerun.first_meeting.ongoing? %>
           <span class="muted">happening now</span>
         <% else %>
-          <%= meeting_time(rerun.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
+          <%= meeting_time(rerun.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %>
           <% if false #  rerun.first_meeting.start_time - Time.now < 10.days %>
             <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
           <% end %>
