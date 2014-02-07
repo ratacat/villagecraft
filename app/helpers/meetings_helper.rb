@@ -5,7 +5,8 @@ module MeetingsHelper
     }
     options.reverse_merge!(defaults)
     options[:date_format] ||= (options[:short_date] ? "%A %b" : "%A %B")
-    meeting.localized_start_time.strftime(options[:date_format] + " #{meeting.localized_start_time.day.ordinalize}")
+    day = meeting.localized_start_time.day
+    meeting.localized_start_time.strftime(options[:date_format] + " #{(options[:short_date] ? day : day.ordinalize)}")
   end
   
   def meeting_time_interval(meeting)
