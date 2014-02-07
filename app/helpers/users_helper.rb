@@ -3,11 +3,12 @@ module UsersHelper
     defaults = {
       :size => :thumb,
       :only_path => true,
-      :linked => false
+      :linked => false,
+      :title => nil
     }
     options.reverse_merge!(defaults)
-    html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => "img-rounded #{options[:size]}")
-    (options[:linked] and not user.blank?) ? link_to(html, user_url(user, :only_path => options[:only_path])) : html
+    html = image_tag(user.try(:profile_img_src, options[:size]) || User.homunculus_src(options[:size]), :class => "user_thumb img-rounded #{options[:size]}")
+    (options[:linked] and not user.blank?) ? link_to(html, user_url(user, :only_path => options[:only_path], :title => options[:title], :class => 'user_thumb')) : html
   end
   
   def linked_user_thumb(user, options={})
