@@ -8,9 +8,8 @@ class PagesController < ApplicationController
       @location = Location.find(session[:location_id])
     elsif user_signed_in?
       @location = current_user.location
-    else
-      @location = Location.find_or_create_by_address('Berkeley, CA')
     end
+    @location ||= Location.find_or_create_by_address('Berkeley, CA')
     q = Workshop.first_meeting_in_the_future
     if session[:sort_order] == 'distance'
       q = q.by_distance_from(@location)
