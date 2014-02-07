@@ -36,7 +36,7 @@
       </h3>
       <div class="day_chunk">
         <% workshops_that_day.each do |workshop| %>
-          <%= render 'workshops/show_in_index', :workshop => workshop %>
+          <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
         <% end %>
       </div>
     <% end %>
