@@ -9,7 +9,7 @@ module EventsHelper
     if event.price.blank? or event.price === 0
       options[:free_msg]
     else
-      html = number_to_currency(event.price)
+      html = number_to_currency(event.price, :precision => 0)
       html += ' materials fee' if options[:show_materials_fee]
       html
     end
