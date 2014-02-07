@@ -49,7 +49,7 @@ module MeetingsHelper
                           :'data-uuid' => meeting.uuid,
                           :class => 'time_range')
     else
-      html << I18n.l(meeting.localized_start_time, format: :short_time)
+      html << content_tag(:span, I18n.l(meeting.localized_start_time, format: :short_time))
     end
     if options[:show_livestamp]
       html << options[:spacer] if options[:spacer]

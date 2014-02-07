@@ -3,18 +3,6 @@
   show_date ||= false
 %>
 <li class="media badged clearfix">
-  <h4 class="start_time">
-    <% if rerun = workshop.ongoing_or_next_rerun %>
-      <% if rerun.first_meeting.ongoing? %>
-        <span class="muted">happening now</span>
-      <% else %>
-        <%= meeting_time(rerun.first_meeting, :show_date => show_date, :spacer => ' @ ', :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
-        <% if rerun.first_meeting.start_time - Time.now < 10.days %>
-          <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
-        <% end %>
-      <% end %>
-    <% end %>    
-  </h4>
   <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
     <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
     <%= image_tag(workshop.host.profile_img_src(:thumb), :class => 'thumb_badge') if workshop.host.promote_host %>
@@ -23,6 +11,20 @@
     <% if workshop.host.promote_host %>
       <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
     <% end %>
+
+    <h4 class="start_time blocky_spns">
+      <% if rerun = workshop.ongoing_or_next_rerun %>
+        <% if rerun.first_meeting.ongoing? %>
+          <span class="muted">happening now</span>
+        <% else %>
+          <%= meeting_time(rerun.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false) %>
+          <% if false #  rerun.first_meeting.start_time - Time.now < 10.days %>
+            <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
+          <% end %>
+        <% end %>
+      <% end %>    
+    </h4>
+
     <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
     <div class="row">
       <% if rerun = workshop.ongoing_or_next_rerun %>
