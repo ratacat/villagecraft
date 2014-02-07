@@ -25,6 +25,8 @@
       <% end %>    
     </h4>
 
+    <%= image_tag(workshop.host.profile_img_src(:small), :class => 'host_thumb', :title => "hosted by #{workshop.host.name}") %>
+
     <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
     <div class="row">
       <% if rerun = workshop.ongoing_or_next_rerun %>
