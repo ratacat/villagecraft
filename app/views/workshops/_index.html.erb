@@ -1,26 +1,30 @@
 <% 
   workshops ||= @workshops
+  workshops = workshops
+  scheduled_workshops_with_venue_tbd ||= @scheduled_workshops_with_venue_tbd
+  other_workshops ||= @other_workshops
+  other_workshops = other_workshops
 %>
 <ul class="media-list">
   <% if session[:sort_order] == 'distance' %>
     <div class="day_chunk">
-      <% workshops.each do |workshop| %>
+      <% (workshops + scheduled_workshops_with_venue_tbd).each do |workshop| %>
         <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
       <% end %>
     </div>
-    <% unless @other_workshops.blank? %>
+    <% unless other_workshops.blank? %>
       <h3 class="muted chunk_header">
         Workshops with no upcoming dates
       </h3>
       <div class="day_chunk">
-        <% @other_workshops.each do |workshop| %>
+        <% other_workshops.each do |workshop| %>
           <%= render 'workshops/show_in_index', :workshop => workshop %>
         <% end %>
       </div>
     <% end %>
   <% else %>
     <%
-      workshops += @other_workshops if @other_workshops
+      workshops += other_workshops if other_workshops
       tz = current_user.try(:time_zone) || "America/Los_Angeles"
       w_by_day = workshops.chunk do |w|
         w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
