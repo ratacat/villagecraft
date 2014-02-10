@@ -1,6 +1,3 @@
-<% if params[:v] === 'old' %>
-  <%= render :partial => 'workshops/expandible_index', :locals => {:workshops => @workshops} %>
-<% else %>
 <div class="row">
   <div class="span8">
     <ul class="nav nav-pills">
@@ -21,7 +18,7 @@
     <%= render 'workshops/index' %>
   </div>
 </div>
-<% end %>
+
 <% if session[:sort_order] === 'distance' %>
   <% ready_script do -%>
     $(".editable").editable({

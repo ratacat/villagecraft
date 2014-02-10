@@ -253,24 +253,6 @@ ul.thumbnails {
   }
 }
 
-tr.expandable {
-  cursor: pointer;
-  td {
-    padding-bottom: 0px;
-    div.more {
-      text-align: center;
-    }
-  }
-}
-
-.table-hover > tbody tr.event_detail:hover td {
-  background-color: white;
-}
-
-.table-hover > tbody tr.event_summary:hover table {
-  background-color: $tableBackgroundHover;
-}
-
 .linky {
   color: $linkColor;
 }
