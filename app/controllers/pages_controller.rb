@@ -14,7 +14,6 @@ class PagesController < ApplicationController
     @workshops = Workshop.first_meeting_in_the_future
     if session[:sort_order] == 'distance'
       @scheduled_workshops_with_venue_tbd = @workshops.where(:venue_id => nil)
-      @workshops = @workshops.by_distance_from(@location)
       @other_workshops = Workshop.where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@workshops.select(Workshop.quoted_table_column(:id)).to_sql})))
         .where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@scheduled_workshops_with_venue_tbd.select(Workshop.quoted_table_column(:id)).to_sql})))
     else
