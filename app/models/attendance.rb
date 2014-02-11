@@ -13,6 +13,7 @@ class Attendance < ActiveRecord::Base
   validate :event_is_not_external
   
   after_create :send_confirmation_email
+  after_save :touch_to_expire_cached_fragments
   
   state_machine :initial => :interested do
 =begin Instead of deleting attendance records, possible add a canceled state like this    
@@ -38,5 +39,10 @@ class Attendance < ActiveRecord::Base
     if self.event.external?
       errors.add(:event, "is external; you cannot sign up for it through Villagecraft")
     end
+  end
+  
+  def touch_to_expire_cached_fragments
+    self.event.touch
+    self.event.workshop.touch
   end
 end
