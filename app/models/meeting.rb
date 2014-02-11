@@ -25,6 +25,7 @@ class Meeting < ActiveRecord::Base
   
   after_save :possibly_update_parents_first_meeting_cache
   after_update :percolate_venue, :if => lambda { |meeting| meeting.venue_id_changed? }
+  after_update :touch_to_expire_cached_fragments
   
   def title
     self.event.title
@@ -74,7 +75,12 @@ class Meeting < ActiveRecord::Base
   
   def percolate_venue
     self.event.update_attribute(:venue_id, self.venue_id)
-    self.workshop.update_attribute(:venue_id, self.venue_id)      
+    self.workshop.update_attribute(:venue_id, self.venue_id)
+  end
+  
+  def touch_to_expire_cached_fragments
+    self.event.touch
+    self.workshop.touch
   end
   
 end

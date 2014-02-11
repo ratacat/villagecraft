@@ -39,6 +39,7 @@ class Event < ActiveRecord::Base
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
   before_save :propogate_changes_to_dependant_meetings
+  after_update :touch_to_expire_cached_fragments
   
   validates :workshop, :presence => true
   validates :host_id, presence: true
@@ -224,4 +225,9 @@ class Event < ActiveRecord::Base
       end
     end
   end
+
+  def touch_to_expire_cached_fragments
+    self.workshop.touch
+  end
+  
 end
