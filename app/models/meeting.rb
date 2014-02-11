@@ -25,7 +25,7 @@ class Meeting < ActiveRecord::Base
   
   after_save :possibly_update_parents_first_meeting_cache
   after_update :percolate_venue, :if => lambda { |meeting| meeting.venue_id_changed? }
-  after_update :touch_to_expire_cached_fragments
+  after_save :touch_to_expire_cached_fragments
   
   def title
     self.event.title
