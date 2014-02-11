@@ -27,7 +27,9 @@ class Workshop < ActiveRecord::Base
   after_update :propagate_changes_to_future_events
   
   def Workshop.by_distance_from(l)
-    joins(:location).order("ST_Distance(#{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326))")
+    # get spheroid distance in meters
+    dist_q = %{ST_Distance_Spheroid( #{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326), 'SPHEROID["WGS 84",6378137,298.257223563]')};
+    joins(:location).select(%{"workshops".*, (#{dist_q}) AS dist}).order(:dist)
   end
   
   def Workshop.first_meeting_in_the_future

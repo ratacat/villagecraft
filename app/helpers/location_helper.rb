@@ -66,4 +66,10 @@ module LocationHelper
     end
   end
   
+  def distance(d)
+    units = current_user.try(:preferred_distance_units) || 'mi'
+    m_to_units_multiplier = {:mi => 0.000621371, :km => 0.001}
+    "#{number_with_precision((d.to_f * m_to_units_multiplier[units.to_sym]), precision: 1)}#{units}"
+  end
+  
 end

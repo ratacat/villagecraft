@@ -34,6 +34,7 @@
         <div class="span3">
           <p>
             <%= render 'reruns/location', :rerun => rerun %>
+            <%= distance(workshop.dist) if workshop.respond_to? :dist %>
           </p>
         </div>
 
