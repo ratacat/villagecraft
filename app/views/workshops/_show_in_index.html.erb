@@ -2,6 +2,7 @@
   workshop ||= @workshop
   show_date ||= false
 %>
+<% cache workshop.cache_key(:in_index) do -%>
 <li class="media badged clearfix">
   <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
     <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
@@ -43,3 +44,4 @@
     </div>
   </div>
 </li>
+<% end -%>

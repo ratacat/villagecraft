@@ -99,6 +99,14 @@ class Workshop < ActiveRecord::Base
   end
   memoize :last_scheduled_reruns
   
+  def cache_key(context = nil)
+    if context
+      "workshop-#{context}-#{self.uuid}-#{self.updated_at.to_i}"
+    else
+      "workshop-#{self.uuid}-#{self.updated_at.to_i}"
+    end
+  end
+  
   protected
   
   def propagate_changes_to_future_events
