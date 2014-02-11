@@ -449,7 +449,8 @@ CREATE TABLE users (
     description text,
     sms_short_messages boolean,
     email_short_messages boolean DEFAULT false,
-    promote_host boolean
+    promote_host boolean,
+    preferred_distance_units character varying(255) DEFAULT 'mi'::character varying
 );
 
 
@@ -987,6 +988,13 @@ CREATE INDEX index_users_on_location_id ON users USING btree (location_id);
 
 
 --
+-- Name: index_users_on_preferred_distance_units; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_preferred_distance_units ON users USING btree (preferred_distance_units);
+
+
+--
 -- Name: index_users_on_profile_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1299,3 +1307,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140206061556');
 INSERT INTO schema_migrations (version) VALUES ('20140206073826');
 
 INSERT INTO schema_migrations (version) VALUES ('20140206075938');
+
+INSERT INTO schema_migrations (version) VALUES ('20140211223923');

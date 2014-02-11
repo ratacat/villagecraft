@@ -52,6 +52,9 @@ class User < ActiveRecord::Base
 #  validates :state, :presence => true
 #  validates :location, :presence => true
   validates :phone, :uniqueness => true, :format => { :with => /\A\+1[0123456789]{10}\z/, :message => "is not a 10-digit US phone number" }, :allow_blank => true
+  DISTANCE_UNITS = [['miles', 'mi'], ['kilometers', 'km']]
+  validates :preferred_distance_units, :inclusion => {:in => ['mi', 'km'], :message => "must be miles (mi) or kilometers (km)" }
+  
 #  validates_associated :location
 
   def profile_img_src(size = :medium)

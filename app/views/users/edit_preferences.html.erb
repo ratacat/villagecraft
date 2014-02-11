@@ -29,6 +29,14 @@
         <%= f.input_field :email_notifications, as: :boolean, boolean_style: :inline %> Send to email
       </label>      
     </div>
+
+    <h3>How would you like to see distances?</h3>
+    <hr/>
+    <div class="control-group">
+      <div class="controls">
+          <%= f.input_field :preferred_distance_units, as: :radio_buttons, item_wrapper_class: :inline, collection: User::DISTANCE_UNITS %>
+      </div>
+    </div>
     
     <div class="form-actions"><%= f.submit "Update settings", class: "btn btn-primary" %></div>
   <% end %>
