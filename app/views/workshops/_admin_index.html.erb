@@ -14,7 +14,10 @@
   <tbody>
 <% @workshops.each do |workshop| %>
     <tr>
-      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true, :span => 4} %></td>
+      <td>
+        <%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true, :span => 4} %>
+        <%= iconic_link_to 'Edit', edit_workshop_path(workshop), class: 'btn btn-mini', title: 'edit' , style: 'margin-left: 4px;' %>
+      </td>
       <td class="blocky_spns">
         <% if workshop.next_meeting.blank? %>
           <%= iconic_link_to 'Schedule', 
