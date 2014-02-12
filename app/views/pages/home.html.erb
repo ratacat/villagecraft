@@ -7,7 +7,7 @@
       <li<%= ' class=active' if (session[:sort_order] === 'distance') %>>
         <%= link_to 'Sort by distance', root_path(:sort => :distance), :method => :post %>
       </li>
-      <li class='editable_location<%= ' muted' unless (session[:sort_order] === 'distance') %>'>
+      <li class='editable_location<%= ' muted' unless (session[:sort_order] === 'distance') %>' id="current_loc" data-longitude="<%= @location.longitude %>" data-latitude="<%= @location.latitude %>" data-preferred_distance_units="<%= current_user.try(:preferred_distance_units) || 'mi' %>">
         from <%= editable @location, :address %> <span id="in_city_state"><%= "(#{city_n_state(@location)})" unless @location.address_contains_city_state %></span>
       </li>
     </ul>
@@ -34,6 +34,22 @@
         }
         location.reload(true);
       }
+    });
+    var current_loc = $("#current_loc"),
+        cur_longitude = current_loc.data('longitude'),
+        cur_latitude = current_loc.data('latitude'),
+        units = current_loc.data('preferred_distance_units');
+
+    $(".workshop_dist").each(function(index) {
+      var _this = $(this),
+          longitude = _this.data('longitude'),
+          latitude = _this.data('latitude'),
+          dist = getDistanceFromLatLonInKm(latitude, longitude, cur_latitude, cur_longitude);
+      if (units == 'mi') {
+        _this.text(Number(dist*0.621371).toFixed(1) + 'mi');
+      } else {
+        _this.text(Number(dist).toFixed(1) + 'km');
+      };
     });
   <% end -%>
 <% end %>
