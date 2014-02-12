@@ -113,6 +113,7 @@ class WorkshopsController < ApplicationController
   def auto_add_rerun
     Event.auto_create_from_workshop(@workshop)
     respond_to do |format|
+      format.html { redirect_to edit_workshop_path(@workshop), notice: 'A new date for this workshop has been scheduled (see below)' }
       format.js { head :no_content }
     end
   end

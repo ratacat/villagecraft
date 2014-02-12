@@ -648,3 +648,16 @@ ul.attendees {
 li.editable_location {
   line-height: 34px;
 }
+
+ul.workshop_thumb {
+  .caption.right-caption.small {
+    padding-top: 5px;
+    line-height: normal;
+  }
+}
+
+#workshops_admin_index {
+  td {
+    vertical-align: middle;
+  }
+}

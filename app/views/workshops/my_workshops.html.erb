@@ -1,10 +1,6 @@
+<%= iconic_link_to 'New Workshop', new_workshop_path, :icon => 'plus', :title => 'create a new workshop (not a re-scheduling of one you have hosted before)', 
+    :class => 'btn btn-default pull-right', :id => 'new_workshop_btn' %>
 <h1>Your Workshops</h1>
-<p>
-  <%= link_to new_workshop_path, :class => 'btn btn-primary' do %>
-    <i class="icon-plus icon-white"></i>
-    New Workshop
-  <% end %>
-</p>
 <div>
   <% if @workshops.blank? %>
     No workshops.

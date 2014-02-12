@@ -6,7 +6,7 @@
   right_caption ||= false
   linked_to = (linked === :edit ? edit_workshop_path(workshop) : workshop)
 %>
-<ul class="thumbnails">
+<ul class="thumbnails workshop_thumb">
   <li class="span<%= span %>">
     <div class="thumbnail<%= " right-caption" if right_caption %>">
       <%= link_to image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), linked_to %>

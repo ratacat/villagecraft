@@ -1,38 +1,37 @@
 <%
   show_host ||= false
 %>
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="workshops_admin_index">
   <thead>
     <tr>
-      <th>Title</th>
+      <th style="width: 35%">Title</th>
       <th>Next Meeting</th>
       <th>Last Meeting</th>
       <% if show_host -%><th>Host</th><% end -%>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
 <% @workshops.each do |workshop| %>
     <tr>
-      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true, :span => 4} %></td>
+      <td><%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => :edit, :right_caption => true, :span => 4} %></td>
       <td class="blocky_spns">
-        <% unless workshop.next_meeting.blank? %>
-          <%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-          <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.next_meeting.event %>
+        <% if workshop.next_meeting.blank? %>
+          <%= iconic_link_to 'Schedule', 
+                             auto_add_rerun_path(workshop), 
+                             :icon => 'plus', :class => 'btn btn-success', :method => :post %>
+        <% else %>
+          <div><%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %></div>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn btn-mini') if can? :manage_attendees, workshop.next_meeting.event %>
         <% end %>
       </td>
       <td class="blocky_spns">
         <% unless workshop.last_meeting.blank? %>
           <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-          <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn') if can? :manage_attendees, workshop.last_meeting.event %>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn btn-mini') if can? :manage_attendees, workshop.last_meeting.event %>
         <% end %>
       </td>
       <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>
-      <td>
-        <%= iconic_link_to 'Edit', edit_workshop_path(workshop), class: 'btn btn-mini', title: 'edit' %>
-        <%= iconic_link_to 'Delete', workshop, confirm: 'Are you sure?', method: :delete, class: 'btn btn-mini btn-danger', title: 'delete' %>
-      </td>
     </tr>
 <% end %>
   </tbody>
