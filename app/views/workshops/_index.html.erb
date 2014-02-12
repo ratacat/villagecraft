@@ -4,12 +4,11 @@
   scheduled_workshops_with_venue_tbd ||= @scheduled_workshops_with_venue_tbd
   other_workshops ||= @other_workshops
   other_workshops = other_workshops
-  location ||= @location
 %>
 <ul class="media-list">
   <% if session[:sort_order] == 'distance' %>
     <div class="day_chunk">
-      <% (workshops.by_distance_from(location) + scheduled_workshops_with_venue_tbd).each do |workshop| %>
+      <% (workshops + scheduled_workshops_with_venue_tbd).each do |workshop| %>
         <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
       <% end %>
     </div>
