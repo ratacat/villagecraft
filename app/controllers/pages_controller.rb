@@ -21,6 +21,7 @@ class PagesController < ApplicationController
       @other_workshops = Workshop.where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@workshops.select(Workshop.quoted_table_column(:id)).to_sql})))
       @workshops = @workshops.order(%Q(#{Meeting.quoted_table_column(:start_time)}))
     end
+    @workshops = @workshops.to_a.uniq
   end
 
   def about
