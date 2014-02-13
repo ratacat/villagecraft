@@ -34,9 +34,7 @@
         <div class="span3">
           <p>
             <%= render 'reruns/location', :rerun => rerun %>
-            <% if workshop.respond_to? :dist %>
-              <span class="workshop_dist" data-longitude="<%= workshop.location.longitude %>" data-latitude="<%= workshop.location.latitude %>">&nbsp;</span>
-            <% end %>
+            <span class="workshop_dist" data-longitude="<%= workshop.location.longitude %>" data-latitude="<%= workshop.location.latitude %>">&nbsp;</span>
           </p>
         </div>
 
