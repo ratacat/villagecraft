@@ -36,6 +36,10 @@ class Workshop < ActiveRecord::Base
     joins(:first_meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
   end
   
+  def Workshop.first_meeting_in_the_past
+    joins(:first_meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} < ?), Time.now)
+  end
+  
   def to_param
     "#{self.uuid} #{self.title}}".parameterize
   end

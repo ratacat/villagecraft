@@ -8,8 +8,14 @@ class WorkshopsController < ApplicationController
   
   before_filter :get_future_and_past_reruns, :only => [:edit, :update, :show]
   def my_workshops
-    @workshops = Workshop.where(:host_id => current_user).order(:updated_at).reverse_order
-    
+    @upcoming_workshops = Workshop.first_meeting_in_the_future.where(:host_id => current_user)
+    @past_workshops = Workshop.first_meeting_in_the_past.where(:host_id => current_user)
+    @other_workshops = Workshop.where(:host_id => current_user).
+                                where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@upcoming_workshops.select(Workshop.quoted_table_column(:id)).to_sql}))).
+                                where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@past_workshops.select(Workshop.quoted_table_column(:id)).to_sql})))
+    @upcoming_workshops = @upcoming_workshops.order(Meeting.quoted_table_column(:start_time))
+    @past_workshops = @past_workshops.order(%Q(#{Meeting.quoted_table_column(:start_time)} DESC))
+    @workshops = (@upcoming_workshops.to_a + @past_workshops.to_a + @other_workshops.to_a).uniq
     respond_to do |format|
       format.html # my_workshops.html.erb
       format.json { render json: @workshops }
