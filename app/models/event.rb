@@ -117,7 +117,7 @@ class Event < ActiveRecord::Base
   
   def venue_uuid=(venue_uuid)
     v = Venue.find_by_uuid(venue_uuid)
-    self.update_attribute(:venue_id, v.id)
+    self.update_attribute(:venue_id, v.try(:id))
   end
   
   def img_src(size = :medium)
