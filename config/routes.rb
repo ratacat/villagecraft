@@ -53,7 +53,11 @@ Villagecraft::Application.routes.draw do
     get 'recent_activity' => 'dashboard#recent_activity', :as => :recent_activity
     resources :users
   end
-    
+  
+  match '/404' => 'errors#not_found'
+  match '/422' => 'errors#server_error'
+  match '/500' => 'errors#server_error'
+  
   root :to => 'pages#home'
 
   # The priority is based upon order of creation:

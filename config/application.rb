@@ -67,5 +67,8 @@ module Villagecraft
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types or execute statements.
     config.active_record.schema_format = :sql
+    
+    # Register app itself as exception handler
+    config.exceptions_app = self.routes
   end
 end

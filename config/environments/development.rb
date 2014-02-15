@@ -10,7 +10,7 @@ Villagecraft::Application.configure do
   config.whiny_nils = true
 
   # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local       = true  # set to false to test dynamic not_found and server_error views
   config.action_controller.perform_caching = false
 
   # Print deprecation notices to the Rails logger
