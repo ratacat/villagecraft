@@ -5,6 +5,7 @@
   li_class ||= nil
   br_on ||= false
   inline ||= false
+  full_path ||= false
 %>
 <ul class="<%= 'inline' if inline %>">
   <% rerun.meetings.order(:start_time).each do |meeting| -%>
@@ -14,7 +15,7 @@
         <% if br_on %>
           <br/>
         <% end %>
-        <span class="venue"><%= inline_venue(meeting.venue, :linked => true) %></span>
+        <span class="venue"><%= inline_venue(meeting.venue, :linked => true, :only_path => not full_path) %></span>
       <% end %>
       <% if include_location %>
         <% if br_on %>
