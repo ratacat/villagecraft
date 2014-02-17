@@ -15,6 +15,7 @@ class Ability
       cannot :manage_as_host, Event
       
       can [:show], User
+      can [:show], Venue
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
       
       # host
