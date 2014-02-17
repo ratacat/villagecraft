@@ -15,7 +15,7 @@
         <% if br_on %>
           <br/>
         <% end %>
-        <span class="venue"><%= inline_venue(meeting.venue, :linked => true, :only_path => not full_path) %></span>
+        <span class="venue"><%= inline_venue(meeting.venue, :linked => true, :only_path => (not full_path)) %></span>
       <% end %>
       <% if include_location %>
         <% if br_on %>
