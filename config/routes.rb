@@ -34,6 +34,7 @@ Villagecraft::Application.routes.draw do
   resources :neighborhoods
 
   resources :locations, :only => [:update]
+  resources :sightings, :only => [:index]
 
   resources :notifications, :only => [:index, :show] do
     collection do

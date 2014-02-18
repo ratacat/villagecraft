@@ -1,0 +1,11 @@
+<%
+  sightings  ||= @sightings
+%>
+<ul class="unstyled attendees">
+  <% sightings.each do |s| -%>
+    <li>
+      <%= contextualized_user_link s.user, :linked => true %> was at <%= link_to_google_maps s.location, s.location.address %><br/>
+      <%= time_ago(s.created_at) %>
+    </li>
+  <% end %>
+</ul>
