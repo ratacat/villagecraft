@@ -388,33 +388,6 @@ label abbr[title] { border: none; }
   margin-top: 2000px;
 }
 
-button.zero_clip_button {
-  i { padding: 0; }
-  .zeroclipboard-is-hover {
-    background-color: #e6e6e6;
-    color: #333333;
-    text-decoration: none;
-    background-position: 0 -15px;
-    -webkit-transition: background-position 0.1s linear;
-    -moz-transition: background-position 0.1s linear;
-    -o-transition: background-position 0.1s linear;
-    transition: background-position 0.1s linear;
-  }
-
-  .zeroclipboard-is-active {
-    background-image: none;
-    outline: 0;
-    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-
-    color: #333333;
-    background-color: #e6e6e6;
-  
-    background-color: #cccccc \9;
-  }
-}
-
 /* normalize all markdown-generated headers to Bootstrap's H4 styling */
 .event_description, .normalized_markdown {
   h1, h2, h3, h4, h5, h6 {

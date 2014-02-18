@@ -43,7 +43,6 @@ gem 'bluecloth'
 
 gem 'verbs'
 gem 'possessive'
-gem 'zeroclipboard-rails'
 gem 'nexmo'
 
 gem 'exception_notification'

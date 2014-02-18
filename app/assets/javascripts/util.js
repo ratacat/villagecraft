@@ -87,15 +87,6 @@ jQuery(function($) {
   $(document).on('click', 'form input.submit_on_click', function(e) {
     $(this).closest('form').submit();
   });
-  
-  var zclip = new ZeroClipboard($('button.zero_clip_button'));
-  $(zclip.htmlBridge).tooltip({title: "copy to clipboard", placement: 'bottom', delay: { show: 10, hide: 400 }});
-  
-  zclip.on( "load", function(client) {
-    client.on( "complete", function(client, args) {
-      show_bootstrap_alert({type: 'success', text: "Workshop link copied to clipboard.  Paste it to email, Facebook, or Twitter to share."});
-    });
-  });
 
   // Default AJAX error handler
   $(document).on("ajax:error", function(evt, xhr, status, error) {
