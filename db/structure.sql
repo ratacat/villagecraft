@@ -408,6 +408,38 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: sightings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sightings (
+    id integer NOT NULL,
+    location_id integer,
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sightings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sightings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sightings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sightings_id_seq OWNED BY sightings.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -615,6 +647,13 @@ ALTER TABLE ONLY reviews ALTER COLUMN id SET DEFAULT nextval('reviews_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY sightings ALTER COLUMN id SET DEFAULT nextval('sightings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -702,6 +741,14 @@ ALTER TABLE ONLY notifications
 
 ALTER TABLE ONLY reviews
     ADD CONSTRAINT reviews_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sightings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sightings
+    ADD CONSTRAINT sightings_pkey PRIMARY KEY (id);
 
 
 --
@@ -943,6 +990,20 @@ CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
 --
 
 CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
+
+
+--
+-- Name: index_sightings_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_sightings_on_location_id ON sightings USING btree (location_id);
+
+
+--
+-- Name: index_sightings_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_sightings_on_user_id ON sightings USING btree (user_id);
 
 
 --
@@ -1309,3 +1370,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140206073826');
 INSERT INTO schema_migrations (version) VALUES ('20140206075938');
 
 INSERT INTO schema_migrations (version) VALUES ('20140211223923');
+
+INSERT INTO schema_migrations (version) VALUES ('20140218044120');
