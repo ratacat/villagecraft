@@ -1,5 +1,5 @@
 <% if rerun %>
-  <p><span class="label price_tag"><%= event_price(rerun) %></span></p>
+  <p><%= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %></p>
   <% if rerun.rsvp? %>
     <% if rerun.full? %>
       <p>full</p>
