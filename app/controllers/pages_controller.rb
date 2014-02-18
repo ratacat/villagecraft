@@ -11,6 +11,12 @@ class PagesController < ApplicationController
     end
     @location ||= Location.find_or_create_by_address('Berkeley, CA')
 
+    if user_signed_in?
+      current_user.locations << @location 
+    else
+      Sighting.create(:location => @location)
+    end
+
     @workshops = Workshop.first_meeting_in_the_future
     if session[:sort_order] == 'distance'
       @scheduled_workshops_with_venue_tbd = @workshops.where(:venue_id => nil)

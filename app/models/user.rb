@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  # locations this user has appeared in
+  has_many :sightings
+  has_many :locations, :through => :sightings
+
   has_many :reviews, :foreign_key => :author_id, :dependent => :destroy, :conditions => {:deleted_at => nil}
   belongs_to :location
   has_many :images, :dependent => :destroy, :conditions => {:deleted_at => nil}

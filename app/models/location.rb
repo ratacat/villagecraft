@@ -34,6 +34,10 @@ class Location < ActiveRecord::Base
   end
   before_validation :geocode
   
+  # users who have appeared in this location
+  has_many :sightings
+  has_many :users, :through => :sightings
+  
   validates :latitude, :presence => true
   validates :longitude, :presence => true
   
