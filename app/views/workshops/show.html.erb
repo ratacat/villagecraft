@@ -33,11 +33,7 @@
       
         <% if next_rerun %>
           <div class="blocky_spns">
-            <% if next_rerun.first_meeting.ongoing? %>
-              <span class="muted">happening now</span>
-            <% else %>
-              <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
-            <% end %>
+            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
           </div>
           <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
         <% else %>
