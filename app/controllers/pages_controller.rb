@@ -4,18 +4,13 @@ class PagesController < ApplicationController
       session[:sort_order] = params[:sort]
       redirect_to root_path
     end
+    if user_signed_in?
+      @location = (current_user.last_sighting.try(:location) || current_user.location)
+    end
     if session[:location_id]
-      @location = Location.find(session[:location_id])
-    elsif user_signed_in?
-      @location = current_user.location
+      @location ||= Location.find(session[:location_id])
     end
     @location ||= Location.find_or_create_by_address('Berkeley, CA')
-
-    if user_signed_in?
-      current_user.locations << @location 
-    else
-      Sighting.create(:location => @location)
-    end
 
     @workshops = Workshop.first_meeting_in_the_future
     if session[:sort_order] == 'distance'

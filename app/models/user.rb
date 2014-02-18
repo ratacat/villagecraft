@@ -38,6 +38,9 @@ class User < ActiveRecord::Base
   # locations this user has appeared in
   has_many :sightings
   has_many :locations, :through => :sightings
+  def last_sighting
+    self.sightings.order(:updated_at).reverse_order.first
+  end
 
   has_many :reviews, :foreign_key => :author_id, :dependent => :destroy, :conditions => {:deleted_at => nil}
   belongs_to :location
