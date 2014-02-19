@@ -4,6 +4,7 @@ Villagecraft::Application.routes.draw do
   get "w/:id/reruns_partial" => 'workshops#reruns_partial', :as => :reruns_partial
   post "w/:id/auto_add_rerun" => 'workshops#auto_add_rerun', :as => :auto_add_rerun
   resources :w, controller: 'workshops', as: 'workshops'
+  resources :workshops, as: 'oldstyle_workshops'
 
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
