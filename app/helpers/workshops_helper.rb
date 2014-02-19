@@ -27,10 +27,13 @@ module WorkshopsHelper
   def seod_title(workshop)
     limit = 65
     next_rerun = workshop.ongoing_or_next_rerun
-    location = next_rerun.try(:location) || workshop.venue.try(:location)
-    location_part = city_n_state(location)
-    title_part = workshop.title.truncate(limit - " in ".size - location_part.size)
-    "#{title_part} in #{location_part}"
+    if location = next_rerun.try(:location) || workshop.venue.try(:location)
+      location_part = city_n_state(location)
+      title_part = workshop.title.truncate(limit - " in ".size - location_part.size)
+      "#{title_part} in #{location_part}"
+    else
+      workshop.title.truncate(limit)
+    end
   end
   
 end
