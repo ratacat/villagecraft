@@ -23,4 +23,14 @@ module WorkshopsHelper
   def external_domain(workshop)
     content_tag(:span, " (#{domain_suffix(workshop.external_url)})", :class => 'external_domain').html_safe
   end
+  
+  def seod_title(workshop)
+    limit = 65
+    next_rerun = workshop.ongoing_or_next_rerun
+    location = next_rerun.try(:location) || workshop.venue.try(:location)
+    location_part = city_n_state(location)
+    title_part = workshop.title.truncate(limit - " in ".size - location_part.size)
+    "#{title_part} in #{location_part}"
+  end
+  
 end
