@@ -23,13 +23,11 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @workshops_with_upcoming_or_ongoing_reruns = 
-      Workshop.joins(:first_meetings).where(:host_id => @user).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now).order(%Q(#{Meeting.quoted_table_column(:start_time)})).to_a.uniq
-    if @workshops_with_upcoming_or_ongoing_reruns.blank?
-      @workshops = Workshop.where(:host_id => @user)
-    else
-      @workshops = (@workshops_with_upcoming_or_ongoing_reruns + Workshop.where(:host_id => @user).where("id NOT IN (?)", @workshops_with_upcoming_or_ongoing_reruns))
-    end
+    @workshops = Workshop.where(:host_id => @user).first_meeting_in_the_future
+    @other_workshops = Workshop.where(:host_id => @user).where(%Q(#{Workshop.quoted_table_column(:id)} NOT IN (#{@workshops.select(Workshop.quoted_table_column(:id)).to_sql})))
+    @workshops = @workshops.order(%Q(#{Meeting.quoted_table_column(:start_time)}))
+    @workshops = @workshops.to_a.uniq
+    @sort_order = 'date'
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

@@ -37,7 +37,7 @@
 
   <div class="row">
     <div class="span12">
-      <h3><%= pluralize(@workshops.count, "Workshop") %> Hosted</h3>
+      <h3><%= pluralize(Workshop.where(:host_id => @user).count, "Workshop") %> Hosted</h3>
       <%= render 'workshops/index' %>
     </div>
   </div>
