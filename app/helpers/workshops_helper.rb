@@ -19,6 +19,7 @@ module WorkshopsHelper
     end
     html
   end
+  alias :workshop_title :annotated_workshop_title
   
   def external_domain(workshop)
     content_tag(:span, " (#{domain_suffix(workshop.external_url)})", :class => 'external_domain').html_safe

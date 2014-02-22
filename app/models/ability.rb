@@ -16,6 +16,7 @@ class Ability
       
       can [:show], User
       can [:show], Venue
+      can [:show], Message
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
       
       # host
@@ -36,6 +37,7 @@ class Ability
         cannot :index, Venue
         can :my_venues, Venue
         
+        can [:new, :create, :show], Message
       end
       
       # admin

@@ -1,0 +1,15 @@
+<% message ||= @message %>
+<span class="pull-right muted">sent <%= time_ago(message.created_at) %></span>
+<dl class="dl-horizontal">
+  <dt>From</dt>
+  <dd><%= contextualized_user_link message.from_user %></dd>
+  
+  <dt>To</dt>
+  <dd><%= message_recipients(message) %></dd>
+  
+  <dt>Subject</dt>
+  <dd><%= message.subject %></dd>
+
+  <dt>Body</dt>
+  <dd><%= message.body %></dd>
+</dl>

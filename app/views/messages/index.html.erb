@@ -1,0 +1,21 @@
+<div class="page-header">
+  <h1>All Messages</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>From</th>
+      <th>Subject</th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @messages.each do |message| %>
+    <tr>
+      <td><%= contextualized_user_link message.from_user %></td>
+      <td><%= link_to message.subject message %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
