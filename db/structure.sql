@@ -291,6 +291,44 @@ ALTER SEQUENCE meetings_id_seq OWNED BY meetings.id;
 
 
 --
+-- Name: messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE messages (
+    id integer NOT NULL,
+    uuid character varying(255),
+    subject character varying(255),
+    body text,
+    from_user_id integer,
+    to_user_id integer,
+    apropos_id integer,
+    apropos_type character varying(255),
+    deleted_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
+
+
+--
 -- Name: neighborhoods; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -626,6 +664,13 @@ ALTER TABLE ONLY meetings ALTER COLUMN id SET DEFAULT nextval('meetings_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhoods_id_seq'::regclass);
 
 
@@ -717,6 +762,14 @@ ALTER TABLE ONLY locations
 
 ALTER TABLE ONLY meetings
     ADD CONSTRAINT meetings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -913,6 +966,48 @@ CREATE INDEX index_meetings_on_uuid ON meetings USING btree (uuid);
 --
 
 CREATE INDEX index_meetings_on_venue_id ON meetings USING btree (venue_id);
+
+
+--
+-- Name: index_messages_on_apropos_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_apropos_id ON messages USING btree (apropos_id);
+
+
+--
+-- Name: index_messages_on_apropos_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_apropos_type ON messages USING btree (apropos_type);
+
+
+--
+-- Name: index_messages_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_deleted_at ON messages USING btree (deleted_at);
+
+
+--
+-- Name: index_messages_on_from_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_from_user_id ON messages USING btree (from_user_id);
+
+
+--
+-- Name: index_messages_on_to_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_to_user_id ON messages USING btree (to_user_id);
+
+
+--
+-- Name: index_messages_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_uuid ON messages USING btree (uuid);
 
 
 --
@@ -1171,6 +1266,8 @@ CREATE RULE geometry_columns_update AS ON UPDATE TO geometry_columns DO INSTEAD 
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('20130425175141');
 
 INSERT INTO schema_migrations (version) VALUES ('20130427224725');
@@ -1372,3 +1469,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140206075938');
 INSERT INTO schema_migrations (version) VALUES ('20140211223923');
 
 INSERT INTO schema_migrations (version) VALUES ('20140218044120');
+
+INSERT INTO schema_migrations (version) VALUES ('20140220163903');
