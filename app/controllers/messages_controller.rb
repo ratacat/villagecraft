@@ -40,7 +40,6 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        @event.update_attribute(:message, @message) unless @event.blank?
         format.js { render :refresh_messages_select }
         format.html { redirect_to @message, notice: 'message was successfully created.' }
         format.json { render json: @message, status: :created, location: @message }
