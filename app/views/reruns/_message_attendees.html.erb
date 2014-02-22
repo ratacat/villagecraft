@@ -1,7 +1,8 @@
 <%= simple_form_for(:sms, :url => sms_attendees_path(rerun), :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
   <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3", :class => 'has_help_bubble'}, :wrapper_html => {:class => 'margin0'} %>
   <div id="my_counter" class="counter"></div>
-  <%= f.submit 'Send', :class => 'btn btn-default' %>
+  <%= f.submit 'Send', :class => 'btn btn-default' %> <span class="muted">usually by SMS</span>
+
 <% end %>
 
 <%- content_for(:a_la_carte_js) do -%>
@@ -21,5 +22,9 @@
     content: "Be sure to let folks know which workshop your message is about.",
     trigger: 'manual'
   }).focus(function() { $(this).popover('show'); })
+  
+  $('#sms_message').blur(function() {
+    $(this).popover('hide');
+  });
   
 <% end -%>
