@@ -1,6 +1,5 @@
 <% if (@event.host === current_user) or admin_session? %>
-  <div class="hero-unit">
-    <h3 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h3>
+    <h2 class="margin0"><%= link_to @event.workshop.title, edit_workshop_path(@event.workshop) %></h2>
     <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
       <%= event_price(@event, :show_materials_fee => true) %> · 
       <%= @event.max_attendees %> slots · 
@@ -10,10 +9,22 @@
     <p>
       <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
     </p>
-    <h4 class="muted">Short message for attendees (SMS)</h4>
-    <%= render 'reruns/message_attendees', :rerun => @event %>
-  </div>
-  <div class="row">
+    <div class="well">
+      <h3>Message Attendees</h3>
+      <ul class="nav nav-pills margin0">
+        <li class="active"><a href="#compose_sms" data-toggle="tab">Short message</a></li>
+        <li><a href="#compose_email" data-toggle="tab">Long message</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class='tab-pane active' id='compose_sms'>
+          <%= render 'reruns/message_attendees', :rerun => @event %>
+        </div>
+        <div class='tab-pane' id='compose_email'>
+          <%= render 'messages/form', :message => Message.new, :apropos => @event %>
+        </div>        
+      </div>
+    </div>
+    <div class="row">
     <div class="span12">
       <ul class="nav nav-tabs margin0">
         <li class="active"><a href="#attendees" data-toggle="tab">Attendees</a></li>
