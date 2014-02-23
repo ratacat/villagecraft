@@ -18,17 +18,33 @@ end
 # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
 @logger.level = Rails.env.production? ? Logger::INFO : Logger::DEBUG
 
-while($running) do
+def handle_exception(e)
+  # This gets thrown when we need to get out.
+  raise if e.kind_of? SystemExit
+	
+  @logger.error "Error in daemon #{__FILE__} - #{e.class.name}: #{e}"
+  @logger.info e.backtrace.join("\n")
   
-  begin
-    Notification.where(:email_me => true, :emailed_at => nil).each do |n|
+  ExceptionNotifier.notify_exception(e)
+  
+  # If something bad happened, sleep a little more so any external issues can settle down.
+  Kernel.sleep 60
+end
+
+while($running) do  
+  Notification.where(:email_me => true, :emailed_at => nil).each do |n|
+    begin
       UserMailer.notification_email(n).deliver
       n.update_attribute(:emailed_at, Time.now)
       @logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
       sleep 1
+    rescue Exception => e
+      handle_exception(e)
     end
+  end
 
-    Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
+  Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
+    begin
       response = n.user.send_sms(n.to_sms)
       if Rails.env.development?
         n.update_attribute(:smsed_at, Time.now)
@@ -38,20 +54,10 @@ while($running) do
         @logger.error "Problem sending SMS: #{response.response.body}"
       end
       sleep 1
+    rescue Exception => e
+      handle_exception(e)
     end
-  
-    sleep 30
-  rescue Exception => e
-    # This gets thrown when we need to get out.
-    raise if e.kind_of? SystemExit
-		
-    @logger.error "Error in daemon #{__FILE__} - #{e.class.name}: #{e}"
-    @logger.info e.backtrace.join("\n")
-    
-    ExceptionNotifier.notify_exception(e)
-    
-    # If something bad happened, sleep a little more so any external issues can settle down.
-    Kernel.sleep 60
   end
-    
+
+  sleep 30
 end
