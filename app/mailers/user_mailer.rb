@@ -35,11 +35,11 @@ class UserMailer < ActionMailer::Base
       when 'meeting.venue_changed'
         "New Venue for Villagecraft Workshop: #{@event.title}"
       when 'event.interested'
-        "#{activity.owner.name} is interested in attending #{@event.title}"        
+        "#{activity.owner.name} is interested in attending #{@event.title}"
       else
         "Villagecraft Notification"
       end
-    mail(to: @user.email, subject: subject)    
+    mail(to: @user.email, subject: subject)
   end
   
   def welcome_email(user)
