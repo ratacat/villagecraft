@@ -45,6 +45,15 @@ module ActivitiesHelper
       html << "are no longer signed up to attend".html_safe
     when 'event.sms'
       html << "sent a message to the attendees of".html_safe
+    when 'event.email'
+      html << "emailed ".html_safe
+      message = Message.find_by_uuid(activity.parameters[:uuid])
+      if message.blank?
+        html << 'a message that is no-longer available'.html_safe
+      else
+        html << link_to('a message', message)        
+      end
+      html << " to the attendees of".html_safe
     else
       if /(.*)\.(create|update|destroy)/.match(activity.key)
         html << "#{($2).verb.conjugate :person => verb_person, :tense => :past, :aspect => :perfective}"
