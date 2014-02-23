@@ -36,6 +36,10 @@ class UserMailer < ActionMailer::Base
         "New Venue for Villagecraft Workshop: #{@event.title}"
       when 'event.interested'
         "#{activity.owner.name} is interested in attending #{@event.title}"
+      when "event.email"
+        message_uuid = activity.parameters[:uuid]
+        @message = Message.find_by_uuid(message_uuid)
+        @message.subject
       else
         "Villagecraft Notification"
       end

@@ -1,3 +1,13 @@
+<% if @message %>
+Message from <%= @message.from_user.name %> about <%= @event.workshop.title %>.
+
+<%= @message.body %>
+
+<%= @message.from_user.name %>
+email: <%= @message.from_user.email %>
+mobile#: <%= user_phone(@message.from_user) %> 
+
+<% else %>
 <%= strip_tags(render_activity(@notification.activity, :profile_image_size => :none, :show_trackable => true, :plaintext => true, :show_ago => false, :viewer => @user)).strip %>
 
 <% if @change %>
@@ -15,4 +25,5 @@ email: <%= @event.host.email %>
 mobile#: <%= user_phone(@event.host) %> 
 
 Sorry for any inconvenience this change may have caused.
+<% end %>
 <% end %>
