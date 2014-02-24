@@ -14,18 +14,10 @@
       <% if @workshop.external? and not @workshop.external_url.blank? %>
         <%= external_domain(@workshop) %>
       <% end %>      
-      <button class="disabled btn btn-default btn-mini btn-block">Remind me</button>
-      <button class="disabled btn btn-default btn-mini btn-block">Share</button>
-      <button class="disabled btn btn-default btn-mini btn-block">Message</button>
     </p>
   </div>
   <div class="span7">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
-    <p class="hidden-tablet hidden-desktop">
-      <button class="disabled btn btn-default btn-mini">Remind me</button>
-      <button class="disabled btn btn-default btn-mini">Share</button>
-      <button class="disabled btn btn-default btn-mini">Message</button>
-    </p>
     <div class="row">
       <div class="span2">
         <div class="pull-right hidden-tablet hidden-desktop">

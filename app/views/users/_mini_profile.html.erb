@@ -1,3 +1,5 @@
 <% user ||= @user %>
+<button class="disabled btn btn-default btn-mini pull-right">Message</button>
 <%= render 'users/thumb', :user => user, :bottom_caption => true, :linked => true %>
 <span><%= pluralize(user.workshops.count, "workshop") %></span>
+
