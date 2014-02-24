@@ -73,11 +73,11 @@ module ActivitiesHelper
       else
         ''
       end
-      if options[:plaintext]
-        html << content_tag(:strong, trackable.title)
+      if trackable.blank?
+        html  << "a #{activity.trackable_type.downcase} that no longer exists"
       else
-        if trackable.blank?
-          html  << "a #{activity.trackable_type.downcase} that no longer exists"
+        if options[:plaintext]
+          html << content_tag(:strong, trackable.title)
         else
           html << link_to(trackable.title, polymorphic_url(trackable, :only_path => options[:only_path]))
         end
