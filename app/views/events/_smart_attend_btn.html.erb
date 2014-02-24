@@ -13,9 +13,9 @@
           Sign up <%= content_tag(:i, '', :class => "icon-external-link icon-large") %>
         <% end -%>
       <% else %>
-        <%= link_to event.external_url, :title => 'more information off-site', :class => "btn #{btn_classes}", :target => '_blank' do -%>
-          More info <%= content_tag(:i, '', :class => "icon-external-link icon-large") %>
-        <% end -%>
+        <%= link_to 'More info', event.external_url, 
+            :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "more information at #{external_domain(@workshop)}", 
+            :class => "tooltipify btn #{btn_classes}", :target => '_blank' %>
       <% end %>
     <% end %>
   <% else %>
