@@ -11,19 +11,13 @@
   <div class="span2">
     <p class="hidden-phone">
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
-      <% if @workshop.external? and not @workshop.external_url.blank? %>
-        <%= external_domain(@workshop) %>
-      <% end %>      
+      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
     </p>
   </div>
   <div class="span7">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
     <div class="row">
       <div class="span2">
-        <div class="pull-right hidden-tablet hidden-desktop">
-          <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
-        </div>
-      
         <% if next_rerun %>
           <div class="blocky_spns">
             <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
@@ -40,14 +34,13 @@
       </div>
 
       <div class="span2">
-        <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
-      </div>
-    </div>
-
-    <div class="row hidden-phone">
-      <div class="span7">
         <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
       </div>
+
+      <div class="hidden-tablet hidden-desktop">
+        <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+      </div>
+    
     </div>
     
     <p class="event_description clearfix">
@@ -78,6 +71,8 @@
     
   </div>
   <div class="span3 side_content">
+    <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+    
     <h4 class="muted">Host</h4>
     <%= render 'users/mini_profile', :user => @workshop.host %>
     <h4 class="muted">People</h4>
