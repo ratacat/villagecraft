@@ -18,6 +18,10 @@ namespace :db do
   
   task :seed => [:postgis_setup] do
   end
+  
+  task :mirror_production do
+    `ssh villagecraft@villagecraft.org "pg_dump -c -U villagecraft villagecraft_production" | psql villagecraft_development`
+  end
 
   task :load_zillow_hoods, [:state] => :environment do |t, args|
     state = args[:state].strip.upcase
