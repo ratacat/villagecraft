@@ -66,6 +66,11 @@ body h2 {
   }
 }
 
+[class^="icon-"], [class*=" icon-"] {
+  vertical-align: middle;
+  padding-right: 0.25em;
+}
+
 a.iconic_link_to {
   i {
     vertical-align: middle;
