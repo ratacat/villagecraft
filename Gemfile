@@ -67,6 +67,7 @@ gem 'jquery-rails'
 
 group :development do
   gem 'thin'
+  gem 'rack-rewrite'
   gem 'factory_girl_rails', :require => false
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
