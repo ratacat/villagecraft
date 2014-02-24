@@ -43,7 +43,11 @@ class UserMailer < ActionMailer::Base
       else
         "Villagecraft Notification"
       end
-    mail(to: @user.email, subject: subject)
+    if @event and @event.try(:host).try(:email)
+      mail(to: @user.email, subject: subject, reply_to: @event.host.email)
+    else
+      mail(to: @user.email, subject: subject)
+    end
   end
   
   def welcome_email(user)
