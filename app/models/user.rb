@@ -117,6 +117,10 @@ class User < ActiveRecord::Base
     self.name.split.pop
   end
   
+  def title
+    self.name
+  end
+  
   def first_name_plus_last_initial
     "#{self.first_name} #{self.last_name[0,1]}."
   end
