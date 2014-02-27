@@ -13,9 +13,9 @@ class Message < ActiveRecord::Base
   validate :can_send_to_apropos?
   
   def apropos=(something)
-    self._apropos_uuid = something.uuid
-    self.apropos_type = something.class.to_s
     write_attribute(:apropos, something)
+    self._apropos_uuid = something.try(:uuid)
+    self.apropos_type = something.try(:class).try(:to_s)
   end
 
   protected
