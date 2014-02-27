@@ -12,8 +12,15 @@ class Message < ActiveRecord::Base
   validates :from_user_id, presence: true
   validate :can_send_to_apropos?
   
+  def apropos=(something)
+    self._apropos_uuid = something.uuid
+    self.apropos_type = something.class.to_s
+    write_attribute(:apropos, something)
+  end
+
   protected
   def find_apropos
+    apropos_uuid = read_attribute(:_apropos_uuid)
     unless self._apropos_uuid.blank?
       case self.apropos_type
       when 'Event'

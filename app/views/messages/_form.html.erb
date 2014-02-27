@@ -1,6 +1,5 @@
 <% 
    message ||= @message
-   apropos ||= nil
 %>
 <%= simple_form_for(message) do |f| %>
   <%= f.error_notification %>
@@ -10,10 +9,8 @@
     <%= f.input :body, label: 'Body', input_html: {rows: 4, class: 'span4'} %>
   </div>
   
-  <% if apropos %>
-    <%= f.hidden_field :_apropos_uuid, :value => apropos.uuid %>
-    <%= f.hidden_field :apropos_type, :value => apropos.class.to_s %>
-  <% end %>
+  <%= f.hidden_field :_apropos_uuid %>
+  <%= f.hidden_field :apropos_type %>
   
   <%= f.button :submit, 'Send', :class => "btn-default" %> <span class="muted">by email</span>
 <% end %>
