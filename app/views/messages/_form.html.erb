@@ -9,8 +9,10 @@
     <%= f.input :body, label: 'Body', input_html: {rows: 4, class: 'span4'} %>
   </div>
   
+  <%= f.hidden_field :_to_user_uuid %>
   <%= f.hidden_field :_apropos_uuid %>
   <%= f.hidden_field :apropos_type %>
+
   
   <%= f.button :submit, 'Send', :class => "btn-default" %> <span class="muted">by email</span>
 <% end %>

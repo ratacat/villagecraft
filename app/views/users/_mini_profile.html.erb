@@ -1,5 +1,13 @@
-<% user ||= @user %>
-<button class="disabled btn btn-default btn-mini pull-right">Message</button>
+<% 
+  user ||= @user
+  apropos ||= @apropos
+%>
+<% if user_signed_in? %>
+  <%= link_to 'Message', new_message_path(:message => {:_apropos_uuid => apropos.try(:uuid), 
+                                                       :apropos_type => apropos.try(:class).try(:to_s), 
+                                                       :_to_user_uuid => user.uuid}), 
+                         :class => "btn btn-default btn-mini pull-right" %>
+<% end %>
 <%= render 'users/thumb', :user => user, :bottom_caption => true, :linked => true %>
 <span><%= pluralize(user.workshops.count, "workshop") %></span>
 

@@ -24,8 +24,10 @@ class MessagesController < ApplicationController
   # GET /messages/new
   # GET /messages/new.json
   def new
-    @message = message.new
-
+    @message = Message.new(params[:message])
+    @message.send(:find_apropos)
+    @message.send(:find_to_user)
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @message }
@@ -40,9 +42,15 @@ class MessagesController < ApplicationController
     
     respond_to do |format|
       if @message.save
-        case @message.apropos
-        when Event
-          @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
+        if @message.to_user
+          # send syncronously for now
+          UserMailer.message_email(@message).deliver
+        else
+          # send asyncronously through the notifications framwork
+          case @message.apropos
+          when Event
+            @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
+          end
         end
         format.js { render :refresh_messages_select }
         format.html { redirect_to @message, notice: 'message was successfully created.' }

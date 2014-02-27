@@ -1,5 +1,5 @@
 class Message < ActiveRecord::Base
-  attr_accessor :_apropos_uuid
+  attr_accessor :_apropos_uuid, :_to_user_uuid
 
   belongs_to :from_user, :class_name => 'User'
   belongs_to :to_user, :class_name => 'User'
@@ -8,7 +8,7 @@ class Message < ActiveRecord::Base
   has_uuid
   acts_as_paranoid
   
-  before_validation :find_apropos, :on => :create
+  before_validation :find_apropos, :find_to_user, :on => :create
   validates :from_user_id, presence: true
   validate :can_send_to_apropos?
   
@@ -23,6 +23,8 @@ class Message < ActiveRecord::Base
     apropos_uuid = read_attribute(:_apropos_uuid)
     unless self._apropos_uuid.blank?
       case self.apropos_type
+      when 'Workshop'
+        self.apropos_id = Workshop.find_by_uuid(self._apropos_uuid).try(:id)
       when 'Event'
         self.apropos_id = Event.find_by_uuid(self._apropos_uuid).try(:id)
       else
@@ -30,8 +32,15 @@ class Message < ActiveRecord::Base
       end
     end
   end
+
+  def find_to_user
+    unless self._to_user_uuid.blank?
+      self.to_user = User.find_by_uuid(self._to_user_uuid)
+    end
+  end
   
   def can_send_to_apropos?
+    return(true) unless self.to_user.blank?  # there's no need to check the apropos if a to_user is explicitly specified
     unless self.apropos.blank?
       case self.apropos_type
       when 'Event'

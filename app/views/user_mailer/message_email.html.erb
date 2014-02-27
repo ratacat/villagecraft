@@ -1,0 +1,11 @@
+<p>
+  Message from <%= contextualized_user_link(@message.from_user, :only_path => false) %> about <%= link_to @message.apropos.title, @message.apropos, :only_path => false %>.
+</p>
+<p>
+  <%= @message.body %>
+</p>
+<p>
+  <strong><%= contextualized_user_link(@message.from_user, :only_path => false) %></strong><br/>
+  <strong>email</strong>: <%= @message.from_user.email %><br/>
+  <strong>mobile#</strong>: <%= user_phone(@message.from_user) %>
+</p>
