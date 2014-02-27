@@ -12,6 +12,7 @@
     <p class="hidden-phone">
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
       <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+      <%= render 'reviews/add_review', :workshop => @workshop, :unreviewed_events => @unreviewed_events %>
     </p>
   </div>
   <div class="span7">
@@ -50,6 +51,7 @@
     <ul class="nav nav-tabs margin0">
       <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
       <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
+      <li><a href="#reviews" data-toggle="tab">Reviews (<%= @reviews.count %>)</a></li>
     </ul>
 
     <div id="myTabContent" class="tab-content">
@@ -67,6 +69,13 @@
           <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :hide_flags => true %>
         <% end %>
       </div>
+      <div class="tab-pane fade" id="reviews">
+        <% if @reviews.count == 0 %>
+            No reviews.
+        <% else %>
+            <%= render 'reviews/index', :reviews => @reviews %>
+        <% end %>
+      </div>
     </div>
     
   </div>
@@ -82,4 +91,33 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Add Review Modal -->
+<div class="modal fade" id="modal-add-review" tabindex="-1" role="dialog" aria-labelledby="modalAddReview" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="modalAddReview">Add Review</h4>
+      </div>
+      <%= simple_form_for(@review, :remote => true, html: {id: 'review-form'} ) do |f| %>
+        <div class="modal-body">
+          <div class="review-elements">
+            <%= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
+            <%= f.input :title %>
+            <%= f.input :body %>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= f.button :submit, 'Add it!'%>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="hidden">
+    <%= link_to '#', add_review_path, id: 'add_review' %>
 </div>

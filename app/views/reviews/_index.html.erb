@@ -1,0 +1,11 @@
+<div>
+  <ul class="reviews-general">
+    <% reviews.each do |review| %>
+        <%= render 'reviews/row', review: review%>
+    <% end %>
+  </ul>
+</div>
+
+<div id="add-review.modal.hide.fade" >
+    <div class="modal-body">DUPA</div>
+</div>

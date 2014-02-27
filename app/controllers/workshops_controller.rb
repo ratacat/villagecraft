@@ -7,6 +7,7 @@ class WorkshopsController < ApplicationController
   load_and_authorize_resource(:find_by => :seod_uuid)
   
   before_filter :get_future_and_past_reruns, :only => [:edit, :update, :show]
+  before_filter :get_reviews, :only => [:edit, :update, :show]
   def my_workshops
     @upcoming_workshops = Workshop.first_meeting_in_the_future.where(:host_id => current_user)
     @past_workshops = Workshop.first_meeting_in_the_past.where(:host_id => current_user)
@@ -38,6 +39,9 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
+    @unreviewed_events = Review.return_all_pending_events_to_review_by_workshop_and_user(@workshop, current_user)
+    @review = Review.new
+
     respond_to do |format|
       format.html {
         if params[:v] == 'alt'
@@ -75,6 +79,11 @@ class WorkshopsController < ApplicationController
         'Offer this workshop again'
       end
   end
+
+  def review_partial
+    @comments = Comment.return_all_reviews_by_workshop(@workshop)
+  end
+
 
   # GET /workshops/1/reruns_partial
   def reruns_partial
@@ -146,5 +155,9 @@ class WorkshopsController < ApplicationController
   def get_future_and_past_reruns
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     @past_reruns = @workshop.events.where_first_meeting_starts_in_past.to_a
+  end
+
+  def get_reviews
+    @reviews = Review.return_all_reviews_by_workshop @workshop
   end
 end

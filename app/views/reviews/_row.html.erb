@@ -1,0 +1,7 @@
+<li>
+  <ul class="reviews-general">
+    <li><span class="review-title"><%= review.title %></span>  posted <%= time_ago(review.created_at) %> </li>
+    <li><span class="review-author">by <%= review.author.name %></span></li>
+    <li><span class="review-body"><%= review.body %></span></li>
+  </ul>
+</li>

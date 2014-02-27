@@ -639,3 +639,36 @@ ul.workshop_thumb {
     vertical-align: middle;
   }
 }
+
+ul.reviews-general {
+  list-style: none;
+  margin-left: 0px;
+  margin-bottom: 15px;
+  .review-title {
+    font-size: 16px;
+    font-weight: bold;
+    padding-right: 10px;
+  }
+  .review-author {
+    font-style: italic;
+    color: $gray;
+    font-size: 14px;
+  }
+  .review-body {
+    display: block;
+    margin-top: 10px;
+  }
+}
+.modal-body {
+  max-height: 800px;
+  .review-elements {
+    select, input {
+      width: 500px;
+    }
+    textarea {
+      width: 500px;
+      height: 350px;
+    }
+  }
+}
+

@@ -33,6 +33,8 @@ class Event < ActiveRecord::Base
       where('"attendances"."state" IN (?)', %w(interested confirmed))
     end
   end
+
+  has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
   UNLOCK_TIMEOUT = 5 # minutes that unlocking lasts 
   
