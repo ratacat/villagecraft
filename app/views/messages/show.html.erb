@@ -6,7 +6,12 @@
   
   <dt>To</dt>
   <dd><%= message_recipients(message) %></dd>
-  
+
+  <% if message.apropos %>
+  <dt>About</dt>
+  <dd><%= link_to message.apropos.title, message.apropos %></dd>
+  <% end %>
+
   <dt>Subject</dt>
   <dd><%= message.subject %></dd>
 
