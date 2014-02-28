@@ -24,7 +24,7 @@
     </div>
     <% last_a_and_c = a_and_c %>
   <% end %>
-  <%= link_to 'More', more_activities_path, class: 'btn btn-default more', format: :html, data: { method: :post, remote: true, params: { id_lower_than: last_a_and_c[:oldest_id] }.to_param } %>
+  <%= link_to('More', more_activities_path, class: 'btn btn-default more', format: :html, data: { method: :post, remote: true, params: { id_lower_than: last_a_and_c[:oldest_id] }.to_param }) unless last_a_and_c.blank? %>
 <% end %>
 
 <% ready_script do -%>  
