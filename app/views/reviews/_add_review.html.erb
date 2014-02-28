@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
     <!-- display button if there any events that the user attended and hasn't reviewed them yet-->
-    <% if unreviewed_events.count > 0 %>
-        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add Review</button>
-    <% end  %>
+    <% #if unreviewed_events.count > 0 %>
+        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
+    <% #end  %>
 <% end %>

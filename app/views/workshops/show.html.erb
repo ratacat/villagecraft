@@ -51,7 +51,7 @@
     <ul class="nav nav-tabs margin0">
       <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
       <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
-      <li><a href="#reviews" data-toggle="tab">Reviews (<%= @reviews.count %>)</a></li>
+      <!--<li><a href="#reviews" data-toggle="tab">Reviews (<%= @reviews.count %>)</a></li>-->
     </ul>
 
     <div id="myTabContent" class="tab-content">
@@ -69,13 +69,26 @@
           <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :hide_flags => true %>
         <% end %>
       </div>
-      <div class="tab-pane fade" id="reviews">
-        <% if @reviews.count == 0 %>
-            No reviews.
-        <% else %>
-            <%= render 'reviews/index', :reviews => @reviews %>
-        <% end %>
-      </div>
+      <!--<div class="tab-pane fade" id="reviews">-->
+        <!--<% if @reviews.count == 0 %>-->
+            <!--No reviews.-->
+        <!--<% else %>-->
+            <!--<%= render 'reviews/index', :reviews => @reviews %>-->
+        <!--<% end %>-->
+      <!--</div>-->
+    </div>
+
+
+    <!--most recent reviews-->
+    <div class="row-fluid">
+      <div class="thumbnail-review-title">Most recent reviews</div>
+      <%= render 'reviews/index', :reviews => @reviews_recent %>
+    </div>
+
+    <!--highest rated reviews-->
+    <div class="row-fluid">
+      <div class="thumbnail-review-title">Highest rated reviews</div>
+      <%= render 'reviews/index', :reviews => @reviews_rating %>
     </div>
     
   </div>
@@ -104,7 +117,7 @@
       <%= simple_form_for(@review, :remote => true, html: {id: 'review-form'} ) do |f| %>
         <div class="modal-body">
           <div class="review-elements">
-            <%= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
+            <%#= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
             <%= f.input :title %>
             <%= f.input :body %>
           </div>

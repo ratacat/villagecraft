@@ -39,8 +39,11 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
-    @unreviewed_events = Review.return_all_pending_events_to_review_by_workshop_and_user(@workshop, current_user)
+    #@unreviewed_events = Review.return_all_pending_events_to_review_by_workshop_and_user(@workshop, current_user)
     @review = Review.new
+    @reviews_recent = Review.sort_reviews_by_created(@reviews, 3)
+    @reviews_rating =  Review.sort_reviews_by_rating(@reviews, 3)
+
 
     respond_to do |format|
       format.html {

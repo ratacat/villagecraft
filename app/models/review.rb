@@ -22,19 +22,29 @@ class Review < ActiveRecord::Base
     reviews
   end
 
+  def Review.sort_reviews_by_created(reviews, limit = nil)
+    sorted_reviews = reviews.sort_by(&:created_at).reverse
+    sorted_reviews.take(limit) unless limit.blank?
+  end
+
+  def Review.sort_reviews_by_rating(reviews, limit = nil)
+    sorted_reviews = reviews.sort_by(&:rating).reverse
+    sorted_reviews.take(limit) unless limit.blank?
+  end
+
   def Review.return_reviews_by_user(user)
     user.reviews.map { |comm| comm}
   end
 
-  def Review.return_all_pending_events_to_review_by_workshop_and_user(workshop, user)
-    events_to_review = []
-    unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
-      workshop.events.where_first_meeting_starts_in_past.to_a.each do |past_event|
-        # first check if the user attended the event and if user did not review the event
-        if Attendance.where(:event_id => past_event).where(:user_id => user).count == 1 && past_event.reviews.where(:author => user).count == 0
-          events_to_review << past_event
-        end
-      end
-    end
-  end
+  #def Review.return_all_pending_events_to_review_by_workshop_and_user(workshop, user)
+  #  events_to_review = []
+  #  unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
+  #    workshop.events.where_first_meeting_starts_in_past.to_a.each do |past_event|
+  #      # first check if the user attended the event and if user did not review the event
+  #      if Attendance.where(:event_id => past_event).where(:user_id => user).count == 1 && past_event.reviews.where(:author => user).count == 0
+  #        events_to_review << past_event
+  #      end
+  #    end
+  #  end
+  #end
 end
