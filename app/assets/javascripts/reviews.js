@@ -10,10 +10,23 @@ $(function () {
                 data: $("#review-form").serialize(),
                 url: url,
                 success: function (responseJson) {
-                    return window.location.href = window.location.pathname;
+                    window.location.href = window.location.pathname;
                 },
                 error: function (response) {
-                    return console.log(response);
+                    response.responseJSON
+
+                  $('.error .help-inline').each(function(){
+                    if($(this).is(":visible")){
+                      $(this).text('');
+                      $(this).slideUp();
+                    }
+                  })
+                  $('.error').removeClass('error');
+                  $.each(response.responseJSON, function(key, val){
+
+                    $("[id$='_"+key+"']").parents(".control-group").addClass("error")
+                    $(".help-inline", $("[id$='_"+key+"']").parents(".control-group")).text(val[0]).slideDown()
+                  })
                 }
             });
         }
