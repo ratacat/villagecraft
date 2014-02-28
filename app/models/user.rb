@@ -226,7 +226,7 @@ class User < ActiveRecord::Base
     @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
   
-  def fake_email?
+  def has_fake_email?
     m = Mail::Address.new(self.email)
     m.domain === "me.fake"
   end
