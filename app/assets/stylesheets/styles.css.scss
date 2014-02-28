@@ -678,7 +678,7 @@ ul.thumbnails {
 ul.thumbnails .thumbnail-review{
   border: 1px solid #ddd;
   border-radius: 4px;
-  margin-top: 20px;
+
 }
 
 .thumbnail-review-title {
@@ -691,7 +691,28 @@ ul.thumbnails .thumbnail-review{
   width: 45%;
   display: inline;
 }
-.ul.thumbnails li {
+.review-box {
   position: relative;
+  padding-left: 30px !important;
+  .review-rating{
+    width: 20px;
+    position: absolute;
+    top: 0;
+    left: 2px;
+    .review-rating-value{
+      text-align: center;
+      width:20px;
+    }
+    .review-arrow{
+      width: 20px;
+      text-align: center;
+      i{
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+  }
 }
+
+
 

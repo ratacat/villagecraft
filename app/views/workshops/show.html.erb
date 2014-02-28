@@ -12,7 +12,9 @@
     <p class="hidden-phone">
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
       <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+      <% if @past_reruns.present? %>
       <%= render 'reviews/add_review', :workshop => @workshop, :unreviewed_events => @unreviewed_events %>
+      <% end %>
     </p>
   </div>
   <div class="span7">
@@ -107,7 +109,7 @@
 </div>
 
 <!-- Add Review Modal -->
-<div class="modal fade" id="modal-add-review" tabindex="-1" role="dialog" aria-labelledby="modalAddReview" aria-hidden="true">
+<div class="modal hide fade" id="modal-add-review" tabindex="-1" role="dialog" aria-labelledby="modalAddReview" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -118,13 +120,16 @@
         <div class="modal-body">
           <div class="review-elements">
             <%#= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
+            <% if @past_reruns.present? %>
+              <%= f.hidden_field :event_id, :value=>@past_reruns.first.id %>
+            <% end %>
             <%= f.input :title %>
             <%= f.input :body %>
           </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <%= f.button :submit, 'Add it!'%>
+            <%= f.button :submit, 'Add it!', :class=>"create_review"%>
         </div>
       <% end %>
     </div>

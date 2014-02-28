@@ -9,33 +9,47 @@ class Review < ActiveRecord::Base
   validates :title, :presence => true
   validates :body, :presence => true
   validates :event_id, :presence => true
+  validates :event_id, :uniqueness => { :scope => [:author_id] }
+  #validates_uniqueness_of :event_id, scope: [:author_id]
   validates :author, :presence => true
 
-  acts_as_paranoid
+  before_create :set_rating
 
 
-  def Review.return_all_reviews_by_workshop(workshop)
-    reviews = []
-    workshop.events.each do |event|
-      event.reviews.each { |comm| reviews << comm}
+  def plus_rating(user_id)
+    self.rating = self.rating + 1
+    self.save
+  end
+
+  def minus_rating(user_id)
+    self.rating = self.rating - 1
+    self.save
+  end
+
+
+  class << self
+    def return_all_reviews_by_workshop(workshop)
+      reviews = []
+      workshop.events.each do |event|
+        event.reviews.each { |comm| reviews << comm}
+      end
+      reviews
     end
-    reviews
-  end
 
-  def Review.sort_reviews_by_created(reviews, limit = nil)
-    sorted_reviews = reviews.sort_by(&:created_at).reverse
-    sorted_reviews.take(limit) unless limit.blank?
-  end
+    def sort_reviews_by_created(reviews, limit = nil)
+      sorted_reviews = reviews.sort_by(&:created_at).reverse
+      sorted_reviews.take(limit) unless limit.blank?
+    end
 
-  def Review.sort_reviews_by_rating(reviews, limit = nil)
-    sorted_reviews = reviews.sort_by(&:rating).reverse
-    sorted_reviews.take(limit) unless limit.blank?
-  end
+    def sort_reviews_by_rating(reviews, limit = nil)
+      sorted_reviews = reviews.sort_by(&:rating).reverse
+      sorted_reviews.take(limit) unless limit.blank?
+    end
 
-  def Review.return_reviews_by_user(user)
-    user.reviews.map { |comm| comm}
+    def return_reviews_by_user(user)
+      user.reviews.map { |comm| comm}
+    end
   end
-
   #def Review.return_all_pending_events_to_review_by_workshop_and_user(workshop, user)
   #  events_to_review = []
   #  unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
@@ -47,4 +61,10 @@ class Review < ActiveRecord::Base
   #    end
   #  end
   #end
+
+
+  private
+  def set_rating
+    self.rating = 0
+  end
 end

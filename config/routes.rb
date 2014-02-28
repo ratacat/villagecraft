@@ -9,6 +9,9 @@ Villagecraft::Application.routes.draw do
   post 'w/:id/reviews(.:format)' => 'reviews#create', :as => :add_review
   get 'w/:id/reviews(.:format)' => 'reviews#index', :as => :reviews
   delete 'w/:id/reviews(.:format)' => 'reviews#destroy', :as => :destroy_review
+  post 'w/:id/plus_rating(.:format)' => 'reviews#plus_rating', :as => :plus_rating_review
+  post 'w/:id/minus_rating(.:format)' => 'reviews#minus_rating', :as => :minus_rating_review
+
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee
