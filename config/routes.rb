@@ -6,6 +6,9 @@ Villagecraft::Application.routes.draw do
   resources :w, controller: 'workshops', as: 'workshops'
   resources :workshops, as: 'oldstyle_workshops'
 
+  post 'w/:id/reviews(.:format)' => 'reviews#create', :as => :add_review
+  get 'w/:id/reviews(.:format)' => 'reviews#index', :as => :reviews
+  delete 'w/:id/reviews(.:format)' => 'reviews#destroy', :as => :destroy_review
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee
