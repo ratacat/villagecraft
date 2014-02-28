@@ -17,7 +17,8 @@ Villagecraft::Application.routes.draw do
   resources :meetings, :only => [:update, :show]
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
-
+  post 'activities/more' => 'activities#more', :as => :more_activities
+  
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
   

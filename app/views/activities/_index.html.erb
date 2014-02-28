@@ -9,6 +9,7 @@
     </div>
   <% end %>
 <% else %>
+  <% last = nil %>
   <% activities_n_counts.each do |a_and_c| %>
     <% next if a_and_c[:activity].owner.nil? %>
     <div>
@@ -21,7 +22,9 @@
                       : nil %>
       <%= render_activity a_and_c[:activity], :plaintext => plaintext_activities, :show_trackable => true, :extra_html => extra_html %>
     </div>
+    <% last = a_and_c %>
   <% end %>
+  <%= link_to 'More', more_activities_path, class: 'btn btn-default more', format: :html, data: { method: :post, remote: true, params: { id_lower_than: last[:oldest_id] }.to_param } %>
 <% end %>
 
 <% ready_script do -%>  
@@ -31,4 +34,11 @@
     parent.replaceWith(new_stuff);
     new_stuff.highlight();
   });
+
+  $(document).on('ajax:success', 'a.more', function(e, data, status, xhr) {
+    var more = $(this);
+    var new_stuff = $(data);
+    more.replaceWith(new_stuff);
+  });  
+  
 <% end -%>
