@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 
   normalize_attributes :name, :email, :address
 
-  before_validation :find_or_create_location_from_address, :normalize_phone
+  before_validation :find_or_create_location_from_address, :normalize_phone, :create_bogus_email_for_external_users
 
   validates :email, :presence => true
   validates :name, :presence => true
@@ -225,6 +225,11 @@ class User < ActiveRecord::Base
   def User.nexmo
     @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
+  
+  def fake_email?
+    m = Mail::Address.new(self.email)
+    m.domain === "me.fake"
+  end
 
   protected
   def find_or_create_location_from_address
@@ -241,6 +246,10 @@ class User < ActiveRecord::Base
       normalized_number.insert(0, (normalized_number =~ /^1\d*/) ? '+' : '+1')      
       self.phone = normalized_number
     end    
+  end
+  
+  def create_bogus_email_for_external_users
+    self.email = "#{self.uuid}@me.fake"
   end
 
   private
