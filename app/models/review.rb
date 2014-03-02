@@ -9,7 +9,7 @@ class Review < ActiveRecord::Base
   validates :title, :presence => true
   validates :body, :presence => true
   validates :event_id, :presence => true
-  validates :event_id, :uniqueness => { :scope => [:author_id] }
+  validates :event_id, :uniqueness => { :scope => [:author_id], :message => "You have already reviewed this." }
   #validates_uniqueness_of :event_id, scope: [:author_id]
   validates :author, :presence => true
 
