@@ -9,7 +9,7 @@ class ReviewsController < ApplicationController
       if @review.save
         flash[:success] = 'Review added!'
         format.html { redirect_to @review.event.workshop, notice: flash }
-        format.json { render json: flash, status: :success}
+        format.json { render json: flash, status: 201}
       else
         format.html { render json: @review.errors }
         format.json { render json: @review.errors, status: :unprocessable_entity }
