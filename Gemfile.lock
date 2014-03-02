@@ -15,14 +15,6 @@ GIT
       railties
 
 GIT
-  remote: git://github.com/pduersteler/font-awesome-sass-rails
-  revision: 50375dfa80a0f75746f4402e6831e06812191f43
-  specs:
-    font-awesome-sass-rails (3.2.1.0)
-      railties (>= 3.1.1)
-      sass-rails (>= 3.1.1)
-
-GIT
   remote: git://github.com/radar/paranoia.git
   revision: 11560522815f6c094218e2e9cca7b3a488de2d93
   specs:
@@ -133,6 +125,9 @@ GEM
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
     ffi (1.9.3)
+    font-awesome-sass-rails (3.0.2.2)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     geocoder (1.1.9)
     google_timezone (0.0.1)
     googlestaticmap (1.1.4)
@@ -336,7 +331,7 @@ DEPENDENCIES
   exception_notification
   execjs
   factory_girl_rails
-  font-awesome-sass-rails!
+  font-awesome-sass-rails
   geocoder
   google_timezone
   googlestaticmap
