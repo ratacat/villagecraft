@@ -8,7 +8,7 @@ class Message < ActiveRecord::Base
   has_uuid
   acts_as_paranoid
   
-  before_validation :find_apropos, :find_to_user, :on => :create
+  before_validation :find_apropos, :find_to_user, :set_send_at_if_not_set, :on => :create
   validates :from_user_id, presence: true
   validate :can_send_to_apropos?
   
@@ -53,5 +53,8 @@ class Message < ActiveRecord::Base
     end
   end
   
+  def set_send_at_if_not_set
+    self.send_at ||= Time.now
+  end
   
 end
