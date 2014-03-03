@@ -63,8 +63,7 @@ while($running) do
   # send queued messages
   Message.where(:sent_at => nil).where("send_at < ?", Time.now).each do |m|
     begin
-      UserMailer.message_email(m).deliver
-      m.update_attribute(:sent_at, Time.now)
+      m.deliver
       @logger.info %Q(Message #{m.id} with subject: "#{m.subject}" sent\n)
     rescue Exception => e
       handle_exception(e)
