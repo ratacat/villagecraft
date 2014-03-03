@@ -305,7 +305,9 @@ CREATE TABLE messages (
     apropos_type character varying(255),
     deleted_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    send_at timestamp without time zone,
+    sent_at timestamp without time zone
 );
 
 
@@ -339,8 +341,7 @@ CREATE TABLE neighborhoods (
     city character varying(64),
     name character varying(64),
     regionid numeric,
-    geom geometry(MultiPolygon,4326),
-    foo geometry(MultiPolygon,4326)
+    geom geometry(MultiPolygon,4326)
 );
 
 
@@ -408,12 +409,14 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 CREATE TABLE reviews (
     id integer NOT NULL,
-    workshop_id integer,
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    rating integer DEFAULT 0,
+    title character varying(160),
+    event_id integer
 );
 
 
@@ -997,6 +1000,20 @@ CREATE INDEX index_messages_on_from_user_id ON messages USING btree (from_user_i
 
 
 --
+-- Name: index_messages_on_send_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_send_at ON messages USING btree (send_at);
+
+
+--
+-- Name: index_messages_on_sent_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_sent_at ON messages USING btree (sent_at);
+
+
+--
 -- Name: index_messages_on_to_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1078,13 +1095,6 @@ CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
 --
 
 CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
-
-
---
--- Name: index_reviews_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
 
 
 --
@@ -1471,3 +1481,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140211223923');
 INSERT INTO schema_migrations (version) VALUES ('20140218044120');
 
 INSERT INTO schema_migrations (version) VALUES ('20140220163903');
+
+INSERT INTO schema_migrations (version) VALUES ('20140226223209');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303201055');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303201711');
