@@ -43,7 +43,6 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         unless @message.to_user
-          # for now send asyncronously through the notifications framwork
           case @message.apropos
           when Event
             @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
