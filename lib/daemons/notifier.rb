@@ -37,7 +37,7 @@ while($running) do
     begin
       UserMailer.notification_email(n).deliver
       n.update_attribute(:emailed_at, Time.now)
-      @logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
+      @logger.info "Notification #{n.id} about #{n.activity.key} emailed to #{n.user.email}\n"
     rescue Exception => e
       handle_exception(e)
     end
@@ -52,7 +52,7 @@ while($running) do
       elsif response.ok?
         n.update_attribute(:smsed_at, Time.now)
       else
-        @logger.error "Problem sending SMS: #{response.response.body}"
+        @logger.error "Problem sending SMS notification #{n.id}: #{response.response.body}"
       end
       sleep 1
     rescue Exception => e
