@@ -1,12 +1,12 @@
 class Review < ActiveRecord::Base
   attr_accessible :body, :event_id, :rating, :title, :author
-
+  has_uuid(:length => 8)
   acts_as_paranoid
 
   belongs_to :event
   belongs_to :author, :class_name => 'User'
 
-  validates :title, :presence => true
+  #validates :title, :presence => true
   validates :body, :presence => true
   validates :event_id, :presence => true
   validates :event_id, :uniqueness => { :scope => [:author_id], :message => "You have already reviewed this." }
@@ -49,18 +49,25 @@ class Review < ActiveRecord::Base
     def return_reviews_by_user(user)
       user.reviews.map { |comm| comm}
     end
+
+    def find_by_seod_uuid!(id)
+      self.find_by_uuid!(id.split('-').first)
+    end
+
+    # We display the add review button only when;
+    #   1) User had signed up for a event that happened
+    #   2) The user has not already left a review
+    def display_add_review_button(workshop, user)
+      unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
+        first_past_event = workshop.events.where_first_meeting_starts_in_past.to_a.first
+        # first check if the user attended the event and if user has not reviewed the event
+        if !Attendance.where(:event_id => first_past_event).where(:user_id => user).blank? && first_past_event.reviews.where(:author_id => user).count == 0
+          return true
+        end
+      end
+      return false
+    end
   end
-  #def Review.return_all_pending_events_to_review_by_workshop_and_user(workshop, user)
-  #  events_to_review = []
-  #  unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
-  #    workshop.events.where_first_meeting_starts_in_past.to_a.each do |past_event|
-  #      # first check if the user attended the event and if user did not review the event
-  #      if Attendance.where(:event_id => past_event).where(:user_id => user).count == 1 && past_event.reviews.where(:author => user).count == 0
-  #        events_to_review << past_event
-  #      end
-  #    end
-  #  end
-  #end
 
 
   private

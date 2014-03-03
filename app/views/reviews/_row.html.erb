@@ -1,14 +1,18 @@
 <li class="span4 review-box">
   <div class="review-rating">
-    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-up" ), plus_rating_review_path(review), :class => "plus-rating" %></div>
+    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-up" ), plus_review_path(review), :class => "plus-rating" %></div>
     <div class="review-rating-value"><%= review.rating %></div>
-    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-down" ), minus_rating_review_path(review), :class => "minus-rating" %></div>
+    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-down" ), minus_review_path(review), :class => "minus-rating" %></div>
   </div>
   <div class="thumbnail thumbnail-review">
     <div class="caption">
       <h4 class="review-author"><%= review.author.name %></h4>
-      <p class="review-body"><%= review.body %></p>
-      <p class="review-title"><%= time_ago(review.created_at) %> </p>
+      <div class="ellipsis">
+        <div>
+            <p class="review-body"><%= review.body %></p>
+        </div>
+      </div>
+      <p class="review-time"><%= time_ago(review.created_at) %> </p>
     </div>
   </div>
 </li>
