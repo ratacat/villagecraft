@@ -18,6 +18,24 @@ class Message < ActiveRecord::Base
     self.apropos_type = something.try(:class).try(:to_s)
   end
 
+  def deliver
+    if self.to_user
+      UserMailer.message_email(self, self.to_user.email).deliver
+    elsif self.apropos
+      case self.apropos
+      when Event
+        self.apropos.attendees.find_each do |attendee|
+          UserMailer.message_email(self, attendee.email).deliver          
+        end
+      else
+        raise "Don't know how to deliver a message apropos of a: #{self.apropos.class} (#{self.id})"
+      end
+    else
+      raise "Cannot deliver a message with no apropos or to user (#{self.id})"
+    end
+    self.update_attribute(:sent_at, Time.now)
+  end
+
   protected
   def find_apropos
     apropos_uuid = read_attribute(:_apropos_uuid)
