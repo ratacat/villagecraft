@@ -37,7 +37,6 @@ while($running) do
       UserMailer.notification_email(n).deliver
       n.update_attribute(:emailed_at, Time.now)
       @logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
-      sleep 1
     rescue Exception => e
       handle_exception(e)
     end
