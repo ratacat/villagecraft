@@ -31,7 +31,8 @@ def handle_exception(e)
   Kernel.sleep 60
 end
 
-while($running) do  
+while($running) do
+  # send queued notification email
   Notification.where(:email_me => true, :emailed_at => nil).each do |n|
     begin
       UserMailer.notification_email(n).deliver
@@ -42,6 +43,7 @@ while($running) do
     end
   end
 
+  # send queued notification SMSes
   Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
     begin
       response = n.user.send_sms(n.to_sms)
