@@ -1,16 +1,3 @@
-<% if @message %>
-<p>
-  Message from <%= contextualized_user_link(@message.from_user, :only_path => false) %> about <%= link_to @event.workshop.title, @event.workshop, :only_path => false %>.
-</p>
-<pre>
-  <%= @message.body %>
-</pre>
-<p>
-  <strong><%= contextualized_user_link(@message.from_user, :only_path => false) %></strong><br/>
-  <strong>email</strong>: <%= @message.from_user.email %><br/>
-  <strong>mobile#</strong>: <%= user_phone(@message.from_user) %>
-</p>
-<% else %>
 <p>
 <%= render_activity(@notification.activity, 
                     :plaintext => false, 
@@ -35,5 +22,4 @@
   <p>
     Sorry for any inconvenience this change may have caused.
   </p>  
-<% end %>
 <% end %>
