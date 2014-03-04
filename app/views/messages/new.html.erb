@@ -1,11 +1,5 @@
 <div class="page-header">
-  <% case @message.apropos %>
-  <% when Workshop, Event %>
-    <h1>New message for <%= @message.to_user.name %></h1>
-    <p>about <%= link_to @message.apropos.title, @message.apropos %></p>
-  <% when User %>
-    <h1>New message for <%= @message.apropos.name %></h1>
-  <% end %>
+  <%= render 'messages/new_for_header' %>
 </div>
 
 <%= render 'form' %>

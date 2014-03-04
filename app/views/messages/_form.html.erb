@@ -1,18 +1,24 @@
 <% 
    message ||= @message
    span ||= 'span6'
+   remote ||= false
+   options = remote ? {:remote => remote, :html => {:'data-type' => 'json'}} : {}
 %>
-<%= simple_form_for(message) do |f| %>
+<%= simple_form_for(message, options) do |f| %>
   <%= f.error_notification %>
 
+  <% unless message.errors[:base].blank? %>
+    <div class="alert alert-error"><%= f.error :base %></div>
+  <% end %>
+  
   <div class="form-inputs">
     <%= f.input :subject, label: 'Subject', input_html: {class: span} %>
     <%= f.input :body, label: 'Body', input_html: {rows: 8, class: span} %>
   </div>
-  
+
   <%= f.hidden_field :_to_user_uuid %>
   <%= f.hidden_field :_apropos_uuid %>
-  <%= f.hidden_field :apropos_type %>
+  <%= f.hidden_field :apropos_type, :value => message.apropos_type %>
 
   
   <%= f.button :submit, 'Send', :class => "btn-default" %> <span class="muted">by email</span>
