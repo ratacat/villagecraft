@@ -1,4 +1,5 @@
 class Review < ActiveRecord::Base
+
   attr_accessible :body, :event_id, :rating, :title, :author
   has_uuid(:length => 8)
   #acts_as_paranoid
@@ -7,9 +8,13 @@ class Review < ActiveRecord::Base
   belongs_to :author, :class_name => 'User'
 
   #validates :title, :presence => true
-  validates :body, :presence => true
-  validates :event_id, :presence => true
-  validates :event_id, :uniqueness => { :scope => [:author_id], :message => "You have already reviewed this." }
+  validates :body, :presence => true, :blacklist => true, :length => {
+                                                                    :minimum   => 12,
+                                                                    :maximum   => 4000,
+                                                                    :tokenizer => lambda { |str| str.scan(/\s+|$/) },
+                                                                    :too_short => "Must have at least %{count} words",
+                                                                    :too_long  => "Must have at most %{count} words"}
+  validates :event_id, :presence => true, :uniqueness => { :scope => [:author_id], :message => "You have already reviewed this." }
   #validates_uniqueness_of :event_id, scope: [:author_id]
   validates :author, :presence => true
 

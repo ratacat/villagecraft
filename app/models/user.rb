@@ -222,6 +222,7 @@ class User < ActiveRecord::Base
     @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
 
+  # Returns all past events that the user signed up for
   def get_all_attended_events
     events_id = Attendance.where(:user_id => self).map{ |attendence| attendence.event.id}
     Event.where(:id => events_id).where_first_meeting_starts_in_past
