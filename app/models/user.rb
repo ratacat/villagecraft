@@ -249,7 +249,9 @@ class User < ActiveRecord::Base
   end
   
   def create_bogus_email_for_external_users
-    self.email = "#{self.uuid}@me.fake"
+    if self.external?
+      self.email ||= "#{self.uuid}@me.fake"      
+    end
   end
 
   private
