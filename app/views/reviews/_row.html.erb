@@ -12,7 +12,10 @@
             <p class="review-body"><%= review.body %></p>
         </div>
       </div>
-      <p class="review-time"><%= time_ago(review.created_at) %> </p>
+      <div class="review-bottom">
+        <div class="review-time"><%= time_ago(review.created_at) %> </div>
+        <div class="review-more muted">More</div>
+      </div>
     </div>
   </div>
 </li>

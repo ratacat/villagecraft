@@ -51,4 +51,14 @@ $(function () {
       })
     }
   }, ".plus-rating, .minus-rating")
+
+  $(document).on({
+    click: function(event){
+      event.preventDefault();
+      $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
+      $('textarea#more-review-body').text($('.review-body', $(this).parents('.review-box')).text());
+      $('span#modalMoreReviewTime').text($('.review-time', $(this).parents('.review-box')).text());
+      $('#modal-more-review').modal().show();
+    }
+  }, '.review-more')
 });

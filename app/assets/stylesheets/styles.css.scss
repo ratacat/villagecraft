@@ -687,9 +687,21 @@ ul.thumbnails .thumbnail-review{
       margin-top: 0px;
       margin-bottom: 8px;
     }
-    .review-time {
-      margin-bottom: 0px;
+    .review-bottom {
+      padding-top: 10px;
+      .review-more {
+        float: right;
+        cursor: pointer;
+        cursor: hand;
+      }
+      .review-time {
+        margin-bottom: 0px;
+        top: 180px;
+        width: 55%;
+        float: left
+      }
     }
+
     .ellipsis:before {
       content: "";
       float: left;
@@ -725,8 +737,14 @@ ul.thumbnails .thumbnail-review{
       width: 100%;
       margin-left: -5px;
     }
+
   }
 
+}
+
+.more-review-modal {
+  width: 98%;
+  height: 40em;
 }
 
 
