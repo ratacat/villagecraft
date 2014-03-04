@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   normalize_attributes :name, :email, :address
 
   before_validation :find_or_create_location_from_address, :normalize_phone, :create_bogus_email_for_external_users
+  after_save :touch_dependant_workshops_to_expire_their_cached_fragments
 
   validates :email, :presence => true
   validates :name, :presence => true
@@ -261,6 +262,10 @@ class User < ActiveRecord::Base
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
     end
+  end
+  
+  def touch_dependant_workshops_to_expire_their_cached_fragments
+    self.workshops.update_all(updated_at: Time.now)
   end
 
 end
