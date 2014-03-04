@@ -640,36 +640,8 @@ ul.workshop_thumb {
   }
 }
 
-//ul.reviews-general {
-//  list-style: none;
-//  margin-left: 0px;
-//  margin-bottom: 15px;
-//  .review-title {
-//    font-size: 16px;
-//    font-weight: bold;
-//    padding-right: 10px;
-//  }
-//  .review-author {
-//    font-style: italic;
-//    color: $gray;
-//    font-size: 14px;
-//  }
-//  .review-body {
-//    display: block;
-//    margin-top: 10px;
-//  }
-//}
 .modal-body {
   max-height: 800px;
-  //.review-elements {
-  //  select, input {
-  //    width: 500px;
-  //  }
-  //  textarea {
-  //    width: 500px;
-  //    height: 350px;
-  //  }
-  //}
 }
 ul.thumbnails {
   margin-top: 10px;
@@ -778,6 +750,22 @@ ul.thumbnails .thumbnail-review{
         margin: 0 !important;
       }
     }
+  }
+}
+.review-list {
+  margin-top: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+//  margin-bottom: 10px;
+}
+.add-review-user-footer {
+  background-color: inherit;
+  border-top: none;
+}
+.review-elements {
+  margin-top: 20px;
+  #review_event_id {
+    width: 500px;
   }
 }
 

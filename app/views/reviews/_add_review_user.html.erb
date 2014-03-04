@@ -1,0 +1,16 @@
+<%= simple_form_for(@review, :remote => true, html: {id: 'review-form'} ) do |f| %>
+    <div class="review-elements">
+      <%= f.input :event_id, :wrapper => :bootstrap do %>
+          <%= f.input_field :event_id, collection: @unreviewed_events.collect{ |event| ["#{event.title} - #{strip_tags(meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false))}", event.id]} %>
+          <%= content_tag(:span,'', :class => 'help-inline hide') %>
+      <% end %>
+      <%= f.input :body, :wrapper => :bootstrap do %>
+          <%= f.input_field :body, :as => :text, :class => 'input-block-level', :rows=>"10" %>
+          <%= content_tag(:span,'', :class => 'help-inline hide') %>
+      <% end %>
+    </div>
+    <div class="modal-footer add-review-user-footer">
+      <button type="button" class="btn btn-default" id="close-add-review-user-button">Close</button>
+      <%= f.button :submit, 'Add it!', :class=>"create_review"%>
+    </div>
+<% end %>

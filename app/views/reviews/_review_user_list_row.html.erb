@@ -1,0 +1,8 @@
+<div class="review-list">
+  <h4><%= review.event.title %></h4>
+  <%= link_to 'x', review_path(review.uuid), id: 'delete_review', class: 'review-element-close hide close' %>
+  <!--<div class="review-element-close hide"><button class="close">x</button> </div>-->
+  <div class="muted">Reviewed <%= time_ago(review.created_at) %></div>
+  <div><%= review.body %></div>
+
+</div>

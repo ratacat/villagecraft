@@ -18,7 +18,7 @@ class Ability
       can [:show], Venue
       can [:show], Message
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
-      can [:plus, :minus, :create], Review, :author_id => user.id
+      can [:plus, :minus, :create, :index, :destroy], Review, :author_id => user.id
       
       # host
       if user.host?

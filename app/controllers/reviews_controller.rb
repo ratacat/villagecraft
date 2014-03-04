@@ -44,11 +44,20 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-
+    respond_to do |format|
+      if @review.destroy
+        flash[:success] = 'Review deleted!'
+        format.json { render json: flash, status: :ok}
+      else
+        format.json { render json: @review.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def index
-
+    @review = Review.new
+    @reviews = Review.return_reviews_by_user(current_user).sort_by(&:created_at).reverse
+    @unreviewed_events = Review.return_unreviewed_events_by_user(current_user)
   end
 
 

@@ -222,6 +222,11 @@ class User < ActiveRecord::Base
     @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
 
+  def get_all_attended_events
+    events_id = Attendance.where(:user_id => self).map{ |attendence| attendence.event.id}
+    Event.where(:id => events_id).where_first_meeting_starts_in_past
+  end
+
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?

@@ -1,7 +1,7 @@
 class Review < ActiveRecord::Base
   attr_accessible :body, :event_id, :rating, :title, :author
   has_uuid(:length => 8)
-  acts_as_paranoid
+  #acts_as_paranoid
 
   belongs_to :event
   belongs_to :author, :class_name => 'User'
@@ -66,6 +66,16 @@ class Review < ActiveRecord::Base
         end
       end
       return false
+    end
+
+    def return_unreviewed_events_by_user(user)
+      returned_events = []
+      user.get_all_attended_events.each do |event|
+        if event.reviews.where(:author_id => user).count == 0
+          returned_events << event
+        end
+      end
+      returned_events
     end
   end
 
