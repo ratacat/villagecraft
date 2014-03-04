@@ -1,6 +1,7 @@
 class Message < ActiveRecord::Base
-  attr_accessor :_apropos_uuid, :_to_user_uuid
-
+  attr_writer :_apropos_uuid, :_to_user_uuid
+  attr_accessible :_apropos_uuid, :_to_user_uuid, :apropos_type, :subject, :body, :apropos, :to_user
+  
   belongs_to :from_user, :class_name => 'User'
   belongs_to :to_user, :class_name => 'User'
   belongs_to :apropos, :polymorphic => true
@@ -10,12 +11,18 @@ class Message < ActiveRecord::Base
   
   before_validation :find_apropos, :find_to_user, :set_send_at_if_not_set, :on => :create
   validates :from_user_id, presence: true
-  validate :can_send_to_apropos?
-  
-  def apropos=(something)
-    write_attribute(:apropos, something)
-    self._apropos_uuid = something.try(:uuid)
-    self.apropos_type = something.try(:class).try(:to_s)
+  validate :can_send_to_apropos?, :has_to_user_or_apropos?
+
+  def _apropos_uuid
+    @_apropos_uuid || self.apropos.try(:uuid)
+  end
+
+  def _to_user_uuid
+    @_to_user_uuid || self.to_user.try(:uuid)
+  end
+
+  def apropos_type
+    read_attribute(:apropos_type) || self.apropos.try(:class).try(:to_s)
   end
 
   def deliver
@@ -38,15 +45,14 @@ class Message < ActiveRecord::Base
 
   protected
   def find_apropos
-    apropos_uuid = read_attribute(:_apropos_uuid)
-    unless self._apropos_uuid.blank?
+    unless @_apropos_uuid.blank?
       case self.apropos_type
       when 'Workshop'
-        self.apropos_id = Workshop.find_by_uuid(self._apropos_uuid).try(:id)
+        self.apropos_id = Workshop.find_by_uuid(@_apropos_uuid).try(:id)
       when 'Event'
-        self.apropos_id = Event.find_by_uuid(self._apropos_uuid).try(:id)
+        self.apropos_id = Event.find_by_uuid(@_apropos_uuid).try(:id)
       else
-        raise 'Unsupported message type'
+        raise "Unsupported message type: #{self.apropos_type}"
       end
     end
   end
@@ -66,8 +72,14 @@ class Message < ActiveRecord::Base
           errors.add(:base, "Only the host of a rerun may message attendees")          
         end
       else
-        raise 'Unsupported apropos type'
+        raise "Unsupported apropos type"
       end
+    end
+  end
+  
+  def has_to_user_or_apropos?
+    unless self.apropos or self.to_user
+      errors.add(:base, "Must have a to_user or an apropos.")          
     end
   end
   
