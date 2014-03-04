@@ -186,7 +186,11 @@ CREATE TABLE images (
     img_content_type character varying(255),
     img_file_size integer,
     img_updated_at timestamp without time zone,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    i_file_name character varying(255),
+    i_content_type character varying(255),
+    i_file_size integer,
+    i_updated_at timestamp without time zone
 );
 
 
@@ -409,14 +413,12 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 CREATE TABLE reviews (
     id integer NOT NULL,
+    workshop_id integer,
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone,
-    rating integer DEFAULT 0,
-    title character varying(160),
-    event_id integer
+    deleted_at timestamp without time zone
 );
 
 
@@ -1098,6 +1100,13 @@ CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
 
 
 --
+-- Name: index_reviews_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
+
+
+--
 -- Name: index_sightings_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1482,8 +1491,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140218044120');
 
 INSERT INTO schema_migrations (version) VALUES ('20140220163903');
 
-INSERT INTO schema_migrations (version) VALUES ('20140226223209');
-
 INSERT INTO schema_migrations (version) VALUES ('20140303201055');
 
 INSERT INTO schema_migrations (version) VALUES ('20140303201711');
+
+INSERT INTO schema_migrations (version) VALUES ('20140304212426');
