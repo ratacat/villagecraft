@@ -25,6 +25,24 @@
     </div>
   </div>
 </div>
+<div class="span12">
+  <h2>Attendee Experience</h2>
+  <dl>
+    <dt><h3>See workshop listing</h3></dt>
+    <dd>
+      <ul class="media-list">
+        <div class="day_chunk">
+          <%= render 'workshops/show_in_index', :show_date => true %>
+        </div>
+      </ul>
+    </dd>
+    
+    <dt><h3>Signup</h3></dt>
+    <dd>
+      from workshop page: <%= workshop_title(@workshop, :linked_to => true) %>
+    </dd>
+  </dl>
+</div>
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
 
