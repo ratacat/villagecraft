@@ -53,7 +53,8 @@ class User < ActiveRecord::Base
 
   normalize_attributes :name, :email, :address
 
-  before_validation :find_or_create_location_from_address, :normalize_phone
+  before_validation :find_or_create_location_from_address, :normalize_phone, :create_bogus_email_for_external_users
+  after_save :touch_dependant_workshops_to_expire_their_cached_fragments
 
   validates :email, :presence => true
   validates :name, :presence => true
@@ -70,7 +71,7 @@ class User < ActiveRecord::Base
     if self.profile_image.blank?
       User.homunculus_src(size)
     else
-      self.profile_image.img.url(size)
+      self.profile_image.i.url(size)
     end
   end
   
@@ -81,7 +82,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_image=(f)
-    i = Image.create!(:img => f, :user => self)
+    i = Image.create!(:i => f, :user => self)
     self.profile_image_id = i.id
   end
 
@@ -117,6 +118,10 @@ class User < ActiveRecord::Base
 
   def last_name
     self.name.split.pop
+  end
+  
+  def title
+    self.name
   end
   
   def first_name_plus_last_initial
@@ -223,6 +228,11 @@ class User < ActiveRecord::Base
   def User.nexmo
     @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
   end
+  
+  def has_fake_email?
+    m = Mail::Address.new(self.email)
+    m.domain === "me.fake"
+  end
 
   # Returns all past events that the user signed up for
   def get_all_attended_events
@@ -246,6 +256,12 @@ class User < ActiveRecord::Base
       self.phone = normalized_number
     end    
   end
+  
+  def create_bogus_email_for_external_users
+    if self.external?
+      self.email ||= "#{self.uuid}@me.fake"      
+    end
+  end
 
   private
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
@@ -254,6 +270,10 @@ class User < ActiveRecord::Base
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
     end
+  end
+  
+  def touch_dependant_workshops_to_expire_their_cached_fragments
+    self.workshops.update_all(updated_at: Time.now)
   end
 
 end

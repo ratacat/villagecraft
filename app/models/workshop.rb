@@ -52,7 +52,7 @@ class Workshop < ActiveRecord::Base
     if self.image.blank?
       Workshop.placeholder_img_src(size)
     else
-      self.image.img.url(size)
+      self.image.i.url(size)
     end
   end
 
@@ -61,7 +61,7 @@ class Workshop < ActiveRecord::Base
   end
   
   def image=(f)
-    i = Image.create!(:img => f, :user => self.host)
+    i = Image.create!(:i => f, :user => self.host)
     self.image_id = i.id
   end
 

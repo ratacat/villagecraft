@@ -56,6 +56,10 @@ GEM
     atomic (1.1.14)
     attribute_normalizer (1.1.0)
     awesome_print (1.2.0)
+    aws-sdk (1.35.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     bcrypt-ruby (3.1.2)
     bluecloth (2.2.0)
     bootstrap-generators (2.3.2)
@@ -317,6 +321,7 @@ PLATFORMS
 DEPENDENCIES
   attribute_normalizer
   awesome_print
+  aws-sdk
   bluecloth
   bootstrap-generators (~> 2.3)
   bootstrap-sass (~> 2.3.2.0)

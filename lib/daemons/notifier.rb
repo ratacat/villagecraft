@@ -31,18 +31,19 @@ def handle_exception(e)
   Kernel.sleep 60
 end
 
-while($running) do  
+while($running) do
+  # send queued notification email
   Notification.where(:email_me => true, :emailed_at => nil).each do |n|
     begin
       UserMailer.notification_email(n).deliver
       n.update_attribute(:emailed_at, Time.now)
-      @logger.info "Email about #{n.activity.key} sent to #{n.user.email}\n"
-      sleep 1
+      @logger.info "Notification #{n.id} about #{n.activity.key} emailed to #{n.user.email}\n"
     rescue Exception => e
       handle_exception(e)
     end
   end
 
+  # send queued notification SMSes
   Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
     begin
       response = n.user.send_sms(n.to_sms)
@@ -51,13 +52,23 @@ while($running) do
       elsif response.ok?
         n.update_attribute(:smsed_at, Time.now)
       else
-        @logger.error "Problem sending SMS: #{response.response.body}"
+        @logger.error "Problem sending SMS notification #{n.id}: #{response.response.body}"
       end
       sleep 1
     rescue Exception => e
       handle_exception(e)
     end
   end
+
+  # send queued messages
+  Message.where(:sent_at => nil).where("send_at < ?", Time.now).each do |m|
+    begin
+      m.deliver
+      @logger.info %Q(Message #{m.id} with subject: "#{m.subject}" sent\n)
+    rescue Exception => e
+      handle_exception(e)
+    end
+  end  
 
   sleep 30
 end

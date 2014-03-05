@@ -1,6 +1,7 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
   content_for(:title, seod_title(@workshop))
+  message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
 %>
 <div class="row">
   <div class="span3">
@@ -94,7 +95,9 @@
     <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
     
     <h4 class="muted">Host</h4>
-    <%= render 'users/mini_profile', :user => @workshop.host %>
+    <div id='host_mini_profile'>
+      <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>      
+    </div>
     <h4 class="muted">People</h4>
     <div class="row">
       <div class="span3">
@@ -103,12 +106,22 @@
     </div>
   </div>
 </div>
-
 <!-- Add Review Modal -->
 <%= render 'reviews/add_review_modal', :review => @review, :past_reruns => @past_reruns %>
 
 <!-- Show More Review Modal -->
 <%= render 'reviews/more_modal', :review => @review %>
 
-
-
+<%= render 'messages/modal_new', :message => message %>
+<% ready_script do -%>
+  $('#host_mini_profile a.message_user').on('click', function(e) {
+    $("#new_message_modal").modal('show');
+    e.preventDefault();
+  });
+  
+  $(document).on('ajax:success', '#new_message', function(e, data, status, xhr) {
+    $("#new_message_modal").modal('hide');
+    show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+  });  
+  
+<% end -%>

@@ -3,7 +3,8 @@ class Activity < PublicActivity::Activity
     defaults = {
       :limit => 20,
       :owner => nil,
-      :trackable => nil
+      :trackable => nil,
+      :id_lower_than => nil
     }
     options.reverse_merge!(defaults)
     
@@ -13,6 +14,9 @@ class Activity < PublicActivity::Activity
     end
     if options[:trackable]
       where_conditions << %Q("activities"."trackable_id" = #{options[:trackable].id} AND "activities"."trackable_type" = '#{options[:trackable].class.to_s}')
+    end
+    if options[:id_lower_than]
+      where_conditions << %Q("activities"."id" < #{options[:id_lower_than]})
     end
     where_clause = where_conditions.blank? ? '' : %Q(WHERE #{where_conditions.join(" AND ")})
     
