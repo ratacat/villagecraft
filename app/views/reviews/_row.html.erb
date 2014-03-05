@@ -7,14 +7,17 @@
   <div class="thumbnail thumbnail-review">
     <div class="caption">
       <h4 class="review-author"><%= review.author.name %></h4>
-      <div class="ellipsis">
+      <!--<div class="ellipsis">-->
         <div>
-            <p class="review-body"><%= review.body %></p>
+            <%= content_tag :span, :class => "review-body",  :data => { :body => review.body } do %>
+              <%= truncate(strip_tags(review.body), :length => 130, :separator => ' ') %>
+            <% end %>
+            <a href="#" class="review-more muted">More</a>
         </div>
-      </div>
+      <!--</div>-->
       <div class="review-bottom">
         <div class="review-time"><%= time_ago(review.created_at) %> </div>
-        <div class="review-more muted">More</div>
+
       </div>
     </div>
   </div>

@@ -27,7 +27,7 @@ class ReviewsController < ApplicationController
       if @review.plus_rating(current_user)
          form.json { render json: @review, status: :ok}
       else
-        form.json { render json: @review.errors, status: :unprocessable_entity}
+        form.json { render json: @review.errors.full_messages.first, status: :unprocessable_entity}
       end
     end
   end
@@ -38,7 +38,7 @@ class ReviewsController < ApplicationController
       if @review.minus_rating(current_user)
         form.json { render json: @review, status: :ok}
       else
-        form.json { render json: @review.errors, status: :unprocessable_entity}
+        form.json { render json: @review.errors.full_messages.first, status: :unprocessable_entity}
       end
     end
   end
