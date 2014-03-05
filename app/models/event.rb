@@ -124,7 +124,7 @@ class Event < ActiveRecord::Base
     if self.image.blank?
       Event.placeholder_src(size)
     else
-      self.image.img.url(size)
+      self.image.i.url(size)
     end
   end
   
