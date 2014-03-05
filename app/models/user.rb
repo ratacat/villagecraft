@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
     if self.profile_image.blank?
       User.homunculus_src(size)
     else
-      self.profile_image.img.url(size)
+      self.profile_image.i.url(size)
     end
   end
   

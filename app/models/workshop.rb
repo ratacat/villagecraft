@@ -52,7 +52,7 @@ class Workshop < ActiveRecord::Base
     if self.image.blank?
       Workshop.placeholder_img_src(size)
     else
-      self.image.img.url(size)
+      self.image.i.url(size)
     end
   end
 
