@@ -24,11 +24,5 @@
       <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @workshop.img_src(:large_orig)} %>
     </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, :class => "btn-primary" %>
-    <%= link_to 'view', workshop_path(@workshop), title: 'view workshop page' %>
-    <%= iconic_link_to 'Delete', @workshop, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger pull-right', title: 'delete' %>
-  </div>
 <% end %>
 <%= render :partial => 'shared/markdown_a_la_carte' %>

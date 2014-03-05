@@ -1,5 +1,5 @@
 <div class="span12">
-  <h1>Edit workshop details</h1>
+  <h1>Edit workshop <%= iconic_link_to 'Delete', @workshop, confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger pull-right', title: 'delete' %></h1>
   <%= render 'form' %>
 </div>
 <div class="span12">
@@ -42,6 +42,20 @@
       manage_attendees_button.hide();
     }
   }
+
+  // auto-submit form when any field is changed
+  $('form.edit_workshop :input').not("#workshop_image").change(function(){
+    show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+    $(this).closest('form').submit();
+  });
+  // hackish special-casing here so that Jansy fileinput has a chance to display the preview before the submit
+  $("#workshop_image").fileinput().on('change.bs.fileinput', function() {
+    var the_form = $(this).closest('form');
+    setTimeout(function () {
+      show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+      the_form.submit(); 
+    }, 1000);
+  });
 
   function editablize_meetings() {
     $('.editable[data-name="max_attendees"]').editable();
