@@ -58,7 +58,7 @@ $(function () {
       event.preventDefault();
       $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
       $('#more-review-body').text($('.review-body', $(this).parents('.review-box')).data('body'));
-      $('span#modalMoreReviewTime').text($('.review-time', $(this).parents('.review-box')).text());
+      $('span#modalMoreReviewTime').text('wrote ' + $('.review-time', $(this).parents('.review-box')).text());
       $('#modal-more-review').modal().show();
       $(".modal").css("position", "fixed");
       if( $(".modal").height()+100 > $(window).innerHeight()){

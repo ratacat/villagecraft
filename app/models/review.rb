@@ -30,7 +30,7 @@ class Review < ActiveRecord::Base
       if rating.save
         self.save
       else
-        self.errors.add(:rating, "has been already rated by you")
+        self.errors.add(:rating, "has been already provided for this review by you")
         false
       end
     end
@@ -43,7 +43,7 @@ class Review < ActiveRecord::Base
       if rating.save
         self.save
       else
-        self.errors.add(:rating, "has been already rated by you")
+        self.errors.add(:rating, "has been already provided for this review by you")
         false
       end
     end

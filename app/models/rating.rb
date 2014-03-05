@@ -5,7 +5,7 @@ class Rating < ActiveRecord::Base
   belongs_to :review
 
   validates :rater_id, :presence => true
-  validates :review_id, :presence => true,  :uniqueness => {:scope => :rater_id, :message => "has been already rated by you"}
+  validates :review_id, :presence => true,  :uniqueness => {:scope => :rater_id}
 
 
   class << self
