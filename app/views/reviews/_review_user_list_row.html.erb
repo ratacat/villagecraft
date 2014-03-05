@@ -1,8 +1,8 @@
 <div class="review-list">
-  <h4><%= review.event.title %></h4>
-  <%= link_to 'x', review_path(review.uuid), id: 'delete_review', class: 'review-element-close hide close' %>
+  <h4><%= link_to review.event.title, event_path(review.event) %></h4>
+  <%= link_to 'x', review_path(review.uuid), id: 'delete_review', class: 'review-element-close hide close', confirm: 'You are going to delete the review permanently. Are you sure? ' %>
   <!--<div class="review-element-close hide"><button class="close">x</button> </div>-->
-  <div class="muted">Reviewed <%= time_ago(review.created_at) %></div>
+  <div class="muted"><%= contextualized_user_link(current_user, {:linked => false}).camelize %> wrote <%= time_ago(review.created_at) %>. <%= get_rating_with_sign(review.rating) %></div>
   <div><%= review.body %></div>
 
 </div>

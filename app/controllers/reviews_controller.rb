@@ -24,7 +24,7 @@ class ReviewsController < ApplicationController
   def plus
     #@review = Review.find_by_uuid(params[:id])
     respond_to do |form|
-      if @review.plus_rating(current_user.id)
+      if @review.plus_rating(current_user)
          form.json { render json: @review, status: :ok}
       else
         form.json { render json: @review.errors, status: :unprocessable_entity}
@@ -35,7 +35,7 @@ class ReviewsController < ApplicationController
   def minus
     #@review = Review.find_by_uuid(params[:id])
     respond_to do |form|
-      if @review.minus_rating(current_user.id)
+      if @review.minus_rating(current_user)
         form.json { render json: @review, status: :ok}
       else
         form.json { render json: @review.errors, status: :unprocessable_entity}

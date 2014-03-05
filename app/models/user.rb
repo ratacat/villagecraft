@@ -49,6 +49,8 @@ class User < ActiveRecord::Base
 
   has_many :notifications
 
+  has_many :rating
+
   normalize_attributes :name, :email, :address
 
   before_validation :find_or_create_location_from_address, :normalize_phone

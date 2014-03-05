@@ -7,6 +7,8 @@ class Review < ActiveRecord::Base
   belongs_to :event
   belongs_to :author, :class_name => 'User'
 
+  has_many :ratings
+
   #validates :title, :presence => true
   validates :body, :presence => true, :blacklist => true, :length => {
                                                                     :minimum   => 12,
@@ -21,14 +23,20 @@ class Review < ActiveRecord::Base
   before_create :set_rating
 
 
-  def plus_rating(user_id)
-    self.rating = self.rating + 1
-    self.save
+  def plus_rating(user)
+    transaction do
+      self.rating = self.rating + 1
+      self.save
+      self.errors.add(:rating, Rating.create_rating(self, user))
+    end
   end
 
-  def minus_rating(user_id)
-    self.rating = self.rating - 1
-    self.save
+  def minus_rating(user)
+    transaction do
+      self.rating = self.rating - 1
+      self.save
+      self.errors.add_to_base(Rating.create_rating(self, user))
+    end
   end
 
 
