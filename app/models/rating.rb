@@ -14,9 +14,7 @@ class Rating < ActiveRecord::Base
       rating = Rating.new
       rating.rater = user
       rating.review = review
-      unless rating.save
-        "has been already rated by you"
-      end
+      rating
     end
   end
 end

@@ -73,6 +73,7 @@ group :development do
   gem 'capistrano-unicorn', :require => false
   gem 'letter_opener_web', '~> 1.1.0'
   gem 'rails-footnotes', '>= 3.7.9'
+  gem 'quiet_assets'
   
   # To use debugger
   # If uncommenting gem 'debugger' doesn't work, try first uncommenting the following two lines and doing:

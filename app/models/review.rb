@@ -17,7 +17,7 @@ class Review < ActiveRecord::Base
                                                                     :too_short => "Must have at least %{count} words",
                                                                     :too_long  => "Must have at most %{count} words"}
   validates :event_id, :presence => true, :uniqueness => { :scope => [:author_id], :message => "You have already reviewed this." }
-  #validates_uniqueness_of :event_id, scope: [:author_id]
+
   validates :author, :presence => true
 
   before_create :set_rating
@@ -26,16 +26,26 @@ class Review < ActiveRecord::Base
   def plus_rating(user)
     transaction do
       self.rating = self.rating + 1
-      self.save
-      self.errors.add(:rating, Rating.create_rating(self, user))
+      rating = Rating.create_rating(self, user)
+      if rating.save
+        self.save
+      else
+        self.errors.add(:rating, "has been already rated by you")
+        false
+      end
     end
   end
 
   def minus_rating(user)
     transaction do
       self.rating = self.rating - 1
-      self.save
-      self.errors.add_to_base(Rating.create_rating(self, user))
+      rating = Rating.create_rating(self, user)
+      if rating.save
+        self.save
+      else
+        self.errors.add(:rating, "has been already rated by you")
+        false
+      end
     end
   end
 
