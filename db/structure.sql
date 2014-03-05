@@ -9,62 +9,6 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: tiger; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA tiger;
-
-
---
--- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
-
-
---
--- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
-
-
---
--- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
-
-
---
--- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
-
-
---
--- Name: postgis_tiger_geocoder; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
-
-
---
--- Name: EXTENSION postgis_tiger_geocoder; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION postgis_tiger_geocoder IS 'PostGIS tiger geocoder and reverse geocoder';
-
-
---
--- Name: topology; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA topology;
-
-
---
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -79,17 +23,17 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
-CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 
 
 --
--- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: -
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
 --
 
-COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
 
 
 SET search_path = public, pg_catalog;
@@ -242,7 +186,11 @@ CREATE TABLE images (
     img_content_type character varying(255),
     img_file_size integer,
     img_updated_at timestamp without time zone,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    i_file_name character varying(255),
+    i_content_type character varying(255),
+    i_file_size integer,
+    i_updated_at timestamp without time zone
 );
 
 
@@ -361,7 +309,9 @@ CREATE TABLE messages (
     apropos_type character varying(255),
     deleted_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    send_at timestamp without time zone,
+    sent_at timestamp without time zone
 );
 
 
@@ -458,6 +408,38 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 
 --
+-- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ratings (
+    id integer NOT NULL,
+    rater_id integer,
+    review_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ratings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
+
+
+--
 -- Name: reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -468,9 +450,10 @@ CREATE TABLE reviews (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
-    rating integer,
-    title character varying(255),
-    event_id integer
+    rating integer DEFAULT 0,
+    title character varying(160),
+    event_id integer,
+    uuid character varying(255)
 );
 
 
@@ -742,6 +725,13 @@ ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notification
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY reviews ALTER COLUMN id SET DEFAULT nextval('reviews_id_seq'::regclass);
 
 
@@ -772,74 +762,6 @@ ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::reg
 
 ALTER TABLE ONLY workshops ALTER COLUMN id SET DEFAULT nextval('workshops_id_seq'::regclass);
 
-
---
--- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
-\.
-
-
-SET search_path = tiger, pg_catalog;
-
---
--- Data for Name: geocode_settings; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY geocode_settings (name, setting, unit, category, short_desc) FROM stdin;
-debug_geocode_address	false	boolean	debug	outputs debug information in notice log such as queries when geocode_addresss is called if true
-debug_geocode_intersection	false	boolean	debug	outputs debug information in notice log such as queries when geocode_intersection is called if true
-debug_normalize_address	false	boolean	debug	outputs debug information in notice log such as queries and intermediate expressions when normalize_address is called if true
-debug_reverse_geocode	false	boolean	debug	if true, outputs debug information in notice log such as queries and intermediate expressions when reverse_geocode
-reverse_geocode_numbered_roads	0	integer	rating	For state and county highways, 0 - no preference in name, 1 - prefer the numbered highway name, 2 - prefer local state/county name
-use_pagc_address_parser	false	boolean	normalize	If set to true, will try to use the pagc_address normalizer instead of tiger built one
-\.
-
-
---
--- Data for Name: pagc_gaz; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY pagc_gaz (id, seq, word, stdword, token, is_custom) FROM stdin;
-\.
-
-
---
--- Data for Name: pagc_lex; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY pagc_lex (id, seq, word, stdword, token, is_custom) FROM stdin;
-\.
-
-
---
--- Data for Name: pagc_rules; Type: TABLE DATA; Schema: tiger; Owner: -
---
-
-COPY pagc_rules (id, rule, is_custom) FROM stdin;
-\.
-
-
-SET search_path = topology, pg_catalog;
-
---
--- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: -
---
-
-COPY layer (topology_id, layer_id, schema_name, table_name, feature_column, feature_type, level, child_id) FROM stdin;
-\.
-
-
---
--- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: -
---
-
-COPY topology (id, name, srid, "precision", hasz) FROM stdin;
-\.
-
-
-SET search_path = public, pg_catalog;
 
 --
 -- Name: activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
@@ -911,6 +833,14 @@ ALTER TABLE ONLY neighborhoods
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1122,6 +1052,20 @@ CREATE INDEX index_messages_on_from_user_id ON messages USING btree (from_user_i
 
 
 --
+-- Name: index_messages_on_send_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_send_at ON messages USING btree (send_at);
+
+
+--
+-- Name: index_messages_on_sent_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_messages_on_sent_at ON messages USING btree (sent_at);
+
+
+--
 -- Name: index_messages_on_to_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1203,6 +1147,13 @@ CREATE INDEX index_reviews_on_author_id ON reviews USING btree (author_id);
 --
 
 CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
+
+
+--
+-- Name: index_reviews_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reviews_on_event_id ON reviews USING btree (event_id);
 
 
 --
@@ -1360,10 +1311,31 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: geometry_columns_delete; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_delete AS ON DELETE TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
+-- Name: geometry_columns_insert; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_insert AS ON INSERT TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
+-- Name: geometry_columns_update; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_update AS ON UPDATE TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public, tiger;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130425175141');
 
@@ -1570,3 +1542,13 @@ INSERT INTO schema_migrations (version) VALUES ('20140218044120');
 INSERT INTO schema_migrations (version) VALUES ('20140220163903');
 
 INSERT INTO schema_migrations (version) VALUES ('20140226223209');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303132705');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303201055');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303201711');
+
+INSERT INTO schema_migrations (version) VALUES ('20140304212426');
+
+INSERT INTO schema_migrations (version) VALUES ('20140305110821');
