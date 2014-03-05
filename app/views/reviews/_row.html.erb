@@ -10,7 +10,7 @@
       <!--<div class="ellipsis">-->
         <div>
             <%= content_tag :span, :class => "review-body",  :data => { :body => review.body } do %>
-              <%= truncate(strip_tags(review.body), :length => 140, :separator => ' ') %>
+              <%= truncate(strip_tags(review.body), :length => 130, :separator => ' ') %>
             <% end %>
             <a href="#" class="review-more muted">More</a>
         </div>
