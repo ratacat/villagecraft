@@ -19,10 +19,10 @@ development:
   host: localhost
   pool: 5
   database: villagecraft_development
-  username: ruby
-  password: ruby
-  su_username: postgres
-  su_password: postgres
+  username: villagecraft
+  password: 
+  su_username: villagecraft
+  su_password: 
 
 test:
   adapter: postgresql
@@ -30,10 +30,10 @@ test:
   host: localhost
   pool: 5
   database: villagecraft_test
-  username: ruby
-  password: ruby
-  su_username: postgres
-  su_password: postgres
+  username: villagecraft
+  password: 
+  su_username: villagecraft
+  su_password: 
 
 production:
   adapter: postgresql
