@@ -182,10 +182,6 @@ CREATE TABLE images (
     uuid character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    img_file_name character varying(255),
-    img_content_type character varying(255),
-    img_file_size integer,
-    img_updated_at timestamp without time zone,
     deleted_at timestamp without time zone,
     i_file_name character varying(255),
     i_content_type character varying(255),
@@ -1496,3 +1492,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140303201055');
 INSERT INTO schema_migrations (version) VALUES ('20140303201711');
 
 INSERT INTO schema_migrations (version) VALUES ('20140304212426');
+
+INSERT INTO schema_migrations (version) VALUES ('20140305004713');
