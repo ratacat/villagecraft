@@ -20,7 +20,8 @@ module UsersHelper
     defaults = {
       :linked => true,
       :only_path => true,
-      :annotate => false
+      :annotate => false,
+      :make_messageable_apropos => false
     }
     options.reverse_merge!(defaults)
     linked = 
@@ -32,12 +33,21 @@ module UsersHelper
         false
       end
     if user.nil?
-      'a guest user'
+      html = 'a guest user'.html_safe
     elsif linked
-      link_to contextualized_user_name(user, options), user_url(user, :only_path => options[:only_path])
+      html = link_to contextualized_user_name(user, options), user_url(user, :only_path => options[:only_path])
     else
-      contextualized_user_name(user, options)
+      html = contextualized_user_name(user, options)
     end
+    if options[:make_messageable_apropos] and user_signed_in? and (current_user != user) and (not user.external?)
+      html << ' '.html_safe
+      html << link_to('(send message)', 
+                       new_message_path(:message => {:_apropos_uuid => options[:make_messageable_apropos].try(:uuid), 
+                                                     :apropos_type => options[:make_messageable_apropos].try(:class).try(:to_s), 
+                                                     :_to_user_uuid => user.uuid}),
+                       :class => 'muted message_user')
+    end    
+    html
   end
   
   def user_phone(user)
