@@ -409,12 +409,15 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 CREATE TABLE reviews (
     id integer NOT NULL,
-    workshop_id integer,
     author_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    rating integer DEFAULT 0,
+    title character varying(160),
+    event_id integer,
+    uuid character varying(255)
 );
 
 
@@ -596,7 +599,9 @@ CREATE TABLE workshops (
     deleted_at timestamp without time zone,
     external boolean,
     external_url character varying(255),
-    venue_id integer
+    venue_id integer,
+    greeting_subject character varying(255),
+    greeting_body text
 );
 
 
@@ -1096,10 +1101,10 @@ CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
 
 
 --
--- Name: index_reviews_on_vclass_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_reviews_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_reviews_on_vclass_id ON reviews USING btree (workshop_id);
+CREATE INDEX index_reviews_on_event_id ON reviews USING btree (event_id);
 
 
 --
@@ -1219,6 +1224,20 @@ CREATE INDEX index_workshops_on_deleted_at ON workshops USING btree (deleted_at)
 --
 
 CREATE INDEX index_workshops_on_external ON workshops USING btree (external);
+
+
+--
+-- Name: index_workshops_on_greeting_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_greeting_body ON workshops USING btree (greeting_body);
+
+
+--
+-- Name: index_workshops_on_greeting_subject; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_workshops_on_greeting_subject ON workshops USING btree (greeting_subject);
 
 
 --
@@ -1487,6 +1506,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140218044120');
 
 INSERT INTO schema_migrations (version) VALUES ('20140220163903');
 
+INSERT INTO schema_migrations (version) VALUES ('20140226223209');
+
+INSERT INTO schema_migrations (version) VALUES ('20140303132705');
+
 INSERT INTO schema_migrations (version) VALUES ('20140303201055');
 
 INSERT INTO schema_migrations (version) VALUES ('20140303201711');
@@ -1494,3 +1517,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140303201711');
 INSERT INTO schema_migrations (version) VALUES ('20140304212426');
 
 INSERT INTO schema_migrations (version) VALUES ('20140305004713');
+
+INSERT INTO schema_migrations (version) VALUES ('20140306082211');
