@@ -16,7 +16,7 @@ class Ability
       
       can [:show], User
       can [:show], Venue
-      can [:show], Message
+      can [:show, :create], Message
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
       
       # host
