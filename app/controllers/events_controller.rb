@@ -167,6 +167,15 @@ class EventsController < ApplicationController
     else
       current_user.attends << @event
       @event.create_activity key: 'event.interested', owner: current_user
+      
+      unless (@event.workshop.greeting_subject.blank?)
+        # create the greeting email to be sent right away
+        Message.create!(:from_user => @event.host,
+                        :to_user => current_user, 
+                        :apropos => @event, 
+                        :subject => @event.workshop.greeting_subject,
+                        :body => @event.workshop.greeting_body)
+      end
       respond_to do |format|
         format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
         format.json { head :no_content }
