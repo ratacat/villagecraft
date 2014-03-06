@@ -2,7 +2,9 @@
    message ||= @message
    span ||= 'span6'
    remote ||= false
-   options = remote ? {:remote => remote, :html => {:'data-type' => 'json'}} : {}
+   auto_submit ||= false
+   id = "edit_message_#{UUIDTools::UUID.random_create.to_s}"
+   options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
 %>
 <%= simple_form_for(message, options) do |f| %>
   <%= f.error_notification %>
@@ -18,8 +20,26 @@
 
   <%= f.hidden_field :_to_user_uuid %>
   <%= f.hidden_field :_apropos_uuid %>
+  <%= f.hidden_field :_use_as_workshop_greeting %>
   <%= f.hidden_field :apropos_type, :value => message.apropos_type %>
 
-  
-  <%= f.button :submit, 'Send', :class => "btn-default" %> <span class="muted">by email</span>
+  <% if auto_submit %>
+    <i id="spinner_for_<%= id %>" class="icon-spinner icon-spin icon-large initially_hidden"></i>
+  <% else %>
+    <%= f.button :submit, 'Send', :class => "btn-default" %> <span class="muted">by email</span>
+  <% end %>
+<% end %>
+
+<% if auto_submit %>
+  <% ready_script do -%>
+    $('#<%= id %> :input').change(function(){
+      $('#spinner_for_<%= id %>').css('display', 'block');
+      $(this).closest('form').submit();
+    });
+    $('#<%= id %>').bind("ajax:success", function(evt, data, status, xhr){
+      setTimeout(function() {
+        $('#spinner_for_<%= id %>').hide();
+      }, 500);
+    })
+  <% end -%>
 <% end %>
