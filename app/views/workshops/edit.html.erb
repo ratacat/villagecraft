@@ -25,10 +25,11 @@
     </div>
   </div>
 </div>
+
 <div class="span12">
   <h2>Attendee Experience</h2>
   <dl>
-    <dt><h3>See workshop listing</h3></dt>
+    <dt><h3>Listing</h3></dt>
     <dd>
       <ul class="media-list">
         <div class="day_chunk">
@@ -41,6 +42,31 @@
     <dd>
       from workshop page: <%= workshop_title(@workshop, :linked_to => true) %>
     </dd>
+
+    <dt>
+      <h3>Greeting</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent immediately after signup</p>
+          <%= render 'workshops/greeting_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Think about including:
+            <ul>
+              <li>more information about your workshop</li>
+              <li>links to additional information</li>
+              <li>personalized directions to your space</li>
+              <li>best ways to contact you</li>
+              <li>things attendees need to bring</li>
+            </ul>
+          </p>
+        </div>        
+      </div>
+    </dd>
+
   </dl>
 </div>
 <% body_script do -%>

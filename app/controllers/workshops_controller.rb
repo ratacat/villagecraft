@@ -138,7 +138,7 @@ class WorkshopsController < ApplicationController
   
   protected
   def workshop_params
-    ok_params = [:title, :description, :frequency, :image]
+    ok_params = [:title, :description, :frequency, :image, :greeting_subject, :greeting_body]
     ok_params += [:external, :external_url, :host_id] if admin_session?
     params[:workshop].permit(*ok_params)
   end
