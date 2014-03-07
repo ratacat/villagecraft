@@ -58,6 +58,8 @@ class Meeting < ActiveRecord::Base
   def derive_times
     self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
     self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+    self.send_warmup_at = (self.start_time - 50.hours)
+    self.send_reminder_at = (self.start_time - 2.hours)  # FIXME so as not to send at rude times
   end
 
   def ongoing?
