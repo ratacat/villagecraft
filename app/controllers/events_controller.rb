@@ -176,6 +176,19 @@ class EventsController < ApplicationController
                         :subject => @event.workshop.greeting_subject,
                         :body => @event.workshop.greeting_body)
       end
+
+      # late signups should be sent the warmup immediately
+      mtg = @event.first_meeting
+      if mtg.send_warmup_at < Time.now
+        Message.create!(
+          :from_user => mtg.event.host, 
+          :to_user => current_user,
+          :send_at => 1.minute.from_now,
+          :apropos => mtg.workshop,
+          :subject => mtg.workshop.warmup_subject,
+          :body => mtg.workshop.warmup_body)
+      end
+      
       respond_to do |format|
         format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
         format.json { head :no_content }
