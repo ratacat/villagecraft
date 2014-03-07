@@ -35,7 +35,7 @@ class Notification < ActiveRecord::Base
   
   def to_sms
     case self.activity.key
-    when 'event.sms'
+    when 'event.sms', 'meeting.reminder'
       self.activity.parameters[:message]
     else
       raise "Don't know how to do to_sms for #{self.activity.key} notification"

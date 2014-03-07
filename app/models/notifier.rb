@@ -12,6 +12,8 @@ class Notifier < ActiveRecord::Observer
         targets += meeting.event.attendees
       when 'meeting.venue_changed'
         targets += meeting.event.attendees
+      when 'meeting.reminder'
+        targets += meeting.event.attendees
       end
     when 'Event'
       event = activity.trackable
