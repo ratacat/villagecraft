@@ -67,6 +67,43 @@
       </div>
     </dd>
 
+    <dt>
+      <h3>Warmup</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent two days before workshop</p>
+          <%= render 'workshops/warmup_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Get everyone pumped up with more detail about what they will be doing.
+          </p>
+          <p>
+            Anyone who signs up at the last minute and after this email is sent will receive it immediately.
+          </p>
+        </div>        
+      </div>
+    </dd>
+
+    <dt>
+      <h3>Reminder</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent 3+ hours before workshop</p>
+          <%= render 'workshops/reminder_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Sent 3 hours before the workshop, except when that time falls between 9pm and 9am, in which case your attendees will receive the reminder the night before, at 8pm.
+          </p>
+        </div>        
+      </div>
+    </dd>
+
   </dl>
 </div>
 <% body_script do -%>

@@ -1,0 +1,29 @@
+<% 
+   workshop ||= @workshop
+   remote ||= false
+   auto_submit ||= false
+   span ||= 'span6'
+   id = "reminder_#{UUIDTools::UUID.random_create.to_s}"
+   options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
+%>
+<%= simple_form_for(@workshop, options) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :reminder, label: 'Reminder', input_html: {class: span} %>
+  </div>
+<% end %>
+
+<% if auto_submit %>
+  <% ready_script do -%>
+    $('#<%= id %> :input').change(function(){
+      $('#spinner_for_<%= id %>').css('display', 'block');
+      $(this).closest('form').submit();
+    });
+    $('#<%= id %>').bind("ajax:success", function(evt, data, status, xhr){
+      setTimeout(function() {
+        $('#spinner_for_<%= id %>').hide();
+      }, 500);
+    })
+  <% end -%>
+<% end %>
