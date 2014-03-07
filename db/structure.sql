@@ -267,7 +267,11 @@ CREATE TABLE meetings (
     updated_at timestamp without time zone NOT NULL,
     uuid character varying(255),
     event_id integer,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    send_warmup_at timestamp without time zone,
+    sent_warmup_at timestamp without time zone,
+    send_reminder_at timestamp without time zone,
+    sent_reminder_at timestamp without time zone
 );
 
 
@@ -401,6 +405,38 @@ CREATE SEQUENCE notifications_id_seq
 --
 
 ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
+
+
+--
+-- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ratings (
+    id integer NOT NULL,
+    rater_id integer,
+    review_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ratings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ratings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
 
 
 --
@@ -601,7 +637,10 @@ CREATE TABLE workshops (
     external_url character varying(255),
     venue_id integer,
     greeting_subject character varying(255),
-    greeting_body text
+    greeting_body text,
+    warmup_subject character varying(255),
+    warmup_body text,
+    reminder character varying(255)
 );
 
 
@@ -685,6 +724,13 @@ ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhood
 --
 
 ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
 
 
 --
@@ -792,6 +838,14 @@ ALTER TABLE ONLY neighborhoods
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ratings
+    ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
 
 --
@@ -958,6 +1012,34 @@ CREATE INDEX index_locations_on_point ON locations USING gist (point);
 --
 
 CREATE INDEX index_meetings_on_deleted_at ON meetings USING btree (deleted_at);
+
+
+--
+-- Name: index_meetings_on_send_reminder_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_send_reminder_at ON meetings USING btree (send_reminder_at);
+
+
+--
+-- Name: index_meetings_on_send_warmup_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_send_warmup_at ON meetings USING btree (send_warmup_at);
+
+
+--
+-- Name: index_meetings_on_sent_reminder_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_sent_reminder_at ON meetings USING btree (sent_reminder_at);
+
+
+--
+-- Name: index_meetings_on_sent_warmup_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_sent_warmup_at ON meetings USING btree (sent_warmup_at);
 
 
 --
@@ -1224,20 +1306,6 @@ CREATE INDEX index_workshops_on_deleted_at ON workshops USING btree (deleted_at)
 --
 
 CREATE INDEX index_workshops_on_external ON workshops USING btree (external);
-
-
---
--- Name: index_workshops_on_greeting_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_workshops_on_greeting_body ON workshops USING btree (greeting_body);
-
-
---
--- Name: index_workshops_on_greeting_subject; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_workshops_on_greeting_subject ON workshops USING btree (greeting_subject);
 
 
 --
@@ -1518,4 +1586,16 @@ INSERT INTO schema_migrations (version) VALUES ('20140304212426');
 
 INSERT INTO schema_migrations (version) VALUES ('20140305004713');
 
+INSERT INTO schema_migrations (version) VALUES ('20140305110821');
+
 INSERT INTO schema_migrations (version) VALUES ('20140306082211');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065103');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065212');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065313');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307093032');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307093132');
