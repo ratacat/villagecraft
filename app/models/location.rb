@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   attr_accessible :name, :city, :state_code, :street, :address
-  has_many :venues, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :venues, :conditions => {:deleted_at => nil}
   belongs_to :neighborhood
   acts_as_paranoid
 
