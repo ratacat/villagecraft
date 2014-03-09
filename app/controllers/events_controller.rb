@@ -179,7 +179,7 @@ class EventsController < ApplicationController
 
       # late signups should be sent the warmup immediately
       mtg = @event.first_meeting
-      if mtg.send_warmup_at < Time.now
+      if (not mtg.send_warmup_at.blank?) and (mtg.send_warmup_at < Time.now)
         Message.create!(
           :from_user => mtg.event.host, 
           :to_user => current_user,
