@@ -1,18 +1,5 @@
 <%
   message ||= @message
-	unless message.apropos.is_a? Event
-		raise "Message (#{message.id}) is expected to be apropos of an Event"
-	end
-	event = message.apropos
-	location = event.location
 %>
 <%= message.body %>
-
-<%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %>
-<%= message.apropos.title %>
-<% if location.blank? %>
-	location TBD
-<% else %>
-	<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
-<% end %>
-<%= message.from_user.name %> <%= message.from_user.email %> <%= user_phone(message.from_user) %>
+<%= render 'user_mailer/text_footer', :message => message %>
