@@ -1,13 +1,20 @@
 <%
   message ||= @message
-	unless message.apropos.is_a? Event
-		raise "Message (#{message.id}) is expected to be apropos of an Event"
-	end
-	event = message.apropos
-	location = event.location
+  event = 
+    case message.apropos
+    when Workshop
+      message.apropos.ongoing_or_next_rerun
+    when Event
+      message.apropos
+    else
+      nil
+    end
+	location = event.try(:location)
 %>
 <p>
-  <%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
+  <% if event %>
+    <%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
+  <% end %>
 	<%= link_to message.apropos.title, message.apropos, :only_path => false %><br/>
 	<% if location.blank? %>
 		location TBD
