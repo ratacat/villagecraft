@@ -6,12 +6,23 @@ class NeighborhoodsController < ApplicationController
   # GET /neighborhoods
   # GET /neighborhoods.json
   def index
-    @neighborhoods = Neighborhood.all(:order => 'state, city')
+    @county = params[:county]
+    @state = (params[:state] || 'CA')
+    if @county
+      @neighborhoods = Neighborhood.where(:state => @state).where(:county => @county).order('state, city')
+    else
+      @neighborhoods = Neighborhood.all(:order => 'state, city')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @neighborhoods }
     end
+  end
+  
+  # GET /neighborhoods/counties(.:format) 
+  def counties
+    @states_n_counties = Neighborhood.select([:state, :county]).group([:state, :county]).order([:state, :county])
   end
 
   # GET /neighborhoods/1
