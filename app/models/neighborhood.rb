@@ -102,7 +102,12 @@ class Neighborhood < ActiveRecord::Base
     # FIXME if name is nil, try to extract from KML doc
     xml_doc  = Nokogiri::XML(kml_doc)
     kml = xml_doc.css("Polygon").first.to_s
-    Neighborhood.connection.insert("INSERT INTO neighborhoods (name, geom) VALUES ('#{name}', ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}'))))") 
+    new_id = Neighborhood.connection.insert("INSERT INTO neighborhoods (name, geom) VALUES ('#{name}', ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}'))))") 
+    if new_id
+      hood = Neighborhood.find(new_id)
+      hood.reverse_geocode
+      hood.destroy unless hood.save
+    end
   end
   
   protected
