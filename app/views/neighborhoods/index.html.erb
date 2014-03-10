@@ -3,7 +3,11 @@
     <i class="icon-plus icon-white"></i>
     New Neighborhood (from KML)
   <% end %>
-  <h1>All Neighborhoods</h1>
+  <% if @county %>
+    <h1><%= @county %> County, <%= @state %> Neighborhoods</h1>
+  <% else %>
+    <h1>All Neighborhoods</h1>
+  <% end %>
 </div>
 
 <table class="table table-bordered table-striped">

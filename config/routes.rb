@@ -33,7 +33,11 @@ Villagecraft::Application.routes.draw do
 
   get 'my_venues(.:format)' => 'venues#my_venues', :as => :my_venues
   resources :venues  
-  resources :neighborhoods
+  resources :neighborhoods do
+    collection do
+      get 'counties'
+    end
+  end
 
   resources :locations, :only => [:update]
   resources :sightings, :only => [:index]
