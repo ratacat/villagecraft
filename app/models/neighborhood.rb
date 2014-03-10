@@ -1,6 +1,7 @@
 class Neighborhood < ActiveRecord::Base
   attr_accessible :name, :city, :state, :county
   has_many :locations, :conditions => {:deleted_at => nil}
+  has_many :venues, :through => :locations
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
   validates :state, :length => {is: 2}
 
