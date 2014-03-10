@@ -60,7 +60,7 @@ class NeighborhoodsController < ApplicationController
 
     kml.gsub! /<name>.*<\/name>/, "<name>#{name}</name>"
 
-    Neighborhood.new_from_kml(kml)
+    Neighborhood.new_from_kml(kml, name)
 
     redirect_to edit_neighborhood_path(Neighborhood.last), notice: 'Neighborhood successfully created.'
   end
