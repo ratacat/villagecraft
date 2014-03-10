@@ -11,7 +11,7 @@ class Neighborhood < ActiveRecord::Base
     if geo = results.first
       obj.city = geo.city
       obj.state = geo.state_code
-      obj.county = geo.sub_state
+      obj.county = geo.sub_state.gsub(/county/i, '').strip
     end
   end
 
