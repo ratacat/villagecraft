@@ -125,6 +125,13 @@ class Location < ActiveRecord::Base
     l.reverse_geocode
     l
   end
+  
+  def Location.assign_locations_to_new_hood(hood)
+    Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
+      loc.send(:lookup_neighborhood)
+      loc.save if loc.neighborhood === hood
+    end    
+  end
 
   def lookup_and_set_neighborhood
     self.neighborhood = Neighborhood.find_by_lat_lon(self.latitude, self.longitude)

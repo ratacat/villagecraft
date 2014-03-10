@@ -89,11 +89,7 @@ class Neighborhood < ActiveRecord::Base
     Neighborhood.where(:city => nil).each do |hood|
       hood.reverse_geocode
       if hood.save
-        Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
-          loc.save
-        end
-      else
-        hood.destroy  # destroy the invalid hood
+        Location.assign_locations_to_new_hood(hood)
       end
     end
   end
@@ -106,7 +102,9 @@ class Neighborhood < ActiveRecord::Base
     if new_id
       hood = Neighborhood.find(new_id)
       hood.reverse_geocode
-      hood.destroy unless hood.save
+      if hood.save
+        Location.assign_locations_to_new_hood(hood)
+      end
     end
   end
   
