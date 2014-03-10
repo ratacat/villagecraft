@@ -408,38 +408,6 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 
 --
--- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE ratings (
-    id integer NOT NULL,
-    rater_id integer,
-    review_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: ratings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE ratings_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: ratings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE ratings_id_seq OWNED BY ratings.id;
-
-
---
 -- Name: reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -730,13 +698,6 @@ ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notification
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ratings ALTER COLUMN id SET DEFAULT nextval('ratings_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY reviews ALTER COLUMN id SET DEFAULT nextval('reviews_id_seq'::regclass);
 
 
@@ -838,14 +799,6 @@ ALTER TABLE ONLY neighborhoods
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
-
-
---
--- Name: ratings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY ratings
-    ADD CONSTRAINT ratings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1585,8 +1538,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140303201711');
 INSERT INTO schema_migrations (version) VALUES ('20140304212426');
 
 INSERT INTO schema_migrations (version) VALUES ('20140305004713');
-
-INSERT INTO schema_migrations (version) VALUES ('20140305110821');
 
 INSERT INTO schema_migrations (version) VALUES ('20140306082211');
 
