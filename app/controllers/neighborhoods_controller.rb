@@ -48,13 +48,9 @@ class NeighborhoodsController < ApplicationController
     kml = params[:neighborhood][:kml]
 
     kml.gsub! /<name>.*<\/name>/, "<name>#{name}</name>"
-    
-    Tempfile.open('neighborhood_kml', Rails.root.join('tmp') ) do |f|
-      f.print(kml)
-      f.flush
-      Neighborhood.new_from_kml(f.path)
-    end
-    
+
+    Neighborhood.new_from_kml(kml)
+
     redirect_to edit_neighborhood_path(Neighborhood.last), notice: 'Neighborhood successfully created.'
   end
 

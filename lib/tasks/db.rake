@@ -51,7 +51,7 @@ namespace :db do
   # E.g. rake db:load_kml_neighborhood[db/neighborhoods/north_berkeley.kml]
   task :load_kml_neighborhood, [:fn] => :environment do |t, args|
     kml_fn = args[:fn].strip
-    Neighborhood.new_from_kml(kml_fn)
+    Neighborhood.new_from_kml_fn(kml_fn)
   end
   
   task :load_kml_neighborhoods => :environment do
