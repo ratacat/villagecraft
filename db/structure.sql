@@ -341,9 +341,9 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 CREATE TABLE neighborhoods (
     id integer NOT NULL,
     state character varying(2),
-    county character varying(43),
-    city character varying(64),
-    name character varying(64),
+    county character varying(255),
+    city character varying(255),
+    name character varying(255),
     regionid numeric,
     geom geometry(MultiPolygon,4326)
 );
@@ -1599,3 +1599,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140307065313');
 INSERT INTO schema_migrations (version) VALUES ('20140307093032');
 
 INSERT INTO schema_migrations (version) VALUES ('20140307093132');
+
+INSERT INTO schema_migrations (version) VALUES ('20140310203645');
