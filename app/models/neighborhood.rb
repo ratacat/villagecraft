@@ -100,8 +100,8 @@ class Neighborhood < ActiveRecord::Base
 
   def Neighborhood.new_from_kml(kml_doc, name=nil)
     # FIXME if name is nil, try to extract from KML doc
-    xml_doc  = Nokogiri::XML(kml_doc.downcase)
-    kml = xml_doc.css("polygon").first.to_s
+    xml_doc  = Nokogiri::XML(kml_doc)
+    kml = xml_doc.css("Polygon").first.to_s
     Neighborhood.connection.insert("INSERT INTO neighborhoods (name, geom) VALUES ('#{name}', ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}'))))") 
   end
   
