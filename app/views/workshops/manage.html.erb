@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="span12">
+    <span class="pull-right">
+      <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
+      <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), :icon => 'pencil', :class => 'btn btn-default' %>
+    </span>
+    <h1>Manage workshop</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="span2">
+    <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>  
+  </div>
+  <div class="span6">
+    <p class="event_description clearfix">
+      <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
+    </p>
+  </div>  
+</div>
+<div class="span12">
+  <ul class="nav nav-tabs margin0">
+    <li class="active"><a href="#reruns" data-toggle="tab">Reruns</a></li>
+    <li><a href="#attendees" data-toggle="tab">Attendees</a></li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active" id="reruns">
+      <% if @workshop.events.count == 0 %>
+        None.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @workshop.events.ordered_by_first_meeting_start_time.reverse_order, :click_to_show => false, :show_icons => false, :show_manage_buttons => true, :editable => false %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="attendees">
+      <table class="table table-bordered table-striped" id='event_attendees'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile #</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @attendees.each do |user| -%>
+            <%= render 'users/row', :user => user %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

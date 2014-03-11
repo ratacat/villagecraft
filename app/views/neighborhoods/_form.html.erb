@@ -10,6 +10,7 @@
     <%= f.input :city, label: 'City' %>
     <%= f.input :state, label: 'State' %>
     <%= f.input :county, label: 'County' %>
+    <%= f.input :_kml, as: :text, label: 'KML', input_html: {rows: 5, value: (neighborhood._kml || neighborhood.as_kml)} %>
   </div>
 
   <div class="form-actions">

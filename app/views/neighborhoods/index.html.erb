@@ -3,7 +3,11 @@
     <i class="icon-plus icon-white"></i>
     New Neighborhood (from KML)
   <% end %>
-  <h1>All Neighborhoods</h1>
+  <% if @county %>
+    <h1><%= @county %> County, <%= @state %> Neighborhoods</h1>
+  <% else %>
+    <h1>All Neighborhoods</h1>
+  <% end %>
 </div>
 
 <table class="table table-bordered table-striped">
@@ -11,8 +15,12 @@
     <tr>
       <th>Name</th>
       <th>City</th>
-      <th>State</th>
-      <th>County</th>
+      <% unless @county %>
+        <th>State</th>
+        <th>County</th>
+      <% end %>
+      <th>Locations</th>
+      <th>Venues</th>
       <th></th>
     </tr>
   </thead>
@@ -26,8 +34,12 @@
         </span>
       </td>
       <td><%= neighborhood.city %></td>
-      <td><%= neighborhood.state %></td>
-      <td><%= neighborhood.county %></td>
+      <% unless @county %>
+        <td><%= neighborhood.state %></td>
+        <td><%= neighborhood.county %></td>
+      <% end %>
+      <td><%= neighborhood.locations.count %></td>
+      <td><%= neighborhood.venues.count %></td>
       <td>
         <%= iconic_link_to 'Edit', edit_neighborhood_path(neighborhood), class: 'btn btn-mini', title: 'edit' %>
         <%= iconic_link_to 'Delete', neighborhood, confirm: 'Are you sure?', method: :delete, class: 'btn btn-mini btn-danger', title: 'delete' %>

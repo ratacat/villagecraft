@@ -1,5 +1,6 @@
 <%
   show_icons ||= false
+  show_manage_buttons ||= false
   click_to_show ||= false
   editable ||= false
   update_reruns_count ||= false
@@ -16,13 +17,13 @@
     <th>Slots</th>
     <th>Venue</th>
     <th>Price</th>
-    <% if show_icons %>
+    <% if show_icons or show_manage_buttons %>
     <th></th>
     <% end %>
   </thead>
   <tbody>
     <% reruns.each do |rerun| %>
-      <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache, hide_flags: hide_flags %>
+      <%= render 'reruns/row', rerun: rerun, show_icons: show_icons, show_manage_buttons: show_manage_buttons, click_to_show: click_to_show, editable: editable, clear_source_cache: clear_source_cache, hide_flags: hide_flags %>
     <% end %>
   </tbody>
 </table>

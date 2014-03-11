@@ -1,5 +1,10 @@
 <div class="span12">
-  <h1>Edit workshop details</h1>
+  <span class="pull-right">
+    <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+  </span>
+  <h1>Edit workshop</h1>
   <%= render 'form' %>
 </div>
 <div class="span12">
@@ -25,6 +30,95 @@
     </div>
   </div>
 </div>
+
+<% unless @workshop.external? %>
+<div class="span12">
+<% if false %>
+  <dl>
+    <dt><h3>Listing</h3></dt>
+    <dd>
+      <ul class="media-list">
+        <div class="day_chunk">
+          <%= render 'workshops/show_in_index', :show_date => true %>
+        </div>
+      </ul>
+    </dd>
+    
+    <dt><h3>Signup</h3></dt>
+    <dd>
+      from workshop page: <%= workshop_title(@workshop, :linked_to => true) %>
+    </dd>
+<% end %>
+    <dt>
+      <h3>Greeting</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent immediately after signup</p>
+          <%= render 'workshops/greeting_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Think about including:
+            <ul>
+              <li>more information about your workshop</li>
+              <li>links to additional information</li>
+              <li>personalized directions to your space</li>
+              <li>best ways to contact you</li>
+              <li>things attendees need to bring</li>
+            </ul>
+          </p>
+          <p>
+            <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
+          </p>
+        </div>        
+      </div>
+    </dd>
+
+    <dt>
+      <h3>Warmup</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent two days before workshop</p>
+          <%= render 'workshops/warmup_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Get everyone pumped up with more detail about what they will be doing.
+          </p>
+          <p>
+            Anyone who signs up at the last minute and after this email is sent will receive it immediately.
+          </p>
+          <p>
+            <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
+          </p>
+        </div>        
+      </div>
+    </dd>
+
+    <dt>
+      <h3>Reminder</h3>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="span4">
+          <p class="muted">Sent 3+ hours before workshop</p>
+          <%= render 'workshops/reminder_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        </div>
+        <div class="span6">
+          <p>
+            Sent 3 hours before the workshop, except when that time falls between 9pm and 9am, in which case your attendees will receive the reminder the night before, at 8pm.
+          </p>
+        </div>        
+      </div>
+    </dd>
+
+  </dl>
+</div>
+<% end %>
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
 
@@ -42,6 +136,20 @@
       manage_attendees_button.hide();
     }
   }
+
+  // auto-submit form when any field is changed
+  $('form.edit_workshop :input').not("#workshop_image").change(function(){
+    show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+    $(this).closest('form').submit();
+  });
+  // hackish special-casing here so that Jansy fileinput has a chance to display the preview before the submit
+  $("#workshop_image").fileinput().on('change.bs.fileinput', function() {
+    var the_form = $(this).closest('form');
+    setTimeout(function () {
+      show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+      the_form.submit(); 
+    }, 1000);
+  });
 
   function editablize_meetings() {
     $('.editable[data-name="max_attendees"]').editable();
@@ -108,8 +216,8 @@
   
   $("#add_rerun_button").click(function(e) {
     $(this).popover('hide');
-    $.post("<%= auto_add_rerun_path(@workshop) %>", function(data, textStatus, jqXHR) {
-      $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+    $.post("<%= auto_add_rerun_workshop_path(@workshop) %>", function(data, textStatus, jqXHR) {
+      $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
         editablize_meetings();
         $("#future_reruns tbody tr:last-child td").highlight();
       });
@@ -146,7 +254,7 @@
   
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
-    $("#future_reruns").load("<%= reruns_partial_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+    $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
       vc_highlighter();
     });
@@ -162,7 +270,7 @@
   
   $(document).on('ajax:success', '#new_venue', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
-    $("#future_reruns").load("<%= reruns_partial_path(@workshop, :clear_source_cache => true) %>", function(responseText, textStatus, XMLHttpRequest) {
+    $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop, :clear_source_cache => true) %>", function(responseText, textStatus, XMLHttpRequest) {
       editablize_meetings();
       vc_highlighter();
     });

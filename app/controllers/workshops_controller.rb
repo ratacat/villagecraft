@@ -35,8 +35,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/1
-  # GET /workshops/1.json
+  # GET /w/1
+  # GET /w/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
     #@unreviewed_events = Review.return_all_pending_events_to_review_by_workshop_and_user(@workshop, current_user)
@@ -57,8 +57,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/new
-  # GET /workshops/new.json
+  # GET /w/new
+  # GET /w/new.json
   def new
     @workshop = Workshop.new
     if admin_session? and params[:external]
@@ -73,7 +73,7 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/1/edit
+  # GET /w/1/edit
   def edit
     @add_button_help =
       if @future_reruns.count + @past_reruns.count == 0
@@ -83,12 +83,12 @@ class WorkshopsController < ApplicationController
       end
   end
 
+  # GET /w/1/review_partial
   def review_partial
     @comments = Comment.return_all_reviews_by_workshop(@workshop)
   end
 
-
-  # GET /workshops/1/reruns_partial
+  # GET /w/1/reruns_partial
   def reruns_partial
     @reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true, :editable => true, :update_reruns_count => true, :clear_source_cache => params[:clear_source_cache]}
@@ -113,8 +113,8 @@ class WorkshopsController < ApplicationController
     end
   end
   
-  # PUT /workshops/1
-  # PUT /workshops/1.json
+  # PUT /w/1
+  # PUT /w/1.json
   def update
     respond_to do |format|
       if @workshop.update_attributes(workshop_params)
@@ -127,7 +127,12 @@ class WorkshopsController < ApplicationController
     end
   end
   
-  # POST /workshops/1/auto_add_rerun
+  # GET /w/:id/manage(.:format)
+  def manage
+    @attendees = @workshop.attendees.uniq
+  end
+  
+  # POST /w/1/auto_add_rerun
   def auto_add_rerun
     Event.auto_create_from_workshop(@workshop)
     respond_to do |format|
@@ -136,8 +141,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # DELETE /workshops/1
-  # DELETE /workshops/1.json
+  # DELETE /w/1
+  # DELETE /w/1.json
   def destroy
     @workshop.destroy
 
@@ -150,7 +155,7 @@ class WorkshopsController < ApplicationController
   
   protected
   def workshop_params
-    ok_params = [:title, :description, :frequency, :image]
+    ok_params = [:title, :description, :frequency, :image, :greeting_subject, :greeting_body, :warmup_subject, :warmup_body, :reminder]
     ok_params += [:external, :external_url, :host_id] if admin_session?
     params[:workshop].permit(*ok_params)
   end

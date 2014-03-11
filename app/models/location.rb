@@ -1,7 +1,6 @@
 class Location < ActiveRecord::Base
   attr_accessible :name, :city, :state_code, :street, :address
-  has_many :venues, :dependent => :destroy, :conditions => {:deleted_at => nil}
-  has_many :meetings, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :venues, :conditions => {:deleted_at => nil}
   belongs_to :neighborhood
   acts_as_paranoid
 
@@ -125,6 +124,13 @@ class Location < ActiveRecord::Base
     l.geocode
     l.reverse_geocode
     l
+  end
+  
+  def Location.assign_locations_in_state_to_hood(hood)
+    Location.where(:state_code => hood.state).each do |loc|
+      loc.send(:lookup_neighborhood)
+      loc.save if loc.neighborhood === hood
+    end    
   end
 
   def lookup_and_set_neighborhood

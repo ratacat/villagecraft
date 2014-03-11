@@ -17,29 +17,33 @@
       <% end %>
     <% end %>
   <% else %>
-    <% if event.slots_left > 0 %>
-      <% if user_signed_in? %>
-        <% if current_user.attending_event?(event) %>
-          <span class="text-success you_r_signed_up" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you signed up</span>                  
-        <% else %>
-          <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
-            <%= link_to attend_path(event), :class => "btn btn-success #{btn_classes} attend_event", :method => :post do -%>
-              <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %></i><%= cta %>
-            <% end -%>
+    <% if event.rsvp? %>
+      <% if event.slots_left > 0 %>
+        <% if user_signed_in? %>
+          <% if current_user.attending_event?(event) %>
+            <span class="text-success you_r_signed_up" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you signed up</span>
+          <% else %>
+            <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
+              <%= link_to attend_path(event), :class => "btn btn-success #{btn_classes} attend_event", :method => :post do -%>
+                <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %></i><%= cta %>
+              <% end -%>
+            <% end %>
+          <% end %>
+        <% else %> <!-- not user_signed_in? -->
+          <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
+            <h4 class="fee"><%= event_price(event) %></h4>
+          <% else %>
+            <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success <%= btn_classes %>">
+              <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %><%= cta %>
+            </button>
           <% end %>
         <% end %>
-      <% else %> <!-- not user_signed_in? -->
-        <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
-          <h4 class="fee"><%= event_price(event) %></h4>
-        <% else %>
-          <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success <%= btn_classes %>">
-            <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %><%= cta %>
-          </button>
-        <% end %>
+        <%= event_price(event) if show_price %>
+      <% else %>
+        <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
       <% end %>
-      <%= event_price(event) if show_price %>
-    <% else %>
-      <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
+    <% else %> <!-- not rsvp? -->
+      <span class="text-success">No need to sign up, just come on over.</span>
     <% end %>
   <% end %>
 <% else %>
