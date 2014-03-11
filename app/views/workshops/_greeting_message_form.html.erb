@@ -14,11 +14,6 @@
   <div class="form-inputs">
     <%= f.input :greeting_subject, label: 'Subject', input_html: {class: span}, placeholder: placeholder_subject %>
     <%= f.input :greeting_body, label: 'Body', input_html: {rows: 8, class: span}, placeholder: placeholder_body %>
-		<%= f.label :footer %>
-		<%= f.hint 'automatically included' %>
-		<div class="well">
-			<%= render 'user_mailer/footer', :message => Message.new(:apropos => workshop, :from_user => workshop.host) %>			
-		</div>
   </div>
 <% end %>
 
