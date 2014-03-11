@@ -608,6 +608,10 @@ blockquote.fancy cite:before {
   font-weight: normal;
   padding: 0.5em;
   background: $vc_bluegreen;
+
+  &.bio_pricing_tag{
+    background: none repeat scroll 0 0 #ffffff;
+  }
 }
 
 ul.attendees {
