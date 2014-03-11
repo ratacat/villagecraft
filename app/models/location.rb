@@ -126,8 +126,8 @@ class Location < ActiveRecord::Base
     l
   end
   
-  def Location.assign_locations_to_new_hood(hood)
-    Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
+  def Location.assign_locations_in_state_to_hood(hood)
+    Location.where(:state_code => hood.state).each do |loc|
       loc.send(:lookup_neighborhood)
       loc.save if loc.neighborhood === hood
     end    

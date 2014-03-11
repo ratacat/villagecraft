@@ -1,11 +1,13 @@
 class Neighborhood < ActiveRecord::Base
-  attr_accessible :name, :city, :state, :county
+  attr_accessor :_kml
+  attr_accessible :name, :city, :state, :county, :geom, :_kml
   has_many :locations, :conditions => {:deleted_at => nil}
   has_many :venues, :through => :locations
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
-  validates :state, :length => {is: 2}
+  validates :state, :length => {is: 2, allow_nil: true}
 
-  after_save :check_whether_any_locations_sans_hood_are_in_the_new_hood
+  before_save :assign_geom_from_kml
+  after_save :assign_locations_in_state_to_hood
   
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
@@ -88,9 +90,7 @@ class Neighborhood < ActiveRecord::Base
 
     Neighborhood.where(:city => nil).each do |hood|
       hood.reverse_geocode
-      if hood.save
-        Location.assign_locations_to_new_hood(hood)
-      end
+      hood.save
     end
   end
 
@@ -98,21 +98,28 @@ class Neighborhood < ActiveRecord::Base
     # FIXME if name is nil, try to extract from KML doc
     xml_doc  = Nokogiri::XML(kml_doc)
     kml = xml_doc.css("Polygon").first.to_s
-    new_id = Neighborhood.connection.insert("INSERT INTO neighborhoods (name, geom) VALUES ('#{name}', ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}'))))") 
-    if new_id
-      hood = Neighborhood.find(new_id)
-      hood.reverse_geocode
-      if hood.save
-        Location.assign_locations_to_new_hood(hood)
-      end
+    hood = Neighborhood.create!(:name => name, :geom => Neighborhood.hex_ewkt_from_kml(kml))
+    hood.reverse_geocode
+    hood.save
+  end
+
+  def Neighborhood.hex_ewkt_from_kml(kml)
+    if result = ActiveRecord::Base.connection.execute("SELECT ST_AsHEXEWKB(ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}')))) as hex_ewkt")
+      result.first["hex_ewkt"]
+    else
+      nil
     end
   end
   
   protected
-  def check_whether_any_locations_sans_hood_are_in_the_new_hood
-    Location.where(:neighborhood_id => nil).readonly(false) do |location|
-      location.lookup_and_set_neighborhood
-    end    
+  def assign_locations_in_state_to_hood
+    Location.assign_locations_in_state_to_hood(self)
+  end
+  
+  def assign_geom_from_kml
+    unless self._kml.blank?
+      self.geom = Neighborhood.hex_ewkt_from_kml(self._kml)
+    end
   end
   
 end
