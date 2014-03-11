@@ -1,9 +1,12 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
-  get "w/:id/reruns_partial" => 'workshops#reruns_partial', :as => :reruns_partial
-  post "w/:id/auto_add_rerun" => 'workshops#auto_add_rerun', :as => :auto_add_rerun
-  resources :w, controller: 'workshops', as: 'workshops'
+  resources :w, controller: 'workshops', as: 'workshops' do
+    member do
+      get 'reruns_partial'
+      post 'auto_add_rerun'
+    end
+  end
   resources :workshops, as: 'oldstyle_workshops'
 
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
