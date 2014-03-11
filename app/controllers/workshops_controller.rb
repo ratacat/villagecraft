@@ -115,6 +115,11 @@ class WorkshopsController < ApplicationController
     end
   end
   
+  # GET /w/:id/manage(.:format)
+  def manage
+    @attendees = @workshop.attendees.uniq
+  end
+  
   # POST /workshops/1/auto_add_rerun
   def auto_add_rerun
     Event.auto_create_from_workshop(@workshop)

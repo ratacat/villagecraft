@@ -3,6 +3,7 @@ Villagecraft::Application.routes.draw do
 
   resources :w, controller: 'workshops', as: 'workshops' do
     member do
+      get 'manage'
       get 'reruns_partial'
       post 'auto_add_rerun'
     end
