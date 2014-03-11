@@ -1,5 +1,10 @@
 <div class="span12">
-  <h1>Edit workshop <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger pull-right', title: 'delete workshop' %></h1>
+  <span class="pull-right">
+    <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+  </span>
+  <h1>Edit workshop</h1>
   <%= render 'form' %>
 </div>
 <div class="span12">
