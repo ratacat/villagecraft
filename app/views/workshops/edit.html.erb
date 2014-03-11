@@ -26,6 +26,7 @@
   </div>
 </div>
 
+<% unless @workshop.external? %>
 <div class="span12">
   <h2>Attendee Experience</h2>
 <% if false %>
@@ -113,6 +114,7 @@
 
   </dl>
 </div>
+<% end %>
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
 
