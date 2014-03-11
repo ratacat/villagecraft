@@ -41,7 +41,7 @@ class Event < ActiveRecord::Base
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
   before_save :propogate_changes_to_dependant_meetings
-  after_save :touch_to_expire_cached_fragments
+  after_save :touch_to_expire_cached_fragments, :propogate_changes_to_parent_workshop
   
   validates :workshop, :presence => true
   validates :host_id, presence: true
@@ -126,7 +126,7 @@ class Event < ActiveRecord::Base
     if self.image.blank?
       Event.placeholder_src(size)
     else
-      self.image.img.url(size)
+      self.image.i.url(size)
     end
   end
   
@@ -230,6 +230,12 @@ class Event < ActiveRecord::Base
 
   def touch_to_expire_cached_fragments
     self.workshop.touch
+  end
+  
+  def propogate_changes_to_parent_workshop
+    if not self.external_url.blank? and self.workshop.external_url.blank?
+      self.workshop.update_attribute(:external_url, self.external_url)
+    end
   end
   
 end

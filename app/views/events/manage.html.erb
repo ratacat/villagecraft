@@ -20,8 +20,8 @@
           <%= render 'reruns/message_attendees', :rerun => @event %>
         </div>
         <div class='tab-pane' id='compose_email'>
-          <%= render 'messages/form', :message => Message.new, :apropos => @event %>
-        </div>        
+          <%= render 'messages/form', :message => Message.new(:apropos => @event) %>
+        </div>
       </div>
     </div>
     <div class="row">

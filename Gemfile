@@ -36,6 +36,7 @@ gem 'uuidtools'
 
 gem 'public_activity'
 
+gem 'aws-sdk'
 gem "paperclip", "~> 3.0"
 
 gem 'state_machine'

@@ -25,3 +25,4 @@ public/system/images/
 public/system/paperclip_attachments.yml
 
 .idea/
+*.output

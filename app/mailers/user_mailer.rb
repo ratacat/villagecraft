@@ -14,6 +14,11 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: "Confirm your sign up for: #{@event.title}")
   end
   
+  def message_email(message, to_email)
+    @message = message
+    mail(to: to_email, subject: @message.subject, reply_to: @message.from_user.email)
+  end
+  
   def notification_email(notification)
     activity = notification.activity
     @notification = notification
@@ -36,10 +41,6 @@ class UserMailer < ActionMailer::Base
         "New Venue for Villagecraft Workshop: #{@event.title}"
       when 'event.interested'
         "#{activity.owner.name} is interested in attending #{@event.title}"
-      when "event.email"
-        message_uuid = activity.parameters[:uuid]
-        @message = Message.find_by_uuid(message_uuid)
-        @message.subject
       else
         "Villagecraft Notification"
       end
