@@ -167,6 +167,28 @@ class EventsController < ApplicationController
     else
       current_user.attends << @event
       @event.create_activity key: 'event.interested', owner: current_user
+      
+      unless (@event.workshop.greeting_subject.blank?)
+        # create the greeting email to be sent right away
+        Message.create!(:from_user => @event.host,
+                        :to_user => current_user, 
+                        :apropos => @event, 
+                        :subject => @event.workshop.greeting_subject,
+                        :body => @event.workshop.greeting_body)
+      end
+
+      # late signups should be sent the warmup immediately
+      mtg = @event.first_meeting
+      if (not mtg.send_warmup_at.blank?) and (mtg.send_warmup_at < Time.now)
+        Message.create!(
+          :from_user => mtg.event.host, 
+          :to_user => current_user,
+          :send_at => 1.minute.from_now,
+          :apropos => mtg.workshop,
+          :subject => mtg.workshop.warmup_subject,
+          :body => mtg.workshop.warmup_body)
+      end
+      
       respond_to do |format|
         format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
         format.json { head :no_content }
@@ -190,7 +212,7 @@ class EventsController < ApplicationController
   # POST /cancel_attend/1.json
   def cancel_attend
     if params[:user_uuid]
-      return unless current_user.is_host_of?(@event)
+      be_host_or_be_admin(@event) # FIXME: use cancan for this?
       @user = User.find_by_uuid(params[:user_uuid])
       if @user.blank?
         render_error(:message => "User not found.", :status => 404)
@@ -213,7 +235,7 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      @notice = current_user.is_host_of?(@event) ? "#{@user.name}'s attendence has been canceled" : 'Your attendence has been canceled'
+      @notice = 'Attendence canceled'
       format.js
       format.html {
         if current_user.is_host_of?(@event)

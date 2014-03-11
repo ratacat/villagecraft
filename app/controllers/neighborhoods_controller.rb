@@ -1,4 +1,3 @@
-require 'tempfile'
 class NeighborhoodsController < ApplicationController
   load_and_authorize_resource
   skip_load_resource :only => :create
@@ -6,12 +5,23 @@ class NeighborhoodsController < ApplicationController
   # GET /neighborhoods
   # GET /neighborhoods.json
   def index
-    @neighborhoods = Neighborhood.all(:order => 'state, city')
+    @county = params[:county]
+    @state = (params[:state] || 'CA')
+    if @county
+      @neighborhoods = Neighborhood.where(:state => @state).where(:county => @county).order('state, city')
+    else
+      @neighborhoods = Neighborhood.all(:order => 'state, city')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @neighborhoods }
     end
+  end
+  
+  # GET /neighborhoods/counties(.:format) 
+  def counties
+    @states_n_counties = Neighborhood.select([:state, :county]).group([:state, :county]).order([:state, :county])
   end
 
   # GET /neighborhoods/1
@@ -48,13 +58,9 @@ class NeighborhoodsController < ApplicationController
     kml = params[:neighborhood][:kml]
 
     kml.gsub! /<name>.*<\/name>/, "<name>#{name}</name>"
-    
-    Tempfile.open('neighborhood_kml', Rails.root.join('tmp') ) do |f|
-      f.print(kml)
-      f.flush
-      Neighborhood.new_from_kml(f.path)
-    end
-    
+
+    Neighborhood.new_from_kml(kml, name)
+
     redirect_to edit_neighborhood_path(Neighborhood.last), notice: 'Neighborhood successfully created.'
   end
 

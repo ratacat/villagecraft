@@ -267,7 +267,11 @@ CREATE TABLE meetings (
     updated_at timestamp without time zone NOT NULL,
     uuid character varying(255),
     event_id integer,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    send_warmup_at timestamp without time zone,
+    sent_warmup_at timestamp without time zone,
+    send_reminder_at timestamp without time zone,
+    sent_reminder_at timestamp without time zone
 );
 
 
@@ -337,9 +341,9 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 CREATE TABLE neighborhoods (
     id integer NOT NULL,
     state character varying(2),
-    county character varying(43),
-    city character varying(64),
-    name character varying(64),
+    county character varying(255),
+    city character varying(255),
+    name character varying(255),
     regionid numeric,
     geom geometry(MultiPolygon,4326)
 );
@@ -631,7 +635,12 @@ CREATE TABLE workshops (
     deleted_at timestamp without time zone,
     external boolean,
     external_url character varying(255),
-    venue_id integer
+    venue_id integer,
+    greeting_subject character varying(255),
+    greeting_body text,
+    warmup_subject character varying(255),
+    warmup_body text,
+    reminder character varying(255)
 );
 
 
@@ -1003,6 +1012,34 @@ CREATE INDEX index_locations_on_point ON locations USING gist (point);
 --
 
 CREATE INDEX index_meetings_on_deleted_at ON meetings USING btree (deleted_at);
+
+
+--
+-- Name: index_meetings_on_send_reminder_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_send_reminder_at ON meetings USING btree (send_reminder_at);
+
+
+--
+-- Name: index_meetings_on_send_warmup_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_send_warmup_at ON meetings USING btree (send_warmup_at);
+
+
+--
+-- Name: index_meetings_on_sent_reminder_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_sent_reminder_at ON meetings USING btree (sent_reminder_at);
+
+
+--
+-- Name: index_meetings_on_sent_warmup_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_meetings_on_sent_warmup_at ON meetings USING btree (sent_warmup_at);
 
 
 --
@@ -1550,3 +1587,17 @@ INSERT INTO schema_migrations (version) VALUES ('20140304212426');
 INSERT INTO schema_migrations (version) VALUES ('20140305004713');
 
 INSERT INTO schema_migrations (version) VALUES ('20140305110821');
+
+INSERT INTO schema_migrations (version) VALUES ('20140306082211');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065103');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065212');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307065313');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307093032');
+
+INSERT INTO schema_migrations (version) VALUES ('20140307093132');
+
+INSERT INTO schema_migrations (version) VALUES ('20140310203645');

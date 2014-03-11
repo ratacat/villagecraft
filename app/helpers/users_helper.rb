@@ -51,7 +51,9 @@ module UsersHelper
   end
   
   def user_phone(user)
-    number_to_phone user.phone[2..-1], area_code: true
+    unless user.phone.blank?
+      number_to_phone user.phone[2..-1], area_code: true      
+    end
   end
   
   def formatted_velocity(user)
