@@ -1,7 +1,7 @@
 <div class="row">
   <div class="span12">
     <h1>New <%= @workshop.external ? 'External Workshop' : 'Workshop' %></h1>
-    <%= render 'form' %>
+    <%= render 'form', :show_submit_button => true %>
   </div>
 </div>
 
