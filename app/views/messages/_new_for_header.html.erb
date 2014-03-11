@@ -1,0 +1,8 @@
+<% message ||= @message %>
+<% case message.apropos %>
+<% when Workshop, Event %>
+  <h2>New message for <%= message.to_user.name %></h2>
+  <p>about <%= link_to message.apropos.title, message.apropos %></p>
+<% when User %>
+  <h2>New message for <%= message.apropos.name %></h2>
+<% end %>

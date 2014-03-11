@@ -1,8 +1,9 @@
 <%
   workshop ||= @workshop
   show_date ||= false
+  rerun = workshop.ongoing_or_next_rerun
 %>
-<% cache workshop.cache_key("in_index_date_#{show_date}") do -%>
+<% cache workshop.cache_key("in_index_date_#{show_date}_#{rerun.try(:uuid)}") do -%>
 <li class="media badged clearfix">
   <a class="pull-left badge_me" href="<%= workshop_path(workshop) %>">
     <%= image_tag workshop.img_src(:medium), :class => 'img-rounded' %>
@@ -14,7 +15,7 @@
     <% end %>
 
     <h4 class="start_time blocky_spns">
-      <% if rerun = workshop.ongoing_or_next_rerun %>
+      <% if rerun %>
         <%= meeting_time(rerun.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %>
         <% if false #  rerun.first_meeting.start_time - Time.now < 10.days %>
           <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
@@ -26,7 +27,7 @@
 
     <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
     <div class="row">
-      <% if rerun = workshop.ongoing_or_next_rerun %>
+      <% if rerun %>
         <div class="span3">
           <p>
             <%= render 'reruns/location', :rerun => rerun %>

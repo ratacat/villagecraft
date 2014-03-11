@@ -24,8 +24,10 @@ class MessagesController < ApplicationController
   # GET /messages/new
   # GET /messages/new.json
   def new
-    @message = message.new
-
+    @message = Message.new(params[:message])
+    @message.send(:find_apropos)
+    @message.send(:find_to_user)
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @message }
@@ -37,16 +39,17 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(params[:message])
     @message.from_user = current_user
-    
+
     respond_to do |format|
       if @message.save
-        case @message.apropos
-        when Event
-          @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
+        unless @message.to_user
+          case @message.apropos
+          when Event
+            @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
+          end
         end
-        format.js { render :refresh_messages_select }
         format.html { redirect_to @message, notice: 'message was successfully created.' }
-        format.json { render json: @message, status: :created, location: @message }
+        format.json { render json: {}, status: :created, location: @message }
       else
         format.js { render :json => { :errors => @message.errors.full_messages, :message => "Problem creating new message" }, :status => :unprocessable_entity }
         format.html { render action: "new" }
@@ -54,5 +57,4 @@ class MessagesController < ApplicationController
       end
     end
   end
-  
 end

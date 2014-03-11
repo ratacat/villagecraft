@@ -8,7 +8,7 @@
                            :size => :large, :img_url => @user.profile_img_src(:large), :crop => true} %>
 
     <%= f.input :name, label: 'Name' %>
-    <% if admin_session? %>
+    <% if admin_session? and not @user.external? %>
       <%= f.input :email, label: 'Email' %>
     <% end %>
     <% if @user.host? %>

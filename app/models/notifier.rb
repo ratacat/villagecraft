@@ -37,8 +37,6 @@ class Notifier < ActiveRecord::Observer
         # For MVP, only target host(s)
       when 'event.sms'
         targets += event.attendees
-      when 'event.email'
-        targets += event.attendees
       end
     when 'Workshop'
       # NOOP
