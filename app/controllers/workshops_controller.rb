@@ -34,8 +34,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/1
-  # GET /workshops/1.json
+  # GET /w/1
+  # GET /w/1.json
   def show
     # w.events.joins(:meetings).order('"meetings"."start_time"')
     respond_to do |format|
@@ -50,8 +50,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/new
-  # GET /workshops/new.json
+  # GET /w/new
+  # GET /w/new.json
   def new
     @workshop = Workshop.new
     if admin_session? and params[:external]
@@ -66,7 +66,7 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # GET /workshops/1/edit
+  # GET /w/1/edit
   def edit
     @add_button_help =
       if @future_reruns.count + @past_reruns.count == 0
@@ -76,7 +76,7 @@ class WorkshopsController < ApplicationController
       end
   end
 
-  # GET /workshops/1/reruns_partial
+  # GET /w/1/reruns_partial
   def reruns_partial
     @reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     render :partial => 'reruns/index', :locals => {:reruns => @reruns, :click_to_show => false, :show_icons => true, :editable => true, :update_reruns_count => true, :clear_source_cache => params[:clear_source_cache]}
@@ -101,8 +101,8 @@ class WorkshopsController < ApplicationController
     end
   end
   
-  # PUT /workshops/1
-  # PUT /workshops/1.json
+  # PUT /w/1
+  # PUT /w/1.json
   def update
     respond_to do |format|
       if @workshop.update_attributes(workshop_params)
@@ -120,7 +120,7 @@ class WorkshopsController < ApplicationController
     @attendees = @workshop.attendees.uniq
   end
   
-  # POST /workshops/1/auto_add_rerun
+  # POST /w/1/auto_add_rerun
   def auto_add_rerun
     Event.auto_create_from_workshop(@workshop)
     respond_to do |format|
@@ -129,8 +129,8 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # DELETE /workshops/1
-  # DELETE /workshops/1.json
+  # DELETE /w/1
+  # DELETE /w/1.json
   def destroy
     @workshop.destroy
 
