@@ -1,15 +1,19 @@
 class Neighborhood < ActiveRecord::Base
-  attr_accessible :name, :city, :state, :county
-  has_many :locations, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  attr_accessor :_kml
+  attr_accessible :name, :city, :state, :county, :geom, :_kml
+  has_many :locations, :conditions => {:deleted_at => nil}
+  has_many :venues, :through => :locations
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
+  validates :state, :length => {is: 2, allow_nil: true}
 
-  after_save :check_whether_any_locations_sans_hood_are_in_the_new_hood
+  before_save :assign_geom_from_kml
+  after_save :assign_locations_in_state_to_hood
   
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
       obj.city = geo.city
       obj.state = geo.state_code
-      obj.county = geo.sub_state
+      obj.county = geo.sub_state.gsub(/county/i, '').strip
     end
   end
 
@@ -74,34 +78,48 @@ class Neighborhood < ActiveRecord::Base
     Neighborhood.where("ST_Within(ST_SetSRID(ST_MakePoint(#{lon},#{lat}), 4326), geom)=true").first
   end
   
-  def Neighborhood.new_from_kml(kml_fn)
+  def Neighborhood.new_from_kml_fn(kml_fn)
     db_config = ActiveRecord::Base.configurations[Rails.env]
     host = db_config["host"]
     db = db_config["database"]
     username = db_config["username"]
     password = db_config["password"]
     ogr2ogr_options = '-append -nlt MULTIPOLYGON -nln neighborhoods -f "PostgreSQL"'
-    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : '/usr/share/gdal'
+    gdal_data_path = Rails.env.development? ? "/Applications/Postgres.app/Contents/MacOS/share/gdal" : '/usr/local/share/gdal'
     `export GDAL_DATA=#{gdal_data_path}; ogr2ogr #{ogr2ogr_options} PG:"host=#{host} user=#{username} dbname=#{db} password=#{password}" #{kml_fn}`
 
     Neighborhood.where(:city => nil).each do |hood|
       hood.reverse_geocode
-      if hood.save
-        Location.where(:state_code => hood.state, :city => hood.city).each do |loc|
-          loc.save
-        end
-      else
-        hood.destroy  # destroy the invalid hood
-      end
+      hood.save
     end
-    
+  end
+
+  def Neighborhood.new_from_kml(kml_doc, name=nil)
+    # FIXME if name is nil, try to extract from KML doc
+    xml_doc  = Nokogiri::XML(kml_doc)
+    kml = xml_doc.css("Polygon").first.to_s
+    hood = Neighborhood.create!(:name => name, :geom => Neighborhood.hex_ewkt_from_kml(kml))
+    hood.reverse_geocode
+    hood.save
+  end
+
+  def Neighborhood.hex_ewkt_from_kml(kml)
+    if result = ActiveRecord::Base.connection.execute("SELECT ST_AsHEXEWKB(ST_Force_2D(ST_Multi(ST_GeomFromKML('#{kml}')))) as hex_ewkt")
+      result.first["hex_ewkt"]
+    else
+      nil
+    end
   end
   
   protected
-  def check_whether_any_locations_sans_hood_are_in_the_new_hood
-    Location.where(:neighborhood_id => nil).readonly(false) do |location|
-      location.lookup_and_set_neighborhood
-    end    
+  def assign_locations_in_state_to_hood
+    Location.assign_locations_in_state_to_hood(self)
+  end
+  
+  def assign_geom_from_kml
+    unless self._kml.blank?
+      self.geom = Neighborhood.hex_ewkt_from_kml(self._kml)
+    end
   end
   
 end

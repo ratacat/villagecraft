@@ -1,9 +1,13 @@
 Villagecraft::Application.routes.draw do
   get "users_controller/users"
 
-  get "w/:id/reruns_partial" => 'workshops#reruns_partial', :as => :reruns_partial
-  post "w/:id/auto_add_rerun" => 'workshops#auto_add_rerun', :as => :auto_add_rerun
-  resources :w, controller: 'workshops', as: 'workshops'
+  resources :w, controller: 'workshops', as: 'workshops' do
+    member do
+      get 'manage'
+      get 'reruns_partial'
+      post 'auto_add_rerun'
+    end
+  end
   resources :workshops, as: 'oldstyle_workshops'
 
   post 'w/:id/reviews(.:format)' => 'reviews#create', :as => :add_review
@@ -45,7 +49,11 @@ Villagecraft::Application.routes.draw do
 
   get 'my_venues(.:format)' => 'venues#my_venues', :as => :my_venues
   resources :venues  
-  resources :neighborhoods
+  resources :neighborhoods do
+    collection do
+      get 'counties'
+    end
+  end
 
   resources :locations, :only => [:update]
   resources :sightings, :only => [:index]

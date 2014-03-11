@@ -1,7 +1,5 @@
-Message from <%= @message.from_user.name %> about <%= @message.apropos.title %>.
-
-<%= @message.body %>
-
-<%= @message.from_user.name %>
-email: <%= @message.from_user.email %>
-mobile#: <%= user_phone(@message.from_user) %> 
+<%
+  message ||= @message
+%>
+<%= message.body %>
+<%= render 'user_mailer/text_footer', :message => message %>

@@ -21,7 +21,7 @@
       <td class="blocky_spns">
         <% if workshop.next_meeting.blank? %>
           <%= iconic_link_to 'Schedule', 
-                             auto_add_rerun_path(workshop), 
+                             auto_add_rerun_workshop_path(workshop), 
                              :icon => 'plus', :class => 'btn btn-success', :method => :post %>
         <% else %>
           <div><%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %></div>
