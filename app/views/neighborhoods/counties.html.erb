@@ -1,0 +1,5 @@
+<ul>
+  <% @states_n_counties.each do |snc| -%>
+    <li><%= link_to "#{snc.county}, #{snc.state}", neighborhoods_path(:state => snc.state, :county => snc.county) %></li>
+  <% end -%>
+</ul>

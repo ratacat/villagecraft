@@ -38,7 +38,12 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(params[:message])
-    @message.from_user = current_user
+    if admin_session? and (not @message.to_user)
+      @message.send(:find_apropos)
+      @message.from_user = @message.apropos.host
+    else
+      @message.from_user = current_user
+    end
 
     respond_to do |format|
       if @message.save
@@ -48,11 +53,11 @@ class MessagesController < ApplicationController
             @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
           end
         end
-        format.html { redirect_to @message, notice: 'message was successfully created.' }
+        format.html { redirect_to @message, notice: 'Message created.' }
         format.json { render json: {}, status: :created, location: @message }
       else
         format.js { render :json => { :errors => @message.errors.full_messages, :message => "Problem creating new message" }, :status => :unprocessable_entity }
-        format.html { render action: "new" }
+        format.html { render_error(:message => "Trouble saving message.", :status => 403) }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end

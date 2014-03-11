@@ -44,6 +44,8 @@ module ActivitiesHelper
     when 'event.host_cancels_attend'
       html << "are no longer signed up to attend".html_safe
     when 'event.sms'
+      html << "sent a reminder to the attendees of".html_safe
+    when 'meeting.reminder'
       html << "sent a message to the attendees of".html_safe
     when 'event.email'
       html << "emailed ".html_safe
@@ -113,7 +115,7 @@ module ActivitiesHelper
     
     # Activity body (image thumbnail, new venue, new time, SMS message, etc.)
     case activity.key
-    when 'event.sms'
+    when 'event.sms', 'meeting.reminder'
       html << ': "'.html_safe if options[:plaintext]
       html << content_tag(:blockquote, activity.parameters[:message], :class => "fancy indent-#{options[:profile_image_size]}")
       html << '"'.html_safe if options[:plaintext]

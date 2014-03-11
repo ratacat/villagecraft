@@ -1,5 +1,6 @@
 <%
   show_icons ||= false
+  show_manage_buttons ||= false
   click_to_show ||= false
   editable ||= false
   clear_source_cache ||= false
@@ -60,8 +61,17 @@
     <td><%= rerun.max_attendees %></td>
     <td><%= inline_venue(rerun.venue) %></td>
     <td><%= rerun_price(rerun) %></td>
-    <% if show_icons and not rerun.occurred? %>
-    <td><%= render 'reruns/icon_buttons', :rerun => rerun %></td>
+    <% if show_icons or show_manage_buttons %>
+    <td>
+      <% if show_manage_buttons %>
+        <span class="manage_attendees<%= ' initially_hidden' unless rerun.manageable? %>">
+          <%= iconic_link_to("Manage", manage_event_path(rerun), :icon => 'group', :class => "btn btn-small") %>
+        </span>
+      <% end %>
+      <% if show_icons %>
+        <%= render 'reruns/icon_buttons', :rerun => rerun %>
+      <% end %>
+    </td>
     <% end %>
   </tr>
 <% end %>    

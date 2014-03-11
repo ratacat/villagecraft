@@ -12,6 +12,7 @@ class Workshop < ActiveRecord::Base
   belongs_to :image
   belongs_to :host, :class_name => 'User'
   has_many :events, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :attendees, :through => :events
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
   has_many :locations, :through => :events
