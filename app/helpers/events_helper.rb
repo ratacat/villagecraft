@@ -1,11 +1,11 @@
 module EventsHelper
   def event_price(event, options={})
     defaults = {
-      :show_materials_fee => false,
-      :free_msg => 'Free'
+        :show_materials_fee => false,
+        :free_msg => 'Free'
     }
     options.reverse_merge!(defaults)
-    
+
     if event.price.blank? or event.price === 0
       options[:free_msg]
     else
@@ -15,7 +15,27 @@ module EventsHelper
     end
   end
   alias :rerun_price :event_price
-  
+
+  def event_price_css(event, options={})
+    defaults = {
+        :show_materials_fee => false
+    }
+    options.reverse_merge!(defaults)
+
+    if event.price.blank? or event.price === 0
+      content_tag(:span,'', :class => "bio free")
+    else
+      html = content_tag(:span,'',:class => "bio nr_dolar")+
+          content_tag(:span,'',:class => "bio nr_#{event.price.to_i}")
+      html += content_tag(:span,' materials fee') if options[:show_materials_fee]
+      html
+    end
+  end
+  alias :rerun_price_css :event_price_css
+
+
+
+
   def annotated_event_title(event, options={})
     html = ''.html_safe
     html << event.title
@@ -25,24 +45,24 @@ module EventsHelper
     end
     html
   end
-  
+
   def blur_event_location?(event)
     not (user_signed_in? and (current_user === event.host or current_user.attending_event?(event)))
   end
-  
+
   def attends_status(event, options={})
     defaults = {
-      :show_interest => false
+        :show_interest => false
     }
     options.reverse_merge!(defaults)
-    
+
     attends = event.attendances.count
 #    attends = event.attendances.with_state(:attending).count
 #    applied = event.attendances.with_state(:interested).count
 
     html = "#{pluralize(attends, 'attendee')}"
     if options[:show_interest]
-      html += " (#{applied} interested)" if applied > 0      
+      html += " (#{applied} interested)" if applied > 0
     end
     html
   end
@@ -50,7 +70,7 @@ module EventsHelper
   def event_size(event)
     "#{event.min_attendees}-#{event.max_attendees} attendees"
   end
-  
+
   def slots_status(event)
     attends = event.attendances.count
 #    attends = event.attendances.with_state(:attending).count
