@@ -128,6 +128,7 @@ GEM
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
     geocoder (1.1.9)
+    god (0.13.4)
     google_timezone (0.0.1)
     googlestaticmap (1.2.2)
     handlebars_assets (0.15)
@@ -338,6 +339,7 @@ DEPENDENCIES
   factory_girl_rails
   font-awesome-sass-rails
   geocoder
+  god
   google_timezone
   googlestaticmap
   handlebars_assets
