@@ -207,6 +207,8 @@ GEM
       i18n (>= 0.5.0)
       railties (>= 3.0.0)
     public_suffix (1.4.2)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -355,6 +357,7 @@ DEPENDENCIES
   possessive
   public_activity
   public_suffix
+  quiet_assets
   rack-google_analytics
   rack-rewrite
   rails (= 3.2.17)
