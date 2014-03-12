@@ -168,7 +168,7 @@ class EventsController < ApplicationController
       current_user.attends << @event
       @event.create_activity key: 'event.interested', owner: current_user
       
-      unless (@event.workshop.greeting_subject.blank?)
+      unless (@event.workshop.greeting_subject.blank? or @event.workshop.greeting_body.blank?)
         # create the greeting email to be sent right away
         Message.create!(:from_user => @event.host,
                         :to_user => current_user, 

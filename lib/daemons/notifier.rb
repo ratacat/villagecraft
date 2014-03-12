@@ -73,12 +73,14 @@ while($running) do
   # see whether any warmup messages need to be sent out
   Meeting.where(:sent_warmup_at => nil).where("send_warmup_at < ?", Time.now).each do |mtg|
     begin
-      msg = Message.create!(
-        :from_user => mtg.event.host, 
-        :apropos => mtg.event,
-        :subject => mtg.workshop.warmup_subject,
-        :body => mtg.workshop.warmup_body)
-      @logger.info %Q(Warmup message (#{msg.id}) queued for meeting (#{mtg.id})\n)
+      unless mtg.workshop.warmup_subject.blank? or mtg.workshop.warmup_body.blank?
+        msg = Message.create!(
+          :from_user => mtg.event.host, 
+          :apropos => mtg.event,
+          :subject => mtg.workshop.warmup_subject,
+          :body => mtg.workshop.warmup_body)
+        @logger.info %Q(Warmup message (#{msg.id}) queued for meeting (#{mtg.id})\n)        
+      end
     rescue Exception => e
       handle_exception(e)
     end
@@ -87,8 +89,10 @@ while($running) do
   # see whether any reminder messages need to be sent out
   Meeting.where(:sent_reminder_at => nil).where("send_reminder_at < ?", Time.now).each do |mtg|
     begin
-      mtg.create_activity(key: 'meeting.reminder', owner: mtg.event.host, parameters: {:message => mtg.workshop.reminder})
-      @logger.info %Q(Reminder created for meeting (#{mtg.id})\n)
+      unless mtg.workshop.reminder.blank?
+        mtg.create_activity(key: 'meeting.reminder', owner: mtg.event.host, parameters: {:message => mtg.workshop.reminder})
+        @logger.info %Q(Reminder created for meeting (#{mtg.id})\n)        
+      end
     rescue Exception => e
       handle_exception(e)
     end
