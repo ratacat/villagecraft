@@ -87,6 +87,7 @@ group :development do
 end
 
 group :production do
+  gem 'god'
   gem 'therubyracer'
   gem 'execjs'
   gem 'unicorn'
