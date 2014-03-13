@@ -81,6 +81,7 @@ while($running) do
           :body => mtg.workshop.warmup_body)
         @logger.info %Q(Warmup message (#{msg.id}) queued for meeting (#{mtg.id})\n)        
       end
+      mtg.update_attribute(:send_warmup_at, Time.now)
     rescue Exception => e
       handle_exception(e)
     end
@@ -93,6 +94,7 @@ while($running) do
         mtg.create_activity(key: 'meeting.reminder', owner: mtg.event.host, parameters: {:message => mtg.workshop.reminder})
         @logger.info %Q(Reminder created for meeting (#{mtg.id})\n)        
       end
+      mtg.update_attribute(:sent_reminder_at, Time.now)
     rescue Exception => e
       handle_exception(e)
     end
