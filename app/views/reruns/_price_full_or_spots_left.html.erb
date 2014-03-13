@@ -1,5 +1,14 @@
+<%
+use_sprites ||= false
+%>
 <% if rerun %>
-  <p><%= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %></p>
+  <p>
+    <% if use_sprites %>
+      <%= link_to event_price_css(rerun), rerun.workshop, :class => "label price_tag bio_pricing_tag" %>
+    <% else %>
+      <%= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %>
+    <% end %>
+  </p>
   <% if rerun.rsvp? %>
     <% if rerun.full? %>
       <p>full</p>
