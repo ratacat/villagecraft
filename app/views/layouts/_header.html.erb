@@ -46,6 +46,9 @@
           <li class="divider"></li>
           <% end %>
           <li><%= link_to 'Settings', edit_preferences_path %></li>
+          <% if false %>
+            <li><%= link_to 'Reviews', reviews_path %></li>
+          <% end %>
           <% if session[:admin_mode] %>
             <li class="divider"></li>
             <li><%= link_to 'Admin Dashboard', admin_path %></li>                
