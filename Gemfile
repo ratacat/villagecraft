@@ -14,7 +14,7 @@ gem 'pg'
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'paranoia', :git => "git://github.com/radar/paranoia.git"
+gem 'paranoia', '~> 1.0'
 
 gem 'simple_form'
 gem 'x-editable-rails', :git => "git://github.com/bteitelb/x-editable-rails"
@@ -70,7 +70,7 @@ gem 'jquery-rails'
 group :development do
   gem 'thin'
   gem 'rack-rewrite'
-  gem 'factory_girl_rails', :require => false
+  gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 2.13'
   gem 'capistrano-unicorn', :require => false
   gem 'letter_opener_web', '~> 1.1.0'
@@ -88,6 +88,7 @@ group :development do
 end
 
 group :production do
+  gem 'god'
   gem 'therubyracer'
   gem 'execjs'
   gem 'unicorn'
@@ -95,7 +96,6 @@ group :production do
 end
 
 group :test do
-  gem 'factory_girl_rails'
   gem 'capybara', '1.1.2'
   gem 'simplecov', :require => false
 end

@@ -5,6 +5,7 @@ class Review < ActiveRecord::Base
   #acts_as_paranoid
 
   belongs_to :event
+  has_one :workshop, :through => :event
   belongs_to :author, :class_name => 'User'
 
   has_many :ratings
@@ -75,20 +76,6 @@ class Review < ActiveRecord::Base
 
     def find_by_seod_uuid!(id)
       self.find_by_uuid!(id.split('-').first)
-    end
-
-    # We display the add review button only when;
-    #   1) User had signed up for a event that happened
-    #   2) The user has not already left a review
-    def display_add_review_button(workshop, user)
-      unless workshop.events.blank? && workshop.events.where_first_meeting_starts_in_past.to_a.blank?
-        first_past_event = workshop.events.where_first_meeting_starts_in_past.to_a.first
-        # first check if the user attended the event and if user has not reviewed the event
-        if !Attendance.where(:event_id => first_past_event).where(:user_id => user).blank? && first_past_event.reviews.where(:author_id => user).count == 0
-          return true
-        end
-      end
-      return false
     end
 
     def return_unreviewed_events_by_user(user)

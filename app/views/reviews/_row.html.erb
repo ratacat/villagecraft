@@ -9,9 +9,12 @@
       <h4 class="review-author"><%= review.author.name %></h4>
       <!--<div class="ellipsis">-->
         <div>
-            <%= content_tag :span, :class => "review-body",  :data => { :body => review.body } do %>
-              <%= truncate(strip_tags(review.body), :length => 130, :separator => ' ') %>
+            <%= content_tag :div, :class => "review-body" do %>
+              <%= simple_format truncate(review.body, :length => 130, :separator => ' ') %>
             <% end %>
+            <%= content_tag :div, :class => "review-body-full", :style => 'display: none;' do %>
+              <%= simple_format review.body %>
+            <% end %>            
             <a href="#" class="review-more muted">More</a>
         </div>
       <!--</div>-->

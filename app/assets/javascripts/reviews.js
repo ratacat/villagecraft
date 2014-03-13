@@ -42,7 +42,6 @@ $(function () {
         dataType: 'json',
         url: url,
         success: function (responseJson){
-
           $('.review-rating-value',that.parents('.review-rating')).html(responseJson.rating)
         },
         error: function (response){
@@ -57,7 +56,7 @@ $(function () {
     click: function(event){
       event.preventDefault();
       $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
-      $('#more-review-body').text($('.review-body', $(this).parents('.review-box')).data('body'));
+      $('#more-review-body').html($('.review-body-full').html());
       $('span#modalMoreReviewTime').text('wrote ' + $('.review-time', $(this).parents('.review-box')).text());
       $('#modal-more-review').modal().show();
       $(".modal").css("position", "fixed");
