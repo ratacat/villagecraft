@@ -23,7 +23,7 @@ module EventsHelper
     options.reverse_merge!(defaults)
 
     if event.price.blank? or event.price === 0
-      content_tag(:span,'', :class => "bio free")
+      content_tag(:span,'', :class => "bio free_1")
     else
       html = content_tag(:span,'',:class => "bio nr_dolar")+
           content_tag(:span,'',:class => "bio nr_#{event.price.to_i}")
