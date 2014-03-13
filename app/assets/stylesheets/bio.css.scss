@@ -1,276 +1,190 @@
-.bio{
-  width: 35px;
-  height: 35px;
-  background-image: image-url('bio.jpg');
+// 100%
+$sprite_scale: 100;
+$sprite_width: 3589px;
+$sprite_height: 4476px;
 
+
+@mixin number($scale){
+  width: 660px * $scale/100;
+  height: 473px * $scale/100;
+  background-image: image-url('bio_numbers_denoised_w_672_x_622_grid.png');
   display: inline-block;
 
-  
+
   &.nr_1{
-    background-position: -16px -31px;
-    width: 20px;
+    background-position: -300px*$scale/100 -725px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_2{
-    background-position: 123px -31px;
-    width: 20px;
+    background-position: 2593px*$scale/100 -725px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_3{
-    background-position: 87px -31px;
-    width: 20px;
+    background-position: 1911px*$scale/100 -725px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_4{
-    background-position: 53px -31px;
-    width: 20px;
+    background-position: 1313px*$scale/100 -725px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_5{
-    background-position: 18px -31px;
-    width: 20px;
+    background-position: 639px*$scale/100 -725px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
-  
-  
+
+
+
   &.nr_6{
-    background-position: -16px -62px;
-    width: 20px;
+    background-position: -313px*$scale/100 -1327px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_7{
-    background-position: 139px -62px;
+    background-position: 2594px*$scale/100 -1327px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_8{
-    background-position: 103px -62px;
+    background-position: 1911px*$scale/100 -1327px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_9{
-    background-position: 69px -62px;
+    background-position: 1323px*$scale/100 -1327px*$scale/100;
+    width: 350px*$scale/100;
   }
-  
+
   &.nr_10{
-    background-position: 34px -62px;
+    background-position: 901px*$scale/100 -1327px*$scale/100;
   }
-  
-  
-  
-  
+
+
+
+
   &.nr_11{
-    background-position: 0px -93px;
+    background-position: 0px*$scale/100 -1925px*$scale/100;
   }
-  
+
   &.nr_12{
-    background-position: 139px -93px;
+    background-position: 2893px*$scale/100 -1925px*$scale/100;
   }
-  
+
   &.nr_13{
-    background-position: 103px -93px;
+    background-position: 2221px*$scale/100 -1925px*$scale/100;
   }
-  
+
   &.nr_14{
-    background-position: 69px -93px;
+    background-position: 1561px*$scale/100 -1925px*$scale/100;
   }
-  
+
   &.nr_15{
-    background-position: 34px -93px;
+    background-position: 901px*$scale/100 -1925px*$scale/100;
   }
-  
-  
+
+
+
+
   &.nr_16{
-    background-position: 0px -125px;
+    background-position: 0px*$scale/100 -2523px*$scale/100;
   }
-  
+
   &.nr_17{
-    background-position: 139px -125px;
+    background-position: 2893px*$scale/100 -2523px*$scale/100;
   }
-  
+
   &.nr_18{
-    background-position: 103px -125px;
+    background-position: 2221px*$scale/100 -2523px*$scale/100;
   }
-  
+
   &.nr_19{
-    background-position: 69px -125px;
+    background-position: 1561px*$scale/100 -2523px*$scale/100;
   }
-  
+
   &.nr_20{
-    background-position: 34px -125px;
+    background-position: 901px*$scale/100 -2523px*$scale/100;
   }
-  
-  
+
+
+
+
   &.nr_25{
-    background-position: 0px -156px;
+    background-position: 0px*$scale/100 -3123px*$scale/100;
   }
-  
+
   &.nr_30{
-    background-position: 139px -156px;
+    background-position: 2893px*$scale/100 -3123px*$scale/100;
   }
-  
+
   &.nr_35{
-    background-position: 103px -156px;
+    background-position: 2221px*$scale/100 -3123px*$scale/100;
   }
-  
+
   &.nr_40{
-    background-position: 69px -156px;
+    background-position: 1561px*$scale/100 -3123px*$scale/100;
   }
-  
+
   &.nr_45{
-    background-position: 34px -156px;
+    background-position: 901px*$scale/100 -3123px*$scale/100;
   }
-  
+
+
+
+
+
   &.nr_50{
-    background-position: 34px -188px;
+    background-position: 901px*$scale/100 -3751px*$scale/100;
   }
-  
+
   &.nr_dolar{
-    background-position: 19px 0px;
-    width: 19px;
+    background-position: 601px*$scale/100 -107px*$scale/100;
+    width: 300px*$scale/100;
   }
-  &.free{
-    background-position: 94px -190px;
-    width: 60px;
+
+  .plus{
+    background-position: 1561px*$scale/100 -107px*$scale/100;
   }
-  &.donation{
-    background-position: 0px 0px;
-    width: 90px;
+
+  &.donation_1{
+    background-position: 2893px*$scale/100 -107px*$scale/100;
   }
+
+  &.free_1{
+    background-position: 2221px*$scale/100 -33px*$scale/100;
+    height: 508px*$scale/100;
+  }
+
+  &.donation_2{
+    background-position: 2221px*$scale/100 -3751px*$scale/100;
+    width: 1284px*$scale/100;
+    height: 497px*$scale/100;
+  }
+
+  &.free_2{
+    background-position: -333px*$scale/100 -3741px*$scale/100;
+    width: 705px*$scale/100;
+    height: 520px*$scale/100;
+  }
+
+  &.plus{
+    background-position: 1397px*$scale/100 -107px*$scale/100;
+    width: 300px*$scale/100;
+  }
+
 }
+
 .bio{
-  width: 35px;
-  height: 35px;
-  background-image: image-url('bio.jpg');
+//  100%
+//  @include number(100);
 
-  display: inline-block;
+//  25%
+//  @include number(25);
+//  background-image: image-url('bio_numbers_denoised_w_672_x_622_grid_25procent.png');
 
-  
-  &.nr_1{
-    background-position: -16px -31px;
-    width: 20px;
-  }
-  
-  &.nr_2{
-    background-position: 123px -31px;
-    width: 20px;
-  }
-  
-  &.nr_3{
-    background-position: 87px -31px;
-    width: 20px;
-  }
-  
-  &.nr_4{
-    background-position: 53px -31px;
-    width: 20px;
-  }
-  
-  &.nr_5{
-    background-position: 18px -31px;
-    width: 20px;
-  }
-  
-  
-  
-  &.nr_6{
-    background-position: -16px -62px;
-    width: 20px;
-  }
-  
-  &.nr_7{
-    background-position: 139px -62px;
-  }
-  
-  &.nr_8{
-    background-position: 103px -62px;
-  }
-  
-  &.nr_9{
-    background-position: 69px -62px;
-  }
-  
-  &.nr_10{
-    background-position: 34px -62px;
-  }
-  
-  
-  
-  
-  &.nr_11{
-    background-position: 0px -93px;
-  }
-  
-  &.nr_12{
-    background-position: 139px -93px;
-  }
-  
-  &.nr_13{
-    background-position: 103px -93px;
-  }
-  
-  &.nr_14{
-    background-position: 69px -93px;
-  }
-  
-  &.nr_15{
-    background-position: 34px -93px;
-  }
-  
-  
-  &.nr_16{
-    background-position: 0px -125px;
-  }
-  
-  &.nr_17{
-    background-position: 139px -125px;
-  }
-  
-  &.nr_18{
-    background-position: 103px -125px;
-  }
-  
-  &.nr_19{
-    background-position: 69px -125px;
-  }
-  
-  &.nr_20{
-    background-position: 34px -125px;
-  }
-  
-  
-  &.nr_25{
-    background-position: 0px -156px;
-  }
-  
-  &.nr_30{
-    background-position: 139px -156px;
-  }
-  
-  &.nr_35{
-    background-position: 103px -156px;
-  }
-  
-  &.nr_40{
-    background-position: 69px -156px;
-  }
-  
-  &.nr_45{
-    background-position: 34px -156px;
-  }
-  
-  &.nr_50{
-    background-position: 34px -188px;
-  }
-  
-  &.nr_dolar{
-    background-position: 19px 0px;
-    width: 19px;
-  }
-  &.free{
-    background-position: 94px -190px;
-    width: 60px;
-  }
-  &.donation{
-    background-position: 0px 0px;
-    width: 90px;
-  }
+//  10%
+  @include number(10);
+  background-image: image-url('bio_numbers_denoised_w_672_x_622_grid_10procent.png');
 }
