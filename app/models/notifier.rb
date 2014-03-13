@@ -7,6 +7,7 @@ class Notifier < ActiveRecord::Observer
     case activity.trackable_type
     when 'Meeting'
       meeting = activity.trackable
+      targets = [meeting.host]
       case activity.key
       when 'meeting.time_changed'
         targets += meeting.event.attendees
