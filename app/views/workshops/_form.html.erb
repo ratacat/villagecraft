@@ -1,3 +1,6 @@
+<%
+  show_submit_button ||= false
+%>
 <%= simple_form_for(@workshop) do |f| %>
   <%= f.error_notification %>
 
@@ -14,6 +17,11 @@
           <% end %>
 
           <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
+        </div>
+      <% end %>
+      <% if show_submit_button %>
+        <div class="form-actions">
+          <%= f.button :submit, :class => "btn-primary" %>
         </div>
       <% end %>
     </div>

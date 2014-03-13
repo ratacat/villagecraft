@@ -309,6 +309,18 @@ ul.thumbnails {
   };
 }
 
+.host-only {
+  position: relative;
+  &:after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    content: "host-only area";
+    padding: 5px;
+    color: $grayLight;
+  };
+}
+
 table.table.borderless th, table.table.borderless td { 
    border-top: none; 
 }
@@ -647,11 +659,13 @@ ul.workshop_thumb {
 .modal-body {
   max-height: 800px;
 }
-ul.thumbnails {
+
+.reviews {
   margin-top: 10px;
   margin-bottom: 30px;
 }
-ul.thumbnails .thumbnail-review{
+
+ul.thumbnails .thumbnail-review {
   border: 1px solid #ddd;
   border-radius: 4px;
   .caption {

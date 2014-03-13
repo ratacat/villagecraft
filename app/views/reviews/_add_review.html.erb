@@ -1,5 +1,0 @@
-<% if user_signed_in? %>
-    <% if Review.display_add_review_button(workshop, current_user) %>
-        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
-    <% end %>
-<% end %>

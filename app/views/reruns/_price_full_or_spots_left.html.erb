@@ -1,13 +1,10 @@
 <% if rerun %>
-    <p>
-      <%#= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %>
-      <%= link_to event_price_css(rerun), rerun.workshop, :class => "label price_tag bio_pricing_tag" %>
-    </p>
-    <% if rerun.rsvp? %>
-        <% if rerun.full? %>
-            <p>full</p>
-        <% elsif (spots = rerun.spots_left) <  8 %>
-            <p><span class="nowrap"><%= pluralize(spots, 'spot') %> left</span></p>
-        <% end %>
+  <p><%= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %></p>
+  <% if rerun.rsvp? %>
+    <% if rerun.full? %>
+      <p>full</p>
+    <% elsif (spots = rerun.spots_left) <  8 %>
+      <p><span class="nowrap"><%= pluralize(spots, 'spot') %> left</span></p>
     <% end %>
+  <% end %>
 <% end %>

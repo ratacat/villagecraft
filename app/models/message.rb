@@ -11,6 +11,8 @@ class Message < ActiveRecord::Base
   
   before_validation :find_apropos, :find_to_user, :set_send_at_if_not_set, :on => :create
   validates :from_user_id, presence: true
+  validates :subject, presence: true
+  validates :body, presence: true
   validate :can_send_to_apropos?, :has_to_user_or_apropos?
 
   def _apropos_uuid

@@ -4,7 +4,8 @@
       <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), :icon => 'pencil', :class => 'btn btn-default' %>
     </span>
-    <h1>Manage workshop</h1>
+    <h4 class="muted margin0">Manage</h4>
+    <h2 class="margin_top0"><%= @workshop.title %></h2>
   </div>
 </div>
 <div class="row">
