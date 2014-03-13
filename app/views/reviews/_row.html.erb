@@ -1,0 +1,24 @@
+<li class="span4 review-box">
+  <div class="review-rating">
+    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-up" ), plus_review_path(review), :class => "plus-rating" %></div>
+    <div class="review-rating-value"><%= review.rating %></div>
+    <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-down" ), minus_review_path(review), :class => "minus-rating" %></div>
+  </div>
+  <div class="thumbnail thumbnail-review">
+    <div class="caption">
+      <h4 class="review-author"><%= review.author.name %></h4>
+      <!--<div class="ellipsis">-->
+        <div>
+            <%= content_tag :span, :class => "review-body",  :data => { :body => review.body } do %>
+              <%= truncate(strip_tags(review.body), :length => 130, :separator => ' ') %>
+            <% end %>
+            <a href="#" class="review-more muted">More</a>
+        </div>
+      <!--</div>-->
+      <div class="review-bottom">
+        <div class="review-time"><%= time_ago(review.created_at) %> </div>
+
+      </div>
+    </div>
+  </div>
+</li>
