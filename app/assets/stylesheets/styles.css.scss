@@ -309,6 +309,18 @@ ul.thumbnails {
   };
 }
 
+.host-only {
+  position: relative;
+  &:after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    content: "host-only area";
+    padding: 5px;
+    color: $grayLight;
+  };
+}
+
 table.table.borderless th, table.table.borderless td { 
    border-top: none; 
 }
