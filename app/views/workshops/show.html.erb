@@ -105,6 +105,14 @@
     <div id='host_mini_profile'>
       <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>      
     </div>
+    
+    <% if current_user === @workshop.host %>
+    <div class="well host-only">
+      <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-mini', title: 'edit' %>
+      <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-mini', title: 'manage' , icon: 'group' %>
+    </div>
+    <% end %>
+    
     <h4 class="muted">People</h4>
     <div class="row">
       <div class="span3">
