@@ -8,9 +8,7 @@
       </div>
       <div class="modal-body">
         <div class="review-elements">
-					<pre>
-            <%= content_tag :div,  review.body, :class => 'more-review-modal', :id => 'more-review-body'  %>						
-					</pre>
+            <%= content_tag :div,  simple_format(review.body) , :class => 'more-review-modal', :id => 'more-review-body'  %>						
         </div>
       </div>
 
