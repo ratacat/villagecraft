@@ -80,13 +80,13 @@
       <h3>Reviews</h3>
       <% if @reviews_recent.count > 3 %>
         <!--most recent reviews-->
-        <div class="row-fluid">
+        <div class="row-fluid reviews">
           <div class="thumbnail-review-title">Most recent reviews</div>
           <%= render 'reviews/index', :reviews => @reviews_recent %>
         </div>
 
         <!--highest rated reviews-->
-        <div class="row-fluid">
+        <div class="row-fluid reviews">
           <div class="thumbnail-review-title">Highest rated reviews</div>
           <%= render 'reviews/index', :reviews => @reviews_rating %>
         </div>
