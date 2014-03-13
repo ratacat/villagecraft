@@ -10,6 +10,18 @@ Villagecraft::Application.routes.draw do
   end
   resources :workshops, as: 'oldstyle_workshops'
 
+  post 'w/:id/reviews(.:format)' => 'reviews#create', :as => :add_review
+  get 'w/:id/reviews(.:format)' => 'reviews#index', :as => :reviews_by_workshop
+  #post 'w/:id/plus_rating(.:format)' => 'reviews#plus_rating', :as => :plus_rating_review
+  #post 'w/:id/minus_rating(.:format)' => 'reviews#minus_rating', :as => :minus_rating_review
+
+  resources :reviews, only: [:index, :destroy, :create] do
+    member do
+      post :plus
+      post :minus
+    end
+  end
+
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee

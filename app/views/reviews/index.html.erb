@@ -1,0 +1,22 @@
+<div class="span8">
+  <div class="row">
+    <h2>Your Reviews</h2>
+    <div class="span2">
+      <% if @unreviewed_events.count > 0 %>
+        <button class="btn btn-warning btn-block" id="add-review-user-button">Add review</button>
+      <% else %>
+        <button class="btn btn-warning btn-block disabled">Nothing to review</button>
+      <% end %>
+    </div>
+  </div>
+    <div id="add-review-user" class="hide">
+        <%= render 'reviews/add_review_user', review: @review, unreviewed_events: @unreviewed_events  %>
+    </div>
+
+  <%= render 'reviews/review_user_list', reviews: @reviews  %>
+
+</div>
+
+<div class="hidden">
+  <%= link_to '#', reviews_path, id: 'add_review' %>
+</div>

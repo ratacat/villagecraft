@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     def confirmed
       where("attendances.state = 'confirmed'")
     end
+    def past
+      where_first_meeting_starts_in_past
+      where(%Q(#{Event.quoted_table_name}."end_time" < ?), t )
+    end
   end
 
   # locations this user has appeared in
@@ -48,6 +52,8 @@ class User < ActiveRecord::Base
   belongs_to :profile_image, :class_name => 'Image'
 
   has_many :notifications
+
+  has_many :rating
 
   normalize_attributes :name, :email, :address
 
@@ -152,6 +158,18 @@ class User < ActiveRecord::Base
   def attending_event?(e)
     self.attends.where('"attendances"."event_id"=?', e.id).exists?
   end
+  
+  def attended_workshop?(workshop)
+    self.attends.joins(:meetings).joins(:workshop).where(%Q(#{Workshop.quoted_table_name}."uuid" = ?), workshop.uuid).where(%Q(#{Meeting.quoted_table_name}."end_time" < ?), Time.now).count > 0
+  end
+  
+  def reviewed_workshop?(workshop)
+    self.reviews.joins(:workshop).where(%Q(#{Workshop.quoted_table_name}."uuid" = ?), workshop.uuid).count > 0
+  end
+  
+  def can_review?(workshop)
+    self.attended_workshop?(workshop) and not self.reviewed_workshop?(workshop)
+  end
 
   def confirmed_attend_at_event?(e)
     self.attends.confirmed.where('"attendances"."event_id"=?', e.id).exists?
@@ -230,6 +248,12 @@ class User < ActiveRecord::Base
   def has_fake_email?
     m = Mail::Address.new(self.email)
     m.domain === "me.fake"
+  end
+
+  # Returns all past events that the user signed up for
+  def get_all_attended_events
+    events_id = Attendance.where(:user_id => self).map{ |attendence| attendence.event.id}
+    Event.where(:id => events_id).where_first_meeting_starts_in_past
   end
 
   protected

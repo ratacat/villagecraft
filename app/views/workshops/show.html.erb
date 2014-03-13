@@ -13,6 +13,11 @@
     <p class="hidden-phone">
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
       <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+      
+      
+      <% if user_signed_in? and current_user.can_review?(@workshop) %>
+        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
+      <% end %>
     </p>
   </div>
   <div class="span7">
@@ -51,6 +56,7 @@
     <ul class="nav nav-tabs margin0">
       <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
       <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
+      <!--<li><a href="#reviews" data-toggle="tab">Reviews (<%= @reviews.count %>)</a></li>-->
     </ul>
 
     <div id="myTabContent" class="tab-content">
@@ -69,6 +75,27 @@
         <% end %>
       </div>
     </div>
+
+    <% if @reviews_recent.count > 0 %>
+      <h3>Reviews</h3>
+      <% if @reviews_recent.count > 3 %>
+        <!--most recent reviews-->
+        <div class="row-fluid">
+          <div class="thumbnail-review-title">Most recent reviews</div>
+          <%= render 'reviews/index', :reviews => @reviews_recent %>
+        </div>
+
+        <!--highest rated reviews-->
+        <div class="row-fluid">
+          <div class="thumbnail-review-title">Highest rated reviews</div>
+          <%= render 'reviews/index', :reviews => @reviews_rating %>
+        </div>
+      <% else %>
+        <div class="row-fluid">
+          <%= render 'reviews/index', :reviews => @reviews_recent %>
+        </div>        
+      <% end %>
+    <% end %>
     
   </div>
   <div class="span3 side_content">
@@ -86,6 +113,12 @@
     </div>
   </div>
 </div>
+<!-- Add Review Modal -->
+<%= render 'reviews/add_review_modal', :review => @review, :past_reruns => @past_reruns %>
+
+<!-- Show More Review Modal -->
+<%= render 'reviews/more_modal', :review => @review %>
+
 <%= render 'messages/modal_new', :message => message %>
 <% ready_script do -%>
   $('#host_mini_profile a.message_user').on('click', function(e) {
@@ -99,4 +132,3 @@
   });  
   
 <% end -%>
-
