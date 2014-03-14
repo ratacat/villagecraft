@@ -46,7 +46,6 @@ class Event < ActiveRecord::Base
   validates :workshop, :presence => true
   validates :host_id, presence: true
   validates :title, presence: true
-  validates :price, numericality: { only_integer: true }
   validates :external_url, :url => {:allow_blank => true}
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
