@@ -786,3 +786,11 @@ ul.thumbnails .thumbnail-review {
 .placeholder {
 	color: #999;
 }
+
+.modal.fade {
+  z-index: -1;
+}
+
+.modal.fade.in {
+  z-index: 1050;
+}
