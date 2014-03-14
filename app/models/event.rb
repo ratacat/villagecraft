@@ -134,7 +134,17 @@ class Event < ActiveRecord::Base
   def manageable?
     not self.external? and self.rsvp?
   end
-  
+
+  def first_meeting
+    if fm_id = self.read_attribute(:first_meeting_id)
+      Meeting.find(fm_id)
+    else
+      # if for some reason the first_meeting pointer is missing, figure it out and cache it
+      fm = self.meetings.order(:start_time).first
+      self.update_attribute(:first_meeting_id, fm.try(:id))
+    end
+  end
+    
   def Event.placeholder_src(size = :medium)
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"
@@ -142,10 +152,11 @@ class Event < ActiveRecord::Base
   
   def Event.auto_create_from_workshop(workshop)
     reruns = workshop.last_scheduled_reruns
-    m0, m1 = reruns.map(&:first_meeting)
+    meetings = reruns.map(&:first_meeting).compact
+    m0, m1 = meetings
     
-    if reruns.size > 0
-      if reruns.size === 1
+    if meetings.size > 0
+      if meetings.size === 1
         # This is the second scheduled rerun, default to 1 week from the previous rerun with same duration and venue
         start_time = m0.start_time + 1.week
       else
@@ -188,11 +199,10 @@ class Event < ActiveRecord::Base
       start_time += weeks_ago.weeks
       end_time = start_time + duration
     end
-
     event = Event.create!({:title => title, 
                            :description => description, 
                            :host => workshop.host, 
-                           :price => price, 
+                           :price => price.to_i, 
                            :venue => venue, 
                            :max_attendees => max_attendees,
                            :rsvp => rsvp,
