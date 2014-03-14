@@ -16,6 +16,12 @@ module UsersHelper
     user_thumb(user, options)
   end
   
+  def facebook_link(user)
+    if user.fb_authenticated?
+      "https://www.facebook.com/#{user.auth_provider_uid}"
+    end
+  end
+  
   def contextualized_user_link(user, options={})
     defaults = {
       :linked => true,

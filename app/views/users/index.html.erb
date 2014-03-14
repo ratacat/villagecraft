@@ -15,6 +15,7 @@
       <th>Sign Ins</th>
       <th>Privileges</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -26,6 +27,13 @@
       <td><%= user_phone(user) %></td>
       <td><%= user.sign_in_count.to_s %></td>
       <td><%= user.privileges.join(', ') %></td>
+      <td>
+        <% if user.fb_authenticated? %>
+          <%= link_to facebook_link(user), class: 'btn btn-mini btn-primary' do -%>
+            <i class="icon-facebook"></i>
+          <% end -%>
+        <% end %>
+      </td>
       <td>
         <%= iconic_link_to 'Edit', edit_user_path(user), class: 'btn btn-mini', title: 'edit' %>
         <%= iconic_link_to 'Delete', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-mini btn-danger', title: 'delete' %>

@@ -201,6 +201,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def fb_authenticated?
+    self.auth_provider === 'facebook'
+  end
+
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
     unless user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
       fb_profile_img_uri = URI.parse(auth.info.image)
