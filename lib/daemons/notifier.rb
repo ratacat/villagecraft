@@ -81,7 +81,7 @@ while($running) do
           :body => mtg.workshop.warmup_body)
         @logger.info %Q(Warmup message (#{msg.id}) queued for meeting (#{mtg.id})\n)        
       end
-      mtg.update_attribute(:send_warmup_at, Time.now)
+      mtg.update_attribute(:sent_warmup_at, Time.now)
     rescue Exception => e
       handle_exception(e)
     end
