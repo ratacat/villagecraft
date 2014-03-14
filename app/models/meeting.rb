@@ -68,6 +68,14 @@ class Meeting < ActiveRecord::Base
     (now >= self.start_time) and (now < self.end_time)
   end
   
+  def immediately_send_warmup_message_to_late_signup?
+    if self.workshop.warmup_subject.blank? or self.workshop.warmup_body.blank?
+      false
+    else
+      self.send_warmup_at and (self.send_warmup_at < Time.now)
+    end
+  end
+  
   protected
   def possibly_update_parents_first_meeting_cache
     # FIXME: theoretically, with multiple hosts and high concurrancy, we could have a race condition here; so, we might want to lock the event record
