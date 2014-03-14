@@ -16,6 +16,12 @@ module EventsHelper
   end
   alias :rerun_price :event_price
 
+  def event_price_css_able?(event)
+    # under 20; 25-50 and a multple of 5
+    p = event.price
+    (p < 20) or (p <= 50 and p%5 ===0)
+  end
+
   def event_price_css(event, options={})
     defaults = {
         :show_materials_fee => false
@@ -32,9 +38,6 @@ module EventsHelper
     end
   end
   alias :rerun_price_css :event_price_css
-
-
-
 
   def annotated_event_title(event, options={})
     html = ''.html_safe
