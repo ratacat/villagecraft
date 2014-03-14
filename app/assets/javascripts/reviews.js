@@ -58,7 +58,7 @@ $(function () {
       $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
       $('#more-review-body').html($('.review-body-full').html());
       $('span#modalMoreReviewTime').text('wrote ' + $('.review-time', $(this).parents('.review-box')).text());
-      $('#modal-more-review').modal().show();
+      $('#modal-more-review').modal('show');
       $(".modal").css("position", "fixed");
       if( $(".modal").height()+100 > $(window).innerHeight()){
         $(".modal").css("position", "absolute");
