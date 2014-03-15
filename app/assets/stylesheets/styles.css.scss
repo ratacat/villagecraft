@@ -787,10 +787,18 @@ ul.thumbnails .thumbnail-review {
 	color: #999;
 }
 
+
+// Hack to fix weird problem with faded modals blocking content
 .modal.fade {
   z-index: -1;
 }
 
 .modal.fade.in {
   z-index: 1050;
+}
+
+// Don't let modals get too tall
+.modal .modal-body {
+    max-height: 420px;
+    overflow-y: auto;
 }
