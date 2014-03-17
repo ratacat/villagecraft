@@ -19,11 +19,7 @@ module EventsHelper
   def event_price_css_able?(event)
     # under 20; 25-50 and a multple of 5
     p = event.price
-    if p.blank?
-      false
-    else
-      (p < 20) or (p <= 50 and p%5 ===0)
-    end
+    p.blank? or (p < 20) or (p <= 50 and p%5 ===0)
   end
 
   def event_price_css(event, options={})
