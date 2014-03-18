@@ -10,15 +10,13 @@
 </div>
 <div class="row">
   <div class="span2">
-    <p class="hidden-phone">
+    <p>
       <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
-      <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
-      
-      
-      <% if user_signed_in? and current_user.can_review?(@workshop) %>
-        <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
-      <% end %>
+      <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
     </p>
+    <% if user_signed_in? and current_user.can_review?(@workshop) %>
+      <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
+    <% end %>
   </div>
   <div class="span7">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
@@ -28,7 +26,6 @@
           <div class="blocky_spns">
             <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
           </div>
-          <p><%= render :partial => 'events/inline_attend_state', :locals => {:event => next_rerun} %></p>
         <% else %>
           <span class="muted">no upcoming dates</span>
         <% end %>
@@ -44,7 +41,7 @@
       </div>
 
       <div class="hidden-tablet hidden-desktop">
-        <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+        <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
       </div>
     
     </div>
@@ -99,7 +96,7 @@
     
   </div>
   <div class="span3 side_content">
-    <%= render 'events/smart_attend_btn', :event => next_rerun, :no_check => true, :cta => 'Sign up', :btn_classes => 'btn-block' %>
+    <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
     
     <h4 class="muted">Host</h4>
     <div id='host_mini_profile'>

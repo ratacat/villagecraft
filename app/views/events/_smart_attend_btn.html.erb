@@ -1,19 +1,18 @@
 <% 
   no_button ||= false
   show_price ||= false
-  no_check ||= false
-  btn_classes ||= 'btn-large'
-  cta ||= 'RSVP'
+  show_check ||= false
+  block_buttonize ||= false
 %>
 <% if event %>
   <% if event.external? %>
     <% unless event.external_url.blank? or no_button %>
       <% if event.rsvp? %>
-        <%= link_to 'Sign up', event.external_url, :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "sign up at #{external_domain(@workshop)}", :class => "tooltipify btn #{btn_classes}", :target => '_blank' %>
+        <%= link_to 'Sign up', event.external_url, :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "sign up at #{external_domain(@workshop)}", :class => "tooltipify btn btn-block", :target => '_blank' %>
       <% else %>
         <%= link_to 'More info', event.external_url, 
             :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "more information at #{external_domain(@workshop)}", 
-            :class => "tooltipify btn #{btn_classes}", :target => '_blank' %>
+            :class => "tooltipify btn btn-block", :target => '_blank' %>
       <% end %>
     <% end %>
   <% else %>
@@ -24,18 +23,14 @@
             <span class="text-success you_r_signed_up" ><%= content_tag(:i, '', :class => "icon-check icon-large") %> you signed up</span>
           <% else %>
             <% unless (no_button or event.first_meeting.ongoing? or not event.rsvp?) %>
-              <%= link_to attend_path(event), :class => "btn btn-success #{btn_classes} attend_event", :method => :post do -%>
-                <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %></i><%= cta %>
-              <% end -%>
+              <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize) %>
             <% end %>
           <% end %>
         <% else %> <!-- not user_signed_in? -->
           <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
             <h4 class="fee"><%= event_price(event) %></h4>
           <% else %>
-            <button data-auto_attend_event="<%= event.uuid %>" data-auto_attend_event_title="<%= event.title %>" data-toggle_modal_registration class="btn btn-success <%= btn_classes %>">
-              <%= content_tag(:i, '', :class => "icon-check icon-large") unless no_check %><%= cta %>
-            </button>
+            <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize) %>
           <% end %>
         <% end %>
         <%= event_price(event) if show_price %>
