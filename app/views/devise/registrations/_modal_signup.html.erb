@@ -1,11 +1,9 @@
 <div id="register_modal" class="modal hide fade" tabindex="-1" data-backdrop="true" data-keyboard="true" role="dialog" aria-hidden="true" >
   <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <span style="margin-bottom:8px;">You're about to register for...</span>
-    </div>
     <h3 style="margin-left:10px;"><span class="event_title"></span></h3>
-    <span style="margin-left:25px;">We won't spam or share your information.</span>
+  </div>
   <div class="modal-body" id='collect_email_address'>
+    <p>We won't spam or share your information.</p>
     <%= simple_form_for(:user, :as => :user, :url => registration_path(:user), html: { class: 'form-horizontal', id: 'attend_by_email_form'}) do |f| %>
       <%= f.input :email %>
       <div class="control-group">
