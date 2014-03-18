@@ -44,6 +44,17 @@ class Message < ActiveRecord::Base
     end
     self.update_attribute(:sent_at, Time.now)
   end
+  
+  HOSTIFY_ADMINS = %w(neuralsplash@gmail.com)
+  def Message.new_hostify_msg(options={})
+    u = options[:from_user]
+    options[:subject] = "Request to Hostify #{u.email}"
+    options[:body] = "Request from #{u.name} (#{u.email}) to become a host."  
+    HOSTIFY_ADMINS.each do |ha|
+      options[:to_user] = User.find_by_email(ha)
+      Message.create(options)
+    end
+  end
 
   protected
   def find_apropos
