@@ -1,5 +1,8 @@
 <div class="vc_navbar">
   <ul class="nav nav-pills pull-right">
+    <li><%= sign_up_link(Event.new({:uuid => '_HOSTIFY_ME_', :title => "Interested in hosting?  Leave your email and we'll be in touch."}, :as => :system), 
+                         :cta => 'host something',
+                         :path => hostify_me_path) %></li>
     <% if not user_signed_in? %>
       <li><%= link_to "Sign in", new_user_session_path %></li>
       <li><%= link_to 'Sign up', new_user_registration_path, :class => "btn-success" %></li>
@@ -60,7 +63,6 @@
       </li>
     <% end %>
   </ul>
-
   <!-- Be sure to leave the brand out there if you want it shown -->
   <div>
     <%= link_to "/", :class => "undecorated" do -%>
