@@ -46,13 +46,7 @@ class WorkshopsController < ApplicationController
 
 
     respond_to do |format|
-      format.html {
-        if params[:v] == 'alt'
-          render 'show_alt'
-        else
-          render 'show'
-        end
-      }
+      format.html { render 'show' }
       format.json { render json: @workshop }
     end
   end
