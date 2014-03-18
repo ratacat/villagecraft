@@ -19,6 +19,15 @@ body h2 {
 .vc_navbar {
   margin-top: 5px;
   margin-bottom: 20px;
+  .nav {
+    li.dropdown > a:after {
+      font-family: FontAwesome;
+      text-decoration: inherit;
+      display: inline-block;
+      speak: none;
+      content: "\f0d7";
+    }
+  }
 }
 
 .user-city {}
