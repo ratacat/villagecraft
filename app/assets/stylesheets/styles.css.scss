@@ -326,32 +326,6 @@ table.table.borderless th, table.table.borderless td {
    border-top: none; 
 }
 
-table.table.when_where_host_table {
-  width: 500px;
-  min-width: 500px;
-  margin-bottom: 0px;
-  table-layout: fixed;
-  .workshop_img {
-    text-align: left;
-    vertical-align: middle;
-  }
-}
-
-table.table.when_where_host_table tr td.when, table.table.when_where_host_table tr td.where {
-  width: 140px;
-  min-width: 140px;
-}
-
-table.table.when_where_host_table tr td.attends {
-  width: 60px;
-  min-width: 60x;
-}
-
-table.table.when_where_host_table tr td.host {
-  width: 160px;
-  min-width: 160px;
-}
-
 .large_page_thumb {
   margin-bottom: 10px;
 }
