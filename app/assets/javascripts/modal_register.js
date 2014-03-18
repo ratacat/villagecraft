@@ -3,22 +3,23 @@
    return this.each(function() {
      var $this = $(this),
       options = $.extend({}, $.fn.vc_modal_register.defaults, $this.data(), typeof option == 'object' && option);
-
-     $this.on('click', function() {
-       if (typeof options['auto_attend_event'] != 'undefined') {
-         $.cookie('auto_attend_event', options['auto_attend_event']);
+     $this.on('click', function(event) {
+       console.log(options);
+       event.preventDefault();
+       if (typeof options['autoAttendEvent'] != 'undefined') {
+         $.cookie('auto_attend_event', options['autoAttendEvent'], {path: '/' });
        };
-       $('#' + options['modal_id'] + ' span.event_title').html(options['auto_attend_event_title']);
-       $('#' + options['modal_id']).modal('show');
+       $('#' + options['modalId'] + ' span.event_title').html(options['autoAttendEventTitle']);
+       $('#' + options['modalId']).modal('show');
      });
    });
  };
  
  $.fn.vc_modal_register.defaults = {
-   modal_id: "register_modal"
+   modalId: "register_modal"
  };   
  
- $("[data-toggle_modal_registration]").vc_modal_register();
+ $("[data-toggle-modal-registration]").vc_modal_register();
  
  $("#register_modal").on('shown', function() {
    $('#attend_by_email_form input[name="user[email]"]:first').focus();

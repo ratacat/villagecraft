@@ -16,6 +16,34 @@ module EventsHelper
   end
   alias :rerun_price :event_price
 
+  def sign_up_link(event, options = {})
+    defaults = {
+        :show_check => false,
+        :cta => 'Sign up',
+        :buttonize => false,
+        :block_buttonize => false
+    }
+    options.reverse_merge!(defaults)
+  
+    if options[:buttonize] or options[:block_buttonize]
+      classes = %w(btn btn-success attend_event)
+    else
+      classes = %w(attend_event)
+    end
+    classes << 'btn-block' if options[:block_buttonize]
+    
+    if user_signed_in?
+      link_to_options = {class: classes.join(' '), method: :post}
+    else
+      link_to_options = {class: classes.join(' '), 
+                         data: {:auto_attend_event => event.uuid, :auto_attend_event_title => event.title, :toggle_modal_registration => true} }
+    end
+  
+    link_to attend_path(event), link_to_options do
+      (options[:show_check] ? content_tag(:i, '', :class => "icon-check icon-large") : '') + options[:cta]
+    end
+  end
+
   def event_price_css_able?(event)
     # under 20; 25-50 and a multple of 5
     p = event.price
