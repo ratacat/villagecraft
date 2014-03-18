@@ -12,12 +12,14 @@
 	location = event.try(:location)
 %>
 <% if event %>
-  <%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
+<%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
 <% end %>
+<% unless message.apropos.blank? %>
 <%= message.apropos.title %>
 <% if location.blank? %>
-	location TBD
+location TBD
 <% else %>
-	<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
+<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
+<% end %>
 <% end %>
 <%= message.from_user.name %> <%= message.from_user.email %> <%= user_phone(message.from_user) %>

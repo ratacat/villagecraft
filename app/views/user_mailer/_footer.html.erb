@@ -15,11 +15,13 @@
   <% if event %>
     <%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
   <% end %>
-	<%= link_to message.apropos.title, message.apropos, :only_path => false %><br/>
-	<% if location.blank? %>
-		location TBD
-	<% else %>
-		<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
-	<% end %><br/>
+  <% unless message.apropos.blank? %>
+  	<%= link_to message.apropos.title, message.apropos, :only_path => false %><br/>
+  	<% if location.blank? %>
+  		location TBD
+  	<% else %>
+  		<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
+  	<% end %><br/>
+  <% end %>
 	<%= link_to message.from_user.name, user_url(message.from_user, :only_path => false) %> <%= message.from_user.email %> <%= user_phone(message.from_user) %>
 </p>
