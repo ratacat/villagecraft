@@ -12,7 +12,7 @@
       <% if false # @notifications %>
         <li class="dropdown">
           <%= link_to '#', :class => 'dropdown-toggle', :role => 'button', :'data-toggle' => "dropdown", :id => 'notifications_toggle' do -%>
-            <i class="icon-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info" id="notifications_count"><%= @unseen_notifications_count %></span><% end %>
+            <i class="fa fa-bell"></i><% if @unseen_notifications_count > 0 %><span class="text-info" id="notifications_count"><%= @unseen_notifications_count %></span><% end %>
           <% end %>
           <div class="dropdown-menu notifications" role="menu">
             <ul>

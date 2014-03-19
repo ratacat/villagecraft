@@ -1,8 +1,5 @@
 <div class="page-header">
-  <%= link_to new_neighborhood_path, :class => 'btn btn-primary' do %>
-    <i class="icon-plus icon-white"></i>
-    New Neighborhood (from KML)
-  <% end %>
+  <%= iconic_link_to 'New Neighborhood (from KML)', new_neighborhood_path, :icon => 'plus', :class => 'btn btn-primary' %>
   <% if @county %>
     <h1><%= @county %> County, <%= @state %> Neighborhoods</h1>
   <% else %>
