@@ -38,7 +38,7 @@
       <td><%= neighborhood.locations.count %></td>
       <td><%= neighborhood.venues.count %></td>
       <td>
-        <%= iconic_link_to 'Edit', edit_neighborhood_path(neighborhood), class: 'btn btn-xs', title: 'edit' %>
+        <%= iconic_link_to 'Edit', edit_neighborhood_path(neighborhood), class: 'btn btn-xs btn-default', title: 'edit' %>
         <%= iconic_link_to 'Delete', neighborhood, confirm: 'Are you sure?', method: :delete, class: 'btn btn-xs btn-danger', title: 'delete' %>
       </td>
     </tr>
