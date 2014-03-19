@@ -38,11 +38,11 @@ function init_datetime_picker() {
 
   $('.datepair').each(initDatepair);
 
-  $(".date-select-component span.add-on").on('click', function() {
+  $(".date-select-component span.input-group-addon").on('click', function() {
     $(this).siblings().datepicker('show');
   });
 
-  $(".time-select-component span.add-on").on('click', function() {
+  $(".time-select-component span.input-group-addon").on('click', function() {
     $(this).siblings().timepicker('show');
   });  
 }
