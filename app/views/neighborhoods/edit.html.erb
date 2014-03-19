@@ -1,9 +1,9 @@
 <div class="page-header">
-  <%= link_to counties_neighborhoods_path, :class => 'btn' do %>
-    <i class="icon-list-alt"></i>
+  <%= link_to counties_neighborhoods_path, :class => 'btn btn-default' do %>
+    <i class="fa fa-list-alt"></i>
     All neighborhoods
   <% end %>
-  <%= iconic_link_to 'Show', @neighborhood, :class => 'btn btn-primary' %>
+  <%= iconic_link_to 'Show', @neighborhood, :icon => 'map-marker', :class => 'btn btn-primary' %>
   <h1>Editing neighborhood</h1>
 </div>
 

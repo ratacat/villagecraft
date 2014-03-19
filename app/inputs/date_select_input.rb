@@ -5,7 +5,7 @@ class DateSelectInput < SimpleForm::Inputs::Base
     %{
       <div class="input-group date-select-component">
         #{@builder.text_field(attribute_name, input_html_options)}
-        <span class="input-group-addon"><i class="icon-calendar"></i></span>
+        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     }.html_safe
   end
