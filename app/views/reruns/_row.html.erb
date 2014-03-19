@@ -64,7 +64,7 @@
     <td>
       <% if show_manage_buttons %>
         <span class="manage_attendees<%= ' initially_hidden' unless rerun.manageable? %>">
-          <%= iconic_link_to("Manage", manage_event_path(rerun), :icon => 'group', :class => "btn btn-small") %>
+          <%= iconic_link_to("Manage", manage_event_path(rerun), :icon => 'group', :class => "btn btn-small btn-default") %>
         </span>
       <% end %>
       <% if show_icons %>

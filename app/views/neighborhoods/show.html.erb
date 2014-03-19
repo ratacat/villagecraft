@@ -1,10 +1,7 @@
 <% neighborhood ||= @neighborhood %>
 <div class="page-header">
   <% if can? :manage, @neighborhood %>
-    <%= link_to counties_neighborhoods_path, :class => 'btn' do %>
-      <i class="icon-list-alt"></i>
-      All neighborhoods
-    <% end %>
+    <%= iconic_link_to 'All neighborhoods', counties_neighborhoods_path, :icon => 'list-alt', :class => 'btn btn-default' %>
     <%= iconic_link_to 'Edit', edit_neighborhood_path(@neighborhood), :class => 'btn btn-primary' %>
   <% end %>
   <h2><%= neighborhood.name %></h2>
