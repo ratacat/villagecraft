@@ -55,7 +55,7 @@ class NeighborhoodsController < ApplicationController
   # POST /neighborhoods.json
   def create
     name = params[:neighborhood][:name]
-    kml = params[:neighborhood][:kml]
+    kml = params[:neighborhood][:_kml]
 
     kml.gsub! /<name>.*<\/name>/, "<name>#{name}</name>"
 

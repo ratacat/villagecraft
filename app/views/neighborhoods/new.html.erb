@@ -5,19 +5,13 @@
 </div>
 
 <div class="col-md-4">
-<%= form_for :neighborhood, :url => neighborhoods_path do |f| %>
-  <div class="form-inputs">
-    <%= f.label :name %>
-    <%= f.text_field :name, label: 'Name', value: '', class: 'col-md-4' %>
-  </div>
-  <div class="form-inputs">
-    <%= f.label :kml, "KML" %>
-    <%= f.text_area :kml, label: 'KML', value: '', rows: 4, class: 'col-md-4' %>
-  </div>
+<%= simple_form_for :neighborhood, :url => neighborhoods_path do |f| %>
+  <%= f.input :name, label: 'Name', value: '' %>
+  <%= f.input :_kml, as: :text, label: 'KML', value: '', input_html: {rows: 4, class: 'form_control'} %>
   <p>Draw a boundary <%= link_to 'with this tool', "http://www.birdtheme.org/useful/v3tool.html" %>.  Then, paste your KML into the field above to create your new neighborhood. Be sure to select "Polygon" and "KML" at the top.</p>  
 
   <div class="form-actions">
-    <%= f.button 'Create new neighborhood from KML', :class => "btn-primary" %>
+    <%= f.submit 'Create new neighborhood from KML', :class => "btn btn-primary" %>
   </div>
 <% end %>
 </div>
