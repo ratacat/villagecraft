@@ -7,12 +7,13 @@
 <% if event %>
   <% if event.external? %>
     <% unless event.external_url.blank? or no_button %>
-      <% if event.rsvp? %>
-        <%= link_to 'Sign up', event.external_url, :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "sign up at #{external_domain(@workshop)}", :class => "tooltipify btn btn-block btn-primary", :target => '_blank' %>
-      <% else %>
-        <%= link_to 'More info', event.external_url, 
-            :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "more information at #{external_domain(@workshop)}", 
-            :class => "tooltipify btn btn-block btn-primary", :target => '_blank' %>
+      <%= link_to event.external_url, 
+          data: { 
+            html: 'true', 
+            placement: 'bottom', 
+            title: "#{event.rsvp? ? 'sign up' : 'more information'} at #{external_domain(@workshop)}"}, 
+          class: "tooltipify btn btn-block btn-primary", target: '_blank' do -%>
+        <%= (event.rsvp? ? 'Sign up ' : 'More info ').html_safe + content_tag(:sup, content_tag(:i, '', :class => "fa fa-external-link smaller")) %>
       <% end %>
     <% end %>
   <% else %>
