@@ -93,9 +93,9 @@ jQuery(function($) {
     var errors = $.parseJSON(xhr.responseText).errors.join("; ");
     var message = $.parseJSON(xhr.responseText).message;
     if (errors != '' && message) {
-      show_bootstrap_alert({type: 'error', text: message + ': ' + errors});
+      show_bootstrap_alert({type: 'warning', text: message + ': ' + errors});
     } else {
-      show_bootstrap_alert({type: 'error', text: message + errors});
+      show_bootstrap_alert({type: 'warning', text: message + errors});
     };
   });
 });

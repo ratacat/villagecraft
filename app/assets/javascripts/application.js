@@ -12,8 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
-//= require editable/bootstrap2-editable
+//= require twitter/bootstrap
+//= require editable/bootstrap-editable
 //= require editable/rails
 //= require vendor_javascripts
 //= require handlebars.runtime

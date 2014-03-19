@@ -1,17 +1,12 @@
-@import "bootstrap-variables";
-@import 'bootstrap';
-@import 'bootstrap-responsive';
-@import "editable/bootstrap2-editable";
-
-body h2 {
-
-}
+@import "twitter/bootstrap/variables.less";
+@import "custom_bootstrap/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "twitter/bootstrap/mixins.less";
 
 @font-face {
   font-family: 'BalsamiqSans';
-  src:url('BalsamiqSansRegular.ttf');
-  src:url('BalsamiqSansRegular.ttf?#iefix') format('embedded-opentype'),
-    url('BalsamiqSansRegular.ttf') format('truetype');
+  src: url('BalsamiqSansRegular.ttf');
+  src: url('BalsamiqSansRegular.ttf?#iefix') format('embedded-opentype'),
+       url('BalsamiqSansRegular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -19,15 +14,6 @@ body h2 {
 .vc_navbar {
   margin-top: 5px;
   margin-bottom: 20px;
-  .nav {
-    li.dropdown > a:after {
-      font-family: FontAwesome;
-      text-decoration: inherit;
-      display: inline-block;
-      speak: none;
-      content: "\f0d7";
-    }
-  }
 }
 
 .user-city {}
@@ -52,12 +38,28 @@ body h2 {
   white-space: nowrap;
 }
 
+.margin_top10 {
+  margin-top: 10px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
 .floatright {
   float: right;
 }
 
 .smaller {
   font-size: 80%;
+}
+
+.larger {
+  font-size: 120%;
+}
+
+.full_width {
+  width: 100%;
 }
 
 .popover {
@@ -111,27 +113,27 @@ span.quantized_progress {
   display: inline-block;
   span.progress {
     margin: 1px 0px;
-    @include box-shadow(none);
-    @include border-radius(0px);
+    .box-shadow(none);
+    border-radius: 0px;
     background-image: none;
     background-color: white;
     span.bar {
       height: 11px;
       background-image: url('unit.png');
       background-repeat: repeat;
-      @include box-shadow(none);
+      .box-shadow(none);
     }
     span.bar.under.off {
-      background-color: $errorText;
+      background-color: @brand-danger;
     }
     span.bar.over.off {
-      background-color: $grayLight;
+      background-color: @gray-light;
     }
     span.bar.under.on {
       background-color: #dd514b;
     }
     span.bar.over.on {
-      background-color: $successText;
+      background-color: @brand-success;
     }
   }
 }
@@ -170,16 +172,16 @@ ul.thumbnails {
     }
   }
   .caption.right-caption.thumb {
-    line-height: $thumb_thumb_size + 8px;
+    line-height: @thumb-thumb-size + 8px;
   }
   .caption.right-caption.small {
-    line-height: $small_thumb_size + 8px;
+    line-height: @small-thumb-size + 8px;
   }
   .caption.right-caption.medium {
-    line-height: $medium_thumb_size + 8px;
+    line-height: @medium-thumb-size + 8px;
   }
   .caption.right-caption.large {
-    line-height: $large_thumb_size + 8px;
+    line-height: @large-thumb-size + 8px;
   }
 }
 
@@ -219,7 +221,7 @@ ul.thumbnails {
 }
 
 .dropdown-menu.notifications .thumbnail:hover {
-  background-color: $grayLighter;
+  background-color: @gray-lighter;
 }
 
 .dropdown-menu.notifications li.divider {
@@ -255,7 +257,7 @@ ul.thumbnails {
     display: block;
   }
   .time_zone {
-    color: $grayLight;
+    color: @gray-light;
   }
 }
 
@@ -268,7 +270,7 @@ ul.thumbnails {
 }
 
 .linky {
-  color: $linkColor;
+  color: @link-color;
 }
 
 .underline {
@@ -327,7 +329,7 @@ ul.thumbnails {
     right: 0;
     content: "host-only area";
     padding: 5px;
-    color: $grayLight;
+    color: @gray-light;
   };
 }
 
@@ -380,7 +382,7 @@ table.table.borderless th, table.table.borderless td {
 
 .help-block,
 .help-inline {
-  color: lighten($textColor, 45%); // lighten the text some for contrast
+  color: lighten(@text-color, 45%); // lighten the text some for contrast
 }
 
 label abbr[title] { border: none; }
@@ -458,26 +460,26 @@ a.icon_button, a.icon_button:hover, a.undecorated {
 .fileinput-preview {
   max-height: 270px;
   max-width: 270px;
-  @include border-radius($borderRadiusLarge);
+  border-radius: @border-radius-large;
   img {
-    @include border-radius($borderRadiusLarge);
+    border-radius: @border-radius-large;
   }
   &.crop {
     &.small {
-      height: $small_thumb_size;
-      width: $small_thumb_size;
+      height: @small-thumb-size;
+      width: @small-thumb-size;
     }
     &.medium {
-      height: $medium_thumb_size;
-      width: $medium_thumb_size;
+      height: @medium-thumb-size;
+      width: @medium-thumb-size;
     }
     &.large {
-      height: $large_thumb_size;
-      width: $large_thumb_size;
+      height: @large-thumb-size;
+      width: @large-thumb-size;
     }
     &.large_orig {
-      height: $large_thumb_size;
-      width: $large_thumb_size;
+      height: @large-thumb-size;
+      width: @large-thumb-size;
     }
     position: relative;
     overflow: hidden;
@@ -492,7 +494,7 @@ a.icon_button, a.icon_button:hover, a.undecorated {
 
 .simple_boxed_form {
   background: none;
-  @include border-radius($borderRadiusLarge);
+  border-radius: @border-radius-large;
   border-width: 10px;
   margin: 0;
   .form-actions {
@@ -504,12 +506,12 @@ a.icon_button, a.icon_button:hover, a.undecorated {
 }
 
 .external_domain {
-  color: $grayLight;
+  color: @gray-light;
   text-decoration: none;
 }
 
 .indent-thumb {
-  margin-left: $thumb_thumb_size + 10;
+  margin-left: @thumb-thumb-size + 10;
 }
 
 blockquote.fancy {
@@ -562,10 +564,10 @@ blockquote.fancy cite:before {
 }
 
 .has_help_bubble ~ .popover {
-  background: $sticky_note_yellow;
+  background: @sticky-note-yellow;
   &.right {
     .arrow:after {
-      border-right-color: $sticky_note_yellow;
+      border-right-color: @sticky-note-yellow;
     }
   } 
 }
@@ -575,7 +577,7 @@ blockquote.fancy cite:before {
 }
 
 .chunk_header {
-  margin-bottom: 0px;
+  margin-bottom: 5px;
   padding-left: 8px;
 }
 
@@ -590,7 +592,7 @@ blockquote.fancy cite:before {
     text-align: right;
     font-size: 90%;
     margin-top: 0px;
-    color: $grayLight;
+    color: @gray-light;
     padding-left: 4px;
   }
   .user_thumb {
@@ -603,7 +605,7 @@ blockquote.fancy cite:before {
   font-size: 120%;
   font-weight: normal;
   padding: 0.5em;
-  background: $vc_bluegreen;
+  background: @vc-bluegreen;
 
   &.bio_pricing_tag {
     background: none repeat scroll 0 0;
@@ -624,10 +626,11 @@ ul.attendees {
 }
 
 li.editable_location {
-  line-height: 34px;
+  padding: 10px 0;
 }
 
 ul.workshop_thumb {
+  padding-left: 0;
   .caption.right-caption.small {
     padding-top: 5px;
     line-height: normal;
@@ -784,4 +787,9 @@ ul.thumbnails .thumbnail-review {
 .modal .modal-body {
     max-height: 420px;
     overflow-y: auto;
+}
+
+
+.time-select-component, .date-select-component {
+  margin-bottom: 5px;
 }

@@ -1,6 +1,6 @@
 module ApplicationHelper
   def time_ago(time)
-    content_tag(:span, distance_of_time_in_words(time, Time.now) + ' ago', :'data-livestamp' => time, :class => 'muted')
+    content_tag(:span, distance_of_time_in_words(time, Time.now) + ' ago', :'data-livestamp' => time, :class => 'text-muted')
   end
   
   def datetime_localized_to_current_user(dt, options={})
@@ -24,11 +24,11 @@ module ApplicationHelper
         when 'edit'
           'pencil'
         when 'destroy', 'delete', 'remove'
-          'remove'
+          'times'
         end
     end
     link_to(path, options) do
-      content_tag(:i, '', :class => "icon-#{options[:icon]}") + name
+      content_tag(:i, '', :class => "fa fa-#{options[:icon]}") + name
     end
   end
   
@@ -70,7 +70,7 @@ module ApplicationHelper
               elsif options[:min] > i
                 icon_class << 'text-error'
               else
-                icon_class << 'muted'
+                icon_class << 'text-muted'
               end
               html += content_tag(:i, '', :class => icon_class.join(' '))
             end
@@ -83,7 +83,7 @@ module ApplicationHelper
     end
   end
   
-  def xeditable?
+  def xeditable?(object = nil)
     true # Or something like current_user.xeditable?
   end
   

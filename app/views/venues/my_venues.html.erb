@@ -1,9 +1,6 @@
 <h1>Your Venues</h1>
 <p>
-  <%= link_to new_venue_path, :class => 'btn btn-primary' do %>
-    <i class="icon-plus icon-white"></i>
-    New Venue
-  <% end %>
+  <%= iconic_link_to 'New Venue', new_venue_path, :icon => 'plus', :class => 'btn btn-primary' %>
 </p>
 <div>
   <% if @venues.blank? %>

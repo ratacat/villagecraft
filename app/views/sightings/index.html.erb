@@ -1,7 +1,7 @@
 <%
   sightings  ||= @sightings
 %>
-<ul class="unstyled attendees">
+<ul class="list-unstyled attendees">
   <% sightings.each do |s| -%>
     <li>
       <%= contextualized_user_link s.user, :linked => true %> was at <%= link_to_google_maps s.location, s.location.address %><br/>

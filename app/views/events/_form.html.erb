@@ -15,7 +15,7 @@
           :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
     <% end %>
   	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
-  	<div class="control-group">
+  	<div class="form-group">
       <%= f.label "Event Image" %>
       <div class="controls">
         <%= image_tag @event.img_src(:larger), :class => "img-rounded" %>
@@ -28,7 +28,7 @@
   	
   	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
   	
-    <%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'span5'} %>
+    <%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'col-md-5'} %>
 
   <div class="form-actions">
     <%= f.button :submit, class: "btn btn-primary" %>

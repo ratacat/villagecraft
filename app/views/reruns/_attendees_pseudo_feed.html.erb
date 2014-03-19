@@ -3,7 +3,7 @@
   sign_up_msg ||= 'is going.'
 %>
 <% if rerun and not rerun.external? and rerun.rsvp? %>
-  <ul class="unstyled attendees">
+  <ul class="list-unstyled attendees">
     <% rerun.attendances.each do |a| -%>
       <li>
         <%= contextualized_user_link a.attendee, :linked => :to_hosts_only %> <%= sign_up_msg %><br/>

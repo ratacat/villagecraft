@@ -1,50 +1,27 @@
-<div class="page-header">
-  <% if false %>
-  <div class="well well-small" style="float: right;">
-    <dl class="dl-horizontal">
-      <% if false %>
-      <dt>Events Hosted</dt>
-      <dd><%= @user.events.completed.count %></dd>
-
-      <dt>Events Attended</dt>
-      <dd><%= @user.attends.confirmed.completed.count %></dd>
-
-      <dt>Velocity</dt>
-      <dd><span class="badge badge-success"><%= formatted_velocity(@user) %></span></dd>
-      <% end %>
-      <dt>Joined Villagecraft</dt>
-      <dd><%= time_ago(@user.created_at) %></dd>
-      <% if @user.external? %>
-        <dt>External User</dt>
-      <% end %>
-    </dl>  
+<div class="row">
+  <div class="col-md-4">
+    <%= image_tag @user.profile_img_src(:xlarge), :class => "img-rounded" %>      
   </div>
-  <% end %>
-  <div class="row">
-    <div class="span3">
-      <%= image_tag @user.profile_img_src(:xlarge), :class => "img-rounded" %>      
-    </div>
-    <div class="span6">
-      <h1 class="margin_top0"><%= @user.name %></h1>
-      <% unless @user.location.blank? %>
-        <h3 class="muted"><%= city_n_state(@user.location) %></h3>
-      <% end %>
-      <div class="normalized_markdown">
-        <%= BlueCloth.new(@user.description, :filter_html).to_html.html_safe %>
-      </div>
+  <div class="col-md-6">
+    <h1 class="margin_top0"><%= @user.name %></h1>
+    <% unless @user.location.blank? %>
+      <h3 class="text-muted"><%= city_n_state(@user.location) %></h3>
+    <% end %>
+    <div class="normalized_markdown">
+      <%= BlueCloth.new(@user.description, :filter_html).to_html.html_safe %>
     </div>
   </div>
-
-  <div class="row">
-    <div class="span12">
-      <h3><%= pluralize(Workshop.where(:host_id => @user).count, "Workshop") %> Hosted</h3>
-      <%= render 'workshops/index' %>
-    </div>
-  </div>
-
-  <% if current_user === @user %>
-    <hr>
-    <%= link_to "Edit Profile", edit_user_path(current_user) %>
-  <% end %>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3><%= pluralize(Workshop.where(:host_id => @user).count, "Workshop") %> Hosted</h3>
+    <%= render 'workshops/index' %>
+  </div>
+</div>
+
+<% if current_user === @user %>
+  <hr>
+  <%= link_to "Edit Profile", edit_user_path(current_user) %>
+<% end %>
 

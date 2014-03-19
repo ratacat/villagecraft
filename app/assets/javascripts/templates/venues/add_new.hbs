@@ -2,31 +2,27 @@
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="{{auth_token}}" /></div>
   
-  <div class="control-group string required venue_name">
+  <div class="form-group string required venue_name">
     <label class="string required control-label" for="venue_name">
       <abbr title="required">*</abbr>Name
     </label>
     <div class="controls">
-      <input class="string required" id="venue_name" name="venue[name]" size="50" type="text">
+      <input class="string required form-control" id="venue_name" name="venue[name]" type="text">
     </div>
   </div>
 
-  <div class="control-group string required venue_address">
+  <div class="form-group string required venue_address">
     <label class="string required control-label" for="venue_address">
       <abbr title="required">*</abbr>Address
     </label>
     <div class="controls">
-      <input class="string required" id="venue_address" name="venue[address]" size="50" type="text">
+      <input class="string required form-control" id="venue_address" name="venue[address]" type="text">
       <p class="help-block">full address, including city, state<br /> (e.g. 123 Ward St Berkeley, CA)</p>
     </div>
   </div>
 
   <div>
-    <button type="submit" class="btn btn-primary editable-submit">
-      <i class="icon-ok icon-white"></i>
-    </button>
-    <button type="button" class="btn editable-cancel">
-      <i class="icon-remove"></i>
-    </button>
+    <button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="glyphicon glyphicon-ok"></i></button>
+    <button type="button" class="btn btn-default btn-sm editable-cancel"><i class="glyphicon glyphicon-remove"></i></button>
   </div>
 </form>

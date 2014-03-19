@@ -17,12 +17,10 @@ gem 'omniauth-facebook'
 gem 'paranoia', '~> 1.0'
 
 gem 'simple_form'
-gem 'x-editable-rails', :git => "git://github.com/bteitelb/x-editable-rails"
+gem 'x-editable-rails', '1.5.2'
 gem 'cancan'
 gem 'validates_timeliness', '~> 3.0'
 gem "validate_url", :git => "git://github.com/bteitelb/validates_url.git"
-gem 'bootstrap-generators', '~> 2.3'
-gem 'sass-rails',   '~> 3.2.3'
 
 gem 'strong_parameters'
 gem 'attribute_normalizer'
@@ -53,8 +51,8 @@ gem 'exception_notification'
 # in production environments by default.
 group :assets do
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass', '~> 2.3.2.0'
-  gem 'font-awesome-sass-rails'
+  gem 'less-rails-bootstrap', :git => 'git://github.com/metaskills/less-rails-bootstrap.git'
+  gem 'font-awesome-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

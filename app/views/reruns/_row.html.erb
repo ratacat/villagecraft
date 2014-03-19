@@ -30,7 +30,6 @@
         <div class="external_url<%= ' initially_hidden' unless rerun.external %>">
           <%= editable rerun, :external_url %>        
         </div>
-      </form>
       </td>
     <% end %>
     <td><%= editable rerun, :max_attendees %></td>
@@ -54,7 +53,7 @@
       <td>
         <%= check_box_tag '', 1, rerun.external, disabled: true %><br/>
         <% if rerun.external %>
-          <span class="muted"><%= rerun.external_url.truncate(27) %></span>
+          <span class="text-muted"><%= rerun.external_url.truncate(27) %></span>
         <% end %>
       </td>
     <% end %>

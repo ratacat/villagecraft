@@ -1,4 +1,4 @@
-<li class="span4 review-box">
+<li class="col-md-4 review-box">
   <div class="review-rating">
     <div class="review-arrow"><%=link_to content_tag( :i, '', :class => "icon-arrow-up" ), plus_review_path(review), :class => "plus-rating" %></div>
     <div class="review-rating-value"><%= review.rating %></div>
@@ -15,7 +15,7 @@
             <%= content_tag :div, :class => "review-body-full", :style => 'display: none;' do %>
               <%= simple_format review.body %>
             <% end %>            
-            <a href="#" class="review-more muted">More</a>
+            <a href="#" class="review-more text-muted">More</a>
         </div>
       <!--</div>-->
       <div class="review-bottom">

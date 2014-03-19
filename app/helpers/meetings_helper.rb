@@ -54,7 +54,7 @@ module MeetingsHelper
     end
     if options[:show_livestamp]
       html << options[:spacer] if options[:spacer]
-      html << content_tag(:span, '', :class => 'muted', :'data-livestamp' => meeting.start_time)
+      html << content_tag(:span, '', :class => 'text-muted', :'data-livestamp' => meeting.start_time)
     end
     unless options[:no_tz]
       html << options[:spacer] if options[:spacer]

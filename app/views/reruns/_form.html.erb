@@ -5,7 +5,7 @@
     <% end %>
     <div class="hide customize_title_and_description">
     	<%= f.input :title %>
-    	<%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'span5', :'data-provide' => "markdown"} %>
+    	<%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'col-md-5', :'data-provide' => "markdown"} %>
     </div>
   	<%# f.input :short_title, label: 'Short Title' %>
 
@@ -25,9 +25,9 @@
   	<%= f.input :max_attendees, input_html: {:min => 0} %>
 
     <%= f.input :price, label: 'Price', required: true, wrapper_html: {class: 'input-prepend input-append'} do %>
-      <span class="add-on">$</span>
-    	<%= f.input_field :price, :as => :decimal, :class => 'span1' %>
-      <span class="add-on">.00</span>
+      <span class="input-group-addon">$</span>
+    	<%= f.input_field :price, :as => :decimal, :class => 'col-md-1' %>
+      <span class="input-group-addon">.00</span>
     <% end %>
     
   	

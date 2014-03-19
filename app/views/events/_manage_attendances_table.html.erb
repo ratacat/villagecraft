@@ -6,13 +6,13 @@
   <tbody>
     <% attendances.each do |a| %>
       <tr>
-        <td class="span3">
+        <td class="col-md-3">
           <%= rich_user_thumbnail(a.user) %>
           <% if a.interested? %>
-            <h2><%= link_to 'Accept', accept_attendee_path(event, :attendance_uuid => a.uuid), :class => "btn btn-small" %></h2>
+            <h2><%= link_to 'Accept', accept_attendee_path(event, :attendance_uuid => a.uuid), :class => "btn btn-sm" %></h2>
           <% end %>
         </td>
-        <td class="span5"><div class="well"><%= a.message %></div></td>
+        <td class="col-md-5"><div class="well"><%= a.message %></div></td>
       </tr>
     <% end %>    
   </tbody>

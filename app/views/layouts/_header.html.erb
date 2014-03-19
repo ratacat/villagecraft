@@ -27,7 +27,7 @@
                 <li class="divider"></li>
               <% end %>
             </ul>
-            <div class="center-text well well-small margin0">
+            <div class="center-text well well-sm margin0">
               <%= link_to 'See all notifications', notifications_path %>
             </div>
           </div>
@@ -40,6 +40,7 @@
           <% else %>
             <span><%= current_user.name %></span>
           <% end %>
+          <span class="caret"></span>
         <% end %>
         <ul class="dropdown-menu pull-right" role="menu">
           <% if current_user.try(:host?) %>

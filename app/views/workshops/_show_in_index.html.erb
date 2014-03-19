@@ -11,14 +11,14 @@
   </a>
   <div class="media-body">
     <% if workshop.host.promote_host %>
-      <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'muted' %>
+      <%= link_to workshop.host.possessable_name.possessive, workshop.host, :class => 'text-muted' %>
     <% end %>
 
     <h4 class="start_time blocky_spns">
       <% if rerun %>
         <%= meeting_time(rerun.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %>
         <% if false #  rerun.first_meeting.start_time - Time.now < 10.days %>
-          <%= content_tag(:span, '', :class => 'muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
+          <%= content_tag(:span, '', :class => 'text-muted pull-right smaller', :'data-livestamp' => rerun.first_meeting.start_time) %>
         <% end %>
       <% end %>    
     </h4>
@@ -26,9 +26,9 @@
     <%= user_thumb(workshop.host, :size => :small, :linked => true) %>
 
     <h4 class="media-heading"><%= link_to workshop.title, workshop_path(workshop) %></h4>
-    <div class="row">
+    <div class="row margin0">
       <% if rerun %>
-        <div class="span3">
+        <div class="col-md-7 col-sm-4">
           <p>
             <%= render 'reruns/location', :rerun => rerun %>
             <% if workshop.location %>
@@ -37,7 +37,7 @@
           </p>
         </div>
 
-        <div class="span1">
+        <div class="col-md-3 col-sm-4">
           <%= render 'reruns/price_full_or_spots_left', :rerun => rerun %>
         </div>
       <% end %>
