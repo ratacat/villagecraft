@@ -12,7 +12,7 @@
       <% else %>
         <%= link_to 'More info', event.external_url, 
             :'data-html' => 'true', :'data-placement' => 'bottom', :'data-title' => "more information at #{external_domain(@workshop)}", 
-            :class => "tooltipify btn btn-block", :target => '_blank' %>
+            :class => "tooltipify btn btn-block btn-primary", :target => '_blank' %>
       <% end %>
     <% end %>
   <% else %>
