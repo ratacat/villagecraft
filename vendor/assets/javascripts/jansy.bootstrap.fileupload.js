@@ -1,8 +1,8 @@
 /* ===========================================================
- * Bootstrap: fileinput.js v3.0.0-p7
- * http://jasny.github.com/bootstrap/javascript.html#fileinput
+ * Bootstrap: fileinput.js v3.1.0
+ * http://jasny.github.com/bootstrap/javascript/#fileinput
  * ===========================================================
- * Copyright 2012 Jasny BV, Netherlands.
+ * Copyright 2012-2014 Arnold Daniels
  *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
@@ -24,15 +24,15 @@
   // FILEUPLOAD PUBLIC CLASS DEFINITION
   // =================================
 
-  var Fileupload = function (element, options) {
+  var Fileinput = function (element, options) {
     this.$element = $(element)
-      
+    
     this.$input = this.$element.find(':file')
     if (this.$input.length === 0) return
 
     this.name = this.$input.attr('name') || options.name
 
-    this.$hidden = this.$element.find('input[type=hidden][name="'+this.name+'"]')
+    this.$hidden = this.$element.find('input[type=hidden][name="' + this.name + '"]')
     if (this.$hidden.length === 0) {
       this.$hidden = $('<input type="hidden" />')
       this.$element.prepend(this.$hidden)
@@ -51,7 +51,7 @@
     this.listen()
   }
   
-  Fileupload.prototype.listen = function() {
+  Fileinput.prototype.listen = function() {
     this.$input.on('change.bs.fileinput', $.proxy(this.change, this))
     $(this.$input[0].form).on('reset.bs.fileinput', $.proxy(this.reset, this))
     
@@ -59,7 +59,7 @@
     this.$element.find('[data-dismiss="fileinput"]').on('click.bs.fileinput', $.proxy(this.clear, this))
   },
 
-  Fileupload.prototype.change = function(e) {
+  Fileinput.prototype.change = function(e) {
     if (e.target.files === undefined) e.target.files = e.target && e.target.value ? [ {name: e.target.value.replace(/^.+\\/, '')} ] : []
     if (e.target.files.length === 0) return
 
@@ -75,7 +75,8 @@
       var element = this.$element
 
       reader.onload = function(re) {
-        var $img = $('<img>').attr('src', re.target.result)
+        var $img = $('<img>') // .attr('src', re.target.result)
+        $img[0].src = re.target.result
         e.target.files[0].result = re.target.result
         
         element.find('.fileinput-filename').text(file.name)
@@ -100,7 +101,7 @@
     }
   },
 
-  Fileupload.prototype.clear = function(e) {
+  Fileinput.prototype.clear = function(e) {
     if (e) e.preventDefault()
     
     this.$hidden.val('')
@@ -127,7 +128,7 @@
     }
   },
 
-  Fileupload.prototype.reset = function() {
+  Fileinput.prototype.reset = function() {
     this.clear(false)
 
     this.$hidden.val(this.original.hiddenVal)
@@ -140,7 +141,7 @@
     this.$element.trigger('reset.bs.fileinput')
   },
 
-  Fileupload.prototype.trigger = function(e) {
+  Fileinput.prototype.trigger = function(e) {
     this.$input.trigger('click')
     e.preventDefault()
   }
@@ -149,16 +150,27 @@
   // FILEUPLOAD PLUGIN DEFINITION
   // ===========================
 
+  var old = $.fn.fileinput
+  
   $.fn.fileinput = function (options) {
     return this.each(function () {
-      var $this = $(this)
-      , data = $this.data('fileinput')
-      if (!data) $this.data('fileinput', (data = new Fileupload(this, options)))
+      var $this = $(this),
+          data = $this.data('fileinput')
+      if (!data) $this.data('fileinput', (data = new Fileinput(this, options)))
       if (typeof options == 'string') data[options]()
     })
   }
 
-  $.fn.fileinput.Constructor = Fileupload
+  $.fn.fileinput.Constructor = Fileinput
+
+
+  // FILEINPUT NO CONFLICT
+  // ====================
+
+  $.fn.fileinput.noConflict = function () {
+    $.fn.fileinput = old
+    return this
+  }
 
 
   // FILEUPLOAD DATA-API
