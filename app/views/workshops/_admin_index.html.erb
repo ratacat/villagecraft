@@ -15,9 +15,7 @@
 <% @workshops.each do |workshop| %>
     <tr>
       <td>
-        <%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :right_caption => true, :span => 4} %>
-        <%= iconic_link_to 'Edit', edit_workshop_path(workshop), class: 'btn btn-mini', title: 'edit' %>
-        <%= iconic_link_to 'Manage', manage_workshop_path(workshop), class: 'btn btn-mini', title: 'manage' , icon: 'group' %>
+        <%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :show_manage_buttons => true} %>
       </td>
       <td class="blocky_spns">
         <% if workshop.next_meeting.blank? %>
@@ -26,13 +24,13 @@
                              :icon => 'plus', :class => 'btn btn-success', :method => :post %>
         <% else %>
           <div><%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %></div>
-          <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn btn-mini') if can? :manage_attendees, workshop.next_meeting.event %>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn btn-xs btn-default') if can? :manage_attendees, workshop.next_meeting.event %>
         <% end %>
       </td>
       <td class="blocky_spns">
         <% unless workshop.last_meeting.blank? %>
           <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
-          <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn btn-mini') if can? :manage_attendees, workshop.last_meeting.event %>
+          <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn btn-xs btn-default') if can? :manage_attendees, workshop.last_meeting.event %>
         <% end %>
       </td>
       <% if show_host -%><td><%= link_to annotated_user_name(workshop.host), workshop.host %></td><% end -%>

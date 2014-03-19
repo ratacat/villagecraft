@@ -1,8 +1,5 @@
 <div class="page-header">
-  <%= link_to new_venue_path, :class => 'btn btn-primary' do %>
-    <i class="icon-plus icon-white"></i>
-    New Venue
-  <% end %>
+  <%= iconic_link_to 'New Venue', new_venue_path, :icon => 'plus', :class => 'btn btn-primary' %>
   <h1>All Venues</h1>
 </div>
 <%= render 'index', :venues => @venues %>

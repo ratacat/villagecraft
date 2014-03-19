@@ -1,24 +1,24 @@
 <div class="row">
-  <div class="span12">
+  <div class="col-md-12">
     <span class="pull-right">
       <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), :icon => 'pencil', :class => 'btn btn-default' %>
     </span>
-    <h4 class="muted margin0">Manage</h4>
+    <h4 class="text-muted margin0">Manage</h4>
     <h2 class="margin_top0"><%= @workshop.title %></h2>
   </div>
 </div>
 <div class="row">
-  <div class="span2">
+  <div class="col-md-2">
     <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>  
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
   </div>  
 </div>
-<div class="span12">
+<div class="col-md-12">
   <ul class="nav nav-tabs margin0">
     <li class="active"><a href="#reruns" data-toggle="tab">Reruns</a></li>
     <li><a href="#attendees" data-toggle="tab">Attendees</a></li>

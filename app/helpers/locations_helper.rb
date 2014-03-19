@@ -30,7 +30,7 @@ module LocationsHelper
     options.reverse_merge!(defaults)
     
     content_tag(:span, (location.neighborhood ? location.neighborhood.name + "#{' in ' if options[:show_in]}" : 'Somewhere in ')) + 
-    content_tag(:span, city_n_state(location), :class => 'muted')
+    content_tag(:span, city_n_state(location), :class => 'text-muted')
   end
   
   def address(location, options={})

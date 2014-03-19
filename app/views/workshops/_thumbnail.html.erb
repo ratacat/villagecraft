@@ -2,19 +2,16 @@
   workshop ||= @workshop
   linked ||= false
   thumb_size ||= :small
-  span ||= "6"
-  right_caption ||= false
+  show_manage_buttons ||= false
   linked_to = (linked === :edit ? edit_workshop_path(workshop) : workshop)
 %>
-<ul class="thumbnails workshop_thumb">
-  <li class="span<%= span %>">
-    <div class="thumbnail<%= " right-caption" if right_caption %>">
-      <%= link_to image_tag(workshop.img_src(thumb_size), :class => "img-rounded"), linked_to %>
-    </div>
-    <div class="caption <%= thumb_size %><%= " right-caption" if right_caption %>">
-      <span>
-        <%= annotated_workshop_title(workshop, :linked_to => linked_to) %>
-      </span>
-    </div>
-  </li>
-</ul>
+<div class="media">
+  <%= link_to image_tag(workshop.img_src(thumb_size), :class => "media-object img-rounded"), linked_to, :class => "pull-left" %>
+  <div class="media-body">
+    <h4 class="media-heading"><%= annotated_workshop_title(workshop, :linked_to => linked_to) %></h4>
+    <% if show_manage_buttons %>
+      <%= iconic_link_to 'Edit', edit_workshop_path(workshop), class: 'btn btn-xs btn-default', title: 'edit' %>
+      <%= iconic_link_to 'Manage', manage_workshop_path(workshop), class: 'btn btn-xs btn-default', title: 'manage' , icon: 'group' %>    
+    <% end %>
+  </div>
+</div>

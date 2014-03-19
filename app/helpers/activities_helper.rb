@@ -100,7 +100,7 @@ module ActivitiesHelper
     end
     
     # Muted line below main activity line
-    html << '<div class="muted">'.html_safe
+    html << '<div class="text-muted">'.html_safe
     # At a certain time...
     if options[:show_ago]
       html << time_ago(activity.created_at)
@@ -111,7 +111,7 @@ module ActivitiesHelper
       html << " &#xb7; ".html_safe
       html << options[:extra_html]
     end
-    html << '</div>'.html_safe   # close <div class="muted">
+    html << '</div>'.html_safe   # close <div class="text-muted">
     
     # Activity body (image thumbnail, new venue, new time, SMS message, etc.)
     case activity.key

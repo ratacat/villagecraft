@@ -1,11 +1,7 @@
 <div class="page-header">
-  <%= link_to users_path, :class => 'btn' do %>
-    <i class="icon-list-alt"></i>
-    Back
-  <% end %>
-  <%= link_to @user, :class => 'btn btn-primary' do %>
-    <i class="icon-info-sign icon-white"></i>
-    Show
+  <% if admin_session? %>
+    <%= iconic_link_to 'List', users_path, :icon => 'list-alt', :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Show', @user, :icon => 'user', :class => 'btn btn-primary' %>
   <% end %>
   <h1>Edit Profile</h1>
 </div>

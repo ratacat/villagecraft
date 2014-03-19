@@ -1,4 +1,4 @@
-<div class="modal hide fade" id="modal-add-review" tabindex="-1" role="dialog" aria-labelledby="modalAddReview" aria-hidden="true">
+<div class="modal fade" id="modal-add-review" tabindex="-1" role="dialog" aria-labelledby="modalAddReview" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,19 +10,14 @@
             <div class="review-elements">
               <%#= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
               <% if past_reruns.present? %>
-                  <%#= f.hidden_field :event_id, :value => @past_reruns.first.id %>
-                  <%= f.input :event_id, :wrapper => :non_label do %>
-                      <%= f.input_field :event_id, :class => 'input-block-level', :value => past_reruns.first.id, :type => :hidden %>
-                      <%= content_tag(:span,'', :class => 'help-inline hide') %>
-                  <% end %>
-
+                <%= f.hidden_field :event_id, :value => past_reruns.first.id %>
               <% end %>
               <%#= f.input :title, :wrapper => :bootstrap do %>
               <%#= f.input_field :title, :class => 'input-block-level' %>
               <%#= content_tag(:span,'', :class => 'help-inline hide') %>
               <% #end %>
 
-              <%= f.input :body, :wrapper => :bootstrap do %>
+              <%= f.input :body, :wrapper => :bootstrap3 do %>
                   <%= f.input_field :body, :as => :text, :class => 'input-block-level', :rows=>"10" %>
                   <%= content_tag(:span,'', :class => 'help-inline hide') %>
               <% end %>
@@ -30,7 +25,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <%= f.button :submit, 'Add it!', :class=>"create_review"%>
+            <%= f.button :submit, 'Add it!', :class => "create_review btn btn-primary"%>
           </div>
       <% end %>
     </div>

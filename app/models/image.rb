@@ -10,7 +10,7 @@ class Image < ActiveRecord::Base
   has_attached_file :i, 
                     :storage => :s3, :bucket => 'villagecraft', :s3_headers => {'Expires' => 1.year.from_now.httpdate}, :s3_credentials => {:access_key_id => AWS_ACCESS_KEY, :secret_access_key => AWS_SECRET_KEY},
                     :styles => {:larger => "400x400>",  # original aspect ratio
-                                :xlarge => "270x270#",  # this is Bootstrap span3's width
+                                :xlarge => "270x270#",  # this is Bootstrap col-md-3's width
                                 :large_orig => "200x200>",
                                 :large => "200x200#", 
                                 :medium => "100x100#", 

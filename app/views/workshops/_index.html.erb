@@ -13,7 +13,7 @@
       <% end %>
     </div>
     <% unless other_workshops.blank? %>
-      <h3 class="muted chunk_header">
+      <h3 class="text-muted chunk_header">
         Workshops with no upcoming dates
       </h3>
       <div class="day_chunk">
@@ -31,7 +31,7 @@
       end
     %>
     <% w_by_day.each do |day, workshops_that_day| %>
-      <h3 class="muted chunk_header">
+      <h3 class="text-muted chunk_header">
         <% if day === :none %>
           Workshops with no upcoming dates
         <% else %>

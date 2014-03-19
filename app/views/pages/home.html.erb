@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span8">
+  <div class="col-md-8">
     <ul class="nav nav-pills">
       <li<%= ' class=active' unless (session[:sort_order] === 'distance') %>>
         <%= link_to 'Sort by date', root_path(:sort => :date), :method => :post %>
@@ -7,14 +7,14 @@
       <li<%= ' class=active' if (session[:sort_order] === 'distance') %>>
         <%= link_to 'Sort by distance', root_path(:sort => :distance), :method => :post %>
       </li>
-      <li class='editable_location<%= ' muted' unless (session[:sort_order] === 'distance') %>' id="current_loc" data-longitude="<%= @location.longitude %>" data-latitude="<%= @location.latitude %>" data-preferred_distance_units="<%= current_user.try(:preferred_distance_units) || 'mi' %>">
+      <li class='editable_location<%= ' text-muted' unless (session[:sort_order] === 'distance') %>' id="current_loc" data-longitude="<%= @location.longitude %>" data-latitude="<%= @location.latitude %>" data-preferred_distance_units="<%= current_user.try(:preferred_distance_units) || 'mi' %>">
         from <%= editable @location, :address %> <span id="in_city_state"><%= "(#{city_n_state(@location)})" unless @location.address_contains_city_state %></span>
       </li>
     </ul>
   </div>
 </div>
-<div class="row">
-  <div class="span8">
+<div class="row margin_top10">
+  <div class="col-md-8">
     <%= render 'workshops/index' %>
   </div>
 </div>

@@ -4,46 +4,42 @@
   message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
 %>
 <div class="row">
-  <div class="span3">
+  <div class="col-sm-3">
     <%= iconic_link_to 'back', root_path, :icon => 'chevron-left' %>
   </div>
 </div>
 <div class="row">
-  <div class="span2">
+  <div class="col-sm-3">
     <p>
-      <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>
-      <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
+      <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs") %>
     </p>
+    <p><span class="nowrap"><%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %></span></p>
     <% if user_signed_in? and current_user.can_review?(@workshop) %>
-      <button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button>
+      <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
     <% end %>
   </div>
-  <div class="span7">
+  <div class="col-sm-6">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
     <div class="row">
-      <div class="span2">
+      <div class="col-sm-4">
         <% if next_rerun %>
           <div class="blocky_spns">
             <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
           </div>
         <% else %>
-          <span class="muted">no upcoming dates</span>
+          <span class="text-muted">no upcoming dates</span>
         <% end %>
       </div>
-      <div class="span3">
+      <div class="col-sm-4 col-sm-3">
         <p>
           <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
         </p>
       </div>
 
-      <div class="span2">
+      <div class="col-sm-4">
         <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
       </div>
 
-      <div class="hidden-tablet hidden-desktop">
-        <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
-      </div>
-    
     </div>
     
     <p class="event_description clearfix">
@@ -95,27 +91,23 @@
     <% end %>
     
   </div>
-  <div class="span3 side_content">
+  <div class="col-sm-3 side_content">
     <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
     
-    <h4 class="muted">Host</h4>
+    <h4 class="text-muted">Host</h4>
     <div id='host_mini_profile'>
       <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>      
     </div>
     
     <% if current_user === @workshop.host %>
     <div class="well host-only">
-      <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-mini', title: 'edit' %>
-      <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-mini', title: 'manage' , icon: 'group' %>
+      <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-xs', title: 'edit' %>
+      <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-xs', title: 'manage' , icon: 'group' %>
     </div>
     <% end %>
     
-    <h4 class="muted">People</h4>
-    <div class="row">
-      <div class="span3">
-        <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
-      </div>
-    </div>
+    <h4 class="text-muted">People</h4>
+    <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
   </div>
 </div>
 <!-- Add Review Modal -->
@@ -124,6 +116,7 @@
 <!-- Show More Review Modal -->
 <%= render 'reviews/more_modal', :review => @review %>
 
+<!-- Show New Message Modal -->
 <%= render 'messages/modal_new', :message => message %>
 <% ready_script do -%>
   $('#host_mini_profile a.message_user').on('click', function(e) {

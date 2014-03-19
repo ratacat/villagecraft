@@ -24,8 +24,8 @@ $(function () {
                   $('.error').removeClass('error');
                   $.each(response.responseJSON, function(key, val){
 
-                    $("[id$='_"+key+"']").parents(".control-group").addClass("error")
-                    $(".help-inline", $("[id$='_"+key+"']").parents(".control-group")).text(val[0]).slideDown()
+                    $("[id$='_"+key+"']").parents(".form-group").addClass("has-error")
+                    $(".help-inline", $("[id$='_"+key+"']").parents(".form-group")).text(val[0]).slideDown()
                   })
                 }
             });
@@ -112,8 +112,8 @@ $(function () {
                     $('.error').removeClass('error');
                     $.each(response.responseJSON, function(key, val){
 
-                        $("[id$='_"+key+"']").parents(".control-group").addClass("error")
-                        $(".help-inline", $("[id$='_"+key+"']").parents(".control-group")).text(val[0]).slideDown()
+                        $("[id$='_"+key+"']").parents(".form-group").addClass("has-error")
+                        $(".help-inline", $("[id$='_"+key+"']").parents(".form-group")).text(val[0]).slideDown()
                     })
                 }
             });

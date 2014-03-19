@@ -17,7 +17,7 @@
     <% else %>
       <h3>Interested?</h3>
       <%= form_for(:attendance, :url => attend_path(event), :html => {:class => "form-inline"}) do |f| %>
-          <%= f.text_field :message, placeholder: "Tell host a little about why you'd like to attend.", class: 'span4' %>
+          <%= f.text_field :message, placeholder: "Tell host a little about why you'd like to attend.", class: 'col-md-4' %>
           <%= f.submit :Submit, :class => "btn-primary" %>
       <% end %>
     <% end %>

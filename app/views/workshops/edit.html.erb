@@ -1,13 +1,14 @@
-<div class="span12">
-  <span class="pull-right">
+<div class="row">
+<div class="col-md-12">
+  <span class="panel pull-right">
     <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
     <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
     <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
   </span>
-  <h2 class="muted margin0">Edit Workshop</h2>
+  <h2 class="text-muted margin0">Edit Workshop</h2>
   <%= render 'form' %>
 </div>
-<div class="span12">
+<div class="col-md-12">
   <ul class="nav nav-tabs margin0">
     <li class="active"><a href="#future_reruns" data-toggle="tab">Coming Up (<span id='future_reruns_count'><%= @future_reruns.count %></span>)</a></li>
     <li><a href="#past_reruns" data-toggle="tab">Past (<span id='past_reruns_count'><%= @past_reruns.count %></span>)</a></li>
@@ -32,7 +33,7 @@
 </div>
 
 <% unless @workshop.external? %>
-<div class="span12">
+<div class="col-md-12">
 <% if false %>
   <dl>
     <dt><h3>Listing</h3></dt>
@@ -50,15 +51,15 @@
     </dd>
 <% end %>
     <dt>
-      <h3 class="margin0">Greeting</h3>
-      <p class="muted">Sent immediately after signup</p>
+      <h3>Greeting</h3>
+      <p class="text-muted">Sent immediately after signup</p>
     </dt>
     <dd>
       <div class="row">
-        <div class="span4">
-          <%= render 'workshops/greeting_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        <div class="col-md-4">
+          <%= render 'workshops/greeting_message_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
           <p>
             Think about including:
             <ul>
@@ -77,15 +78,15 @@
     </dd>
 
     <dt>
-      <h3 class="margin0">Warmup</h3>
-      <p class="muted">Sent two days before workshop</p>
+      <h3>Warmup</h3>
+      <p class="text-muted">Sent two days before workshop</p>
     </dt>
     <dd>
       <div class="row">
-        <div class="span4">
-          <%= render 'workshops/warmup_message_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        <div class="col-md-4">
+          <%= render 'workshops/warmup_message_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
           <p>
             Get everyone pumped up with more detail about what they will be doing.
           </p>
@@ -100,15 +101,15 @@
     </dd>
 
     <dt>
-      <h3 class="margin0">Reminder</h3>
-      <p class="muted">Sent 3+ hours before workshop</p>
+      <h3>Reminder</h3>
+      <p class="text-muted">Sent 3+ hours before workshop</p>
     </dt>
     <dd>
       <div class="row">
-        <div class="span4">
-          <%= render 'workshops/reminder_form', :remote => true, :auto_submit => true, :span => 'span4' %>
+        <div class="col-md-4">
+          <%= render 'workshops/reminder_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
         </div>
-        <div class="span6">
+        <div class="col-md-6">
           <p>
             Sent 3 hours before the workshop, except when that time falls between 9pm and 9am, in which case your attendees will receive the reminder the night before, at 8pm.
           </p>
@@ -117,6 +118,7 @@
     </dd>
 
   </dl>
+</div>
 </div>
 <% end %>
 <% body_script do -%>
@@ -174,7 +176,7 @@
           end_time_time: data_span.data('end_time_time')
         });
       }
-    }).on('shown', function() {
+    }).on('shown.bs.popover', function() {
       hide_vc_editable_popovers(this);
       init_datetime_picker(); 
     });

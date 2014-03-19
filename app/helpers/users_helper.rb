@@ -51,7 +51,7 @@ module UsersHelper
                        new_message_path(:message => {:_apropos_uuid => options[:make_messageable_apropos].try(:uuid), 
                                                      :apropos_type => options[:make_messageable_apropos].try(:class).try(:to_s), 
                                                      :_to_user_uuid => user.uuid}),
-                       :class => 'muted message_user')
+                       :class => 'text-muted message_user')
     end    
     html
   end

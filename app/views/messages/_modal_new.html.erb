@@ -1,9 +1,13 @@
-<div id="new_message_modal" class="modal  fade" tabindex="-1" data-backdrop="true" data-keyboard="true" role="dialog" aria-hidden="true" >
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <%= render 'messages/new_for_header', :message => message %>
-  </div>
-  <div class="modal-body">
-    <%= render 'messages/form', :message => message, :span => 'span5', :remote => true %>
+<div id="new_message_modal" class="modal fade" tabindex="-1" data-backdrop="true" data-keyboard="true" role="dialog" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <%= render 'messages/new_for_header', :message => message %>
+      </div>
+      <div class="modal-body">
+        <%= render 'messages/form', :message => message, :span => 'col-md-5', :remote => true %>
+      </div>
+    </div>
   </div>
 </div>
