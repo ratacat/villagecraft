@@ -29,9 +29,7 @@
       <td><%= user.privileges.join(', ') %></td>
       <td>
         <% if user.fb_authenticated? %>
-          <%= link_to facebook_link(user), class: 'btn btn-xs btn-primary' do -%>
-            <i class="icon-facebook"></i>
-          <% end -%>
+          <%= iconic_link_to "&nbsp;".html_safe, facebook_link(user), icon: 'facebook', class: 'btn btn-xs btn-primary' %>
         <% end %>
       </td>
       <td>

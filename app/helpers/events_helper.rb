@@ -41,7 +41,7 @@ module EventsHelper
     end
   
     link_to (options[:path] || attend_path(event)), link_to_options do
-      (options[:show_check] ? content_tag(:i, '', :class => "icon-check icon-large") : '') + options[:cta]
+      (options[:show_check] ? content_tag(:i, '', :class => "glyphicon glyphicon-ok") : '') + options[:cta]
     end
   end
 
