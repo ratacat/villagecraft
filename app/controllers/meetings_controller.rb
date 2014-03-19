@@ -5,7 +5,7 @@ class MeetingsController < ApplicationController
   # GET /meetings/1
   # GET /meetings/1.json
   def show
-    redirect_to root_url(:only_path => true, :anchor => @meeting.event.to_param)
+    redirect_to workshop_path(@meeting.workshop)
   end
   
   # PUT /meetings/1
