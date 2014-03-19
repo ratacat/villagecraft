@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12">
     <span class="pull-right">
-      <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
+      <%= iconic_link_to 'View', workshop_path(@workshop), :icon => 'calendar-o', :class => 'btn btn-default' %>
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), :icon => 'pencil', :class => 'btn btn-default' %>
     </span>
     <h4 class="text-muted margin0">Manage</h4>
@@ -9,8 +9,8 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-2">
-    <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb") %>  
+  <div class="col-md-3">
+    <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full-width") %>  
   </div>
   <div class="col-md-6">
     <p class="event_description clearfix">
