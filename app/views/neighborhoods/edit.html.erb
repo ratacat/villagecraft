@@ -7,11 +7,17 @@
   <h1>Editing neighborhood</h1>
 </div>
 
-<div class="pull-right">
-  <div id="map-canvas" class="img-polaroid"></div>
+<div class="row">
+  <div class="pull-right">
+    <div id="map-canvas" class="img-polaroid"></div>
+  </div>
+  
+  <div class="col-sm-6">
+    <%= render 'form' %>
+  </div>
 </div>
+
 <% ready_script do -%>
   loadGMap({title: "<%= @neighborhood.name %>", geo_json: <%= @neighborhood.as_geo_json.html_safe %>});
 <% end -%>
 
-<%= render 'form' %>
