@@ -13,7 +13,7 @@
     </span>
   <% else %>
     <% if current_user.attends.exists?(event) %>
-      <i class="icon-check icon-large text-success"> </i> You plan to attend (<%= link_to 'cancel', cancel_attend_path, :method => :post %>)
+      <i class="fa fa-check icon-large text-success"> </i> You plan to attend (<%= link_to 'cancel', cancel_attend_path, :method => :post %>)
     <% else %>
       <h3>Interested?</h3>
       <%= form_for(:attendance, :url => attend_path(event), :html => {:class => "form-inline"}) do |f| %>
