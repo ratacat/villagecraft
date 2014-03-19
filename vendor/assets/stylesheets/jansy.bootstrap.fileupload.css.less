@@ -1,8 +1,9 @@
 // Fileinput.less
 // CSS for file upload button and fileinput widget
 // ------------------------------------------------
-
-@import "bootstrap-variables";
+@import "twitter/bootstrap/variables.less";
+@import "custom_bootstrap/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "twitter/bootstrap/mixins.less";
 
 .btn-file {
   overflow: hidden;
@@ -17,6 +18,7 @@
     filter: alpha(opacity=0);
     transform: translate(-300px, 0) scale(4);
     font-size: 23px;
+    height: 100%;
     direction: ltr;
     cursor: pointer;
   }
@@ -25,7 +27,9 @@
 .fileinput {
   margin-bottom: 9px;
   display: inline-block;
-  .uneditable-input {
+  .form-control {
+    padding-top: 7px;
+    padding-bottom: 5px;
     display: inline-block;
     margin-bottom: 0px;
     vertical-align: middle;
@@ -53,56 +57,49 @@
   display: inline;
 }
 
-.fileinput .uneditable-input {
-  white-space: normal;
+.fileinput-filename {
+  vertical-align: middle;
+  display: inline-block;
+  overflow: hidden;
+}
+.form-control .fileinput-filename {
+  vertical-align: bottom;
 }
 
 // Not 100% correct, but helps in typical use case
 .fileinput-new .input-group .btn-file {
-  border-radius: 0 $baseBorderRadius $baseBorderRadius 0;
+  border-radius: 0 @border-radius-base @border-radius-base 0;
 }
 .fileinput-new .input-group .btn-file.btn-xs,
 .fileinput-new .input-group .btn-file.btn-sm {
-  border-radius: 0 $borderRadiusSmall $borderRadiusSmall 0;
+  border-radius: 0 @border-radius-small @border-radius-small 0;
 }
 .fileinput-new .input-group .btn-file.btn-lg {
-  border-radius: 0 $borderRadiusLarge $borderRadiusLarge 0;
+  border-radius: 0 @border-radius-large @border-radius-large 0;
 }
 
 .form-group.has-warning .fileinput {
-  .uneditable-input {
-    color: $warningText;
-    border-color: $warningBorder;
-  }
   .fileinput-preview {
-    color: $warningText;
+    color: @state-warning-text;
   }
   .thumbnail {
-    border-color: $warningBorder;
+    border-color: @state-warning-border;
   }
 }
 .form-group.has-error .fileinput {
-  .uneditable-input {
-    color: $errorText;
-    border-color: $errorBorder;
-  }
   .fileinput-preview {
-    color: $errorText;
+    color: @state-danger-text;
   }
   .thumbnail {
-    border-color: $errorBorder;
+    border-color: @state-danger-border;
   }
 }
 .form-group.has-success .fileinput {
-  .uneditable-input {
-    color: $successText;
-    border-color: $successBorder;
-  }
   .fileinput-preview {
-    color: $successText;
+    color: @state-success-text;
   }
   .thumbnail {
-    border-color: $successBorder;
+    border-color: @state-success-border;
   }
 }
 
