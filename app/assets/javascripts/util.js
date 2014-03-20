@@ -88,6 +88,11 @@ jQuery(function($) {
     $(this).closest('form').submit();
   });
 
+  $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+  });
+  
   // Default AJAX error handler
   $(document).on("ajax:error", function(evt, xhr, status, error) {
     var errors = $.parseJSON(xhr.responseText).errors.join("; ");
