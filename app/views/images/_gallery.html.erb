@@ -4,7 +4,7 @@
   thumb_size ||= :medium
   lightbox_size ||= :xlarge_orig
   grid_class ||= "col-sm-6"
-  default_lightbox_params = {toggle: "lightbox", gallery: "multiimages"}
+  default_lightbox_params = {toggle: "lightbox", gallery: "multiimages", parent: '.container'}
 %>
 
 <% images.each_slice(images_per_row) do |a_of_i| -%>
