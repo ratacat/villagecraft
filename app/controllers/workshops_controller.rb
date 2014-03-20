@@ -44,10 +44,30 @@ class WorkshopsController < ApplicationController
     @reviews_recent = Review.sort_reviews_by_created(@reviews, 3)
     @reviews_rating =  Review.sort_reviews_by_rating(@reviews, 3)
 
-
+    if @workshop.image
+      @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image)
+    else
+      @images = @workshop.images
+    end
+    
     respond_to do |format|
       format.html { render 'show' }
       format.json { render json: @workshop }
+    end
+  end
+  
+  # GET /w/1/upload_photo
+  # POST /w/1/upload_photo
+  def upload_photo
+    if request.put?
+      if params[:workshop] and params[:workshop][:image]
+        @i = Image.new(:i => params[:workshop][:image], :user => current_user, :apropos => @workshop, :title => params[:workshop][:title])        
+      end
+      if @i.try(:save)
+        redirect_to workshop_path(@workshop), notice: "Image uploaded"
+      else
+        redirect_to upload_photo_workshop_path(@workshop), alert: "There was a problem uploading that file.  Try another."
+      end
     end
   end
 
