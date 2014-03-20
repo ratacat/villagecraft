@@ -100,7 +100,7 @@
     </div>
     
     <% if current_user === @workshop.host %>
-    <div class="well well-sm host-only">
+    <div class="well host-only">
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'edit' %>
       <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'group' %>
     </div>
