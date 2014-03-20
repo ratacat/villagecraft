@@ -11,6 +11,8 @@ Villagecraft::Application.routes.draw do
   end
   resources :workshops, as: 'oldstyle_workshops'
 
+  resources :images, only: [:destroy]
+
   post 'w/:id/reviews(.:format)' => 'reviews#create', :as => :add_review
   get 'w/:id/reviews(.:format)' => 'reviews#index', :as => :reviews_by_workshop
   #post 'w/:id/plus_rating(.:format)' => 'reviews#plus_rating', :as => :plus_rating_review
