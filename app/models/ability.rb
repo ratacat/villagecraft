@@ -39,6 +39,8 @@ class Ability
         can :my_venues, Venue
         
         can [:new, :create, :show], Message
+        
+        can [:destroy], Image, :user_id => user.id
       end
       
       # admin
