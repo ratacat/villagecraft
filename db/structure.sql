@@ -186,7 +186,10 @@ CREATE TABLE images (
     i_file_name character varying(255),
     i_content_type character varying(255),
     i_file_size integer,
-    i_updated_at timestamp without time zone
+    i_updated_at timestamp without time zone,
+    apropos_id integer,
+    apropos_type character varying(255),
+    title character varying(255)
 );
 
 
@@ -980,6 +983,20 @@ CREATE INDEX index_events_on_workshop_id ON events USING btree (workshop_id);
 
 
 --
+-- Name: index_images_on_apropos_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_images_on_apropos_id ON images USING btree (apropos_id);
+
+
+--
+-- Name: index_images_on_apropos_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_images_on_apropos_type ON images USING btree (apropos_type);
+
+
+--
 -- Name: index_images_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1601,3 +1618,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140307093032');
 INSERT INTO schema_migrations (version) VALUES ('20140307093132');
 
 INSERT INTO schema_migrations (version) VALUES ('20140310203645');
+
+INSERT INTO schema_migrations (version) VALUES ('20140320031516');
+
+INSERT INTO schema_migrations (version) VALUES ('20140320042524');

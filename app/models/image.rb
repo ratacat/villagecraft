@@ -1,9 +1,11 @@
 class Image < ActiveRecord::Base
-  belongs_to :user
   has_uuid
   acts_as_paranoid
+
+  belongs_to :user
+  belongs_to :apropos, :polymorphic => true
   
-  attr_accessible :i, :user
+  attr_accessible :i, :user, :apropos, :title
   
   AWS_ACCESS_KEY = 'AKIAII3AMFUMVNSGTVDA'
   AWS_SECRET_KEY = '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'
