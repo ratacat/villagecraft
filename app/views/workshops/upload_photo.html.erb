@@ -1,0 +1,27 @@
+<%= simple_form_for(@workshop, :url => upload_photo_workshop_path(@workshop)) do |f| %>
+  <%= f.error_notification %>
+
+  <h4 class="text-muted margin0">Upload Photo of:</h4>
+  <h2 class="margin_top0"><%= workshop_title(@workshop, linked_to: true) %></h2>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.input :title, label: 'Title', required: false, input_html: {value: ''} %>
+    </div>
+  </div>
+
+  <div class="form-inputs row">
+    <div class="col-md-3">
+      <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => Workshop.placeholder_img_src(:large)} %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-actions">
+        <%= f.submit 'Upload', :class => "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+  
+<% end %>

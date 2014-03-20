@@ -10,6 +10,7 @@ class Workshop < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :image
+  has_many :images, as: :apropos
   belongs_to :host, :class_name => 'User'
   has_many :events, :dependent => :destroy, :conditions => {:deleted_at => nil}
   has_many :attendees, :through => :events
@@ -62,7 +63,7 @@ class Workshop < ActiveRecord::Base
   end
   
   def image=(f)
-    i = Image.create!(:i => f, :user => self.host)
+    i = Image.create!(:i => f, :user => self.host, :apropos => self)
     self.image_id = i.id
   end
 

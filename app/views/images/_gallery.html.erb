@@ -1,0 +1,17 @@
+<%
+  images ||= @images
+  images_per_row ||= 2
+  thumb_size ||= :medium
+  lightbox_size ||= :xlarge_orig
+%>
+
+<% images.each_slice(images_per_row) do |a_of_i| -%>
+  <div class="row">
+    <% a_of_i.each do |i| -%>
+      <%= link_to i.i.url(lightbox_size), class: "col-sm-6", data: {toggle: "lightbox", gallery: "multiimages", title: i.title}, title: i.title do -%>
+        <%= image_tag(i.i.url(thumb_size), class: "img-responsive") %>
+      <% end -%>
+    <% end -%>
+  </div>
+  <br/>
+<% end -%>

@@ -11,11 +11,16 @@
 <div class="row">
   <div class="col-sm-3">
     <p>
-      <%= link_to image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs"), @workshop.img_src(:xlarge_orig), data: {toggle: 'lightbox', footer: @workshop.title} %>
+      <%= link_to image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs"), @workshop.img_src(:xlarge_orig), data: {toggle: 'lightbox', gallery: "multiimages", title: @workshop.title} %>
     </p>
     <p><span class="nowrap"><%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %></span></p>
     <% if user_signed_in? and current_user.can_review?(@workshop) %>
       <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
+    <% end %>
+    
+    <% if @images.count > 0 %>
+      <h4 class="text-muted">Photos</h4>
+      <%= render 'images/gallery' %>
     <% end %>
   </div>
   <div class="col-sm-6">
@@ -103,6 +108,7 @@
     <div class="well host-only">
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'edit' %>
       <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'group' %>
+      <%= iconic_link_to 'Photo', upload_photo_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'upload' %>
     </div>
     <% end %>
     
