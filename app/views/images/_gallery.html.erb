@@ -8,18 +8,27 @@
   extra_img_classes ||= ''
   default_lightbox_params = {toggle: "lightbox", gallery: "multiimages", parent: '.container'}
   delete_link_in_footer ||= false
+  display_only ||= 4
+  n = 0
 %>
 
 <% images.each_slice(images_per_row) do |a_of_i| -%>
   <div class="row">
     <% a_of_i.each do |i| -%>
+      <% n += 1 %>
       <% lightbox_params = default_lightbox_params %>
       <% lightbox_params.merge!({title: i.title}) unless i.title.blank? %>
       <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (delete_link_in_footer and can?(:destroy, i)) %>
 
-      <div class="<%= grid_class %>">
+      <% if n > display_only %>
+        <div class="hidden">
+      <% else %>
+        <div class="<%= grid_class %>">
+      <% end %>
         <%= link_to i.i.url(lightbox_size), data: lightbox_params, title: i.title do -%>
-          <%= image_tag(i.i.url(thumb_size), class: "#{default_img_class} #{extra_img_classes}") %>
+          <% unless n > display_only %>
+            <%= image_tag(i.i.url(thumb_size), class: "#{default_img_class} #{extra_img_classes}") %>
+          <% end %>
         <% end -%>
         <% if (not delete_link_in_footer and can?(:destroy, i)) %>
           <div class="text-right">
