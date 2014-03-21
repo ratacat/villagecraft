@@ -3,7 +3,9 @@
   images_per_row ||= 2
   thumb_size ||= :medium
   lightbox_size ||= :xlarge_orig
-  grid_class ||= "col-sm-6"
+  grid_class ||= "col-sm-#{12/images_per_row}"
+  default_img_class ||= "img-responsive"
+  extra_img_classes ||= ''
   default_lightbox_params = {toggle: "lightbox", gallery: "multiimages", parent: '.container'}
 %>
 
@@ -15,7 +17,7 @@
       <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (user_signed_in? and (current_user == i.user)) %>
 
       <%= link_to i.i.url(lightbox_size), class: grid_class, data: lightbox_params, title: i.title do -%>
-        <%= image_tag(i.i.url(thumb_size), class: "img-responsive") %>
+        <%= image_tag(i.i.url(thumb_size), class: "#{default_img_class} #{extra_img_classes}") %>
       <% end -%>
     <% end -%>
   </div>

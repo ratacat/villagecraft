@@ -15,8 +15,7 @@
     <% end %>
     
     <% if @images.count > 0 %>
-      <h4 class="text-muted">Photos</h4>
-      <%= render 'images/gallery' %>
+      <%= render 'images/gallery', images_per_row: 1, thumb_size: :large, extra_img_classes: 'full_width img-rounded hidden-xs' %>
     <% end %>
   </div>
   <div class="col-sm-6">
