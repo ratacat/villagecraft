@@ -7,7 +7,7 @@
   <div class="col-sm-3">
     <p>
       <%= link_to image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs"), @workshop.img_src(:xlarge_orig), 
-                  data: {toggle: 'lightbox', gallery: "multiimages", title: @workshop.title, parent: '.container'} %>
+                  data: {toggle: 'lightbox', gallery: "multiimages", parent: '.container'} %>
     </p>
     <p><%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %></p>
     <% if user_signed_in? and current_user.can_review?(@workshop) %>
