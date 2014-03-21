@@ -38,6 +38,18 @@ gem 'public_activity'
 gem 'aws-sdk'
 gem "paperclip", "~> 3.0"
 
+# fancy image optimization (requires a bunch of binaries)
+gem 'image_optim'
+=begin
+sudo yum install -y advancecomp gifsicle jhead libjpeg optipng jpegoptim
+cd /tmp
+curl -O http://downloads.sourceforge.net/project/pmt/pngcrush/1.7.73/pngcrush-1.7.73.tar.xz
+tar xvf pngcrush-1.7.73.tar.gz
+cd pngcrush-1.7.73
+make && sudo cp -f pngcrush /usr/local/bin
+=end
+gem 'paperclip-optimizer', :git => "git://github.com/janfoeh/paperclip-optimizer.git"
+
 gem 'state_machine'
 gem 'bluecloth'
 
