@@ -10,7 +10,8 @@
 <% images.each_slice(images_per_row) do |a_of_i| -%>
   <div class="row">
     <% a_of_i.each do |i| -%>
-      <% lightbox_params = default_lightbox_params.merge({title: i.title}) %>
+      <% lightbox_params = default_lightbox_params %>
+      <% lightbox_params.merge!({title: i.title}) unless i.title.blank? %>
       <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (user_signed_in? and (current_user == i.user)) %>
 
       <%= link_to i.i.url(lightbox_size), class: grid_class, data: lightbox_params, title: i.title do -%>
@@ -20,3 +21,10 @@
   </div>
   <br/>
 <% end -%>
+
+<% ready_script do -%>  
+  $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({always_show_close: false});
+  });
+<% end -%>  
