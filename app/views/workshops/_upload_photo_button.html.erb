@@ -1,0 +1,12 @@
+<% workshop ||= @workshop %>
+<%= simple_form_for(workshop, url: upload_photo_workshop_path(workshop), html: {class: 'auto_submit'}) do |f| %>
+  <span class="fileinput fileinput-new" data-provides="fileinput">
+    <span class="form-group">
+      <span class="btn btn-default btn-xs btn-file">
+        <span class="fileinput-new"><i class="fa fa-upload"></i> Photo</span>
+        <span class="fileinput-exists"><i class="fa fa-spinner fa-spin"></i> Uploading</span>
+        <%= f.file_field :image %>
+      </span>
+    </span>
+  </span>
+<% end %>

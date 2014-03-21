@@ -103,7 +103,10 @@
     <div class="well host-only">
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'edit' %>
       <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'group' %>
-      <%= iconic_link_to 'Photo', upload_photo_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'upload' %>
+      <%= render 'workshops/upload_photo_button' %>
+      <% ready_script do -%>
+        $('.fileinput').fileinput();
+      <% end %>
     </div>
     <% end %>
     
