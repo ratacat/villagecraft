@@ -45,9 +45,9 @@ class WorkshopsController < ApplicationController
     @reviews_rating =  Review.sort_reviews_by_rating(@reviews, 3)
 
     if @workshop.image
-      @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image)
+      @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
     else
-      @images = @workshop.images
+      @images = @workshop.images.order(:created_at).reverse_order
     end
     
     respond_to do |format|
