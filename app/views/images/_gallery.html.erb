@@ -7,6 +7,7 @@
   default_img_class ||= "img-responsive"
   extra_img_classes ||= ''
   default_lightbox_params = {toggle: "lightbox", gallery: "multiimages", parent: '.container'}
+  delete_link_in_footer ||= false
 %>
 
 <% images.each_slice(images_per_row) do |a_of_i| -%>
@@ -14,11 +15,18 @@
     <% a_of_i.each do |i| -%>
       <% lightbox_params = default_lightbox_params %>
       <% lightbox_params.merge!({title: i.title}) unless i.title.blank? %>
-      <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (user_signed_in? and (current_user == i.user)) %>
+      <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (delete_link_in_footer and user_signed_in? and (current_user == i.user)) %>
 
-      <%= link_to i.i.url(lightbox_size), class: grid_class, data: lightbox_params, title: i.title do -%>
-        <%= image_tag(i.i.url(thumb_size), class: "#{default_img_class} #{extra_img_classes}") %>
-      <% end -%>
+      <div class="<%= grid_class %>">
+        <%= link_to i.i.url(lightbox_size), data: lightbox_params, title: i.title do -%>
+          <%= image_tag(i.i.url(thumb_size), class: "#{default_img_class} #{extra_img_classes}") %>
+        <% end -%>
+        <% if (not delete_link_in_footer and user_signed_in? and (current_user == i.user)) %>
+          <div class="text-right">
+            <%= link_to('delete', i, confirm: 'Really delete photo?', method: :delete, class: 'text-muted') %>
+          </div>        
+        <% end %>
+      </div>
     <% end -%>
   </div>
   <br/>
