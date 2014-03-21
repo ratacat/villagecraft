@@ -10,12 +10,13 @@
       <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
       <% if admin_session? and @workshop.external%>
         <div class="well admin-only">
-          <%= f.input_field :external %>
+          <%= f.input :external %>
 
-          <%= f.input :external_url, :wrapper => :append, :label => 'External URL' do %>
-            <%= f.input_field :external_url %><span class="input-group-addon"><i class="icon-external-link"></i></span>
+          <%= f.label "External URL" %>
+          <%= f.input :external_url, :wrapper => :append, label: false do %>
+            <%= f.input_field :external_url %><span class="input-group-addon"><i class="fa fa-external-link"></i></span>
           <% end %>
-
+          
           <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
         </div>
       <% end %>
