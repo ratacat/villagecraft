@@ -12,7 +12,7 @@
   <div class="col-md-3">
     <%= image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full-width") %>  
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6" style="height: 200px; overflow-y: scroll;">
     <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
