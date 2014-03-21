@@ -2,8 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, session)
-    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :manage_attendees, :lock, :unlock, :sms_attendees, :to => :manage_as_host
-#    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :manage_attendees, :lock, :unlock, :sms_attendees, :upload_photo, :to => :manage_as_host
+    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :manage_attendees, :lock, :unlock, :sms_attendees, :upload_photo, :to => :manage_as_host
 
     # anyone
     can [:show, :attend_by_email], Event
