@@ -99,7 +99,7 @@
       <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>      
     </div>
     
-    <% if current_user === @workshop.host %>
+    <% if can? :manage, @workshop %>
     <div class="well host-only">
       <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'edit' %>
       <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'group' %>
