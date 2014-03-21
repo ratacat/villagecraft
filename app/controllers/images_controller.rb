@@ -10,7 +10,7 @@ class ImagesController < ApplicationController
     @image.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: "Photo deleted" }
+      format.html { redirect_to @image.apropos, notice: "Photo deleted" }
       format.json { head :no_content }
     end
   end
