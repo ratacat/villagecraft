@@ -4,6 +4,9 @@ class ImagesController < ApplicationController
   # DELETE /images/1
   # DELETE /images/1.json
   def destroy
+    unless Rails.env.production?
+      raise "Don't delete photos in dev; the AWS S3 images might be removed"
+    end
     @image.destroy
 
     respond_to do |format|
