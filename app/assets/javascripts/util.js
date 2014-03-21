@@ -88,6 +88,10 @@ jQuery(function($) {
     $(this).closest('form').submit();
   });
 
+  $('form.auto_submit :input').change(function(){
+    $(this).closest('form').submit();
+  });
+
   // Default AJAX error handler
   $(document).on("ajax:error", function(evt, xhr, status, error) {
     var errors = $.parseJSON(xhr.responseText).errors.join("; ");
