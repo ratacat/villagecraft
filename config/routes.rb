@@ -5,7 +5,7 @@ Villagecraft::Application.routes.draw do
     member do
       get 'manage'
       get 'reruns_partial'
-#      match 'upload_photo'
+      match 'upload_photo'
       post 'auto_add_rerun'
     end
   end
