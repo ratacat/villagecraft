@@ -1,7 +1,4 @@
-<%= link_to new_workshop_path(:external => true), :class => 'btn btn-warning pull-right' do %>
-  <i class="icon-external-link icon-white"></i>
-  New External Workshop
-<% end %>
+<%= iconic_link_to 'New External Workshop', new_workshop_path(:external => true), class: 'btn btn-warning pull-right', icon: 'external-link' %>
 <h1>Workshops</h1>
 <div>
   <% if @workshops.blank? %>
