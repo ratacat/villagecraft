@@ -1,4 +1,2 @@
-<pre>
-  <%= @message.body %>
-</pre>
+<%= simple_format(@message.body) %>
 <%= render 'user_mailer/footer' %>
