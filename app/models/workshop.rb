@@ -17,7 +17,7 @@ class Workshop < ActiveRecord::Base
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
   has_many :locations, :through => :events
-  has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :reviews, :through => :events
   
   validates :title, presence: true, uniqueness: {:scope => :host_id, :message => 'you already have a workshop with this name; just schedule a new time, and/or modify the old title and description'}
   validates :host_id, presence: true
