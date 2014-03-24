@@ -14,6 +14,11 @@ class ImagesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
+  # GET /images/1
+  # GET /images/1.json
+  def show
+    redirect_to polymorphic_url(@image.apropos, image_uuid: @image.uuid)
+  end 
   
 end
