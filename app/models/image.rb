@@ -1,6 +1,7 @@
 class Image < ActiveRecord::Base
   has_uuid
   acts_as_paranoid
+  include PublicActivity::Common
 
   belongs_to :user
   belongs_to :apropos, :polymorphic => true
