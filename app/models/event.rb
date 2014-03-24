@@ -18,6 +18,8 @@ class Event < ActiveRecord::Base
   belongs_to :venue
   has_one :location, :through => :venue
   
+  has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
+    
   has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)
       where(:state => state)
