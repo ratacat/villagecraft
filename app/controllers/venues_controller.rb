@@ -1,5 +1,6 @@
 class VenuesController < ApplicationController
-  load_and_authorize_resource(:find_by => :uuid)
+  before_filter :load_venue, :except => [:index, :new, :create, :my_venues]
+  authorize_resource
   
   # GET /venues
   # GET /venues.json
@@ -25,6 +26,7 @@ class VenuesController < ApplicationController
   # GET /venues/new.json
   def new
     @venue = Venue.new
+    @venue.build_location
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,7 +41,7 @@ class VenuesController < ApplicationController
   # POST /venues
   # POST /venues.json
   def create
-    @venue = Venue.new(params[:venue])
+    @venue = Venue.new(venue_params)
     @venue.owner = current_user
     if params[:use_as_venue_for_event]
       @event = Event.find_by_uuid(params[:use_as_venue_for_event])
@@ -63,7 +65,7 @@ class VenuesController < ApplicationController
   # PUT /venues/1.json
   def update
     respond_to do |format|
-      if @venue.update_attributes(params[:venue])
+      if @venue.update_attributes(venue_params)
         format.html { redirect_to @venue, notice: 'Venue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -113,5 +115,14 @@ class VenuesController < ApplicationController
       }
       format.html
     end
+  end
+  
+  protected
+  def venue_params
+    params[:venue].permit(:name, {:location => [:street, :city, :state_code]})
+  end
+  
+  def load_venue
+    @venue = Venue.find_by_uuid(params[:id])
   end
 end
