@@ -16,5 +16,5 @@
   <dd><%= message.subject %></dd>
 
   <dt>Body</dt>
-  <dd><pre><%= message.body %></pre></dd>
+  <dd><%= simple_format(@message.body) %></dd>
 </dl>
