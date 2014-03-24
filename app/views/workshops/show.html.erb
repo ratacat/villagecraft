@@ -1,6 +1,12 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
   content_for(:title, seod_title(@workshop))
+  content_for(:meta_description, @workshop.description.lines('.').first.gsub(/["']/, ''))
+  keywords = %w(events workshops local)
+  keywords += @workshop.title.downcase.split
+  keywords << @workshop.try(:location).try(:neighborhood).try(:name)
+  keywords << city_n_state(@workshop.location) unless @workshop.location.blank?
+  content_for(:meta_keywords, keywords.compact.flatten.join(","))
   message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
 %>
 <div class="row">
