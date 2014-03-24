@@ -190,7 +190,7 @@ class EventsController < ApplicationController
       end
       
       respond_to do |format|
-        format.html { redirect_to root_path, notice: %Q(You signed up to attend "#{@event.title}") }
+        format.html { redirect_to @event.workshop, notice: "Thanks for signing up." }
         format.json { head :no_content }
       end
     end
