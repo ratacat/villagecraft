@@ -43,6 +43,8 @@ class Notifier < ActiveRecord::Observer
       end
     when 'Workshop'
       # NOOP
+    when 'Image'
+      # NOOP
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"
     end

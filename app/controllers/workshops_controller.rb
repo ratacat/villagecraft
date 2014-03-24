@@ -64,6 +64,7 @@ class WorkshopsController < ApplicationController
         @i = Image.new(:i => params[:workshop][:image], :user => current_user, :apropos => @workshop, :title => params[:workshop][:title])        
       end
       if @i.try(:save)
+        @i.create_activity :upload, owner: current_user
         redirect_to workshop_path(@workshop), notice: "Image uploaded"
       else
         redirect_to upload_photo_workshop_path(@workshop), alert: "There was a problem uploading that file.  Try another."

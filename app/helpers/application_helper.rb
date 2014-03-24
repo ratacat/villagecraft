@@ -39,6 +39,14 @@ module ApplicationHelper
     domain.domain
   end
   
+  def articlize(s)
+    if s =~ /^[aeiou]/
+      "an #{s}"
+    else
+      "a #{s}"
+    end
+  end
+  
   def icon_meter(options={})
     defaults = {
       :rows => 2, 
