@@ -17,6 +17,7 @@
     <% a_of_i.each do |i| -%>
       <% n += 1 %>
       <% lightbox_params = default_lightbox_params %>
+      <% lightbox_params.merge!({image_uuid: i.uuid}) %>
       <% lightbox_params.merge!({title: i.title}) unless i.title.blank? %>
       <% lightbox_params.merge!({footer: "#{link_to('delete', i, confirm: 'Really delete photo?', method: :delete).html_safe}"}) if (delete_link_in_footer and can?(:destroy, i)) %>
 

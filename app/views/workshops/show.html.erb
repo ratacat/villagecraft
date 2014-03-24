@@ -133,4 +133,9 @@
     show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
   });  
   
+  var image_uuid = location.search.split('image_uuid=')[1];
+  if(image_uuid) {
+    $("[data-image-uuid='" + image_uuid + "']").ekkoLightbox();
+  }
+
 <% end -%>
