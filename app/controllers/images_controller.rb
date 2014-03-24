@@ -8,7 +8,8 @@ class ImagesController < ApplicationController
       raise "Don't delete photos in dev; the AWS S3 images might be removed"
     end
     @image.destroy
-
+    @image.create_activity :destroy, owner: current_user
+    
     respond_to do |format|
       format.html { redirect_to @image.apropos, notice: "Photo deleted" }
       format.json { head :no_content }
