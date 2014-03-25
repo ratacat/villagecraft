@@ -47,6 +47,8 @@ module ActivitiesHelper
       html << "sent a message to the attendees of".html_safe
     when 'image.upload'
       html << 'uploaded an'.html_safe
+    when 'review.added'
+      html << "added a".html_safe
     when 'meeting.reminder'
       html << "sent a reminder to the attendees of".html_safe
     when 'event.email'
