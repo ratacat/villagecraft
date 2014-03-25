@@ -67,10 +67,12 @@ $(function () {
       }
 
       $('#modal-more-review').modal('show');
-      $(".modal").css("position", "fixed");
-      if( $(".modal").height()+100 > $(window).innerHeight()){
-        $(".modal").css("position", "absolute");
-      }
+
+//     probably not needed. remove it later
+//      $(".modal").css("position", "fixed");
+//      if( $(".modal").height()+100 > $(window).innerHeight()){
+//        $(".modal").css("position", "absolute");
+//      }
 
     }
   }, '.review-more')
