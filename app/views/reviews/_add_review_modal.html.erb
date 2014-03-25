@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="modalAddReview">Add Review</h4>
       </div>
-      <%= simple_form_for(review, :remote => true, html: {id: 'review-form'} ) do |f| %>
+      <%= simple_form_for(Review.new, :remote => true, html: {id: 'review-form'} ) do |f| %>
           <div class="modal-body">
             <div class="review-elements">
               <%#= f.select 'event_id', @unreviewed_events.collect{ |event| [meeting_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false), event.id]}, { :include_blank => true } %>
