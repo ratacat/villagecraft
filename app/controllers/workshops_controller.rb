@@ -98,11 +98,6 @@ class WorkshopsController < ApplicationController
       end
   end
 
-  # GET /w/1/review_partial
-  def review_partial
-    @comments = Comment.return_all_reviews_by_workshop(@workshop)
-  end
-
   # GET /w/1/reruns_partial
   def reruns_partial
     @reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
