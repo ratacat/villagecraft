@@ -12,7 +12,7 @@
     <%= location.city %>, <%= location.state_code %>
   <% end %>
 <% else %>
-  <%= location.address %> 
+  <%= address(location, wrapper_tag: :span) %> 
   <% if link_to_map %>
     (<%= link_to_google_maps(location, 'map') %>)
   <% end %>

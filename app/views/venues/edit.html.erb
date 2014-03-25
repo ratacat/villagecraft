@@ -1,12 +1,6 @@
 <div class="page-header">
-  <%= link_to venues_path, :class => 'btn' do %>
-    <i class="icon-list-alt"></i>
-    Back
-  <% end %>
-  <%= link_to @venue, :class => 'btn btn-primary' do %>
-    <i class="icon-info-sign icon-white"></i>
-    Show
-  <% end %>
+  <%= iconic_link_to 'My Venues', my_venues_path, icon: 'list-alt', class: 'btn btn-default' %>
+  <%= link_to 'View', @venue, class: 'btn btn-primary' %>
   <h1>Editing venue</h1>
 </div>
 
