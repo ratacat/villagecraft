@@ -17,7 +17,8 @@ class Workshop < ActiveRecord::Base
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
   has_many :locations, :through => :events
-  #has_many :reviews, :through => :events
+
+  has_many :event_reviews, :through => :events, :source => :reviews
   has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
   validates :title, presence: true, uniqueness: {:scope => :host_id, :message => 'you already have a workshop with this name; just schedule a new time, and/or modify the old title and description'}
@@ -64,6 +65,10 @@ class Workshop < ActiveRecord::Base
     else
       self.image.i.url(size)
     end
+  end
+
+  def all_reviews
+    self.reviews + self.event_reviews
   end
 
   def Workshop.placeholder_img_src(size = :medium)

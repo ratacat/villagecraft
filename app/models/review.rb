@@ -55,14 +55,6 @@ class Review < ActiveRecord::Base
 
 
   class << self
-    def return_all_reviews_by_workshop(workshop)
-      reviews = []
-      workshop.events.each do |event|
-        event.reviews.each { |comm| reviews << comm}
-      end
-      reviews
-    end
-
     def sort_reviews_by_created(reviews, limit = nil)
       sorted_reviews = reviews.sort_by(&:created_at).reverse
       sorted_reviews.take(limit) unless limit.blank?
