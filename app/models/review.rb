@@ -55,10 +55,6 @@ class Review < ActiveRecord::Base
 
 
   class << self
-    def return_reviews_by_user(user)
-      user.reviews.map { |comm| comm}
-    end
-
     def find_by_seod_uuid!(id)
       self.find_by_uuid!(id.split('-').first)
     end

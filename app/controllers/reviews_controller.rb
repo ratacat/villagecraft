@@ -66,7 +66,7 @@ class ReviewsController < ApplicationController
 
   def index
     @review = Review.new
-    @reviews = Review.return_reviews_by_user(current_user).sort_by(&:created_at).reverse
+    @reviews = current_user.reviews.order(:created_at).reverse_order
     @unreviewed_events = Review.return_unreviewed_events_by_user(current_user)
   end
 
