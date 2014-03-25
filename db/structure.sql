@@ -456,7 +456,9 @@ CREATE TABLE reviews (
     rating integer DEFAULT 0,
     title character varying(160),
     event_id integer,
-    uuid character varying(255)
+    uuid character varying(255),
+    apropos_id integer,
+    apropos_type character varying(255)
 );
 
 
@@ -1186,6 +1188,20 @@ CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_i
 
 
 --
+-- Name: index_reviews_on_apropos_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reviews_on_apropos_id ON reviews USING btree (apropos_id);
+
+
+--
+-- Name: index_reviews_on_apropos_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reviews_on_apropos_type ON reviews USING btree (apropos_type);
+
+
+--
 -- Name: index_reviews_on_author_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1622,3 +1638,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140310203645');
 INSERT INTO schema_migrations (version) VALUES ('20140320031516');
 
 INSERT INTO schema_migrations (version) VALUES ('20140320042524');
+
+INSERT INTO schema_migrations (version) VALUES ('20140324224307');
