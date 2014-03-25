@@ -8,12 +8,15 @@
   <div class="form-inputs">
     <%= f.input :name, label: 'Name' %>
     
-    <%= f.input :street, label: 'Street' %>
-    <%= f.input :city, label: 'City' %>
-    <%= f.input :state_code, collection: Location.us_states_select_collection, label: 'State', selected: venue.state_code || 'CA' %>
+    <%= f.simple_fields_for :location do |l| %>
+      <%= l.input :street, label: 'Street', input_html: { value: venue.location.street } %>
+      <%= l.input :city, label: 'City', input_html: { value: venue.location.city } %>
+      <%= l.input :state_code, collection: Location.us_states_select_collection, label: 'State', selected: venue.location.state_code || 'CA' %>
+    <% end %>
+    
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, :class => "btn-primary" %>
+    <%= f.submit :class => "btn btn-primary" %>
   </div>
 <% end %>
