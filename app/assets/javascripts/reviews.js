@@ -56,8 +56,16 @@ $(function () {
     click: function(event){
       event.preventDefault();
       $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
-      $('#more-review-body').html($('.review-body-full').html());
+      $('#more-review-body').html($('.review-body-full', $(this).parents('.review-box')).html());
       $('span#modalMoreReviewTime').text('wrote ' + $('.review-time', $(this).parents('.review-box')).text());
+      if($('.review-destroy-link', $(this).parents('.review-box')).length > 0){
+        $('.review-destroy').attr('href', $('.review-destroy-link', $(this).parents('.review-box')).attr('href'));
+        $('.review-destroy').show();
+      }else{
+        $('.review-destroy').attr('href','');
+        $('.review-destroy').hide();
+      }
+
       $('#modal-more-review').modal('show');
       $(".modal").css("position", "fixed");
       if( $(".modal").height()+100 > $(window).innerHeight()){
@@ -66,12 +74,36 @@ $(function () {
 
     }
   }, '.review-more')
+
   $(document).on({
     click: function(event){
         event.preventDefault();
         $('#add-review-user').slideDown();
     }
   }, '#add-review-user-button')
+
+  $(document).on({
+    click: function(event){
+      event.preventDefault();
+      var result = confirm("Are you sure you want to delete the review?");
+      if (result==true) {
+          var url = $(this).attr("href");
+          $.ajax({
+            method: "DELETE",
+            url: url,
+            success: function(){
+              $('#modal-more-review').modal('hide');
+              window.location = window.location
+            },
+            error: function(){
+              alert('error');
+            }
+          })
+      }
+    }
+  }, '.review-destroy')
+
+
   $(document).on({
     click: function(event){
         event.preventDefault();

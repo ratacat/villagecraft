@@ -45,6 +45,8 @@ class Notifier < ActiveRecord::Observer
       # NOOP
     when 'Image'
       # NOOP
+    when 'Review'
+      # NOOP
     else
       raise "Unknown trackable_type: #{activity.trackable_type}"
     end

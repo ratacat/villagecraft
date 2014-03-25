@@ -17,7 +17,8 @@ class Workshop < ActiveRecord::Base
   has_many :meetings, :through => :events
   has_many :first_meetings, :through => :events
   has_many :locations, :through => :events
-  has_many :reviews, :through => :events
+  #has_many :reviews, :through => :events
+  has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
   validates :title, presence: true, uniqueness: {:scope => :host_id, :message => 'you already have a workshop with this name; just schedule a new time, and/or modify the old title and description'}
   validates :host_id, presence: true
@@ -48,6 +49,13 @@ class Workshop < ActiveRecord::Base
 
   def Workshop.find_by_seod_uuid!(id)
     Workshop.find_by_uuid!(id.split('-').first)
+  end
+
+  def has_any_non_rsvp_event?
+    self.events.where_first_meeting_starts_in_past.to_a.each do |event|
+      return true unless event.rsvp
+    end
+    false
   end
 
   def img_src(size = :medium)
