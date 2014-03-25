@@ -55,16 +55,6 @@ class Review < ActiveRecord::Base
 
 
   class << self
-    def sort_reviews_by_created(reviews, limit = nil)
-      sorted_reviews = reviews.sort_by(&:created_at).reverse
-      sorted_reviews.take(limit) unless limit.blank?
-    end
-
-    def sort_reviews_by_rating(reviews, limit = nil)
-      sorted_reviews = reviews.sort_by(&:rating).reverse
-      sorted_reviews.take(limit) unless limit.blank?
-    end
-
     def return_reviews_by_user(user)
       user.reviews.map { |comm| comm}
     end
