@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
   has_uuid(:length => 8)
   acts_as_paranoid
-  
+
   belongs_to :host, :class_name => 'User'
   belongs_to :image, :class_name => 'Image'
 
@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
   belongs_to :venue
   has_one :location, :through => :venue
   
-  has_many :reviews, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
     
   has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)

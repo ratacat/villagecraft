@@ -164,11 +164,11 @@ class User < ActiveRecord::Base
   end
   
   def reviewed_workshop?(workshop)
-    self.reviews.joins(:workshop).where(%Q(#{Workshop.quoted_table_name}."uuid" = ?), workshop.uuid).count > 0
+    self.reviews.where(%Q(#{Review.quoted_table_name}."apropos_id" = ? OR #{Review.quoted_table_name}."apropos_id" IN (?)), workshop.id, workshop.events).count > 0
   end
   
   def can_review?(workshop)
-    self.attended_workshop?(workshop) and not self.reviewed_workshop?(workshop)
+    (self.attended_workshop?(workshop) or workshop.has_any_non_rsvp_event?) and not self.reviewed_workshop?(workshop)
   end
 
   def confirmed_attend_at_event?(e)
@@ -258,6 +258,11 @@ class User < ActiveRecord::Base
   def get_all_attended_events
     events_id = Attendance.where(:user_id => self).map{ |attendence| attendence.event.id}
     Event.where(:id => events_id).where_first_meeting_starts_in_past
+  end
+
+  def get_last_attended_event_by_workshop(workshop)
+    events_id = Attendance.where(:user_id => self).map{ |attendence| attendence.event.id}
+    Event.where(:id => events_id, :workshop_id => workshop).where_first_meeting_starts_in_past.first
   end
 
   protected

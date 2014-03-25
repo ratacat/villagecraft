@@ -16,8 +16,14 @@
                   data: {toggle: 'lightbox', gallery: "multiimages", parent: '.container'} %>
     </p>
     <p><%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %></p>
-    <% if user_signed_in? and current_user.can_review?(@workshop) %>
-      <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
+    <% if user_signed_in? %>
+        <% if current_user.can_review?(@workshop) %>
+            <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
+        <% end %>
+    <% else %>
+      <p>
+        <%= link_to 'Add review', new_user_registration_path, class: "btn btn-warning btn-block" %>
+      </p>
     <% end %>
     
     <% if @images.count > 0 %>
@@ -125,7 +131,7 @@
   </div>
 </div>
 <!-- Add Review Modal -->
-<%= render 'reviews/add_review_modal', :review => @review, :past_reruns => @past_reruns %>
+<%= render 'reviews/add_review_modal', :review => @review, :past_reruns => @past_reruns, :workshop => @workshop %>
 
 <!-- Show More Review Modal -->
 <%= render 'reviews/more_modal', :review => @review %>
