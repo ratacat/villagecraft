@@ -20,7 +20,8 @@
   $.fn.highlight = function (options) {
     var settings = $.extend({
       'color'                  : '#FFFF80',
-      'clear-transition-delay' : 1700
+      'clear-transition-delay' : 1700,
+      'fade-out-options' : {}
       }, options);
 
     function set_transition(options) {
@@ -56,7 +57,7 @@
         if (old_bg === 'transparent') {
           old_bg = '';
         }
-        e.css(set_transition());
+        e.css(set_transition(settings['fade-out-options']));
         e.css('background-color', old_bg);
         setTimeout(function () {
           e.css(set_transition({'clear' : true}));
