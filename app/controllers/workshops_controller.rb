@@ -176,6 +176,6 @@ class WorkshopsController < ApplicationController
   end
 
   def get_reviews
-    @reviews = Review.return_all_reviews_by_workshop @workshop
+    @reviews = @workshop.all_reviews
   end
 end
