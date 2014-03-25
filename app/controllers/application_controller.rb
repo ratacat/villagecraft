@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.js { render :partial => 'layouts/update_alerts', :locals => {:alert => options[:message] }, :status => options[:status] }
       format.html { redirect_to root_path, :alert => options[:message] }
-      format.json { render :json => { :message => options[:message] }, :status => options[:status] }
+      format.json { render :json => { :message => options[:message], :errors => flash.map(&:message) }, :status => options[:status] }
     end
   end
   

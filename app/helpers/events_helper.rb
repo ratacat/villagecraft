@@ -22,7 +22,8 @@ module EventsHelper
         :cta => 'Sign up',
         :buttonize => false,
         :block_buttonize => false,
-        :path => nil
+        :path => nil,
+        :remote => false
     }
     options.reverse_merge!(defaults)
   
@@ -34,7 +35,7 @@ module EventsHelper
     classes << 'btn-block' if options[:block_buttonize]
     
     if user_signed_in?
-      link_to_options = {class: classes.join(' '), method: :post}
+      link_to_options = {class: classes.join(' '), method: :post, remote: options[:remote], data: {type: options[:remote] ? :json : :html}}
     else
       link_to_options = {class: classes.join(' '), 
                          data: {:auto_attend_event => event.uuid, :auto_attend_event_title => event.title, :toggle_modal_registration => true} }
