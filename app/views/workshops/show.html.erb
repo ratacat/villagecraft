@@ -27,21 +27,25 @@
   <div class="col-sm-6">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
     <div class="row">
-      <div class="col-sm-4">
-        <% if next_rerun %>
-          <div class="blocky_spns">
-            <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
+      <div class="col-sm-8<%= ' bg-success' if current_user.try(:attending_event?, next_rerun) %>" id="when_where">
+        <div class="row">
+          <div class="col-sm-6">
+            <% if next_rerun %>
+              <div class="blocky_spns">
+                <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
+              </div>
+            <% else %>
+              <span class="text-muted">no upcoming dates</span>
+            <% end %>
           </div>
-        <% else %>
-          <span class="text-muted">no upcoming dates</span>
-        <% end %>
+          <div class="col-sm-6" id="location">
+            <p>
+              <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="col-sm-4 col-sm-3">
-        <p>
-          <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
-        </p>
-      </div>
-
+      
       <div class="col-sm-4">
         <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
       </div>
@@ -143,5 +147,14 @@
   if(image_uuid) {
     $("[data-image-uuid='" + image_uuid + "']").ekkoLightbox();
   }
+  
+  $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
+    show_bootstrap_alert({text: "You signed up!", type: 'success'});
+    $("a.attend_event").hide();
+    $("span.you_r_signed_up").show();
+    $("#when_where").addClass("bg-success");
+    $("#location").html(HandlebarsTemplates['locations/show']($.parseJSON(xhr.responseText).location));
+    $("#when_where").highlight({})
+  });
 
 <% end -%>
