@@ -67,8 +67,31 @@ class Workshop < ActiveRecord::Base
     end
   end
 
-  def all_reviews
-    self.reviews + self.event_reviews
+  def all_reviews(options={})
+    defaults = {
+      :order => false, 
+      :reverse_order => false,
+      :limit => false
+    }
+    options.reverse_merge!(defaults)
+    
+    q1 = self.reviews
+    q1 = q1.order(options[:order]) if options[:order]
+    q1 = q1.reverse_order if options[:reverse_order]
+    q1 = q1.limit(options[:limit]) if options[:limit]
+
+    q2 = self.event_reviews
+    q2 = q2.order(options[:order]) if options[:order]
+    q2 = q2.reverse_order if options[:reverse_order]
+    q2 = q2.limit(options[:limit]) if options[:limit]
+    
+    a = q1 + q2
+    if options[:order] or options[:limit]
+      a.sort_by! {|r| r[options[:order]]} if options[:order]
+      a.reverse! if options[:reverse_order]
+      a = a.take(options[:limit]) if options[:limit]
+    end
+    return a
   end
 
   def Workshop.placeholder_img_src(size = :medium)

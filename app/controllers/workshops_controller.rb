@@ -38,12 +38,9 @@ class WorkshopsController < ApplicationController
   # GET /w/1
   # GET /w/1.json
   def show
-    # w.events.joins(:meetings).order('"meetings"."start_time"')
-    #@unreviewed_events = Review.return_all_pending_events_to_review_by_workshop_and_user(@workshop, current_user)
-    @review = Review.new
-    @reviews_recent = Review.sort_reviews_by_created(@reviews, 3)
-    @reviews_rating =  Review.sort_reviews_by_rating(@reviews, 3)
-
+    @reviews_recent = @workshop.all_reviews(order: :created_at, reverse_order: true, limit: 3)
+    @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
+    
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
     else
