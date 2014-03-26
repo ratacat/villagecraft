@@ -61,29 +61,6 @@
     <p class="event_description clearfix">
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
-    
-    <ul class="nav nav-tabs margin0">
-      <li class="active"><a href="#future" data-toggle="tab">Coming Up (<%= @future_reruns.count %>)</a></li>
-      <li><a href="#past" data-toggle="tab">Past (<%= @past_reruns.count %>)</a></li>
-      <!--<li><a href="#reviews" data-toggle="tab">Reviews (<%= @reviews.count %>)</a></li>-->
-    </ul>
-
-    <div id="myTabContent" class="tab-content">
-      <div class="tab-pane active" id="future">
-        <% if @future_reruns.count == 0 %>
-          No future workshops.
-        <% else %>
-          <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :hide_flags => true %>
-        <% end %>
-      </div>
-      <div class="tab-pane fade" id="past">
-        <% if @past_reruns.count == 0 %>
-          No past workshops.
-        <% else %>
-          <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :hide_flags => true %>
-        <% end %>
-      </div>
-    </div>
 
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
@@ -109,6 +86,9 @@
   </div>
   <div class="col-sm-3 side_content">
     <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
+    <div id="simple_index">
+      <%= render 'reruns/simple_index', :reruns => @future_reruns %>
+    </div>
     
     <h4 class="text-muted">Host</h4>
     <div id='host_mini_profile'>
@@ -157,10 +137,11 @@
   $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
     show_bootstrap_alert({text: "You signed up!", type: 'success'});
     $("a.attend_event").hide();
-    $("span.you_r_signed_up").show();
+    $(".you_r_signed_up").show();
     $("#when_where").addClass("bg-success");
     $("#location").html(HandlebarsTemplates['locations/show']($.parseJSON(xhr.responseText).location));
-    $("#when_where").highlight({})
+    $("#when_where").highlight({});
+    $("#simple_index").load("<%= simple_index_partial_workshop_path(@workshop) %>");
   });
 
 <% end -%>

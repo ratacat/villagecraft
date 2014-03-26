@@ -1,0 +1,17 @@
+<%
+  signed_up = current_user.try(:attending_event?, rerun)
+  text_class = signed_up ? 'text-success' : 'text-default'
+%>
+<li>
+  <span class="<%= text_class %>">
+    <% if signed_up %>
+      <%= content_tag(:i, '' , :class => "glyphicon glyphicon-ok") %>       
+    <% else %>
+      <%= content_tag(:i, '&nbsp;'.html_safe, :class => "glyphicon") %>       
+    <% end %>
+    <%= meeting_time(rerun.first_meeting, date_format: "%a %B", no_tz: true, show_end_time: false, show_livestamp: false) %>
+    <% if signed_up %>
+      (<%= link_to 'cancel', cancel_attend_path(rerun), method: :post, rel: :nofollow, class: 'text-muted' %>)
+    <% end %>
+  </span>
+</li>

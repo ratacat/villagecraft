@@ -5,7 +5,7 @@ if defined?(Footnotes) && Rails.env.development?
   notes = Footnotes::Filter.notes
   Footnotes.setup do |config|
     config.before do |controller, filter|
-      if controller.class.name =~ /LetterOpenerWeb/
+      if (controller.class.name =~ /LetterOpenerWeb/) or (controller.class.name =~ /Workshops/ and controller.action_name == 'simple_index_partial')
         filter.notes = []
       else
         filter.notes = notes
