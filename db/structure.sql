@@ -455,7 +455,6 @@ CREATE TABLE reviews (
     deleted_at timestamp without time zone,
     rating integer DEFAULT 0,
     title character varying(160),
-    event_id integer,
     uuid character varying(255),
     apropos_id integer,
     apropos_type character varying(255)
@@ -1216,13 +1215,6 @@ CREATE INDEX index_reviews_on_deleted_at ON reviews USING btree (deleted_at);
 
 
 --
--- Name: index_reviews_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_reviews_on_event_id ON reviews USING btree (event_id);
-
-
---
 -- Name: index_sightings_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1640,3 +1632,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140320031516');
 INSERT INTO schema_migrations (version) VALUES ('20140320042524');
 
 INSERT INTO schema_migrations (version) VALUES ('20140324224307');
+
+INSERT INTO schema_migrations (version) VALUES ('20140325215738');
