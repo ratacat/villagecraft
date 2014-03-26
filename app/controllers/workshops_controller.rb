@@ -6,7 +6,7 @@ class WorkshopsController < ApplicationController
   end
   load_and_authorize_resource(:find_by => :seod_uuid)
   
-  before_filter :get_future_and_past_reruns, :only => [:edit, :update, :show]
+  before_filter :get_future_and_past_reruns, :only => [:edit, :update]
   before_filter :get_reviews, :only => [:edit, :update, :show]
   def my_workshops
     @upcoming_workshops = Workshop.first_meeting_in_the_future.where(:host_id => current_user)
@@ -40,6 +40,8 @@ class WorkshopsController < ApplicationController
   def show
     @reviews_recent = @workshop.all_reviews(order: :created_at, reverse_order: true, limit: 3)
     @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
+    
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
