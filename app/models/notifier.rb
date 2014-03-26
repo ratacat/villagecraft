@@ -31,7 +31,7 @@ class Notifier < ActiveRecord::Observer
         end
       when 'event.interested', 'event.cancel_attend'
         # Only target host(s)
-      when 'event.host_cancels_attend'
+      when 'event.host_cancels_attend', 'event.cancel_attend'
         # inform the attendee that the host cancelled their attendance
         targets = [activity.owner]
       when 'event.attend'
