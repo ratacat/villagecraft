@@ -13,7 +13,7 @@
               <%= simple_format truncate(review.body, :length => 130, :separator => ' ') %>
             <% end %>
             <%= content_tag :div, :class => "review-body-full", :style => 'display: none;' do %>
-              <%= simple_format review.body %>
+              <%= simple_format h(review.body) %>
             <% end %>
             <%= link_to( '', review, :class=> 'review-destroy-link') if current_user == review.author %>
             <a href="#" class="review-more text-muted">More</a>
