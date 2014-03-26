@@ -11,8 +11,8 @@ class Ability
     
     # signed-in user  
     if not user.blank?
-      can [:show, :attend, :attend_by_email], Event
       cannot :manage_as_host, Event
+      can [:show, :attend, :attend_by_email, :cancel_attend], Event
       
       can [:show], User
       can [:show], Venue

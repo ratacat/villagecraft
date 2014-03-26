@@ -242,7 +242,7 @@ class EventsController < ApplicationController
         if current_user.is_host_of?(@event)
           redirect_to manage_attendances_path(@event), notice: @notice
         else
-          redirect_to @event, notice: @notice 
+          redirect_to @event.workshop, notice: @notice 
         end
       }
       format.json { head :no_content }
