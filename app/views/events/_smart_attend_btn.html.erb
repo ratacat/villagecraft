@@ -23,7 +23,7 @@
           <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
             <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true) %>
           <% end %>
-          <span class="text-success you_r_signed_up larger<%= ' initially_hidden' unless current_user.attending_event?(event) %>" ><%= content_tag(:i, '', :class => "glyphicon glyphicon-ok") %> you signed up</span>        
+          <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
         <% else %> <!-- not user_signed_in? -->
           <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
             <h4 class="fee"><%= event_price(event) %></h4>
