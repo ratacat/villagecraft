@@ -21,8 +21,8 @@
             <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
         <% end %>
     <% else %>
-      <p>
-        <%= link_to 'Add review', attend_path(next_rerun), class: "btn btn-warning btn-block", data: {:auto_attend_event => next_rerun.uuid, :auto_attend_event_title => next_rerun.title, :toggle_modal_registration => true} %>
+      <p class="tooltipify" title='Sign up or sign in to leave a review' data-placement='bottom'>
+        <%= link_to 'Add review', '#', class: "btn btn-warning btn-block", disabled: :disabled %>
       </p>
     <% end %>
     
