@@ -1,0 +1,6 @@
+<%
+  reruns ||= @reruns
+%>
+<ul class="list-unstyled">
+  <%= render partial: 'reruns/simple_row', collection: reruns, as: :rerun %>
+</ul>
