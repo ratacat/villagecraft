@@ -86,7 +86,9 @@
   </div>
   <div class="col-sm-3 side_content">
     <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
-    <%= render 'reruns/simple_index', :reruns => @future_reruns %>
+    <div id="simple_index">
+      <%= render 'reruns/simple_index', :reruns => @future_reruns %>
+    </div>
     
     <h4 class="text-muted">Host</h4>
     <div id='host_mini_profile'>
@@ -135,10 +137,11 @@
   $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
     show_bootstrap_alert({text: "You signed up!", type: 'success'});
     $("a.attend_event").hide();
-    $("span.you_r_signed_up").show();
+    $(".you_r_signed_up").show();
     $("#when_where").addClass("bg-success");
     $("#location").html(HandlebarsTemplates['locations/show']($.parseJSON(xhr.responseText).location));
-    $("#when_where").highlight({})
+    $("#when_where").highlight({});
+    $("#simple_index").load("<%= simple_index_partial_workshop_path(@workshop) %>");
   });
 
 <% end -%>

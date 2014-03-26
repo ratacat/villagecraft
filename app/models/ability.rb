@@ -20,6 +20,7 @@ class Ability
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id
       can [:plus, :minus, :create, :index, :destroy], Review, :author_id => user.id
       
+      can :simple_index_partial, Workshop
       # host
       if user.host?
         can :manage, Workshop, :host_id => user.id

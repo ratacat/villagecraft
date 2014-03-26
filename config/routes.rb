@@ -7,6 +7,7 @@ Villagecraft::Application.routes.draw do
       get 'reruns_partial'
       match 'upload_photo'
       post 'auto_add_rerun'
+      get 'simple_index_partial'
     end
   end
   resources :workshops, as: 'oldstyle_workshops'
