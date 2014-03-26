@@ -26,6 +26,7 @@ $(function () {
 
                     $("[id$='_"+key+"']").parents(".form-group").addClass("has-error")
                     $(".help-inline", $("[id$='_"+key+"']").parents(".form-group")).text(val[0]).slideDown()
+                    $(".help-inline", $("[id$='_"+key+"']").parents(".form-group")).removeClass("hide")
                   })
                 }
             });
@@ -55,6 +56,7 @@ $(function () {
   $(document).on({
     click: function(event){
       event.preventDefault();
+      console.log ($('.review-body-full', $(this).parents('.review-box')).html())
       $('h4#modalMoreReviewAuthor').text($('.review-author', $(this).parents('.review-box')).text());
       $('#more-review-body').html($('.review-body-full', $(this).parents('.review-box')).html());
       $('span#modalMoreReviewTime').text('wrote ' + $('.review-time', $(this).parents('.review-box')).text());
