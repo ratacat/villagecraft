@@ -1,0 +1,14 @@
+<%
+  signed_up = current_user.try(:attending_event?, rerun)
+  text_class = signed_up ? 'text-success' : 'text-default'
+%>
+<li>
+  <span class="<%= text_class %>">
+    <% if signed_up %>
+      <%= content_tag(:i, '' , :class => "glyphicon glyphicon-ok") %>       
+    <% else %>
+      <%= content_tag(:i, '&nbsp;'.html_safe, :class => "glyphicon") %>       
+    <% end %>
+    <%= meeting_time(rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+  </span>
+</li>
