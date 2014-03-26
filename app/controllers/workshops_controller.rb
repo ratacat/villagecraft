@@ -55,6 +55,12 @@ class WorkshopsController < ApplicationController
     end
   end
   
+  # GET /w/:id/simple_index_partial(.:format) 
+  def simple_index_partial
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+    render partial: 'reruns/simple_index', locals: {reruns: @future_reruns}, layout: false
+  end
+  
   # GET /w/1/upload_photo
   # POST /w/1/upload_photo
   def upload_photo
