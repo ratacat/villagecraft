@@ -1,10 +1,3 @@
-<%- content_for(:a_la_carte_js) do -%>
-  <%= javascript_include_tag 'a_la_carte/bootstrap-sortable' -%>
-<%- end -%>
-<%- content_for(:a_la_carte_css) do -%>
-  <%= stylesheet_link_tag 'a_la_carte/bootstrap-sortable', :media => "all" %>
-<%- end -%>
-
 <div class="page-header">
   <%= link_to new_admin_user_path, :class => 'btn btn-primary' do %>
     <i class="icon-plus icon-white"></i>

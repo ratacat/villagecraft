@@ -6,10 +6,6 @@
   </div>
 <% end %>
 
-<%- content_for(:a_la_carte_js) do -%>
-  <%= javascript_include_tag 'a_la_carte/jquery.charactercounter' -%>
-<% end %>
-
 <% ready_script do -%>
   $("#send_sms_form textarea").characterCounter({limit: 160, counterSelector: '#my_counter'});
   $("#send_sms_form").bind('ajax:success', function(evt, data, status, xhr) {
