@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.order([:admin, :host, :name])
+    @users = User.order(:created_at).reverse_order
 
     respond_to do |format|
       format.html # index.html.erb
