@@ -2,7 +2,11 @@
   <div class="col-sm-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Forgot your password?</h3>
+        <% if params[:reset] %>
+          <h3 class="panel-title">Forgot your password?</h3>
+        <% else %>
+          <h3 class="panel-title">Set your password</h3>
+        <% end %>
       </div>
       <div class="panel-body">
         <div class="col-sm-12">
@@ -12,7 +16,11 @@
             <%= f.input :email, :autofocus => true %>
 
             <div class="form-group">
-              <%= f.submit "Send me reset password instructions", class: "btn btn-primary" %>
+              <% if params[:reset] %>
+                <%= f.submit "Send me reset password instructions", class: "btn btn-primary" %>
+              <% else %>
+                <%= f.submit "Send me a magic link to set my password", class: "btn btn-primary" %>
+              <% end %>
               <%= render "devise/shared/links" %>
             </div>
           <% end %>
