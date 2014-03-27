@@ -6,8 +6,7 @@
       </div>
       <div class="modal-body" id='collect_email_address'>
         <p>We won't spam or share your information.</p>
-        <div class="">
-          <div class="col-sm-12">
+        <div class="margin10">
           <%= simple_form_for(:user, :as => :user, :url => registration_path(:user), html: { class: 'form-horizontal', id: 'attend_by_email_form'}) do |f| %>
             <%= f.input :email %>
             <div class="form-group">
@@ -16,12 +15,11 @@
               </div>
           	</div>
           <% end %>
-          </div>
         </div>
       </div>
       <div class="modal-body initially_hidden" id='register_new_user'>
         <h4>ooooh a newbie!  Welcome to Villagecraft =)</h4>
-        <div class="col-sm-12">
+        <div class="margin10">
           <%= render :partial => 'devise/registrations/form', :locals => {:resource => User.new, :resource_name => :user} %>
         </div>
       </div>
