@@ -106,7 +106,7 @@
     </div>
     <% end %>
     
-    <h4 class="text-muted">People</h4>
+    <h4 class="text-muted">People<span class="pull-right"><%= render 'reruns/spots_left', rerun: next_rerun %></span></h4>
     <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
   </div>
 </div>
