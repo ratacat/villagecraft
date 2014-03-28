@@ -223,7 +223,7 @@ class User < ActiveRecord::Base
                       :password_confirmation => random_pwd,
                       :has_set_password => false
                       )
-      user.profile_image ||= fb_profile_img_uri
+      user.profile_image ||= fb_profile_img_uri.gsub(/^http:/, 'https:')
       user.auth_provider = auth.provider
       user.auth_provider_uid = auth.uid
     end
