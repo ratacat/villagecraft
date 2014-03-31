@@ -207,7 +207,7 @@ class User < ActiveRecord::Base
 
   def User.find_for_facebook_oauth(auth, signed_in_resource=nil)
     unless user = User.where(:auth_provider => auth.provider, :auth_provider_uid => auth.uid).first
-      fb_profile_img_uri = URI.parse(auth.info.image)
+      fb_profile_img_uri = URI.parse(auth.info.image.gsub(/^http:/, 'https:'))
       fb_profile_img_uri.query = "type=large"
       random_pwd = Devise.friendly_token[0,20]
 
@@ -223,7 +223,7 @@ class User < ActiveRecord::Base
                       :password_confirmation => random_pwd,
                       :has_set_password => false
                       )
-      user.profile_image ||= fb_profile_img_uri.gsub(/^http:/, 'https:')
+      user.profile_image ||= fb_profile_img_uri
       user.auth_provider = auth.provider
       user.auth_provider_uid = auth.uid
     end
