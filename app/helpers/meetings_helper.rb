@@ -23,6 +23,10 @@ module MeetingsHelper
     "#{meeting_date(meeting)} #{meeting_time_interval(meeting)}"
   end
   
+  def meeting_duration_in_hours(meeting)
+    number_with_precision((meeting.end_time - meeting.start_time) / 1.hour, precision: 1, strip_insignificant_zeros: true) + 'h'
+  end
+  
   def meeting_time(meeting, options = {})
     defaults = {
       :short_date => false,
