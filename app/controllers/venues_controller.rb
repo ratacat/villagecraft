@@ -119,7 +119,7 @@ class VenuesController < ApplicationController
   
   protected
   def venue_params
-    params[:venue].permit(:name, {:location => [:street, :city, :state_code]})
+    params[:venue].permit(:name, {:location => [:street, :city, :state_code]}, :address)
   end
   
   def load_venue

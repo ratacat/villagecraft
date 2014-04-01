@@ -16,5 +16,9 @@ class Venue < ActiveRecord::Base
   def location=(params)
     self.create_location(params)
   end
+
+  def address=(a)
+    self.create_location(address: a)
+  end
   
 end
