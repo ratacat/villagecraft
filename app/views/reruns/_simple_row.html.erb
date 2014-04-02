@@ -1,8 +1,9 @@
 <%
   signed_up = current_user.try(:attending_event?, rerun)
   text_class = signed_up ? 'text-success' : 'text-default'
+  hidden ||= false
 %>
-<li>
+<li class="row<%= ' initially_hidden' if hidden %>">
   <span class="<%= text_class %>">
     <% if signed_up %>
       <%= content_tag(:i, '' , :class => "glyphicon glyphicon-ok") %>       
