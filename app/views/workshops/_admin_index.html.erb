@@ -23,13 +23,19 @@
                              auto_add_rerun_workshop_path(workshop), 
                              :icon => 'plus', :class => 'btn btn-success', :method => :post %>
         <% else %>
+          <% if workshop.upcoming_reruns.count > 1 %>
+            <span class="text-muted pull-right">+ <%= workshop.upcoming_reruns.count - 1 %> others</span>
+          <% end %>
           <div><%= meeting_time(workshop.next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %></div>
           <%= iconic_link_to("Manage", manage_event_path(workshop.next_meeting.event), :icon => 'group', :class => 'btn btn-xs btn-default') if can? :manage_attendees, workshop.next_meeting.event %>
         <% end %>
       </td>
       <td class="blocky_spns">
         <% unless workshop.last_meeting.blank? %>
-          <%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %>
+          <% if workshop.past_reruns.count > 1 %>
+            <span class="text-muted pull-right">+ <%= workshop.past_reruns.count - 1 %> others</span>
+          <% end %>
+          <div><%= meeting_time(workshop.last_meeting, :short_date => true, :no_tz => true, :show_livestamp => true) %></div>
           <%= iconic_link_to("Manage", manage_event_path(workshop.last_meeting.event), :icon => 'group', :class => 'btn btn-xs btn-default') if can? :manage_attendees, workshop.last_meeting.event %>
         <% end %>
       </td>
