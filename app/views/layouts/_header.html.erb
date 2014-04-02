@@ -1,5 +1,6 @@
 <div class="vc_navbar">
   <ul class="nav nav-pills pull-right">
+    <li><%= link_to 'FAQ', faq_path %></li>
     <% unless user_signed_in? and current_user.host? %>
       <li><%= sign_up_link(Event.new({:uuid => '_HOSTIFY_ME_', :title => "Interested in hosting?  Leave your email and we'll be in touch."}, :as => :system), 
                            :cta => 'host something',
