@@ -80,6 +80,7 @@ Villagecraft::Application.routes.draw do
   namespace :admin do 
     get '' => 'dashboard#index', as: '/'
     get 'recent_activity' => 'dashboard#recent_activity', :as => :recent_activity
+    match 'send_system_mailing' => 'dashboard#send_system_mailing', :as => :send_system_mailing
     resources :users
   end
   

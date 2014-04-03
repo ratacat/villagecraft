@@ -18,6 +18,11 @@ class UserMailer < ActionMailer::Base
     @message = message
     mail(to: to_email, subject: @message.subject, reply_to: @message.from_user.email)
   end
+
+  def system_email(message, to_email)
+    @message = message
+    mail(to: to_email, subject: @message.subject, reply_to: @message.from_user.email)
+  end
   
   def notification_email(notification)
     activity = notification.activity
