@@ -314,7 +314,8 @@ CREATE TABLE messages (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     send_at timestamp without time zone,
-    sent_at timestamp without time zone
+    sent_at timestamp without time zone,
+    system_message boolean
 );
 
 
@@ -564,7 +565,8 @@ CREATE TABLE users (
     sms_short_messages boolean,
     email_short_messages boolean DEFAULT false,
     promote_host boolean,
-    preferred_distance_units character varying(255) DEFAULT 'mi'::character varying
+    preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
+    email_system_messages boolean DEFAULT true
 );
 
 
@@ -1634,3 +1636,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140320042524');
 INSERT INTO schema_migrations (version) VALUES ('20140324224307');
 
 INSERT INTO schema_migrations (version) VALUES ('20140325215738');
+
+INSERT INTO schema_migrations (version) VALUES ('20140403065951');
+
+INSERT INTO schema_migrations (version) VALUES ('20140403070324');

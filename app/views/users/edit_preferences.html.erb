@@ -29,10 +29,25 @@
     </div>
   </div>
 
+  <h3 id="other_notifications">Other Notifications</h3>
   <div class="row">
     <div class="col-sm-12">
-      <h3>Other Notifications</h3>
-      <p class="help-block">Other updates about events you are attending (or hosting).</p>
+      <p class="help-block">Newsletters and other informational email from Villagecraft</p>
+      <div class="col-sm-6">
+        <ul>
+          <div class="form-group">
+            <label class="checkbox controls">
+              <%= f.input_field :email_system_messages, as: :boolean, boolean_style: :inline %> Send to email
+            </label>      
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <p class="help-block">Updates about events you are attending (or hosting)</p>
       <div class="col-sm-6">
         <ul>
           <div class="form-group">
