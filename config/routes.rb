@@ -77,10 +77,11 @@ Villagecraft::Application.routes.draw do
 
   get '/tos' => 'application#tos', :as => :tos
 
-  get 'about' => 'pages#about'
+  get 'faq' => 'pages#faq'
   namespace :admin do 
     get '' => 'dashboard#index', as: '/'
     get 'recent_activity' => 'dashboard#recent_activity', :as => :recent_activity
+    match 'send_system_mailing' => 'dashboard#send_system_mailing', :as => :send_system_mailing
     resources :users
   end
   

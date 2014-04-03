@@ -9,7 +9,5 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *
- *= require_tree ./everyone
- *= require vendor_stylesheets
- *= require custom_bootstrap/custom_bootstrap
+ *= require vendor_hosts_only
  */

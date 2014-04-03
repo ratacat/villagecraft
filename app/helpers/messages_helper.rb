@@ -9,6 +9,8 @@ module MessagesHelper
       else
         raise "Cannot render message recipients for apropos type: #{message.apropos.class}"
       end
+    elsif message.system_message?
+      "All Villagecraft Users"
     else
       raise 'Cannot render message recipients'
     end

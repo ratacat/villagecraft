@@ -12,7 +12,7 @@
   <ul class="nav nav-tabs margin0">
     <li class="active"><a href="#future_reruns" data-toggle="tab">Coming Up (<span id='future_reruns_count'><%= @future_reruns.count %></span>)</a></li>
     <li><a href="#past_reruns" data-toggle="tab">Past (<span id='past_reruns_count'><%= @past_reruns.count %></span>)</a></li>
-    <%= iconic_link_to 'Schedule', '#', :icon => 'plus', :class => 'btn btn-success', :id => "add_rerun_button" %>
+    <%= iconic_link_to 'Schedule', '#', :icon => 'plus', :class => 'btn btn-success has_help_bubble', :id => "add_rerun_button" %>
   </ul>
   <div id="myTabContent" class="tab-content">
     <div class="tab-pane active" id="future_reruns">

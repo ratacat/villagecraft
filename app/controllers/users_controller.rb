@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.order([:admin, :host, :name])
+    @users = User.order(:created_at).reverse_order
 
     respond_to do |format|
       format.html # index.html.erb
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
   end
   
   def user_params
-    ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications, :sms_short_messages, :email_short_messages, :preferred_distance_units]
+    ok_params = [:email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications, :sms_short_messages, :email_short_messages, :preferred_distance_units, :email_system_messages]
     ok_params += [:host, :external, :promote_host] if admin_session?
     ok_params += [:description] if current_user.host?
     params[:user].permit(*ok_params)

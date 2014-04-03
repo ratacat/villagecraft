@@ -17,4 +17,5 @@
 //= require editable/rails
 //= require vendor_javascripts
 //= require handlebars.runtime
-//= require_tree .
+//= require_tree ./templates
+//= require_directory ./everyone

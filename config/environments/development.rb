@@ -41,7 +41,7 @@ Villagecraft::Application.configure do
   config.facebook_app_secret = "49a984436ada9d7c3fa69e75ad428edf"
 
   # Precompile handlebars.js templates
-  config.assets.precompile += %w( ./templates/* )
+  config.assets.precompile += %w( hosts_only.js hosts_only.css ./templates/* )
   
   # Adding Webfonts to the Asset Pipeline
   config.assets.precompile << Proc.new { |path|

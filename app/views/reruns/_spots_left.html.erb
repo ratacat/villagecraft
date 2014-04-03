@@ -1,0 +1,7 @@
+<% if rerun.try(:rsvp?) %>
+  <% if rerun.full? %>
+    full
+  <% elsif rerun.spots_left <  30 %>
+    <span class="nowrap"><%= rerun.attendances.count %> / <%= rerun.max_attendees %></span>
+  <% end %>
+<% end %>
