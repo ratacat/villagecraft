@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-8">
+    <h1>Newsletter</h1>
+    <p>Sent to every Villagecraft user who has not opted out (from the Settings page).</p>
+    <div class="well">
+      <% message ||= (@message || Message.new) %>
+      <%= simple_form_for(message) do |f| %>
+        <%= f.error_notification %>
+
+        <% unless message.errors[:base].blank? %>
+          <div class="alert alert-error"><%= f.error :base %></div>
+        <% end %>
+  
+        <%= f.input :subject, label: 'Subject' %>
+        <%= f.input :body, label: 'Body', as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+
+        <%= f.hidden_field :system_message, value: true %>
+
+        <div class="form-group">
+          <%= f.submit 'Send', :class => "btn btn-default" %> <span class="text-muted">by email</span>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
+</div>
