@@ -4,7 +4,7 @@
     <p>Sent to every Villagecraft user who has not opted out (from the Settings page).</p>
     <div class="well">
       <% message ||= (@message || Message.new) %>
-      <%= simple_form_for(message) do |f| %>
+      <%= simple_form_for(message, url: messages_path, method: :post) do |f| %>
         <%= f.error_notification %>
 
         <% unless message.errors[:base].blank? %>
