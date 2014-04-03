@@ -111,9 +111,15 @@ class VenuesController < ApplicationController
       format.json {
         @venues = [Venue.new(:name => 'TBD')] + @venues
         @venues += [Venue.new(:name => 'Add new venue...')] if params[:add_new]
-        render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}} 
+        render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}}
       }
       format.html
+    end
+  end
+
+  def get_venue_address
+    respond_to do |format|
+      format.json { render :json => {address: @venue.location.address}, :status => :ok }
     end
   end
   
