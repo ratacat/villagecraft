@@ -118,6 +118,11 @@ class Workshop < ActiveRecord::Base
   end
   memoize :ongoing_or_upcoming_reruns
 
+  def past_reruns
+    self.events.where_first_meeting_starts_in_past
+  end
+  memoize :past_reruns
+
   def upcoming_reruns
     self.events.where_first_meeting_starts_in_future
   end

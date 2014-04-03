@@ -5,13 +5,8 @@
   TBD
 <% else %>
   <% if rerun.external? %>
-    <%= address(rerun.venue.location, :wrapper_tag => :span) %>
+    <%= address(rerun.venue.location, wrapper_tag: :span, show_state: false) %>
   <% else %>
-    <% if (not rerun.rsvp?) or (user_signed_in? and current_user.attending_event?(rerun)) %>
-      <%= address(rerun.venue.location, :wrapper_tag => :span) %>
-    <% else %>
-      <%= neighborhood_or_city_n_state(rerun.venue.location, :show_popover_map => false, :wrapper_tag => :span) %>
-    <% end %>
+   <%= address(rerun.venue.location, wrapper_tag: :span, show_street: ( not rerun.rsvp? or current_user.try(:attending_event?, rerun)), show_state: false) %>
   <% end %>
 <% end %>
-

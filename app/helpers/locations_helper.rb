@@ -11,8 +11,15 @@ module LocationsHelper
     link_to_google_maps(location, map_image(location))
   end
   
-  def city_n_state(location)
-    "#{location.city.titlecase}, #{location.state_code.upcase}"
+  def city_n_state(location, options={})
+    defaults = {
+      :show_state => true
+    }
+    options.reverse_merge!(defaults)
+    
+    html = location.city.titlecase
+    html << ", #{location.state_code.upcase}" if options[:show_state]
+    html
   end
   
   def popover_neighborhood_map(location)
@@ -25,19 +32,24 @@ module LocationsHelper
   
   def hood_name_in_city(location, options={})
     defaults = {
-      :show_in => false
+      :show_in => false,
+      :show_state => true
     }
     options.reverse_merge!(defaults)
     
     content_tag(:span, (location.neighborhood ? location.neighborhood.name + "#{' in ' if options[:show_in]}" : 'Somewhere in ')) + 
-    content_tag(:span, city_n_state(location), :class => 'text-muted')
+    content_tag(:span, city_n_state(location, show_state: options[:show_state]), :class => 'text-muted')
   end
   
   def address(location, options={})
     defaults = {
       :show_popover_map => false,
       :wrapper_tag => :div,
-      :address => nil
+      :address => nil,
+      :show_street => true,
+      :show_hood => true,
+      :show_city => true,
+      :show_state => true
     }
     options.reverse_merge!(defaults)
 
@@ -47,7 +59,14 @@ module LocationsHelper
       if options[:address]
         options[:address]
       else
-        content_tag(:span, location.street) + content_tag(:span, city_n_state(location))
+        html = ''.html_safe
+        html << content_tag(:span, location.street) if options[:show_street]
+        if options[:show_hood]
+          html << hood_name_in_city(location, show_state: options[:show_state])
+        else
+          html << content_tag(:span, city_n_state(location, show_state: options[:show_state])) if options[:show_city_n_state]
+        end
+        html
       end
     end    
   end

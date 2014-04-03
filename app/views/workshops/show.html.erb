@@ -33,9 +33,9 @@
   <div class="col-sm-6">
     <h1 class="margin_top0"><%= @workshop.title %></h1>
     <div class="row">
-      <div class="col-sm-8<%= ' bg-success' if next_rerun and current_user.try(:attending_event?, next_rerun) %>" id="when_where">
+      <div class="col-sm-12<%= ' bg-success' if next_rerun and current_user.try(:attending_event?, next_rerun) %>" id="when_where">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-5">
             <% if next_rerun %>
               <div class="blocky_spns">
                 <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
@@ -44,18 +44,16 @@
               <span class="text-muted">no upcoming dates</span>
             <% end %>
           </div>
-          <div class="col-sm-6" id="location">
+          <div class="col-sm-4" id="location">
             <p>
               <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
             </p>
           </div>
+          <div class="col-sm-3">
+            <%= render 'reruns/price', :rerun => next_rerun %>
+          </div>
         </div>
       </div>
-      
-      <div class="col-sm-4">
-        <%= render 'reruns/price_full_or_spots_left', :rerun => next_rerun %>
-      </div>
-
     </div>
     
     <p class="event_description clearfix">
@@ -106,7 +104,7 @@
     </div>
     <% end %>
     
-    <h4 class="text-muted">People</h4>
+    <h4 class="text-muted">People<span class="pull-right spots_left"><%= render 'reruns/spots_left', rerun: next_rerun %></span></h4>
     <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
   </div>
 </div>

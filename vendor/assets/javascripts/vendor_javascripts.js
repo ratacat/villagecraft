@@ -1,2 +1,2 @@
 //= require moment
-//= require_directory .
+//= require_directory ./everyone

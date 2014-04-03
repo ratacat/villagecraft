@@ -3,9 +3,9 @@
 	<head>
     <title><%= yield(:title).blank? ? "Villagecraft" : yield(:title) %></title>
 	  <%= stylesheet_link_tag "application", :media => "all" %>
+	  <%= stylesheet_link_tag "hosts_only", :media => "all" if current_user.try(:host?) %>
     <meta name="description" content="<%= yield(:meta_description) %>">
     <meta name="keywords" content="<%= yield(:meta_keywords) %>" >
-	  <%= yield(:a_la_carte_css) -%>
 	  <%= csrf_meta_tags %>
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 	</head>
@@ -33,7 +33,7 @@
 	<% end %>
 	
 	<%= javascript_include_tag "application" %>
-	<%= yield(:a_la_carte_js) -%>
+	<%= javascript_include_tag "hosts_only" if current_user.try(:host?) %>
   <%= render :partial => "layouts/body_and_ready_scripts" %>
   
 </html>

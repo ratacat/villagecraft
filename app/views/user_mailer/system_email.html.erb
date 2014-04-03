@@ -1,0 +1,8 @@
+<%
+  message ||= @message
+%>
+<%= BlueCloth.new(@message.body, :filter_html).to_html.html_safe %>
+<br/>
+<br/>
+<hr>
+To stop receiving Villagecraft newsletter mailings, opt-out <a href="http://villagecraft.org/preferences#other_notifications">here</a>.

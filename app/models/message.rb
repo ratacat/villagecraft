@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
   attr_writer :_apropos_uuid, :_to_user_uuid
-  attr_accessible :_apropos_uuid, :_to_user_uuid, :apropos_type, :subject, :body, :apropos, :from_user, :to_user
+  attr_accessible :_apropos_uuid, :_to_user_uuid, :apropos_type, :subject, :body, :apropos, :from_user, :to_user, :system_message
   
   belongs_to :from_user, :class_name => 'User'
   belongs_to :to_user, :class_name => 'User'
@@ -13,7 +13,7 @@ class Message < ActiveRecord::Base
   validates :from_user_id, presence: true
   validates :subject, presence: true
   validates :body, presence: true
-  validate :can_send_to_apropos?, :has_to_user_or_apropos?
+  validate :sender_authorized_to_send?, :sendable?
 
   def _apropos_uuid
     @_apropos_uuid || self.apropos.try(:uuid)
@@ -38,6 +38,10 @@ class Message < ActiveRecord::Base
         end
       else
         raise "Don't know how to deliver a message apropos of a: #{self.apropos.class} (#{self.id})"
+      end
+    elsif self.system_message?
+      User.where(:email_system_messages => true).find_each do |user|
+        UserMailer.system_email(self, user.email).deliver          
       end
     else
       raise "Cannot deliver a message with no apropos or to user (#{self.id})"
@@ -76,7 +80,7 @@ class Message < ActiveRecord::Base
     end
   end
   
-  def can_send_to_apropos?
+  def sender_authorized_to_send?
     return(true) unless self.to_user.blank?  # there's no need to check the apropos if a to_user is explicitly specified
     unless self.apropos.blank?
       case self.apropos_type
@@ -88,11 +92,14 @@ class Message < ActiveRecord::Base
         raise "Unsupported apropos type"
       end
     end
+    if self.system_message? and not self.from_user.admin?
+      errors.add(:base, "Only admins may send system messages") 
+    end
   end
   
-  def has_to_user_or_apropos?
-    unless self.apropos or self.to_user
-      errors.add(:base, "Must have a to_user or an apropos.")          
+  def sendable?
+    unless self.apropos or self.to_user or self.system_message?
+      errors.add(:base, "Must have a to_user or an apropos or be a system message.")          
     end
   end
   

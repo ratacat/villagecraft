@@ -16,5 +16,11 @@
   <dd><%= message.subject %></dd>
 
   <dt>Body</dt>
-  <dd><%= simple_format(@message.body) %></dd>
+  <dd>
+    <% if @message.system_message? %>
+      <%= BlueCloth.new(@message.body, :filter_html).to_html.html_safe %>
+    <% else %>
+      <%= simple_format(@message.body) %>
+    <% end %>
+  </dd>
 </dl>
