@@ -53,6 +53,7 @@ Villagecraft::Application.routes.draw do
   get 'my_workshops' => 'workshops#my_workshops', :as => :my_workshops
 
   get 'my_venues(.:format)' => 'venues#my_venues', :as => :my_venues
+  get 'get_venue_address/:id' => 'venues#get_venue_address', :as => :get_venue_address
   resources :venues  
   resources :neighborhoods do
     collection do

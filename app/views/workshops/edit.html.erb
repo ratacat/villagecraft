@@ -44,7 +44,7 @@
         </div>
       </ul>
     </dd>
-    
+
     <dt><h3>Signup</h3></dt>
     <dd>
       from workshop page: <%= workshop_title(@workshop, :linked_to => true) %>
@@ -73,7 +73,7 @@
           <p>
             <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
           </p>
-        </div>        
+        </div>
       </div>
     </dd>
 
@@ -96,7 +96,7 @@
           <p>
             <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
           </p>
-        </div>        
+        </div>
       </div>
     </dd>
 
@@ -113,7 +113,7 @@
           <p>
             Sent 3 hours before the workshop, except when that time falls between 9pm and 9am, in which case your attendees will receive the reminder the night before, at 8pm.
           </p>
-        </div>        
+        </div>
       </div>
     </dd>
 
@@ -121,11 +121,12 @@
 </div>
 </div>
 <% end %>
+
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
 
   function hide_vc_editable_popovers(_this) {
-    $('span.vc_editable').not(_this).popover('hide');    
+    $('span.vc_editable').not(_this).popover('hide');
   };
 
   function hide_or_show_manage_attendees_button(row) {
@@ -149,7 +150,7 @@
     var the_form = $(this).closest('form');
     setTimeout(function () {
       show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
-      the_form.submit(); 
+      the_form.submit();
     }, 1000);
   });
 
@@ -161,10 +162,10 @@
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
 
     $('span.vc_editable.meeting_time').popover({
-      html: true, 
+      html: true,
       placement: 'top',
-      container: 'body', 
-      title: 'Workshop Time', 
+      container: 'body',
+      title: 'Workshop Time',
       content: function() {
         var data_span = $(this).find("span:nth-child(2)");
         return HandlebarsTemplates['datetime/range_form']({
@@ -178,15 +179,15 @@
       }
     }).on('shown.bs.popover', function() {
       hide_vc_editable_popovers(this);
-      init_datetime_picker(); 
+      init_datetime_picker();
     });
-    
+
     $('span.vc_editable.venue').popover({
-      html: true, 
+      html: true,
       placement: 'top',
-      container: 'body', 
+      container: 'body',
       trigger: 'manual',
-      title: 'Add New Venue', 
+      title: 'Add New Venue',
       content: function() {
         var event_uuid = $(this).closest("tr").data("rerun_uuid");
         return HandlebarsTemplates['venues/add_new']({
@@ -198,24 +199,24 @@
       hide_vc_editable_popovers(this);
       $("#venue_name").focus();
     });
-    
+
     var vc_highlighter = function() {};
   };
 <% end %>
 
 <% ready_script do -%>
   editablize_meetings();
-  
+
   $(document).on('shown', '.editable', function(e, editable) {
     hide_vc_editable_popovers(this);
   });
-  
+
   $(document).on('click', "button.editable-cancel", function(e) {
     e.stopPropagation();
     e.preventDefault();
     hide_vc_editable_popovers(this);
   });
-  
+
   $("#add_rerun_button").click(function(e) {
     $(this).popover('hide');
     $.post("<%= auto_add_rerun_workshop_path(@workshop) %>", function(data, textStatus, jqXHR) {
@@ -225,21 +226,21 @@
       });
     });
   });
-  
+
   $(document).on('ajax:beforeSend', '#edit_meeting', function(event, xhr, settings) {
     var uuid = $(this).data('meeting_uuid');
     vc_highlighter = function() {
       $('tr[data-meeting_uuid="' + uuid + '"] span.vc_editable.meeting_time').highlight();
     };
   });
-  
+
   $(document).on('ajax:beforeSend', '#new_venue', function(event, xhr, settings) {
     var uuid = $(this).data('rerun_uuid');
     vc_highlighter = function() {
       $('tr[data-rerun_uuid="' + uuid + '"] span.vc_editable.venue').highlight();
     };
   });
-  
+
   $(document).on('ajax:complete', 'form.external_toggle', function(event, data, status, xhr) {
     var external_url_input = $(this).closest('td').find('.external_url');
     hide_or_show_manage_attendees_button($(this).closest('tr'))
@@ -249,11 +250,11 @@
       external_url_input.hide();
     }
   });
-  
+
   $(document).on('ajax:complete', 'form.rsvp_toggle', function(event, data, status, xhr) {
     hide_or_show_manage_attendees_button($(this).closest('tr'));
   });
-  
+
   $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
@@ -269,7 +270,7 @@
     row.replaceWith(data);
     editablize_meetings();
   });
-  
+
   $(document).on('ajax:success', '#new_venue', function(event, data, status, xhr) {
     hide_vc_editable_popovers(this);
     $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop, :clear_source_cache => true) %>", function(responseText, textStatus, XMLHttpRequest) {
@@ -277,14 +278,14 @@
       vc_highlighter();
     });
   });
-  
+
   $(document).keydown(function(e){
     if (e.keyCode === 27)
       hide_vc_editable_popovers(this);
   });
-  
+
   $(".external_check").popover({content: "Use this option to promote an external event on Villagecraft.  Users will be directed off-site to sign up, contact the host or learn more.", trigger: 'hover', placement: 'left'});
-  
+
   $(document).on('change', "td span.venue form select", function() {
     if ($(this).val() === "Add new venue...") {
       var venue_span = $(this).closest("td span.venue");
@@ -292,18 +293,67 @@
       venue_span.popover('show');
     }
   });
-  
+
+  $(document).on({
+      click: function(e) {
+        value = $('form select', $(this)).val();
+      <!-- fire event only when the parent document is clicked -->
+        if (value != null && value !== "Add new venue..." && value !== "TBD") {
+          if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
+            old_this = $(this);
+            url = '/get_venue_address/';
+            $.ajax({
+              url: url + value,
+              dataType: "json",
+              success: function(response){
+                  address = response.address.split(",");
+                  $('div.popover',$(old_this)).append(HandlebarsTemplates['venues/show_address']({
+                  address1: address[0],
+                  address2: address[1] + ', ' + address[2],
+                  edit_venue_url: '/venues/' + value + '/edit'
+                  }));
+              }
+            });
+          }
+        }
+      }
+   }, "td span.venue");
+
+  $(document).on({
+      change: function(e) {
+          value = $(this).val();
+      <!-- fire event only when the parent document is clicked -->
+          if (value != null && value !== "Add new venue..." && value !== "TBD") {
+            if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
+              url = '/get_venue_address/';
+              $.ajax({
+                url: url + value,
+                dataType: "json",
+                success: function(response){
+                  address = response.address.split(",");
+                  $('#venue-address1').text(address[0]);
+                  $('#venue-address2').text(address[1] + ', ' + address[2]);
+
+                }
+              });
+            }
+          }
+      }
+  }, "td span.venue form select");
+
   $('#add_rerun_button').popover({
     placement: 'right',
     content: '<%= @add_button_help %>',
     trigger: 'manual'
   }).popover('show');
-  
+
   $(document).on('change.bs.fileinput', function() {
     $('#add_rerun_button').popover('show');
   }).on('clear.bs.fileinput', function() {
     $('#add_rerun_button').popover('show');
   });
-  
-  
+
+
 <% end -%>
+
+
