@@ -119,7 +119,7 @@ class VenuesController < ApplicationController
 
   def get_venue_address
     respond_to do |format|
-      format.json { render :json => {address: @venue.location.address}, :status => :ok }
+      format.json { render :json => {address: @venue.location}, :status => :ok }
     end
   end
   
