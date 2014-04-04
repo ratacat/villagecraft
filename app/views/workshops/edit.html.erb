@@ -306,16 +306,11 @@
               url: url + value,
               dataType: "json",
               success: function(response){
-                  address = response.address.split(",");
-                  address2 = '';
-                  if(typeof address[1] != 'undefined') {
-                    address2 = address[1];
-                  } else if(typeof address[2] != 'undefined'){
-                    address2 = address2 + ', ' + address[2];
-                  }
                   $('div.popover',$(old_this)).append(HandlebarsTemplates['venues/show_address']({
-                  address1: address[0],
-                  address2: address2,
+                  street: response.address.street,
+                  city: response.address.city,
+                  zip: response.address.zip,
+                  state: response.address.state_code,
                   edit_venue_url: '/venues/' + value + '/edit'
                   }));
               }
@@ -339,13 +334,10 @@
                 url: url + value,
                 dataType: "json",
                 success: function(response){
-                  address = response.address.split(",");
-                  $('#venue-address1').text(address[0]);
-                  if(typeof address[1] != 'undefined') {
-                    $('#venue-address2').text(address[1]);
-                  } else if(typeof address[2] != 'undefined'){
-                    $('#venue-address2').text($('#venue-address2').text() + ', ' + address[2]);
-                  }
+                  $('#venue-address1').text(response.address.street);
+                  address2 = '';
+                  address2 = response.address.city + ', ' + (response.address.zip == null ? '' : response.address.zip)  + response.address.state_code;
+                  $('#venue-address2').text(address2);
                 }
               });
             }
