@@ -307,9 +307,15 @@
               dataType: "json",
               success: function(response){
                   address = response.address.split(",");
+                  address2 = '';
+                  if(typeof address[1] != 'undefined') {
+                    address2 = address[1];
+                  } else if(typeof address[2] != 'undefined'){
+                    address2 = address2 + ', ' + address[2];
+                  }
                   $('div.popover',$(old_this)).append(HandlebarsTemplates['venues/show_address']({
                   address1: address[0],
-                  address2: address[1] + ', ' + address[2],
+                  address2: address2,
                   edit_venue_url: '/venues/' + value + '/edit'
                   }));
               }
@@ -325,6 +331,9 @@
       <!-- fire event only when the parent document is clicked -->
           if (value != null && value !== "Add new venue..." && value !== "TBD") {
             if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
+              if ($(".venue-popover-content").hasClass('hide')) {
+                  $(".venue-popover-content").removeClass('hide');
+              }
               url = '/get_venue_address/';
               $.ajax({
                 url: url + value,
@@ -332,11 +341,16 @@
                 success: function(response){
                   address = response.address.split(",");
                   $('#venue-address1').text(address[0]);
-                  $('#venue-address2').text(address[1] + ', ' + address[2]);
-
+                  if(typeof address[1] != 'undefined') {
+                    $('#venue-address2').text(address[1]);
+                  } else if(typeof address[2] != 'undefined'){
+                    $('#venue-address2').text($('#venue-address2').text() + ', ' + address[2]);
+                  }
                 }
               });
             }
+          } else {
+            $('.venue-popover-content').addClass('hide');
           }
       }
   }, "td span.venue form select");
