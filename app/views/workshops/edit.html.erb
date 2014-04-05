@@ -296,7 +296,7 @@
 
   $(document).on({
       click: function(e) {
-        value = $('form select', $(this)).val();
+        var value = $('form select', $(this)).val();
         // fire event only when the parent document is clicked
         if (value != null && value !== "Add new venue..." && value !== "TBD") {
           if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
@@ -322,14 +322,14 @@
 
   $(document).on({
       change: function(e) {
-          value = $(this).val();
+          var value = $(this).val();
           // fire event only when the parent document is clicked 
           if (value != null && value !== "Add new venue..." && value !== "TBD") {
             if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
               if ($(".venue-popover-content").hasClass('hide')) {
                   $(".venue-popover-content").removeClass('hide');
               }
-              url = '/get_venue_address/';
+              var url = '/get_venue_address/';
               $.ajax({
                 url: url + value,
                 dataType: "json",
