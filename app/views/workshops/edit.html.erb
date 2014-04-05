@@ -300,8 +300,8 @@
         // fire event only when the parent document is clicked
         if (value != null && value !== "Add new venue..." && value !== "TBD") {
           if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
-            old_this = $(this);
-            url = '/get_venue_address/';
+            var old_this = $(this);
+            var url = '/get_venue_address/';
             $.ajax({
               url: url + value,
               dataType: "json",
