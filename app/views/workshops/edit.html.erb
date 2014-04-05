@@ -329,15 +329,19 @@
               if ($(".venue-popover-content").hasClass('hide')) {
                   $(".venue-popover-content").removeClass('hide');
               }
+              var vpc = $(this).closest(".popover").find('.venue-popover-content');
               var url = '/get_venue_address/';
               $.ajax({
                 url: url + value,
                 dataType: "json",
                 success: function(response){
-                  $('#venue-address1').text(response.address.street);
-                  address2 = '';
-                  address2 = response.address.city + ', ' + (response.address.zip == null ? '' : response.address.zip)  + response.address.state_code;
-                  $('#venue-address2').text(address2);
+                    vpc.replaceWith(HandlebarsTemplates['venues/show_address']({
+                    street: response.address.street,
+                    city: response.address.city,
+                    zip: response.address.zip,
+                    state_code: response.address.state_code,
+                    edit_venue_url: '/venues/' + value + '/edit'
+                    }));
                 }
               });
             }
