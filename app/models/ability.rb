@@ -14,7 +14,7 @@ class Ability
       cannot :manage_as_host, Event
       can [:show, :attend, :attend_by_email, :cancel_attend], Event
       
-      can [:show], User
+      can [:show, :hostify_me], User
       can [:show], Venue
       can [:show, :create], Message
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id

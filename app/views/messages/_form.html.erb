@@ -3,6 +3,7 @@
    remote ||= false
    auto_submit ||= false
    id = "edit_message_#{UUIDTools::UUID.random_create.to_s}"
+   hidden_subject ||= false
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
 %>
 <%= simple_form_for(message, options) do |f| %>
@@ -12,7 +13,11 @@
     <div class="alert alert-error"><%= f.error :base %></div>
   <% end %>
   
-  <%= f.input :subject, label: 'Subject' %>
+  <% if hidden_subject %>
+    <%= f.hidden_field :subject %>
+  <% else %>
+    <%= f.input :subject, label: 'Subject' %>
+  <% end %>
   <%= f.input :body, label: 'Body', input_html: {rows: 8} %>
 
   <%= f.hidden_field :_to_user_uuid %>

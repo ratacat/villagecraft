@@ -84,14 +84,10 @@ class UsersController < ApplicationController
     end
   end
   
-  # POST /users/hostify_me
+  # GET /users/hostify_me
   def hostify_me
-    Message.new_hostify_msg(:from_user => current_user)
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: "Thanks for your interest in becomming a Villagecraft host.  We'll be in touch!" }
-      format.json { head :no_content }
-    end
-    
+    hostify_admin = User.find_by_email("neuralsplash@gmail.com")
+    @message = Message.new(:from_user => current_user, :to_user => hostify_admin, :subject => "Host Interest from #{current_user.name} <#{current_user.email}>")
   end
   
   protected

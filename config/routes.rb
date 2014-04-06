@@ -42,8 +42,11 @@ Villagecraft::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks", :registrations => "registrations" }
   post 'admin_mode_toggle' => 'sessions#admin_mode_toggle', :as => :admin_mode_toggle
   
-  resources :users
-  match 'hostify_me' => 'users#hostify_me', :as => :hostify_me
+  resources :users do
+    collection do
+      get 'hostify_me'
+    end
+  end
   get 'preferences' => 'users#edit_preferences', :as => :edit_preferences
   put 'update_preferences' => 'users#update_preferences', :as => :update_preferences
     
