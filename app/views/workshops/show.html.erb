@@ -133,7 +133,7 @@
   }
   
   $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
-    show_bootstrap_alert({text: "You signed up!", type: 'success'});
+    show_bootstrap_alert({text: "Check your inbox for a copy of these details.", type: 'success'});
     $("a.attend_event").hide();
     $(".you_r_signed_up").show();
     $("#when_where").addClass("bg-success");
