@@ -17,7 +17,7 @@
         <%= f.hidden_field :system_message, value: true %>
 
         <div class="form-group">
-          <%= f.submit 'Send', :class => "btn btn-default" %> <span class="text-muted">by email</span>
+          <%= f.submit 'Send', class: "btn btn-default", confirm: "Are you really sure?  This will be sent to #{User.where(:email_system_messages => true).count} people." %> <span class="text-muted">by email</span>
         </div>
       <% end %>
       
