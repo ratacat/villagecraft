@@ -1,27 +1,27 @@
 <% neighborhood ||= @neighborhood %>
 <div class="page-header">
-  <div class="neighborhoods-title">
-  <% if can? :manage, @neighborhood %>
-    <%= iconic_link_to 'All neighborhoods', counties_neighborhoods_path, :icon => 'list-alt', :class => 'btn btn-default' %>
-    <%= iconic_link_to 'Edit', edit_neighborhood_path(@neighborhood), :class => 'btn btn-primary' %>
-  <% end %>
-  <h2><%= neighborhood.name %></h2>
+  <div class="pull-right">
+    <% if can? :manage, @neighborhood %>
+      <%= iconic_link_to 'All neighborhoods', counties_neighborhoods_path, :icon => 'list-alt', :class => 'btn btn-default' %>
+      <%= iconic_link_to 'Edit', edit_neighborhood_path(@neighborhood), :class => 'btn btn-primary' %>
+    <% end %>
   </div>
-
+  <h2><%= neighborhood.name %></h2>
 </div>
-<p>
-<div class="neighborhoods-map  col-md-6 col-xs-12">
-  <div id="map-canvas" class="img-polaroid floatright"></div>
-</div>
-  <%= neighborhood.city %>, <%= neighborhood.state %> (<%= neighborhood.county %> county)
-  <p>
+<div class="row">
+  <div class="neighborhoods-map col-md-6 col-xs-12">
+    <%= neighborhood.city %>, <%= neighborhood.state %> (<%= neighborhood.county %> county)
+    <div id="map-canvas" class="img-polaroid floatright"></div>
+  </div>
+  <div class="col-sm-12">
+    <h3>Workshops in <%= neighborhood.name %></h3>
     <% if @workshops.blank? %>
-        No workshops.
+      <p>none yet</p>
     <% else %>
-        <%= render '/workshops/admin_index', :workshops => @workshops, :show_host => true %>
+      <%= render '/workshops/admin_index', :workshops => @workshops, :show_host => true %>
     <% end %>
     <!--<div id="map-canvas" class="img-polaroid"></div>-->
-  </p>
+  </div>
 </p>
 
 <% ready_script do -%>
