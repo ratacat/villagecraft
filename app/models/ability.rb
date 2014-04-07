@@ -8,13 +8,16 @@ class Ability
     can [:show, :attend_by_email], Event
     can [:show], Workshop
     can [:edit], Location
+    can [:show], Message do |message|
+      message.system_message?
+    end
     
     # signed-in user  
     if not user.blank?
       cannot :manage_as_host, Event
       can [:show, :attend, :attend_by_email, :cancel_attend], Event
       
-      can [:show], User
+      can [:show, :hostify_me], User
       can [:show], Venue
       can [:show, :create], Message
       can [:edit, :update, :edit_preferences, :update_preferences], User, :id => user.id

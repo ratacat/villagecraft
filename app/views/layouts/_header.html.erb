@@ -1,17 +1,6 @@
 <div class="vc_navbar">
   <ul class="nav nav-pills pull-right">
     <li><%= link_to 'FAQ', faq_path %></li>
-    <li class="dropdown">
-      <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
-       <span>contact</span><span class="caret"></span>
-      <% end %>
-      <ul class="dropdown-menu pull-right" role="menu">
-        <li><%= sign_up_link(Event.new({:uuid => '_HOSTIFY_ME_', :title => "Interested in hosting?  Leave your email and we'll be in touch."}, :as => :system), 
-                             :cta => 'host something',
-                             :path => hostify_me_path) %></li>
-        <li><%= mail_to 'Villagecraft Bugs <vcbugs@just-listen.net>', 'report a bug', subject: 'Villagecraft Bug Report' %></li>
-      </ul>
-    </li>
     <% if not user_signed_in? %>
       <li><%= link_to "Sign in", new_user_session_path %></li>
       <li><%= link_to 'Sign up', new_user_registration_path, :class => "btn-success" %></li>
