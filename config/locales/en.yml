@@ -3,6 +3,8 @@
 
 en:
   unauthorized:
+    create:
+      review: "To leave a review sign in or sign up"
     my_workshops:
       workshop: 'My Workshops is a host-only feature.'
     my_venues:

@@ -21,9 +21,7 @@
             <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
         <% end %>
     <% else %>
-      <p class="tooltipify" title='Sign up or sign in to leave a review' data-placement='bottom'>
-        <%= link_to 'Add review', '#', class: "btn btn-warning btn-block", disabled: :disabled %>
-      </p>
+      <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
     <% end %>
     
     <% if @images.count > 0 %>
