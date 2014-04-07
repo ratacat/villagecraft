@@ -15,7 +15,7 @@
 <% @workshops.each do |workshop| %>
     <tr>
       <td>
-        <%= render :partial => 'thumbnail', :locals => {:workshop => workshop, :linked => true, :show_manage_buttons => true} %>
+        <%= render :partial => '/workshops/thumbnail', :locals => {:workshop => workshop, :linked => true, :show_manage_buttons => true} %>
       </td>
       <td class="blocky_spns">
         <% if workshop.next_meeting.blank? %>
