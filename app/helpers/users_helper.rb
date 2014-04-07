@@ -45,7 +45,7 @@ module UsersHelper
     else
       html = contextualized_user_name(user, options)
     end
-    if options[:make_messageable_apropos] and user_signed_in? and (current_user != user) and (not user.external?)
+    if options[:make_messageable_apropos] and (current_user != user) and (not user.external?)
       html << ' '.html_safe
       html << link_to('(send message)', 
                        new_message_path(:message => {:_apropos_uuid => options[:make_messageable_apropos].try(:uuid), 
