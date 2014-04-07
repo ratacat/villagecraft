@@ -17,6 +17,12 @@
   </p>
 </p>
 
+<% if @workshops.blank? %>
+  No workshops.
+<% else %>
+  <%= render '/workshops/admin_index', :workshops => @workshops, :show_host => true %>
+<% end %>
+
 <%# render :partial => 'reruns/index', :locals => {:reruns => @venue.events.order("start_time DESC")} %>
 
 <% ready_script do -%>
