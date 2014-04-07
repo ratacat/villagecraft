@@ -823,11 +823,27 @@ ul.thumbnails .thumbnail-review {
   }
 }
 
-.neighborhoods-title {
+.git  {
   display: inline-block;
 }
 
 .neighborhoods-map {
   display: inline-block;
-  float: right;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  float: left;
+  .map-canvas {
+    position: relative;
+    padding-bottom: 75%; // This is the aspect ratio
+    height: 0;
+    overflow: hidden;
+
+  }
+  .gm-style{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }

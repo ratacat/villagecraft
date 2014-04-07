@@ -3,6 +3,7 @@ class Neighborhood < ActiveRecord::Base
   attr_accessible :name, :city, :state, :county, :geom, :_kml
   has_many :locations, :conditions => {:deleted_at => nil}
   has_many :venues, :through => :locations
+  has_many :workshops, :through => :venues
   validates :name, :presence => true, :uniqueness => {:scope => [:city, :state]}
   validates :state, :length => {is: 2, allow_nil: true}
 
