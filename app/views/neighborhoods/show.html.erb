@@ -7,17 +7,18 @@
   <% end %>
   <h2><%= neighborhood.name %></h2>
   </div>
-  <div class="neighborhoods-map">
-    <div id="map-canvas" class="img-polaroid floatright"></div>
-  </div>
+
 </div>
 <p>
+<div class="neighborhoods-map  col-md-6 col-xs-12">
+  <div id="map-canvas" class="img-polaroid floatright"></div>
+</div>
   <%= neighborhood.city %>, <%= neighborhood.state %> (<%= neighborhood.county %> county)
   <p>
     <% if @workshops.blank? %>
         No workshops.
     <% else %>
-        <%= render 'admin_index', :workshops => @workshops, :show_host => true %>
+        <%= render '/workshops/admin_index', :workshops => @workshops, :show_host => true %>
     <% end %>
     <!--<div id="map-canvas" class="img-polaroid"></div>-->
   </p>

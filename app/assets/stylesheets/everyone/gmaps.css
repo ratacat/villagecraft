@@ -4,7 +4,9 @@ body { height: 100%; margin: 0; padding: 0; }
 
 #map-canvas { 
   height: 310px;
-  width: 460px;
+  /*max-width: 460px;*/
+  width: 100%;
+  display: block;
 }
 
 #map-canvas img { 

@@ -5,6 +5,7 @@ class Venue < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User'
   belongs_to :location
   has_many :meetings
+  has_many :workshops
   
   validates :location, :presence => true
   validates_associated :location
