@@ -1,3 +1,16 @@
 <div class="row" id="footer">
   <hr>
+  <ul class="list-inline text-center">
+    <li><%= link_to 'FAQ', faq_path %></li>
+    <li>
+      <% if user_signed_in? %>
+        <%= link_to 'host something', hostify_me_users_path %>
+      <% else %>
+        <%= sign_up_link(Event.new({:uuid => '_HOSTIFY_ME_', :title => "Interested in hosting?  Leave your email and we'll be in touch."}, :as => :system), 
+                           :cta => 'host something',
+                           :path => hostify_me_users_path) %>
+      <% end %>
+    </li>
+    <li><%= mail_to 'Villagecraft Bugs <vcbugs@just-listen.net>', 'report a bug', subject: 'Villagecraft Bug Report' %></li>
+  </ul>
 </div>

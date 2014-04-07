@@ -14,17 +14,30 @@
     <p>Come check out an event! Submit cool stuff for us to add to the list! Put together your own workshop, or ask us for help on how to make it happen! Let us know what you think. Anyone can do any, all, or none of these things-- or suggest new ways to participate-- and we encourage everyone to do so in a way that will be sustainable and rewarding for them personally.</p>
 
     <h2>How do I become a host?</h2>
-    <p>Email one of us with a description of what you want to do and we’ll be in conversation.</p>
-    <ul>
-      <li>Jared S <%= mail_to "jaredsmith@villagecraft.org" %></li>
-      <li>Hayley S <%= mail_to "hayleysteele@villagecraft.org" %></li>
-      <li>Jared W <%= mail_to "jaredwood@villagecraft.org" %></li>
-    </ul>
+    <p>Use 
+      <% if user_signed_in? %>
+        <%= link_to "this form", hostify_me_users_path %>
+      <% else %>
+        <%= sign_up_link(Event.new({:uuid => '_HOSTIFY_ME_', :title => "Interested in hosting?  Leave your email and we'll be in touch."}, :as => :system), 
+                           :cta => "this form",
+                           :path => hostify_me_users_path) %>
+      <% end %> to suggest the event you'd like to host and we'll get back to you.
+    </p>
 
     <h2>Why do we ask for your contact info when you sign up?</h2>
     <p>We ask for your email and phone number so that you can be added to the workshop roster. This allows people who coordinate workshops to know how many people to plan for, to contact you directly to give directions, relay changes of plans, etc. We never share your information with advertisers or anyone else, and we never plan to.</p>
 
     <h2>Who's making this?</h2>
     <p>Currently, a small team designs the Villagecraft systems and curates the site's content. We would like to soon move for content curation to be an open, transparent process that anyone interested can be involved in.</p>
+
+    <h2>How do I contact you?</h2>
+    <p>You can email any of us:
+      <ul>
+        <li>Jared S <%= mail_to "jaredsmith@villagecraft.org" %></li>
+        <li>Hayley S <%= mail_to "hayleysteele@villagecraft.org" %></li>
+        <li>Jared W <%= mail_to "jaredwood@villagecraft.org" %></li>
+      </ul>
+    </p>
+        
   </div>
 </div>
