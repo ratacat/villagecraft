@@ -20,7 +20,15 @@
           <%= f.submit 'Send', class: "btn btn-default", confirm: "Are you really sure?  This will be sent to #{User.where(:email_system_messages => true).count} people." %> <span class="text-muted">by email</span>
         </div>
       <% end %>
-      
     </div>
+  </div>
+  
+  <div class="col-sm-4 side_content">
+    <h4 class="text-muted">Past Newsletters</h4>
+    <ul>
+      <% Message.where(:system_message => true).order(:created_at).reverse_order.find_each do |message| -%>
+        <li><%= link_to message.subject, message %><br/><%= time_ago message.created_at %></li>
+      <% end -%>
+    </ul>
   </div>
 </div>
