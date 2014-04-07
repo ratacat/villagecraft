@@ -3,8 +3,12 @@
 
 en:
   unauthorized:
+    new:
+      review: "To leave a review, sign in or sign up"
+      message: "To send a message to a host, sign in or sign up"
     create:
-      review: "To leave a review sign in or sign up"
+      review: "To leave a review, sign in or sign up"
+      message: "To send a message to a host, sign in or sign up"
     my_workshops:
       workshop: 'My Workshops is a host-only feature.'
     my_venues:

@@ -115,11 +115,12 @@
 <!-- Show New Message Modal -->
 <%= render 'messages/modal_new', :message => message %>
 <% ready_script do -%>
+  <% if user_signed_in? %>
   $('#host_mini_profile a.message_user').on('click', function(e) {
     $("#new_message_modal").modal('show');
     e.preventDefault();
   });
-  
+  <% end %>
   $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
     $("#new_message_modal").modal('hide');
     show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
