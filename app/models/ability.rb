@@ -8,6 +8,9 @@ class Ability
     can [:show, :attend_by_email], Event
     can [:show], Workshop
     can [:edit], Location
+    can [:show], Message do |message|
+      message.system_message?
+    end
     
     # signed-in user  
     if not user.blank?
