@@ -240,7 +240,7 @@ class EventsController < ApplicationController
       format.js
       format.html {
         if current_user.is_host_of?(@event)
-          redirect_to manage_attendances_path(@event), notice: @notice
+          redirect_to :back, notice: @notice
         else
           redirect_to @event.workshop, notice: @notice 
         end

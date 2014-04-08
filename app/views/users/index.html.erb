@@ -35,8 +35,11 @@
         <% end %>
       </td>
       <td>
-        <%= iconic_link_to 'Edit', edit_user_path(user), class: 'btn btn-default btn-xs', title: 'edit' %>
-        <%= iconic_link_to 'Delete', user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-xs btn-danger', title: 'delete' %>
+      <span class="nowrap">
+        <%= iconic_link_to nil, edit_user_path(user), class: 'btn btn-default btn-xs', title: 'edit', icon: :pencil %>
+        <%= iconic_link_to nil, edit_settings_path(user), class: 'btn btn-primary btn-xs', title: 'settings', icon: :gear %>
+        <%= iconic_link_to nil, user, confirm: 'Are you sure?', method: :delete, class: 'btn btn-xs btn-danger', title: 'delete', icon: :times %>
+      </span>  
       </td>
     </tr>
 <% end %>

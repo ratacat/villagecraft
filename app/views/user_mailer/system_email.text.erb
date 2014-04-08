@@ -2,4 +2,4 @@
   message ||= @message
 %>
 <%= message.body %>
-To stop receiving Villagecraft newsletter mailings, opt-out here: http://villagecraft.org/preferences#newsletters
+To stop receiving Villagecraft newsletter mailings, opt-out here: <%= edit_settings_url(anchor: 'newsletters') %>
