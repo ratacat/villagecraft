@@ -21,9 +21,7 @@
             <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
         <% end %>
     <% else %>
-      <p class="tooltipify" title='Sign up or sign in to leave a review' data-placement='bottom'>
-        <%= link_to 'Add review', '#', class: "btn btn-warning btn-block", disabled: :disabled %>
-      </p>
+      <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
     <% end %>
     
     <% if @images.count > 0 %>
@@ -117,11 +115,12 @@
 <!-- Show New Message Modal -->
 <%= render 'messages/modal_new', :message => message %>
 <% ready_script do -%>
+  <% if user_signed_in? %>
   $('#host_mini_profile a.message_user').on('click', function(e) {
     $("#new_message_modal").modal('show');
     e.preventDefault();
   });
-  
+  <% end %>
   $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
     $("#new_message_modal").modal('hide');
     show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
@@ -133,7 +132,7 @@
   }
   
   $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
-    show_bootstrap_alert({text: "You signed up!", type: 'success'});
+    show_bootstrap_alert({text: "Check your inbox for a copy of these details.", type: 'success'});
     $("a.attend_event").hide();
     $(".you_r_signed_up").show();
     $("#when_where").addClass("bg-success");
