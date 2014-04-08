@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
-  skip_before_filter :possibly_nag_for_phone, only: [:edit_preferences]
+  skip_before_filter :possibly_nag_for_phone, only: [:edit_settings]
 
   # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
   before_filter do
@@ -38,22 +38,30 @@ class UsersController < ApplicationController
   def edit
   end
 
-  # GET /preferences
-  def edit_preferences
-    @user = current_user
+  # GET /settings
+  def edit_settings
+    unless admin_session? and @user
+      @user = current_user
+    end
   end
 
-  # PUT /update_preferences
-  def update_preferences
-    @user = current_user
+  # PUT /update_settings
+  def update_settings
+    unless admin_session? and @user
+      @user = current_user
+    end
     respond_to do |format|
       if @user.update_attributes(user_params)
         format.html { 
-          redirect_to edit_preferences_path, notice: 'Your preferences have been updated.' 
+          if admin_session? and @user != current_user
+            redirect_to edit_settings_path(@user), notice: "#{@user.possessable_name.possessive.capitalize} settings have been updated."
+          else
+            redirect_to edit_settings_path, notice: 'Your settings have been updated.'
+          end
         }
         format.json { head :no_content }
       else
-        format.html { render action: "edit_preferences" }
+        format.html { render action: "edit_settings" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
   
   def possibly_nag_for_phone
     if user_signed_in? and current_user.phone.blank?
-      flash.now[:warning] = "To receive notifications of last-minute changes to workshops you are attendings, #{view_context.link_to('edit your settings', edit_preferences_path)} to include a mobile number.".html_safe
+      flash.now[:warning] = "To receive notifications of last-minute changes to workshops you are attendings, #{view_context.link_to('edit your settings', edit_settings_path)} to include a mobile number.".html_safe
     end
   end
   

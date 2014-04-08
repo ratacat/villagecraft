@@ -1,4 +1,9 @@
-<%= simple_form_for(@user, :url => update_preferences_path, :html => { :method => :put, class: "form-horizontal" }) do |f| %>
+<% if admin_session? and @user != current_user %>
+  <h1 class='admin_color'><i class='fa fa-gear'></i> Settings for <%= @user.name %></h1>
+<% else %>
+  <h1><i class='fa fa-gear'></i> Settings</h1>
+<% end %>
+<%= simple_form_for(@user, :url => update_settings_path(@user), :html => { :method => :put, class: "form-horizontal" }) do |f| %>
   <%= f.error_notification %>
   <div class="row">
     <div class="col-sm-12">
