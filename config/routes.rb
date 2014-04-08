@@ -47,8 +47,8 @@ Villagecraft::Application.routes.draw do
       get 'hostify_me'
     end
   end
-  get 'preferences' => 'users#edit_preferences', :as => :edit_preferences
-  put 'update_preferences' => 'users#update_preferences', :as => :update_preferences
+  get 'settings(/:id)' => 'users#edit_settings', :as => :edit_settings
+  put 'update_settings(/:id)' => 'users#update_settings', :as => :update_settings
     
   match 'attend/:id(.:format)' => 'events#attend', :as => :attend
   post 'attend_by_email/:id(.:format)' => 'events#attend_by_email', :as => :attend_by_email
