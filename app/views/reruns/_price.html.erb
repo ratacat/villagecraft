@@ -4,9 +4,9 @@
 <% if rerun %>
   <p>
     <% if use_sprites and event_price_css_able?(rerun) %>
-      <%= link_to event_price_css(rerun), rerun.workshop, :class => "label price_tag bio_pricing_tag" %>
+      <%= link_to event_price_css(rerun), rerun.workshop, :class => "price_tag bio_pricing_tag" %>
     <% else %>
-      <%= link_to event_price(rerun), rerun.workshop, :class => "label price_tag" %>
+      <%= link_to event_price(rerun), rerun.workshop, :class => "price_tag label label-primary larger" %>
     <% end %>
   </p>
 <% end %>
