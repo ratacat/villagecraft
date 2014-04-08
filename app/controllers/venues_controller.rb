@@ -16,7 +16,6 @@ class VenuesController < ApplicationController
   # GET /venues/1
   # GET /venues/1.json
   def show
-    @workshops = @venue.workshops.order(:created_at)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @venue }

@@ -167,29 +167,6 @@ class WorkshopsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-
-  # GET /w/1/manage
-  # GET /w/1.json/manage
-  def manage_attendees
-    if not @workshop.external?
-      @activities_n_counts = Activity.activities_n_counts(:limit => 20, :trackable => @workshop)
-      respond_to do |format|
-        format.html { render 'manage' }
-        format.json { render json: @workshop }
-      end
-    elsif @workshop.external?
-      render_error(:message => 'Cannot manage attendees of an external workshop', :status => :unauthorized)
-    else
-      render_error(:message => 'Workshop unmanageable for some reason', :status => :unauthorized)
-    end
-
-  end
-
-  # POST /w/1/sms_attendees
-  def sms_attendees
-    render :json => @workshop.create_activity(key: 'workshop.sms', owner: current_user, parameters: {:message => params[:sms][:message]})
-  end
   
   protected
   def workshop_params

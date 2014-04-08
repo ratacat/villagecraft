@@ -26,7 +26,7 @@
   </ul>
   <div class="tab-content">
     <div class='tab-pane active' id='compose_sms'>
-      <%= render 'reruns/message_attendees', :rerun => @workshop %>
+      <%= render 'reruns/message_attendees', :rerun => @workshop, :url => sms_attendees_workshop_path(@workshop) %>
     </div>
     <div class='tab-pane' id='compose_email'>
       <%= render 'messages/form', :message => Message.new(:apropos => @workshop) %>

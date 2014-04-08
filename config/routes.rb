@@ -8,6 +8,8 @@ Villagecraft::Application.routes.draw do
       match 'upload_photo'
       post 'auto_add_rerun'
       get 'simple_index_partial'
+      get 'manage_attendees'
+      post 'sms_attendees'
     end
   end
   resources :workshops, as: 'oldstyle_workshops'

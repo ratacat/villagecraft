@@ -42,7 +42,12 @@ class Notifier < ActiveRecord::Observer
         targets += event.attendees
       end
     when 'Workshop'
+      workshop = activity.trackable
       # NOOP
+      case activity.key
+      when 'workshop.sms'
+          targets += workshop.attendees
+      end
     when 'Image'
       # NOOP
     when 'Review'
