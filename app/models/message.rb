@@ -36,6 +36,10 @@ class Message < ActiveRecord::Base
         self.apropos.attendees.find_each do |attendee|
           UserMailer.message_email(self, attendee.email).deliver          
         end
+      when Workshop
+        self.apropos.attendees.find_each do |attendee|
+          UserMailer.message_email(self, attendee.email).deliver
+        end
       else
         raise "Don't know how to deliver a message apropos of a: #{self.apropos.class} (#{self.id})"
       end
@@ -76,6 +80,10 @@ class Message < ActiveRecord::Base
       when 'Event'
         unless self.apropos.host === self.from_user
           errors.add(:base, "Only the host of a rerun may message attendees")          
+        end
+      when 'Workshop'
+        unless self.apropos.host === self.from_user
+          errors.add(:base, "Only the host of a rerun may message attendees")
         end
       else
         raise "Unsupported apropos type"

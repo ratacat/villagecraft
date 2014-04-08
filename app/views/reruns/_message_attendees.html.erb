@@ -1,8 +1,8 @@
-<%= simple_form_for(:sms, :url => sms_attendees_path(rerun), :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
+<%= simple_form_for(:sms, :url => url , :remote => true, :html => {:id => 'send_sms_form'}) do |f| %>
   <%= f.input :message, :as => :text, :label => false, :required => false, :input_html => {:size => "80x3", :class => 'has_help_bubble'} %>
   <div id="my_counter" class="counter"></div>
   <div class="form-group">
-    <%= f.submit 'Send', :class => 'btn btn-default' %> <span class="text-muted">usually by SMS</span>
+    <%= f.submit 'Send', :class => 'btn btn-default', confirm: "Are you really sure?  This will be sent to #{rerun.attendees.where(:sms_short_messages => true).count} people." %> <span class="text-muted">usually by SMS</span>
   </div>
 <% end %>
 
