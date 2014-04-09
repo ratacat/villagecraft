@@ -27,7 +27,7 @@ class WorkshopsController < ApplicationController
   # GET /workshops.json
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @workshops = Workshop.order(:created_at)
+    @workshops = Workshop.order(:created_at).reverse_order
 
     respond_to do |format|
       format.html # index.html.erb
