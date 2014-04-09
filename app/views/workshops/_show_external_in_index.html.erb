@@ -1,0 +1,7 @@
+<%
+  workshop ||= @workshop
+  rerun = workshop.ongoing_or_next_rerun
+%>
+<li>
+  <h5><%= content_tag(:span, I18n.l(rerun.first_meeting.localized_start_time, format: :short_time)) unless rerun.blank? %> <%= link_to workshop.title, workshop_path(workshop) %></h5>
+</li>
