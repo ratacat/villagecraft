@@ -49,13 +49,26 @@
               <h5>additional activities</h5>
             <% end %>
             <ul class="list-unstyled">
-            <% external_internal.first.each do |workshop| %>
-              <%= render 'workshops/show_external_in_index', workshop: workshop %>
+            <% external_internal.first.each_with_index do |workshop, i| %>
+              <%= render 'workshops/show_external_in_index', workshop: workshop, hide: i > 2 %>
             <% end %>
             </ul>
+            <% if external_internal.first.size > 3 %>
+              <%= link_to '#', class: 'more_externals' do -%>
+                more (<%= external_internal.first.size - 3 %>) <span class="caret"></span>
+              <% end %>
+            <% end %>
           </div>
         <% end %>
       </div>
     <% end %>
   <% end %>
 </ul>
+
+<% ready_script do -%>  
+  $(document).on('click', 'a.more_externals', function(e) {
+    e.preventDefault();
+    $(this).closest('.externals').find('.initially_hidden').show();
+    $(this).hide();
+  });
+<% end -%>
