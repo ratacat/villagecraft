@@ -52,7 +52,7 @@
       </td>
       <td>
         <%= check_box_tag '', 1, rerun.external, disabled: true %><br/>
-        <% if rerun.external %>
+        <% if rerun.external? and not rerun.external_url.blank? %>
           <span class="text-muted"><%= rerun.external_url.truncate(27) %></span>
         <% end %>
       </td>
