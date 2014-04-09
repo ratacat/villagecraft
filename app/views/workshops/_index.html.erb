@@ -39,8 +39,21 @@
         <% end %>
       </h3>
       <div class="day_chunk">
-        <% workshops_that_day.each do |workshop| %>
-          <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
+        <% external_internal = workshops_that_day.partition(&:external?) %>
+        <% external_internal.last.each do |workshop| %>
+          <%= render 'workshops/show_in_index', workshop: workshop, show_date: true %>
+        <% end %>
+        <% if external_internal.first.size > 0 %>
+          <div class="externals">
+            <% if external_internal.last.size > 0 %>
+              <h5>additional activities</h5>
+            <% end %>
+            <ul class="list-unstyled">
+            <% external_internal.first.each do |workshop| %>
+              <%= render 'workshops/show_external_in_index', workshop: workshop %>
+            <% end %>
+            </ul>
+          </div>
         <% end %>
       </div>
     <% end %>
