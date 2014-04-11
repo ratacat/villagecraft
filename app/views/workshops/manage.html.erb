@@ -1,3 +1,4 @@
+
 <div class="row">
   <div class="col-md-12">
     <span class="pull-right">
@@ -58,10 +59,28 @@
 
         <tbody>
           <% @attendees.each do |user| -%>
-            <%= render 'users/row', :user => user %>
+            <%= render 'users/row', :user => user, :apropos => @workshop %>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<%= render 'messages/modal_new', :message => Message.new, :to => :one_person %>
+
+
+<% ready_script do -%>
+  <% if user_signed_in? %>
+    $('#event_attendees a.message_user').on('click', function(e) {
+    $('#new_message_modal .modal-header-content').html($(this).data('modal-header-content'));
+    $('#new_message_modal #message__to_user_uuid').attr('value', $(this).data('id'));
+    $('#new_message_modal').modal('show');
+    e.preventDefault();
+    });
+  <% end %>
+  $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
+    $("#new_message_modal").modal('hide');
+    show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+  });
+<% end -%>

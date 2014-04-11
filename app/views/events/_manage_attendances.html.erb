@@ -1,5 +1,6 @@
 <%
   rerun ||= (@rerun || @event)
+
 %>
 <table class="table table-bordered table-striped" id='event_attendees'>
   <thead>
@@ -16,7 +17,15 @@
 <% @event.attendances.reject {|a| a.user.nil? }.each do |attendance| %>
     <tr data-user-uuid="<%= attendance.user.uuid %>">
       <td><%= datetime_localized_to_current_user(attendance.created_at) %><br/><%= time_ago(attendance.created_at) %></td>
-      <td><%= attendance.user.name %></td>
+      <td>
+        <%= contextualized_user_link(attendance.user, :linked => true, :make_messageable_apropos => @event,
+                                     :data=>{
+                                         :modal_header_content => "#{h(render('messages/new_for_header', :message => Message.new(:to_user => attendance.user, :apropos => @event)))}",
+                                         :id => attendance.user.uuid
+                                     }
+            )
+        %>
+      </td>
       <td><%= attendance.user.email %></td>
       <td class="user_phone"><%= attendance.user.phone %></td>
       <td>
@@ -34,4 +43,22 @@
 
 <% ready_script do -%>
   $("td.user_phone").format_phone_number_html();
+<% end -%>
+
+<%= render 'messages/modal_new', :message => Message.new(:to_user => User.new, :apropos => @event), :to => :one_person %>
+
+
+<% ready_script do -%>
+  <% if user_signed_in? %>
+    $('#event_attendees a.message_user').on('click', function(e) {
+    $('#new_message_modal .modal-header-content').html($(this).data('modal-header-content'));
+    $('#new_message_modal #message__to_user_uuid').attr('value', $(this).data('id'));
+    $('#new_message_modal').modal('show');
+    e.preventDefault();
+    });
+  <% end %>
+  $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
+  $("#new_message_modal").modal('hide');
+  show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+  });
 <% end -%>

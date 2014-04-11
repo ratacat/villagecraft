@@ -1,8 +1,21 @@
 <%
   user ||= @user
+  apropos ||= @apropos
+   message = Message.new(:to_user => user, :apropos => apropos)
+
 %>
 <tr>
   <td><%= link_to annotated_user_name(user), user %></td>
-  <td><%= user.email %></td>
+  <td>
+    <%=
+        contextualized_user_link(user, :linked => true, :make_messageable_apropos => apropos,
+                                 :data=>{
+                                     :modal_header_content => "#{h(render('messages/new_for_header', :message => message))}",
+                                     :id => user.uuid
+                                 }
+        )
+    %>
+  </td>
   <td><%= user_phone(user) %></td>
 </tr>
+
