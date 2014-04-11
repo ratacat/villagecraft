@@ -12,7 +12,7 @@
     <th colspan="2">Time</th>
     <% unless hide_flags %>
       <th>RSVP</th>
-      <th>External</th>
+      <% if admin_session? %><th>External</th><% end %>
     <% end %>
     <th>Slots</th>
     <th>Venue</th>
