@@ -38,7 +38,7 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(params[:message])
-    if admin_session? and (not @message.to_user) and (not @message.system_message?)
+    if admin_session? and @message.apropos and (not @message.to_user) and (not @message.system_message?)
       @message.send(:find_apropos)
       @message.from_user = @message.apropos.host
     else

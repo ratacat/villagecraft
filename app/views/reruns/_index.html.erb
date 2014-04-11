@@ -11,8 +11,8 @@
   <thead>
     <th colspan="2">Time</th>
     <% unless hide_flags %>
-      <th>RSVP</th>
-      <th>External</th>
+      <th class="tooltipify" title="show address only to signed up attendees" data-container="body" data-placement="left">Require Signup</th>
+      <% if admin_session? %><th>External</th><% end %>
     <% end %>
     <th>Slots</th>
     <th>Venue</th>
