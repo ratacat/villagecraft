@@ -28,7 +28,12 @@
     <% if auto_submit %>
       <i id="spinner_for_<%= id %>" class="fa fa-spinner fa-spin icon-large initially_hidden"></i>
     <% else %>
-      <%= f.submit 'Send', :class => "btn btn-default", confirm: "Are you really sure?  This will be sent to #{message.apropos.attendees.count} people." %> <span class="text-muted">by email</span>
+    <% if message.apropos %>
+      <%= f.submit 'Send', :class => "btn btn-default", confirm: "Are you really sure?  This will be sent to #{message.apropos.attendees.count} people." %> 
+    <% else %>
+      <%= f.submit 'Send', :class => "btn btn-default" %> 
+    <% end %>
+    <span class="text-muted">by email</span>
     <% end %>
   </div>
 <% end %>
