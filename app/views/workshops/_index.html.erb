@@ -45,9 +45,6 @@
         <% end %>
         <% if external_internal.first.size > 0 %>
           <div class="externals">
-            <% if external_internal.last.size > 0 %>
-              <h5>additional activities</h5>
-            <% end %>
             <ul class="list-unstyled">
             <% external_internal.first.each_with_index do |workshop, i| %>
               <%= render 'workshops/show_external_in_index', workshop: workshop, hide: i > 2 %>
