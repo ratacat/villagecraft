@@ -5,7 +5,6 @@
    id = "edit_message_#{UUIDTools::UUID.random_create.to_s}"
    hidden_subject ||= false
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
-   to ||= @to
 %>
 <%= simple_form_for(message, options) do |f| %>
   <%= f.error_notification %>
@@ -29,12 +28,7 @@
     <% if auto_submit %>
       <i id="spinner_for_<%= id %>" class="fa fa-spinner fa-spin icon-large initially_hidden"></i>
     <% else %>
-    <% if message.apropos and to != :one_person  %>
-      <%= f.submit 'Send', :class => "btn btn-default", confirm: "Are you really sure?  This will be sent to #{message.apropos.attendees.count} people." %> 
-    <% else %>
-      <%= f.submit 'Send', :class => "btn btn-default" %> 
-    <% end %>
-    <span class="text-muted">by email</span>
+      <%= f.submit 'Send', :class => "btn btn-default", confirm: "Are you really sure?  This will be sent to #{message.apropos.attendees.count} people." %> <span class="text-muted">by email</span>
     <% end %>
   </div>
 <% end %>

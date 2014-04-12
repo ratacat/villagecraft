@@ -93,7 +93,7 @@
     
     <h4 class="text-muted">Host</h4>
     <div id='host_mini_profile'>
-      <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>      
+      <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>
     </div>
     
     <% if can? :manage, @workshop %>
@@ -118,7 +118,7 @@
 <%= render 'reviews/more_modal', :review => @review %>
 
 <!-- Show New Message Modal -->
-<%= render 'messages/modal_new', :message => message %>
+<%= render 'messages/modal_new', :message => message, :to => :one_person %>
 <% ready_script do -%>
   <% if user_signed_in? %>
   $('#host_mini_profile a.message_user').on('click', function(e) {
