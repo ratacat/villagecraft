@@ -36,6 +36,7 @@ module MeetingsHelper
       :no_tz => false,
       :wrapper_tag => nil,
       :spacer => nil,
+      :plaintext => false,
       :wrapper_options => {}
     }
     options.reverse_merge!(defaults)
@@ -67,7 +68,11 @@ module MeetingsHelper
     if options[:wrapper_tag]
       html.map! {|e| content_tag(options[:wrapper_tag], e, options[:wrapper_options]) }
     end
-    html.join('').html_safe
+    html = html.join('').html_safe
+    if options[:plaintext]
+      html = strip_tags(html)
+    end
+    return html
   end
   
 end
