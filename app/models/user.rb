@@ -158,9 +158,17 @@ class User < ActiveRecord::Base
   def attending_event?(e)
     self.attends.where('"attendances"."event_id"=?', e.id).exists?
   end
+
+  def attends_of_workshop(workshop)
+    self.attends.joins(:meetings).joins(:workshop).where(%Q(#{Workshop.quoted_table_name}."uuid" = ?), workshop.uuid)
+  end
+
+  def attending_workshop?(workshop)
+    self.attends_of_workshop(workshop).where(%Q(#{Meeting.quoted_table_name}."end_time" > ?), Time.now).count > 0
+  end
   
   def attended_workshop?(workshop)
-    self.attends.joins(:meetings).joins(:workshop).where(%Q(#{Workshop.quoted_table_name}."uuid" = ?), workshop.uuid).where(%Q(#{Meeting.quoted_table_name}."end_time" < ?), Time.now).count > 0
+    self.attends_of_workshop(workshop).where(%Q(#{Meeting.quoted_table_name}."end_time" < ?), Time.now).count > 0
   end
   
   def reviewed_workshop?(workshop)
