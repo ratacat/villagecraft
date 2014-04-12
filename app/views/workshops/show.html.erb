@@ -25,7 +25,7 @@
       <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
     <% end %>
     
-    <div class="share_buttons">
+    <div class="share_buttons margin_top10">
       <%= share_by_email(@workshop, signed_up: true, class: 'mailto signed_up hidden') %>
       <%= share_by_email(@workshop, class: 'mailto') %>
     </div>
