@@ -1,5 +1,6 @@
 <%
   next_rerun = @workshop.ongoing_or_next_rerun
+  next_meeting = next_rerun.try(:first_meeting)
   content_for(:title, seod_title(@workshop))
   content_for(:meta_description, @workshop.description.try(:lines, '.').try(:first).try(:gsub, /["']/, ''))
   keywords = %w(events workshops local)
@@ -24,6 +25,10 @@
       <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
     <% end %>
     
+    <div class="share_buttons">
+      <%= share_by_email(@workshop) %>
+    </div>
+    
     <% if @images.count > 0 %>
       <%= render 'images/gallery', images_per_row: 1, thumb_size: :large, extra_img_classes: 'full_width img-rounded hidden-xs' %>
     <% end %>
@@ -34,9 +39,9 @@
       <div class="col-sm-12<%= ' bg-success' if next_rerun and current_user.try(:attending_event?, next_rerun) %>" id="when_where">
         <div class="row">
           <div class="col-sm-5">
-            <% if next_rerun %>
+            <% if next_meeting %>
               <div class="blocky_spns">
-                <%= meeting_time(next_rerun.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
+                <%= meeting_time(next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
               </div>
             <% else %>
               <span class="text-muted">no upcoming dates</span>
