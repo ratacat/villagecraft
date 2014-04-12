@@ -37,12 +37,18 @@ module WorkshopsHelper
     end
   end
   
-  def share_by_email(workshop)
+  def share_by_email(workshop, options={})
+    defaults = {
+      :signed_up => false,
+      :class => ''
+    }
+    options.reverse_merge!(defaults)
+    
     next_rerun = workshop.ongoing_or_next_rerun
     next_meeting = next_rerun.try(:first_meeting)
     meeting_time_text = meeting_time(next_meeting, :plaintext => true, :short_date => true, :no_tz => true, :show_end_time => false) if next_meeting
     
-    if current_user.attending_workshop?(workshop)
+    if current_user.attending_workshop?(workshop) or options[:signed_up]
       subject = %Q(Join me at "#{workshop.title}")
       subject << %Q( (#{meeting_time_text})) if next_meeting # FIXME eventually, user may be signed up for a future one that's not the next one
       body = %Q(I'll be attending this Villagecraft workshop:\n\n#{workshop.title}\n#{workshop_path(workshop, only_path: false)})
@@ -62,7 +68,7 @@ module WorkshopsHelper
       body << %Q(\n#{meeting_time_text}) if next_meeting
     end
     body << %Q(\n\n--#{current_user.name})
-    mail_to "yourfriend@example.com", ' Share by email', subject: subject, body: body, class: 'fa fa-envelope-o btn btn-default btn-xs', target: '_blank'
+    mail_to "yourfriend@example.com", ' Share by email', subject: subject, body: body, class: "fa fa-envelope-o btn btn-default btn-xs #{options[:class]}", target: '_blank'
   end
   
 end

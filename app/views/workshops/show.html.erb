@@ -26,7 +26,8 @@
     <% end %>
     
     <div class="share_buttons">
-      <%= share_by_email(@workshop) %>
+      <%= share_by_email(@workshop, signed_up: true, class: 'mailto signed_up hidden') %>
+      <%= share_by_email(@workshop, class: 'mailto') %>
     </div>
     
     <% if @images.count > 0 %>
@@ -144,6 +145,8 @@
     $("#location").html(HandlebarsTemplates['locations/show']($.parseJSON(xhr.responseText).location));
     $("#when_where").highlight({});
     $("#simple_index").load("<%= simple_index_partial_workshop_path(@workshop) %>");
+    $(".share_buttons .mailto").hide();
+    $(".share_buttons .signed_up").removeClass("hidden").show();
   });
 
 <% end -%>
