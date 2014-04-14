@@ -6,6 +6,8 @@
 	  <%= stylesheet_link_tag "hosts_only", :media => "all" if current_user.try(:host?) %>
     <meta name="description" content="<%= yield(:meta_description) %>">
     <meta name="keywords" content="<%= yield(:meta_keywords) %>" >
+    <%= yield(:og_meta_tags) %>
+    
 	  <%= csrf_meta_tags %>
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 	</head>
