@@ -30,7 +30,7 @@
     <div class="share_buttons">
       <%= share_by_email(@workshop, signed_up: true, class: 'mailto signed_up hidden') %>
       <%= share_by_email(@workshop, class: 'mailto') %>
-      <div class="fb-share-button" data-href="<%= workshop_path(@workshop, only_path: false) %>" data-type="button_count"></div>
+      <div class="fb-like" data-href="<%= workshop_path(@workshop, only_path: false) %>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
     </div>
     
     <% if @images.count > 0 %>
