@@ -37,6 +37,22 @@ module WorkshopsHelper
     end
   end
   
+  def workshop_og_meta_tags(workshop)
+    tags ={
+      title: workshop.title,
+      site_name: 'Villagecraft',
+      url: workshop_path(only_path: false),
+      description: @workshop.meta_description(3),
+      image: @workshop.img_src(:original)
+    }
+    html = ''.html_safe
+    tags.each do |key, value|
+      html << "\n".html_safe
+      html << tag(:meta, property: "og:#{key}", content: value)
+    end
+    html
+  end
+  
   def share_by_email(workshop, options={})
     defaults = {
       :signed_up => false,

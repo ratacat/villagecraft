@@ -3,6 +3,7 @@
   next_meeting = next_rerun.try(:first_meeting)
   content_for(:title, seod_title(@workshop))
   content_for(:meta_description, @workshop.meta_description)
+  content_for(:og_meta_tags, workshop_og_meta_tags(@workshop))
 
   keywords = %w(events workshops local)
   keywords += @workshop.title.downcase.split
