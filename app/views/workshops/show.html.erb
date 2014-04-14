@@ -2,7 +2,8 @@
   next_rerun = @workshop.ongoing_or_next_rerun
   next_meeting = next_rerun.try(:first_meeting)
   content_for(:title, seod_title(@workshop))
-  content_for(:meta_description, @workshop.description.try(:lines, '.').try(:first).try(:gsub, /["']/, ''))
+  content_for(:meta_description, @workshop.meta_description)
+
   keywords = %w(events workshops local)
   keywords += @workshop.title.downcase.split
   keywords << @workshop.try(:location).try(:neighborhood).try(:name)

@@ -59,6 +59,14 @@ class Workshop < ActiveRecord::Base
     false
   end
 
+  def meta_description(n=1)
+    unless self.description.blank?
+      lines = self.description.lines('.')
+      n_lines = lines[0, n]
+      n_lines.join(' ').gsub(/["']/, '')
+    end
+  end
+
   def img_src(size = :medium)
     if self.image.blank?
       Workshop.placeholder_img_src(size)
