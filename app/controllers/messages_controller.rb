@@ -53,7 +53,7 @@ class MessagesController < ApplicationController
             @message.apropos.create_activity(key: 'event.email', owner: current_user, parameters: {:uuid => @message.uuid})
           end
         end
-        format.html { redirect_to root_url, notice: 'Your message has been sent.' }
+        format.html { redirect_to :back, notice: 'Your message has been sent.' }
         format.json { render json: {}, status: :created, location: @message }
       else
         format.js { render :json => { :errors => @message.errors.full_messages, :message => "Problem creating new message" }, :status => :unprocessable_entity }
