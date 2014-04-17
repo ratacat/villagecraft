@@ -84,7 +84,7 @@ module WorkshopsHelper
       body << %Q(\n#{meeting_time_text}) if next_meeting
     end
     body << %Q(\n\n--#{current_user.name}) if user_signed_in?
-    mail_to nil, ' Share by email', subject: subject, body: body, class: "fa fa-envelope-o btn btn-default btn-xs #{options[:class]}", target: '_blank'
+    mail_to nil, content_tag(:i, ' ', class: 'fa fa-envelope-o fa-fw') + ' Email'.html_safe, subject: subject, body: body, class: "#{options[:class]}", target: '_blank', title: 'Share by email'
   end
   
 end

@@ -27,15 +27,21 @@
       <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
     <% end %>
     
-    <div class="share_buttons">
-      <%= share_by_email(@workshop, signed_up: true, class: 'mailto signed_up hidden') %>
-      <%= share_by_email(@workshop, class: 'mailto') %>
-      <%= link_to 'Share on Facebook', 
+    <div class="share_buttons btn-group">
+      <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        Share <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li class="mailto signed_up hidden"><%= share_by_email(@workshop, signed_up: true) %></li>
+        <li class="mailto"><%= share_by_email(@workshop) %></li>
+        <li><%= link_to content_tag(:i, ' ', class: 'fa fa-facebook fa-fw') + ' Facebook'.html_safe,
                   "https://www.facebook.com/sharer/sharer.php?u=#{url_encode(workshop_path(@workshop, only_path: false))}&t=#{url_encode(@workshop.title)}", 
                   onclick: "javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;",
                   target: "_blank",
                   title: "Share on Facebook",
-                  class: "btn btn-default btn-xs" %>
+                  class: "" %>
+        </li>
+      </ul>
     </div>
     
     <% if @images.count > 0 %>
