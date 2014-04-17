@@ -225,6 +225,7 @@
         $("#future_reruns tbody tr:last-child td").highlight();
       });
     });
+    e.preventDefault();
   });
 
   $(document).on('ajax:beforeSend', '#edit_meeting', function(event, xhr, settings) {
