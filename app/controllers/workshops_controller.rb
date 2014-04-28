@@ -149,7 +149,9 @@ class WorkshopsController < ApplicationController
   
   # POST /w/1/auto_add_rerun
   def auto_add_rerun
-    Event.auto_create_from_workshop(@workshop)
+    @workshop.with_lock do
+      Event.auto_create_from_workshop(@workshop)
+    end
     respond_to do |format|
       format.html { redirect_to edit_workshop_path(@workshop), notice: 'A new date for this workshop has been scheduled (see below)' }
       format.js { head :no_content }
