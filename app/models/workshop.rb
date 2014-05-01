@@ -62,7 +62,7 @@ class Workshop < ActiveRecord::Base
   def meta_description(n=1)
     unless self.description.blank?
       lines = self.description.lines('.')
-      n_lines = lines[0, n]
+      n_lines = lines.to_a[0, n]
       n_lines.join(' ').gsub(/["'\n]/, '')
     end
   end
