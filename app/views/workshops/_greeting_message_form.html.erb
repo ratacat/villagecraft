@@ -5,8 +5,8 @@
    span ||= 'col-md-6'
    id = "greeting_message_#{UUIDTools::UUID.random_create.to_s}"
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
-	 placeholder_subject ||= "You signed up for #{workshop.title}"
-	 placeholder_body ||= %Q(I hope you are as excited about #{workshop.title} as I am!\n\nHere's what to expect...\n\nDon't forget to bring...\n\nSee you there!)
+	 placeholder_subject ||= "You are signed up for #{workshop.title}"
+	 placeholder_body ||= %Q(I hope you are as excited about #{workshop.title} as I am!\n\nYou might want to bring...\n\nTo get there...\n\nSee you there!)
 %>
 <%= simple_form_for(@workshop, options) do |f| %>
   <%= f.error_notification %>

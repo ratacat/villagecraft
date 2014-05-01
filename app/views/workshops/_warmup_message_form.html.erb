@@ -5,8 +5,8 @@
    span ||= 'col-md-6'
    id = "warmup_message_#{UUIDTools::UUID.random_create.to_s}"
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
-	 placeholder_subject ||= "Get ready for #{workshop.title}"
-	 placeholder_body ||= %Q(I look forward to seeing you at #{workshop.title} day after tomorrow.\n\nHere's what to expect...\n\nDon't forget to bring...\n\nSee you there!)
+	 placeholder_subject ||= "#{workshop.title} is in just 2 days!"
+	 placeholder_body ||= %Q(Looking forward to seeing you at #{workshop.title} on #{workshop.next_meeting.start_time.strftime("See you on %A at %H:%M%p")} Bring...\n\nTo get there...\n\nYou can reach me...)
 %>
 <%= simple_form_for(@workshop, options) do |f| %>
   <%= f.error_notification %>
