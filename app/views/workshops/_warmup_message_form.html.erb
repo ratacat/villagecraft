@@ -6,7 +6,7 @@
    id = "warmup_message_#{UUIDTools::UUID.random_create.to_s}"
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
 	 placeholder_subject ||= "#{workshop.title} is in just 2 days!"
-	 placeholder_body ||= %Q(Looking forward to seeing you at #{workshop.title} on #{workshop.next_meeting.start_time.strftime("See you on %A at %H:%M%p")} Bring...\n\nTo get there...\n\nYou can reach me...)
+	 placeholder_body ||= %Q(Looking forward to seeing you at #{workshop.title} in two days! Bring...\n\nTo get there...\n\nYou can reach me...)
 %>
 <%= simple_form_for(@workshop, options) do |f| %>
   <%= f.error_notification %>
