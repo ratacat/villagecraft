@@ -147,6 +147,11 @@ class WorkshopsController < ApplicationController
     @attendees = @workshop.attendees.uniq
   end
   
+  # POST /w/1/sms_attendees
+  def sms_attendees
+    render :json => @workshop.create_activity(key: 'workshop.sms', owner: current_user, parameters: {:message => params[:sms][:message]})
+  end
+  
   # POST /w/1/auto_add_rerun
   def auto_add_rerun
     @workshop.with_lock do

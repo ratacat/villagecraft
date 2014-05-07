@@ -194,8 +194,8 @@ class User < ActiveRecord::Base
   # route the notification appropriately, depending on the user's settings
   def notify(activity)
     case activity.key
-    when 'event.sms', 'meeting.reminder'
-      Notification.create(:user => self, :activity => activity, :email_me => self.email_short_messages, :sms_me => (self.sms_short_messages and self.phone?))
+    when 'event.sms', 'workshop.sms', 'meeting.reminder'
+      Notification.create(:user => self, :activity => activity, :email_me => self.email_short_messages, :sms_me => (self.sms_short_messages and not self.phone.blank?))
     else
       Notification.create(:user => self, :activity => activity, :email_me => self.email_notifications)
     end
