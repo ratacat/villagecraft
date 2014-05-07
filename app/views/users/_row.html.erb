@@ -16,6 +16,11 @@
         )
     %>
   </td>
-  <td><%= user_phone(user) %></td>
+  <td>
+    <%= user_phone(user) %> 
+    <% if not user.phone.blank? and not user.sms_short_messages %>
+      <span class="text-danger">(no SMS)</span>
+    <% end %>
+  </td>
 </tr>
 
