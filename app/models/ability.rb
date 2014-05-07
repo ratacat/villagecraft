@@ -31,7 +31,7 @@ class Ability
       can :simple_index_partial, Workshop
       # host
       if user.host?
-        can :manage_as_host, Workshop, :host_id => user.id
+        can :manage, Workshop, :host_id => user.id
         cannot :index, Workshop
         can :my_workshops, Workshop
         
