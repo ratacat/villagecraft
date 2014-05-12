@@ -1,0 +1,70 @@
+<%
+   events ||= @events
+   sort_order ||= (@sort_order || session[:sort_order])
+   scheduled_events_with_venue_tbd ||= @scheduled_events_with_venue_tbd
+   other_events ||= @other_events
+%>
+<ul class="media-list">
+  <% if sort_order == 'distance' %>
+    <div class="day_chunk">
+      <% (events + scheduled_events_with_venue_tbd).each do |event| %>
+        <%= render 'events/show_in_index', :event => event, :show_date => true %>
+      <% end %>
+    </div>
+    <% unless other_events.blank? %>
+      <h3 class="text-muted chunk_header">
+        events with no upcoming dates
+      </h3>
+      <div class="day_chunk">
+        <% other_events.each do |event| %>
+          <%= render 'events/show_in_index', :event => event %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <%
+       # events += other_events if other_events
+       tz = current_user.try(:time_zone) || "America/Los_Angeles"
+       w_by_day = events.chunk do |w|
+         w.try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
+       end
+    %>
+    <% w_by_day.each do |day, events_that_day| %>
+      <h3 class="text-muted chunk_header">
+        <% if day === :none %>
+          events with no upcoming dates
+        <% else %>
+          <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
+        <% end %>
+      </h3>
+      <div class="day_chunk">
+        <% external_internal = events_that_day.partition(&:external?) %>
+        <% external_internal.last.each do |event| %>
+          <%= render 'events/show_in_index', event: event, show_date: true %>
+        <% end %>
+        <% if external_internal.first.size > 0 %>
+          <div class="externals">
+            <ul class="list-unstyled">
+              <% external_internal.first.each_with_index do |event, i| %>
+                <%= render 'events/show_external_in_index', event: event, hide: i > 2 %>
+              <% end %>
+            </ul>
+            <% if external_internal.first.size > 3 %>
+              <%= link_to '#', class: 'more_externals' do -%>
+                more (<%= external_internal.first.size - 3 %>) <span class="caret"></span>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</ul>
+
+<% ready_script do -%>
+  $(document).on('click', 'a.more_externals', function(e) {
+  e.preventDefault();
+  $(this).closest('.externals').find('.initially_hidden').show();
+  $(this).hide();
+  });
+<% end -%>

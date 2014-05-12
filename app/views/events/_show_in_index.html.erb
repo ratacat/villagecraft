@@ -1,0 +1,47 @@
+<%
+   event ||= @event
+   show_date ||= false
+   #rerun = event.workshop.ongoing_or_next_rerun
+%>
+<% cache event.cache_key("in_index_date_#{show_date}_#{event.try(:uuid)}") do -%>
+  <li class="media badged clearfix">
+    <a class="pull-left badge_me" href="<%= event_path(event) %>">
+      <%= image_tag event.workshop.img_src(:medium), :class => 'img-rounded' %>
+      <%= image_tag(event.host.profile_img_src(:thumb), :class => 'thumb_badge') if event.host.promote_host %>
+    </a>
+    <div class="media-body">
+      <% if event.host.promote_host %>
+        <%= link_to event.host.possessable_name.possessive, event.host, :class => 'text-muted' %>
+      <% end %>
+
+      <h4 class="start_time blocky_spns">
+        <% if event.first_meeting %>
+          <%= meeting_time(event.first_meeting, :show_date => show_date, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %>
+          <% if false #  rerun.first_meeting.start_time - Time.now < 10.days %>
+            <%= content_tag(:span, '', :class => 'text-muted pull-right smaller', :'data-livestamp' => event.start_time) %>
+          <% end %>
+        <% end %>
+      </h4>
+
+      <%= user_thumb(event.host, :size => :small, :linked => true) %>
+
+      <h4 class="media-heading"><%= link_to event.title, event_path(event) %></h4>
+      <div class="row margin0">
+        <% if event.first_meeting %>
+          <div class="col-md-7 col-sm-4">
+            <p>
+              <%= render 'reruns/location', :rerun => event %>
+              <% if event.location %>
+                <span class="workshop_dist" data-longitude="<%= event.location.longitude %>" data-latitude="<%= event.location.latitude %>">&nbsp;</span>
+              <% end %>
+            </p>
+          </div>
+
+          <div class="col-md-3 col-sm-4">
+            <%= render 'reruns/price', :rerun => event %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </li>
+<% end -%>
