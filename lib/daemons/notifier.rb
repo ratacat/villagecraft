@@ -35,9 +35,15 @@ while($running) do
   # send queued notification email
   Notification.where(:email_me => true, :emailed_at => nil).each do |n|
     begin
-      UserMailer.notification_email(n).deliver
-      n.update_attribute(:emailed_at, Time.now)
-      @logger.info "Notification #{n.id} about #{n.activity.key} emailed to #{n.user.email}\n"
+      mail = UserMailer.notification_email(n)
+      if mail
+        mail.deliver
+        n.update_attribute(:emailed_at, Time.now)
+        @logger.info "Notification #{n.id} about #{n.activity.key} emailed to #{n.user.email}\n"
+      else
+        n.destroy
+        @logger.info "Notification #{n.id} about #{n.activity.key} deleted becauase trackable was deleted\n"
+      end
     rescue Exception => e
       handle_exception(e)
     end
