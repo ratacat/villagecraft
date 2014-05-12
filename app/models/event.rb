@@ -143,9 +143,35 @@ class Event < ActiveRecord::Base
       # if for some reason the first_meeting pointer is missing, figure it out and cache it
       fm = self.meetings.order(:start_time).first
       self.update_attribute(:first_meeting_id, fm.try(:id))
+      fm
     end
   end
-    
+
+  def cache_key(context = nil)
+    if context
+      "event-#{context}-#{self.uuid}-#{self.updated_at.to_i}"
+    else
+      "event-#{self.uuid}-#{self.updated_at.to_i}"
+    end
+  end
+
+  def self.first_meeting_in_the_future
+    # I think, should be like that
+    # joins(:meetings).where('meetings.end_time > ?', Time.now)
+    joins(:meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
+  end
+
+  def self.first_meeting_in_the_past
+    joins(:meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} < ?), Time.now)
+  end
+
+  def self.by_distance_from(l)
+    # get spheroid distance in meters
+    dist_q = %{ST_Distance_Spheroid( #{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326), 'SPHEROID["WGS 84",6378137,298.257223563]')};
+    joins(:location).select(%{"events".*, (#{dist_q}) AS dist}).order(:dist)
+  end
+
+
   def Event.placeholder_src(size = :medium)
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"

@@ -18,10 +18,25 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.json
+  # GET /e/:uuid
+  # GET /e/:uuid.json
   def show
-    redirect_to @event.workshop
+    @workshop = @event.workshop
+    @reviews_recent = @workshop.all_reviews(order: :created_at, reverse_order: true, limit: 3)
+    @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
+
+    @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+
+    if @workshop.image
+      @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
+    else
+      @images = @workshop.images.order(:created_at).reverse_order
+    end
+
+    respond_to do |format|
+      format.html { render 'show' }
+      format.json { render json: @event }
+    end
   end
   
   # GET /events/1/manage

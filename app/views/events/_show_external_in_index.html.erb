@@ -1,0 +1,8 @@
+<%
+   event ||= @event
+   hide ||= false
+
+%>
+<li>
+  <h5 class="<%= 'initially_hidden' if hide %>"><%= content_tag(:span, I18n.l(event.first_meeting.localized_start_time, format: :short_time)) unless event.blank? %> <%= link_to event.title, event_path(event) %></h5>
+</li>

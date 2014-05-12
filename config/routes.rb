@@ -35,7 +35,8 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/lock' => 'events#lock', :as => :lock_event
   post 'events/:id/unlock' => 'events#unlock', :as => :unlock_event
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
-  resources :events
+  resources :events, :except => [:show]
+  get '/e/:id' => 'events#show', :as => :event
   resources :meetings, :only => [:update, :show]
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
@@ -93,7 +94,8 @@ Villagecraft::Application.routes.draw do
   match '/404' => 'errors#not_found'
   match '/422' => 'errors#server_error'
   match '/500' => 'errors#server_error'
-  
+
+  get '/new-home' => 'pages#home_events', :as => :home_events
   root :to => 'pages#home'
 
   # The priority is based upon order of creation:

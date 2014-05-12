@@ -1,0 +1,167 @@
+<%
+   event = @event
+   next_rerun = event
+   next_meeting = next_rerun.try(:first_meeting)
+   content_for(:title, seod_title(@workshop))
+   content_for(:meta_description, @workshop.meta_description)
+   content_for(:og_meta_tags, workshop_og_meta_tags(@workshop))
+
+   keywords = %w(events workshops local)
+   keywords += @workshop.title.downcase.split
+   keywords << @workshop.try(:location).try(:neighborhood).try(:name)
+   keywords << city_n_state(@workshop.location) unless @workshop.location.blank?
+   content_for(:meta_keywords, keywords.compact.flatten.join(","))
+   message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
+%>
+<div class="row">
+  <div class="col-sm-3">
+    <p>
+      <%= link_to image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs"), @workshop.img_src(:xlarge_orig),
+                  data: {toggle: 'lightbox', gallery: "multiimages", parent: '.container'} %>
+    </p>
+    <p><%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %></p>
+    <% if user_signed_in? %>
+      <% if current_user.can_review?(@workshop) %>
+        <p><button class="btn btn-warning btn-block" data-toggle="modal" data-target="#modal-add-review">Add review</button></p>
+      <% end %>
+    <% else %>
+      <%= link_to 'Add review', add_review_path, class: "btn btn-warning btn-block", method: :post, rel: :nofollow %>
+    <% end %>
+
+    <div class="share_buttons btn-group">
+      <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        Share <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li class="mailto signed_up hidden"><%= share_by_email(@workshop, signed_up: true) %></li>
+        <li class="mailto"><%= share_by_email(@workshop) %></li>
+        <li><%= link_to content_tag(:i, ' ', class: 'fa fa-facebook fa-fw') + ' Facebook'.html_safe,
+                        "https://www.facebook.com/sharer/sharer.php?u=#{url_encode(workshop_path(@workshop, only_path: false))}&t=#{url_encode(@workshop.title)}",
+                        onclick: "javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;",
+                        target: "_blank",
+                        title: "Share on Facebook",
+                        class: "" %>
+        </li>
+      </ul>
+    </div>
+
+    <% if @images.count > 0 %>
+      <%= render 'images/gallery', images_per_row: 1, thumb_size: :large, extra_img_classes: 'full_width img-rounded hidden-xs' %>
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+    <h1 class="margin_top0"><%= @workshop.title %></h1>
+    <div class="row">
+      <div class="col-sm-12<%= ' bg-success' if next_rerun and current_user.try(:attending_event?, next_rerun) %>" id="when_where">
+        <div class="row">
+          <div class="col-sm-5">
+            <% if next_meeting %>
+              <div class="blocky_spns">
+                <%= meeting_time(next_meeting, :short_date => true, :no_tz => true, :show_livestamp => true, :show_end_time => false) %>
+              </div>
+            <% else %>
+              <span class="text-muted">no upcoming dates</span>
+            <% end %>
+          </div>
+          <div class="col-sm-4" id="location">
+            <p>
+              <%= render('reruns/location', :rerun => next_rerun) if next_rerun %>
+            </p>
+          </div>
+          <div class="col-sm-3">
+            <%= render 'reruns/price', :rerun => next_rerun %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="event_description clearfix">
+      <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
+    </p>
+
+    <% if @reviews_recent.count > 0 %>
+      <h3>Reviews</h3>
+      <% if @reviews_recent.count > 3 %>
+        <!--most recent reviews-->
+        <div class="row-fluid reviews">
+          <div class="thumbnail-review-title">Most recent reviews</div>
+          <%= render 'reviews/index', :reviews => @reviews_recent %>
+        </div>
+
+        <!--highest rated reviews-->
+        <div class="row-fluid reviews">
+          <div class="thumbnail-review-title">Highest rated reviews</div>
+          <%= render 'reviews/index', :reviews => @reviews_rating %>
+        </div>
+      <% else %>
+        <div class="row-fluid">
+          <%= render 'reviews/index', :reviews => @reviews_recent %>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+  <div class="col-sm-3 side_content">
+    <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true %>
+    <div id="simple_index">
+      <%= render 'reruns/simple_index_beta', :reruns => @future_reruns %>
+    </div>
+
+    <h4 class="text-muted">Host</h4>
+    <div id='host_mini_profile'>
+      <%= render 'users/mini_profile', :user => @workshop.host, :apropos => @workshop %>
+    </div>
+
+    <% if can? :manage, @workshop %>
+      <div class="well host-only">
+        <%= iconic_link_to 'Edit', edit_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'edit' %>
+        <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), class: 'btn btn-default btn-xs', title: 'manage' , icon: 'group' %>
+        <%= render 'workshops/upload_photo_button' %>
+        <% ready_script do -%>
+          $('.fileinput').fileinput();
+        <% end %>
+      </div>
+    <% end %>
+
+    <h4 class="text-muted">People<span class="pull-right spots_left"><%= render 'reruns/spots_left', rerun: next_rerun %></span></h4>
+    <%= render 'reruns/attendees_pseudo_feed', :rerun => next_rerun, :sign_up_msg => 'signed up' %>
+  </div>
+</div>
+<!-- Add Review Modal -->
+<%= render 'reviews/add_review_modal', :review => @review, :past_reruns => @past_reruns, :workshop => @workshop %>
+
+<!-- Show More Review Modal -->
+<%= render 'reviews/more_modal', :review => @review %>
+
+<!-- Show New Message Modal -->
+<%= render 'messages/modal_new', :message => message, :to => :one_person %>
+<% ready_script do -%>
+  <% if user_signed_in? %>
+    $('#host_mini_profile a.message_user').on('click', function(e) {
+    $("#new_message_modal").modal('show');
+    e.preventDefault();
+    });
+  <% end %>
+  $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
+  $("#new_message_modal").modal('hide');
+  show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+  });
+
+  var image_uuid = location.search.split('image_uuid=')[1];
+  if(image_uuid) {
+  $("[data-image-uuid='" + image_uuid + "']").ekkoLightbox();
+  }
+
+  $("a.attend_event").bind('ajax:success', function(evt, data, status, xhr) {
+  show_bootstrap_alert({text: "Check your inbox for a copy of these details.", type: 'success'});
+  $("a.attend_event").hide();
+  $(".you_r_signed_up").show();
+  $("#when_where").addClass("bg-success");
+  $("#location").html(HandlebarsTemplates['locations/show']($.parseJSON(xhr.responseText).location));
+  $("#when_where").highlight({});
+  $("#simple_index").load("<%= simple_index_partial_workshop_path(@workshop) %>");
+  $(".share_buttons .mailto").hide();
+  $(".share_buttons .signed_up").removeClass("hidden").show();
+  });
+
+<% end -%>
