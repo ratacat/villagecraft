@@ -26,6 +26,12 @@ class UserMailer < ActionMailer::Base
   
   def notification_email(notification)
     activity = notification.activity
+    
+    # Return nil if notification concerns something that was deleted
+    if activity.trackable.nil?
+      return nil
+    end
+    
     @notification = notification
     @user = notification.user
     @event = 
