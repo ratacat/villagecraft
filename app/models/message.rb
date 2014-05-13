@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
   attr_writer :_apropos_uuid, :_to_user_uuid
-  attr_accessible :_apropos_uuid, :_to_user_uuid, :apropos_type, :subject, :body, :apropos, :from_user, :to_user, :system_message
+  attr_accessible :_apropos_uuid, :_to_user_uuid, :apropos_type, :subject, :body, :apropos, :from_user, :to_user, :system_message, :send_at
   
   belongs_to :from_user, :class_name => 'User'
   belongs_to :to_user, :class_name => 'User'
