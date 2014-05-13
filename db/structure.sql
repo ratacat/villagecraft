@@ -562,7 +562,7 @@ CREATE TABLE users (
     email_notifications boolean DEFAULT true,
     external boolean,
     description text,
-    sms_short_messages boolean,
+    sms_short_messages boolean DEFAULT true,
     email_short_messages boolean DEFAULT false,
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
@@ -1640,3 +1640,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140325215738');
 INSERT INTO schema_migrations (version) VALUES ('20140403065951');
 
 INSERT INTO schema_migrations (version) VALUES ('20140403070324');
+
+INSERT INTO schema_migrations (version) VALUES ('20140513055610');
