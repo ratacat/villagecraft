@@ -35,8 +35,7 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/lock' => 'events#lock', :as => :lock_event
   post 'events/:id/unlock' => 'events#unlock', :as => :unlock_event
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
-  resources :events, :except => [:show]
-  get '/e/:id' => 'events#show', :as => :event
+  resources :e, :controller => :events, :as => :events
   resources :meetings, :only => [:update, :show]
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
