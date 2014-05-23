@@ -10,6 +10,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:notice] = ["Welcome to Villagecraft"]
         auto_attend
         sign_in_and_redirect @user, :event => :authentication
+        @mixpanel.track(@user.email, 'Registration', {
+          'source' => "facebook",
+          'modal' => "false",
+          'date' => I18n.t @user.created_at, format: :short_time
+        })
       else
         flash[:alert] = "Could not complete your sign up via Facebook."
         session["devise.facebook_data"] = request.env["omniauth.auth"]
