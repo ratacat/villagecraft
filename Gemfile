@@ -197,6 +197,3 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# Track events with Mixpanel
-require 'mixpanel-ruby'
