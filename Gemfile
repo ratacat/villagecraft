@@ -199,4 +199,4 @@ end
 # gem 'capistrano'
 
 # Track events with Mixpanel
-gem 'mixpanel-ruby'
+require 'mixpanel-ruby'
