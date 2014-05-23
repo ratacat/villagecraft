@@ -28,6 +28,12 @@ God.contact(:email) do |c|
   c.to_email = 'ben@teitelbaum.us'
 end
 
+God.contact(:email) do |c|
+  c.name = 'jared'
+  c.group = 'developers'
+  c.to_email = 'cheshire.in.darkness@gmail.com'
+end
+
 RAILS_ROOT = "/home/villagecraft/www/current"
 
 God.watch do |w|
@@ -67,7 +73,7 @@ God.watch do |w|
   # start if process is not running
   w.transition(:up, :start) do |on|
     on.condition(:process_exits) do |c|
-      c.notify = 'ben'
+      c.notify = 'developers'
     end
   end
 
