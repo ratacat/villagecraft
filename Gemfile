@@ -101,6 +101,9 @@ gem 'nexmo'
 # send email when there is an exception on the server
 gem 'exception_notification'
 
+# Track events with Mixpanel
+gem 'mixpanel-ruby'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -198,5 +201,3 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# Track events with Mixpanel
-gem 'mixpanel-ruby'
