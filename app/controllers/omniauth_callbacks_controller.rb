@@ -13,7 +13,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         @mixpanel.track(@user.email, 'Registration', {
           'source' => "facebook",
           'modal' => "false",
-          'date' => I18n.t @user.created_at, format: :short_time
+          'date' => I18n.t(@user.created_at, format: :short_time)
         })
       else
         flash[:alert] = "Could not complete your sign up via Facebook."
