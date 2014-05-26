@@ -15,6 +15,7 @@ class RegistrationsController < Devise::RegistrationsController
           'source' => "villagecraft",
           'modal' => params[:user][:modal]
       })
+      @mixpanel.people.set(user.email, {'$name' => user.name, 'account_created_at' => DateTime.now}, request.remote_ip)
     end
   end
 
