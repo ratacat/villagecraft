@@ -15,6 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
           'modal' => "false",
           'date' => I18n.t(@user.created_at, format: :short_time)
         })
+        @mixpanel.people.set(@user.email, {'$name' => @user.name, 'account_created_at' => DateTime.now}, request.remote_ip)
       else
         flash[:alert] = "Could not complete your sign up via Facebook."
         session["devise.facebook_data"] = request.env["omniauth.auth"]
