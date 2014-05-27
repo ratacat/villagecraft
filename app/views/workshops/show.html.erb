@@ -12,6 +12,10 @@
   content_for(:meta_keywords, keywords.compact.flatten.join(","))
   message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
 %>
+<!--
+<script type="text/javascript">
+mixpanel.track("EventViewed", {"EventName": "<%= @workshop.title.to_s %>", "EventHost": "<%= @workshop.host.name %>"}); 
+</script> -->
 <div class="row">
   <div class="col-sm-3">
     <p>
