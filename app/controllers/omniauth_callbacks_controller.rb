@@ -12,8 +12,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         sign_in_and_redirect @user, :event => :authentication
         @mixpanel.track(@user.email, 'Registration', {
           'source' => "facebook",
-          'modal' => "false",
-          'date' => I18n.t(@user.created_at, format: :short_time)
+          'modal' => "false"
         })
         @mixpanel.people.set(@user.email, {'$name' => @user.name, 'account_created_at' => DateTime.now}, request.remote_ip)
       else
