@@ -17,9 +17,13 @@
     </ul>
   </div>
 </div>
-<div class="row margin_top10">
-  <div class="col-md-8">
+<div class="row margin_top10  home_events_page">
+  <div class="col-md-8 home_events_page_dynamic">
     <%= render 'events/index' %>
+  </div>
+
+  <div class="col-xs-12">
+  <%= link_to "Show more", home_events_page_path(1), :data => { :page => 1 }, :class => "show_more_events btn btn-button btn-primary" %>
   </div>
 </div>
 
@@ -57,3 +61,18 @@
     });
   <% end -%>
 <% end %>
+
+<% ready_script do -%>
+
+  $(".show_more_events").click(function(e){
+  e.preventDefault();
+  var _this = $(this);
+  var _div = $('<div/>');
+  _this.data('page', parseInt(_this.data('page'))+1)
+  _div.load($(this).attr('href').replace("1", _this.data('page')), function(){
+  });
+  _div.appendTo(".home_events_page_dynamic")
+
+  });
+
+<% end -%>

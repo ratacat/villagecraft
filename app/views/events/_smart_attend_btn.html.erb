@@ -3,6 +3,7 @@
   show_price ||= false
   show_check ||= false
   block_buttonize ||= false
+  cta ||= "Sign up"
 %>
 <% if event %>
   <% if event.external? %>
@@ -21,7 +22,7 @@
       <% if event.slots_left > 0 %>
         <% if user_signed_in? %>
           <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
-            <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true) %>
+            <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
           <% end %>
           <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
         <% else %> <!-- not user_signed_in? -->

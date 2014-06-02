@@ -95,7 +95,9 @@ Villagecraft::Application.routes.draw do
   match '/500' => 'errors#server_error'
 
   get '/new-home' => 'pages#home_events', :as => :home_events
+  get '/home/:page' => 'pages#home_events_page', :as => :home_events_page
   root :to => 'pages#home'
+  # root :to => 'pages#home_events'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
