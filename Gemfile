@@ -200,3 +200,5 @@ end
 
 # Track events with Mixpanel
 gem 'mixpanel-ruby'
+
+gem 'will_paginate'
