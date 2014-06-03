@@ -1,45 +1,45 @@
-<% 
-  no_button ||= false
-  show_price ||= false
-  show_check ||= false
-  block_buttonize ||= false
-  cta ||= "Sign up"
+<%
+   no_button ||= false
+   show_price ||= false
+   show_check ||= false
+   block_buttonize ||= false
+   cta ||= "Sign up"
 %>
 <% if event %>
-  <% if event.external? %>
-    <% unless event.external_url.blank? or no_button %>
-      <%= link_to event.external_url, 
-          data: { 
-            html: 'true', 
-            placement: 'bottom', 
-            title: "#{event.rsvp? ? 'sign up' : 'more information'} at #{external_domain(@workshop)}"}, 
-          class: "tooltipify btn btn-block btn-primary", target: '_blank' do -%>
-        <%= (event.rsvp? ? 'Sign up ' : 'More info ').html_safe + content_tag(:sup, content_tag(:i, '', :class => "fa fa-external-link smaller")) %>
-      <% end %>
-    <% end %>
-  <% else %>
-    <% if event.rsvp? %>
-      <% if event.slots_left > 0 %>
-        <% if user_signed_in? %>
-          <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
-            <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
-          <% end %>
-          <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
-        <% else %> <!-- not user_signed_in? -->
-          <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
-            <h4 class="fee"><%= event_price(event) %></h4>
-          <% else %>
-            <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true) %>
-          <% end %>
+    <% if event.external? %>
+        <% unless event.external_url.blank? or no_button %>
+            <%= link_to event.external_url,
+                        data: {
+                                html: 'true',
+                                placement: 'bottom',
+                                title: "#{event.rsvp? ? 'sign up' : 'more information'} at #{external_domain(@workshop)}"},
+                        class: "tooltipify btn btn-block btn-primary", target: '_blank' do -%>
+                <%= (event.rsvp? ? 'Sign up ' : 'More info ').html_safe + content_tag(:sup, content_tag(:i, '', :class => "fa fa-external-link smaller")) %>
+            <% end %>
         <% end %>
-        <%= event_price(event) if show_price %>
-      <% else %>
-        <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
-      <% end %>
-    <% else %> <!-- not rsvp? -->
-      <span class="text-success">No need to sign up, just come on over.</span>
+    <% else %>
+        <% if event.rsvp? %>
+            <% if event.slots_left > 0 %>
+                <% if user_signed_in? %>
+                    <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
+                        <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
+                    <% end %>
+                    <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
+                <% else %> <!-- not user_signed_in? -->
+                    <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
+                        <h4 class="fee"><%= event_price(event) %></h4>
+                    <% else %>
+                        <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
+                    <% end %>
+                <% end %>
+                <%= event_price(event) if show_price %>
+            <% else %>
+                <h4 class="text-error"><i class="icon-ban-circle full_error"> </i> Sorry, full already!</h4>
+            <% end %>
+        <% else %> <!-- not rsvp? -->
+            <span class="text-success">No need to sign up, just come on over.</span>
+        <% end %>
     <% end %>
-  <% end %>
 <% else %>
-  None upcoming
+    None upcoming
 <% end %>

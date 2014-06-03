@@ -2,28 +2,28 @@
    content_for(:meta_description, "Learn skills, make things, share knowledge, and connect with your neighbors. Community workshops and skillshares, local events and activities in the San Francisco Bay Area.")
    content_for(:meta_keywords, %w(events workshops local Berkeley Oakland).join(","))
 %>
-<div class="row">
-  <div class="col-md-8">
-    <ul class="nav nav-pills">
-      <li<%= ' class=active' unless (session[:sort_order] === 'distance') %>>
-        <%= link_to 'Sort by date', root_path(:sort => :date), :method => :post %>
-      </li>
-      <li<%= ' class=active' if (session[:sort_order] === 'distance') %>>
-        <%= link_to 'Sort by distance', root_path(:sort => :distance), :method => :post %>
-      </li>
-      <li class='editable_location<%= ' text-muted' unless (session[:sort_order] === 'distance') %>' id="current_loc" data-longitude="<%= @location.longitude %>" data-latitude="<%= @location.latitude %>" data-preferred_distance_units="<%= current_user.try(:preferred_distance_units) || 'mi' %>">
-        from <%= editable @location, :address %> <span id="in_city_state"><%= "(#{city_n_state(@location)})" unless @location.address_contains_city_state %></span>
-      </li>
-    </ul>
-  </div>
-</div>
+<!--<div class="row">-->
+  <!--<div class="col-md-8">-->
+    <!--<ul class="nav nav-pills">-->
+      <!--<li<%#= ' class=active' unless (session[:sort_order] === 'distance') %>>-->
+        <!--<%#= link_to 'Sort by date', root_path(:sort => :date), :method => :post %>-->
+      <!--</li>-->
+      <!--<li<%#= ' class=active' if (session[:sort_order] === 'distance') %>>-->
+        <!--<%#= link_to 'Sort by distance', root_path(:sort => :distance), :method => :post %>-->
+      <!--</li>-->
+      <!--<li class='editable_location<%#= ' text-muted' unless (session[:sort_order] === 'distance') %>' id="current_loc" data-longitude="<%#= @location.longitude %>" data-latitude="<%#= @location.latitude %>" data-preferred_distance_units="<%#= current_user.try(:preferred_distance_units) || 'mi' %>">-->
+        <!--from <%#= editable @location, :address %> <span id="in_city_state"><%#= "(#{city_n_state(@location)})" unless @location.address_contains_city_state %></span>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</div>-->
+<!--</div>-->
 <div class="row margin_top10  home_events_page">
   <div class="col-md-8 home_events_page_dynamic">
     <%= render 'events/index' %>
   </div>
 
   <div class="col-xs-12">
-  <%= link_to "Show more", home_events_page_path(1), :data => { :page => 1 }, :class => "show_more_events btn btn-button btn-primary" %>
+  <%= link_to content_tag(:span,"Show more", :class => "ladda-label"), home_events_page_path(1), :data => { :page => 1, :style => "zoom-in" } , :class => "show_more_events btn btn-button btn-primary ladda-button" %>
   </div>
 </div>
 
@@ -67,11 +67,19 @@
   $(".show_more_events").click(function(e){
   e.preventDefault();
   var _this = $(this);
+  var _l = Ladda.create(this);
+  _l.start();
   var _div = $('<div/>');
+  _div.css('display','none');
   _this.data('page', parseInt(_this.data('page'))+1)
   _div.load($(this).attr('href').replace("1", _this.data('page')), function(){
+  _div.appendTo(".home_events_page_dynamic");
+    _div.slideDown('slow', function(){
+  _l.stop();
   });
-  _div.appendTo(".home_events_page_dynamic")
+  });
+
+
 
   });
 

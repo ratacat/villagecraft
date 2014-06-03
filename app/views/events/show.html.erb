@@ -104,7 +104,7 @@
   <div class="col-sm-3 side_content">
     <%= render 'events/smart_attend_btn', :event => next_rerun, :block_buttonize => true, :cta => "Sign up - #{meeting_date(next_rerun.first_meeting, date_format: "%a %B")}"  %>
     <div id="simple_index">
-      <%= render 'reruns/simple_index_beta', :reruns => @future_reruns %>
+      <%= render 'reruns/simple_index', :reruns => @future_reruns %>
     </div>
 
     <h4 class="text-muted">Host</h4>

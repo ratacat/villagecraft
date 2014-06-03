@@ -19,3 +19,5 @@
 //= require handlebars.runtime
 //= require_tree ./templates
 //= require_directory ./everyone
+//= require spinner/spin
+//= require spinner/ladda
