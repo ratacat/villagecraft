@@ -12,4 +12,5 @@
  *= require_tree ./everyone
  *= require vendor_stylesheets
  *= require custom_bootstrap/custom_bootstrap
+ *= require spinner/ladda-themeless.min
  */
