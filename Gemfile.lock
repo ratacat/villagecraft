@@ -330,6 +330,7 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.0.7)
+    will_paginate (3.0.5)
     x-editable-rails (1.5.2)
       railties
     xpath (0.1.4)
@@ -394,4 +395,5 @@ DEPENDENCIES
   validate_url!
   validates_timeliness (~> 3.0)
   verbs
+  will_paginate
   x-editable-rails (= 1.5.2)
