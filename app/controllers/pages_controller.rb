@@ -43,14 +43,14 @@ class PagesController < ApplicationController
     if session[:sort_order] == 'distance'
       @scheduled_events_with_venue_tbd = @events.where(:venue_id => nil)
       @other_events = Event.where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@events.select(Event.quoted_table_column(:id)).to_sql})))
-      .where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@scheduled_events_with_venue_tbd.select(Event.quoted_table_column(:id)).to_sql}))).paginate(:page => params[:page], :per_page => 15)  #limit added because it was too slow. Pagination needed
+      .where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@scheduled_events_with_venue_tbd.select(Event.quoted_table_column(:id)).to_sql}))).paginate(:page => params[:page], :per_page => 30)  #limit added because it was too slow. Pagination needed
       @events = @events.by_distance_from(@location)
     else
-      @other_events = Event.where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@events.select(Event.quoted_table_column(:id)).to_sql}))).paginate(:page => params[:page], :per_page => 15) #limit added because it was too slow. Pagination needed
+      @other_events = Event.where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@events.select(Event.quoted_table_column(:id)).to_sql}))).paginate(:page => params[:page], :per_page => 30) #limit added because it was too slow. Pagination needed
       @events = @events.order(%Q(#{Meeting.quoted_table_column(:start_time)}))
     end
 
-    @events = @events.paginate(:page => params[:page], :per_page => 15).to_a.uniq
+    @events = @events.paginate(:page => params[:page], :per_page => 30).to_a.uniq
   end
 
   def home_events_page
