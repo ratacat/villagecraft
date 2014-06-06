@@ -1,70 +1,105 @@
-<%= simple_form_for(@event, html: {class: "form-horizontal"}) do |f| %>
+<%
+   show_submit_button ||= false
+%>
+<%= simple_form_for(@event) do |f| %>
   <%= f.error_notification %>
 
-  	<%= f.input :title %>
-  	<%# f.input :short_title, label: 'Short Title' %>
+  <div class="form-inputs row">
+    <div class="col-md-9">
+      <%= f.input :title, label: 'Title', input_html: {class: 'col-md-8'} %>
+      <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+      <% if admin_session? and @event.external%>
+        <div class="well admin-only">
+          <%= f.input :external %>
 
-    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
-      <%= f.input_field :start_time_date, :as => :date_select, :class => "start date", 
-          :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
-      <%= f.input_field :start_time_time, :as => :time_select, :class => "start time",
-          :value => l(@event.localized_start_time, format: :time_picker_time_format).strip %> to 
-      <%= f.input_field :end_time_time, :as => :time_select, :class => "end time",
-          :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
-      <%= f.input_field :end_time_date, :as => :date_select, :class => "end date",
-          :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
-    <% end %>
-  	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
-  	<div class="form-group">
-      <%= f.label "Event Image" %>
-      <div class="controls">
-        <%= image_tag @event.img_src(:larger), :class => "img-rounded" %>
-        <%= f.file_field :image %><br/>
+          <%= f.label "External URL" %>
+          <%= f.input :external_url, :wrapper => :append, label: false do %>
+            <%= f.input_field :external_url %><span class="input-group-addon"><i class="fa fa-external-link"></i></span>
+          <% end %>
+
+          <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-sm-4">
+          <%= f.input :location_id, collection: @venues.collect { |p| [ p.name, p.id, {'data-address' => p.location.address} ] }, label: 'Location', input_html: {class: 'col-sm-4'}  %>
+        </div>
+        <div class="col-sm-8 col-xs-nolabel">
+          <%= f.input :address, label: '&nbsp;'.html_safe %>
+        </div>
       </div>
-    </div>
-    
-  	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
-  	<%= f.input :max_attendees, input_html: {:min => 0} %>
-  	
-  	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
-  	
-    <%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'col-md-5'} %>
+      <div class="row">
+      <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'datepair col-xs-12 col-sm-3'} do %>
+        <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control  col-xs-12 col-sm-3",
+                          :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
+        <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control  col-xs-12 col-sm-3",
+                          :value => l(@event.localized_start_time, format: :time_picker_time_format).strip %>
+        <% end %>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-primary" %>
+      <div class="col-sm-1 datepair-to">
+        to
+      </div>
+      <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'datepair col-sm-3 col-xs-12'} do %>
+        <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
+                          :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
+        <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control col-sm-3  col-xs-12",
+                          :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
+      <% end %>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <%= f.input :cost_type, collection: Event::COST_TYPE_LABEL.collect{ |k,v| [ v, k ] }, label: 'Cost', input_html: {class: 'col-sm-4'}  %>
+        </div>
+        <div class="col-sm-2  col-xs-nolabel">
+          <%= f.input :price, label: '&nbsp;'.html_safe, input_html: {style: 'display: none'} %>
+        </div>
+        <div class="col-sm-2  col-xs-nolabel">
+          <%= f.input :end_price, label: '&nbsp;'.html_safe, input_html: {style: 'display: none'} %>
+        </div>
+      </div>
+
+      <%= f.input :rsvp, label: false  %>
+
+
+      <% if show_submit_button %>
+        <div class="form-actions">
+          <%= f.button :submit, :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-3">
+      <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @event.img_src(:large_orig)} %>
+    </div>
   </div>
 <% end %>
 
-<% ready_script do -%>
-  var DATEPICKER_FORMAT = "<%= t 'time.formats.php_style_time_picker_time_format' %>";
-  var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
-  var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
+<% body_script do -%>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+  $(function(){
+    init_datetime_picker();
+    $('#event_location_id').change(function(){
+      $('#event_address').val($('option:selected',$(this)).data('address'));
+    })
 
-  <%= render :partial => 'events/init_datetime_pickers', :formats => [:js] %>
-  
-  $(":file").filestyle({ 
-    textField: false,
-    buttonText: "Choose photo",
-    icon: true 
-  });
-  $("#event_venue_id").selectpicker({rightbutton: '+'});
-  $(".bootstrap-select .rightbutton").on('click', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-  })
-  .popover({html: true, 
-            container: 'body', 
-            title: 'New Venue', 
-            content: "<%= escape_javascript(render :partial => 'venues/form', :locals => { :remote => true, :venue => Venue.new }) %>"});
-  $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
-    $(".bootstrap-select .rightbutton").popover('hide');
-    $("#event_venue_id").selectpicker('refresh');
-  });
-  $('body').on('click', function (e) {
-    $('.bootstrap-select .rightbutton').each(function () {
-      if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-        $(this).popover('hide');
+    $('#event_cost_type').change(function(){
+      val = $('option:selected',$(this)).attr('value');
+      if( val == 'free' || val == 'donation' || val == '' ){
+        $('#event_price').hide();
+        $('#event_price').val('');
+        $('#event_end_price').hide();
+        $('#event_end_price').val('');
+      }else if( val == 'set_price'){
+        $('#event_price').show();
+        $('#event_end_price').hide();
+        $('#event_end_price').val('');
+      }else if( val == 'sliding_scale'){
+        $('#event_price').show();
+        $('#event_end_price').show();
       }
-    });
-  });
-<% end -%>
+    })
+  $("#event_rsvp").bootstrapSwitch();
+  })
+
+
+<% end %>

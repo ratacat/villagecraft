@@ -18,6 +18,7 @@
 //= require vendor_javascripts
 //= require handlebars.runtime
 //= require_tree ./templates
+//= require_tree ./custom_bootstrap
 //= require_directory ./everyone
 //= require spinner/spin
 //= require spinner/ladda

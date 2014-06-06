@@ -3,8 +3,14 @@ require "has_ordering_through_meetings"
 class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
-  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :external, :external_url, :rsvp, :as => [:default, :system]
+  attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
+                  :venue_uuid, :external, :external_url, :rsvp,
+                  :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
+                  :as => [:default, :system]
+  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
+  normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time
+
   has_uuid(:length => 8)
   acts_as_paranoid
 
@@ -36,17 +42,21 @@ class Event < ActiveRecord::Base
     end
   end
   
-  UNLOCK_TIMEOUT = 5 # minutes that unlocking lasts 
+  UNLOCK_TIMEOUT = 5 # minutes that unlocking lasts
+  COST_TYPE = [:free, :donation, :set_price, :sliding_scale]
+  COST_TYPE_LABEL = { free: "Free", donation: "Donation", set_price: "Set price", sliding_scale: "Sliding scale" }
   
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
+  before_validation :derive_times
   before_save :propogate_changes_to_dependant_meetings
   after_save :touch_to_expire_cached_fragments, :propogate_changes_to_parent_workshop
   
-  validates :workshop, :presence => true
+  validates :workshop, presence: true
   validates :host_id, presence: true
   validates :title, presence: true
-  validates :external_url, :url => {:allow_blank => true}
+  validates :external_url, url: {allow_blank: true}
+  validates :cost_type, inclusion: COST_TYPE + COST_TYPE.collect{|x| x.to_s}
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
   validates :min_attendees, 
@@ -130,6 +140,31 @@ class Event < ActiveRecord::Base
     else
       self.image.i.url(size)
     end
+  end
+
+  def time_zone
+    self.location.try(:time_zone) || self.host.try(:location).try(:time_zone) || "America/Los_Angeles"
+  end
+
+  def find_zone
+    Time.find_zone(self.time_zone)
+  end
+
+  def localized_start_time
+    self.start_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 7:00pm", :zone => self.time_zone)
+  end
+
+  def localized_end_time
+    self.end_time.try(:in_time_zone, self.time_zone) || Timeliness.parse("#{self.find_zone.now.tomorrow.to_date} 9:00pm", :zone => self.time_zone)
+  end
+
+  def derive_times
+    self.start_time = Timeliness.parse("#{self.start_time_date} #{self.start_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.start_time_time.blank?
+    self.end_time = Timeliness.parse("#{self.end_time_date} #{self.end_time_time}", :zone => self.time_zone) unless self.start_time_date.blank? or self.end_time_time.blank?
+  end
+
+  def address
+    ""
   end
   
   def manageable?

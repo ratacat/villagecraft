@@ -9,8 +9,8 @@ class EventsController < ApplicationController
 
   def index
     # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @future_events = Event.where_first_meeting_starts_in_future # .limit(EVENTS_PER_PAGE)
-    @past_events = Event.where_first_meeting_starts_in_past # .limit(EVENTS_PER_PAGE)
+    @future_events = Event.where_first_meeting_starts_in_future.paginate :page => params[:page], :per_page => EVENTS_PER_PAGE # .limit(EVENTS_PER_PAGE)
+    @past_events = Event.where_first_meeting_starts_in_past.paginate :page => params[:page], :per_page => EVENTS_PER_PAGE # .limit(EVENTS_PER_PAGE)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -113,6 +113,7 @@ class EventsController < ApplicationController
     @event = Event.new
     @venue = Venue.new
     @event.host = current_user
+    @venues = current_user.venues
     
     respond_to do |format|
       format.html # new.html.erb

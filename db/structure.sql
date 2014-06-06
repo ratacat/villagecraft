@@ -149,7 +149,9 @@ CREATE TABLE events (
     external boolean,
     external_url character varying(255),
     unlocked_at timestamp without time zone,
-    rsvp boolean DEFAULT true
+    rsvp boolean DEFAULT true,
+    cost_type character varying(255),
+    end_price numeric(10,2)
 );
 
 
@@ -772,6 +774,14 @@ ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::reg
 --
 
 ALTER TABLE ONLY workshops ALTER COLUMN id SET DEFAULT nextval('workshops_id_seq'::regclass);
+
+
+--
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
+\.
 
 
 --
@@ -1642,3 +1652,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140403065951');
 INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
+
+INSERT INTO schema_migrations (version) VALUES ('20140606114438');
