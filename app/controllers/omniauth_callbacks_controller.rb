@@ -10,6 +10,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:notice] = ["Welcome to Villagecraft"]
         auto_attend
         sign_in_and_redirect @user, :event => :authentication
+        distinct_id = cookies[:mp_cd5f1afe1374c3c354a379627be6c27d_mixpanel].gsub(/"(.*)":\s"(.*)","(.*)":\s"(.*)","(.*)":\s"(.*)"/, '\2').gsub(/[\{\}]/, '')
+        @mixpanel.alias(@user.email, distinct_id)
         @mixpanel.track(@user.email, 'Registration', {
           'source' => "facebook",
           'modal' => "false"
