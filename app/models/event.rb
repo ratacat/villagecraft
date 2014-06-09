@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
                   :venue_uuid, :external, :external_url, :rsvp,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
+                  :location_id, :address, :cost_type, :end_price, :organization_ids,
                   :as => [:default, :system]
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
@@ -25,7 +26,10 @@ class Event < ActiveRecord::Base
   has_one :location, :through => :venue
   
   has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
-    
+
+  has_many :event_organizations
+  has_many :organizations, through: :event_organizations
+
   has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)
       where(:state => state)
@@ -90,6 +94,12 @@ class Event < ActiveRecord::Base
     meeting = Meeting.create(:start_time => self.start_time, :end_time => self.end_time)
     meeting.update_attribute(:venue_id, self.venue_id)
     meeting.update_attribute(:event_id, self.id)
+  end
+
+  def create_corresponding_workshop
+    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
+    self.workshop.update_attribute(:image_id, self.image_id)
+    self.save!
   end
   
   def occurred? 
@@ -165,6 +175,10 @@ class Event < ActiveRecord::Base
 
   def address
     ""
+  end
+
+  def address=(v)
+
   end
   
   def manageable?

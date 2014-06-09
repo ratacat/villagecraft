@@ -118,6 +118,38 @@ ALTER SEQUENCE attendances_id_seq OWNED BY attendances.id;
 
 
 --
+-- Name: event_organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE event_organizations (
+    id integer NOT NULL,
+    event_id integer,
+    organization_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: event_organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE event_organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE event_organizations_id_seq OWNED BY event_organizations.id;
+
+
+--
 -- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -414,6 +446,37 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 
 --
+-- Name: organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE organizations (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
+
+
+--
 -- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -689,6 +752,13 @@ ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY event_organizations ALTER COLUMN id SET DEFAULT nextval('event_organizations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
@@ -732,6 +802,13 @@ ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhood
 --
 
 ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organizations_id_seq'::regclass);
 
 
 --
@@ -801,6 +878,14 @@ ALTER TABLE ONLY attendances
 
 
 --
+-- Name: event_organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY event_organizations
+    ADD CONSTRAINT event_organizations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -854,6 +939,14 @@ ALTER TABLE ONLY neighborhoods
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1654,3 +1747,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 
 INSERT INTO schema_migrations (version) VALUES ('20140606114438');
+
+INSERT INTO schema_migrations (version) VALUES ('20140609100016');
+
+INSERT INTO schema_migrations (version) VALUES ('20140609100107');

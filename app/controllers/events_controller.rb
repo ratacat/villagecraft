@@ -114,7 +114,8 @@ class EventsController < ApplicationController
     @venue = Venue.new
     @event.host = current_user
     @venues = current_user.venues
-    
+    # @oranization = @event.organizations.build
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
@@ -132,11 +133,17 @@ class EventsController < ApplicationController
     @event.host = current_user
     
     respond_to do |format|
-      if @event.save
+      if @event.create_corresponding_workshop
         @event.create_activity :create, owner: current_user
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
+        Rails.logger.info("---------")
+        Rails.logger.info @event.errors.full_messages
+        Rails.logger.info("---------")
+        @venue = Venue.new
+        @event.host = current_user
+        @venues = current_user.venues
         format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end

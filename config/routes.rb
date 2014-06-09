@@ -37,6 +37,7 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
   resources :e, :controller => :events, :as => :events
   resources :meetings, :only => [:update, :show]
+  resources :organizations, :only => [:create, :show]
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
   post 'activities/more' => 'activities#more', :as => :more_activities

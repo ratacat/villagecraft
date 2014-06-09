@@ -1,5 +1,5 @@
 <%
-   show_submit_button ||= false
+   show_submit_button ||= true
 %>
 <%= simple_form_for(@event) do |f| %>
   <%= f.error_notification %>
@@ -20,7 +20,7 @@
           <%= f.input :host_id, label: 'External Host', collection: User.where(:external => true), hint: %Q(Select an external host or #{link_to('create a new one', new_admin_user_path)}.).html_safe %>
         </div>
       <% end %>
-      <div class="row">
+      <div class="row form-group">
         <div class="col-sm-4">
           <%= f.input :location_id, collection: @venues.collect { |p| [ p.name, p.id, {'data-address' => p.location.address} ] }, label: 'Location', input_html: {class: 'col-sm-4'}  %>
         </div>
@@ -28,26 +28,26 @@
           <%= f.input :address, label: '&nbsp;'.html_safe %>
         </div>
       </div>
-      <div class="row">
-      <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'datepair col-xs-12 col-sm-3'} do %>
-        <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control  col-xs-12 col-sm-3",
-                          :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
-        <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control  col-xs-12 col-sm-3",
-                          :value => l(@event.localized_start_time, format: :time_picker_time_format).strip %>
+      <div class="row form-group">
+        <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'datepair col-xs-12 col-sm-3'} do %>
+          <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control  col-xs-12 col-sm-3",
+                            :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
+          <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control  col-xs-12 col-sm-3",
+                            :value => l(@event.localized_start_time, format: :time_picker_time_format).strip %>
         <% end %>
 
-      <div class="col-sm-1 datepair-to">
-        to
-      </div>
-      <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'datepair col-sm-3 col-xs-12'} do %>
-        <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
-                          :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
-        <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control col-sm-3  col-xs-12",
-                          :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
-      <% end %>
+        <div class="col-sm-1 datepair-to">
+          to
+        </div>
+        <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'datepair col-sm-3 col-xs-12'} do %>
+          <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
+                            :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
+          <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control col-sm-3  col-xs-12",
+                            :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
+        <% end %>
       </div>
 
-      <div class="row">
+      <div class="row form-group">
         <div class="col-sm-4">
           <%= f.input :cost_type, collection: Event::COST_TYPE_LABEL.collect{ |k,v| [ v, k ] }, label: 'Cost', input_html: {class: 'col-sm-4'}  %>
         </div>
@@ -59,7 +59,55 @@
         </div>
       </div>
 
-      <%= f.input :rsvp, label: false  %>
+      <%= f.input :rsvp do %>
+        <%= f.input_field :rsvp,  as: :boolean, boolean_style: :inline, data: { 'off-text' => 'NO', 'on-text' => 'YES'} %>
+        <div class="yes">
+           <ul>
+             <li>hides address until folks RSVP</li>
+             <li>enables you to limit attendance</li>
+             <li>enables communication tools</li>
+           </ul>
+          <div class="row">
+            <div class='col-xs-12 col-sm-3'>
+              <%= f.input :max_attendees %>
+            </div>
+          </div>
+        </div>
+        <div class="no">
+          <ul>
+            <li>
+              location will appear publicly
+            </li>
+            <li>
+              anyone can pop in
+            </li>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= f.input :organizations do %>
+        <div class="row">
+        <div class="col-xs-10">
+          <%= text_field_tag 'organizations[name]', '',class: 'string form-control'  %>
+          <span class="help-block has-error"></span>
+        </div>
+        <div class="col-xs-2">
+          <%= link_to  organizations_path , class: "add_organization btn btn-primary ladda-button", data: {:style => "zoom-in"} do %>
+            <span class = "ladda-label">
+            <i class="fa fa-plus"></i>
+              </span>
+          <% end %>
+        </div>
+
+        </div>
+      <% end %>
+
+      <div class="organization-container">
+        <% @event.organizations.each do |organization|%>
+          <%= organization_line_for_event(organization) %>
+        <% end %>
+      </div>
+
 
 
       <% if show_submit_button %>
@@ -98,7 +146,78 @@
         $('#event_end_price').show();
       }
     })
-  $("#event_rsvp").bootstrapSwitch();
+    $("#event_rsvp").bootstrapSwitch({
+      onInit: function(event, state){
+        if($('#event_rsvp').is(':checked')){
+          $('.yes').stop(true, true).slideDown();
+        }else{
+          $('.no').stop(true, true).slideDown();
+        }
+      }
+    });
+    $("#event_rsvp").on('switchChange.bootstrapSwitch', function(event, state) {
+      if(state){
+          $('.no').stop(true, true).slideUp();
+          $('.yes').stop(true, true).slideDown();
+      }else{
+          $('.yes').stop(true, true).slideUp();
+          $('#event_max_attendees').val('');
+          $('.no').stop(true, true).slideDown();
+      }
+    });
+
+    $(document).on({
+      click: function(e){
+       e.preventDefault();
+        _this = $(this);
+        var _l = Ladda.create(this);
+        _l.start();
+       $.ajax({
+        type: 'POST',
+        url: $(this).attr('href'),
+        data: { organization: { name: $('#organizations_name').val() }}
+      }).done(function(data, status, xhr){
+        console.log(data);
+        $('.help-block', _this.closest('.row')).html('');
+        _this.closest('.row').removeClass('has-error');
+        console.log(xhr.getResponseHeader('Location'))
+        _div = $("<div>");
+        _div.css('display','none');
+        _div.load(xhr.getResponseHeader('Location'), function(){
+          _o_id = $("[id^='event_organization_ids_']", _div).attr('id');
+          if($("#"+_o_id).length == 0 ){
+            _div.appendTo(".organization-container");
+            _div.slideDown('slow', function(){
+              _l.stop();
+            });
+            }else{
+              _l.stop();
+            }
+        });
+
+      }).error(function(data){
+        str = ""
+        $.each(data.responseJSON, function(key,val){
+          str += val
+        })
+        $('.help-block', _this.closest('.row')).html(str);
+        _this.closest('.row').addClass('has-error');
+        _l.stop();
+      })
+      }
+    }, '.add_organization')
+
+
+  $(document).on({
+      click: function(e){
+        e.preventDefault();
+        $(this).closest('.row').slideUp(function(){
+          $(this).remove();
+        })
+
+      }
+
+  }, '.remove_organization')
   })
 
 

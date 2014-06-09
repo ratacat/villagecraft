@@ -50,6 +50,7 @@ class Ability
         can [:new, :create, :show], Message
         
         can [:destroy], Image, :user_id => user.id
+        can [:show, :create], Organization
       end
       
       # admin
