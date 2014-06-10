@@ -16,7 +16,7 @@
     <%= meeting_time(event.first_meeting, :show_date => true, :show_end_time => false, :no_tz => true, :show_livestamp => false, :short_date => true) %><br/>
   <% end %>
   <% unless message.apropos.blank? %>
-  	<%= link_to message.apropos.title, message.apropos, :only_path => false %><br/>
+  	<%= link_to message.apropos.title, polymorphic_url(message) %><br/>
   	<% if location.blank? %>
   		location TBD
   	<% else %>
