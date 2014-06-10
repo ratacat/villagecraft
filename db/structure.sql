@@ -183,7 +183,8 @@ CREATE TABLE events (
     unlocked_at timestamp without time zone,
     rsvp boolean DEFAULT true,
     cost_type character varying(255),
-    end_price numeric(10,2)
+    end_price numeric(10,2),
+    info_url character varying(255)
 );
 
 
@@ -1751,3 +1752,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140606114438');
 INSERT INTO schema_migrations (version) VALUES ('20140609100016');
 
 INSERT INTO schema_migrations (version) VALUES ('20140609100107');
+
+INSERT INTO schema_migrations (version) VALUES ('20140610092248');

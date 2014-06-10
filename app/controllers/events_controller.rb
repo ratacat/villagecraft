@@ -112,8 +112,9 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @venue = Venue.new
+    @venue.build_location
     @event.host = current_user
-    @venues = current_user.venues
+    @venues = current_user.owned_venues
     # @oranization = @event.organizations.build
 
     respond_to do |format|

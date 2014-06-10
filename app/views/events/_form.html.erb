@@ -22,7 +22,9 @@
       <% end %>
       <div class="row form-group">
         <div class="col-sm-4">
-          <%= f.input :location_id, collection: @venues.collect { |p| [ p.name, p.id, {'data-address' => p.location.address} ] }, label: 'Location', input_html: {class: 'col-sm-4'}  %>
+          <%= f.input :venue_uuid, label: 'Location', input_html: {class: 'col-sm-4'} do %>
+          <%= f.select :venue_uuid, @venues.collect{ |p| [ p.name, p.uuid, {'data-address' => p.location.address} ] }+[["Chose new place", nil, {'data-address' => ''}]],{}, { class: 'form-control'}  %>
+          <% end %>
         </div>
         <div class="col-sm-8 col-xs-nolabel">
           <%= f.input :address, label: '&nbsp;'.html_safe %>
@@ -108,7 +110,7 @@
         <% end %>
       </div>
 
-
+      <%= f.input :info_url, label: 'Link to more information' %>
 
       <% if show_submit_button %>
         <div class="form-actions">
@@ -121,13 +123,22 @@
     </div>
   </div>
 <% end %>
+<br />
+
+<%= render 'venues/modal_new', :venue => @venue %>
 
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
   $(function(){
     init_datetime_picker();
-    $('#event_location_id').change(function(){
+    $('#event_address').val($('option:selected',$(this)).data('address'));
+
+    $('#event_venue_uuid').change(function(){
       $('#event_address').val($('option:selected',$(this)).data('address'));
+      if($('option:selected',$(this)).data('address') == ''){
+        console.log('modal');
+        $('#new_venue_modal').modal('show');
+      }
     })
 
     $('#event_cost_type').change(function(){
@@ -218,7 +229,31 @@
       }
 
   }, '.remove_organization')
+
+
+
+  $(document).on('ajax:beforeSend', '#new_venue_modal form', function(event, xhr, settings) {
+    xhr.setRequestHeader("Accept", "application/json");
+  });
+
+  $(document).on('ajax:success', '#new_venue_modal form', function(e, data, status, xhr) {
+    $("#new_venue_modal").modal('hide');
+    show_bootstrap_alert({text: "Your venue has been add.", type: 'success'});
+    _option = $('<option value="'+data.uuid+'" data-address="'+data.address+'">'+data.name+'</option>');
+    $('#event_venue_uuid').append(_option);
+    $("#event_venue_uuid option").each(function(){
+      if($(this).val()==data.uuid){
+        $(this).attr('selected',true);
+        $(this).trigger('change');
+      }
+    });
+
+  });
+
+
+
+
   })
 
-
+  // </div>
 <% end %>

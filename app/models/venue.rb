@@ -1,7 +1,7 @@
 class Venue < ActiveRecord::Base
   has_uuid(:length => 8)
   acts_as_paranoid
-
+  attr_reader :address
   belongs_to :owner, :class_name => 'User'
   belongs_to :location
   has_many :meetings
@@ -21,5 +21,17 @@ class Venue < ActiveRecord::Base
   def address=(a)
     self.create_location(address: a)
   end
-  
+
+  def address
+    if self.location.present?
+      self.location.address
+    else
+      nil
+    end
+  end
+
+  def attributes
+    super.merge({'address' => address})
+  end
+
 end

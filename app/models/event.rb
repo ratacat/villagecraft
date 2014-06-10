@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
                   :venue_uuid, :external, :external_url, :rsvp,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
-                  :location_id, :address, :cost_type, :end_price, :organization_ids,
+                  :address, :cost_type, :end_price, :organization_ids, :info_url,
                   :as => [:default, :system]
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
@@ -60,6 +60,7 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :title, presence: true
   validates :external_url, url: {allow_blank: true}
+  validates :info_url, url: {allow_blank: true}
   validates :cost_type, inclusion: COST_TYPE + COST_TYPE.collect{|x| x.to_s}
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
@@ -316,7 +317,9 @@ class Event < ActiveRecord::Base
   end
 
   def touch_to_expire_cached_fragments
-    self.workshop.touch
+    if self.workshop.present?
+      self.workshop.touch
+    end
   end
   
   def propogate_changes_to_parent_workshop
