@@ -213,7 +213,7 @@ class EventsController < ApplicationController
       end
       
       respond_to do |format|
-        format.html { redirect_to @event.workshop, notice: "Thanks for signing up." }
+        format.html { redirect_to @event, notice: "Thanks for signing up." }
         format.json { render json: {:location => @event.location}, status: :ok  }
         format.json { head :no_content }
       end
