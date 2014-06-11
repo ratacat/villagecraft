@@ -1,6 +1,12 @@
-<h1>Editing event</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+<div class="row">
+  <div class="col-md-12">
+  <span class="panel pull-right">
+    <%= link_to 'View', event_path(@event), :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Manage', edit_event_path(@event), :icon => 'group', :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Delete', @event, confirm: 'Really delete event?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+  </span>
+    <h2 class="text-muted margin0">Edit Event</h2>
+    <%= render 'form' %>
+  </div>
+</div>

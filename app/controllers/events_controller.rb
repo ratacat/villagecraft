@@ -125,6 +125,10 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @venue = Venue.new
+    @venue.build_location
+    @event.host = current_user
+    @venues = current_user.owned_venues
   end
 
   # POST /events
@@ -139,9 +143,6 @@ class EventsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
-        Rails.logger.info("---------")
-        Rails.logger.info @event.errors.full_messages
-        Rails.logger.info("---------")
         @venue = Venue.new
         @event.host = current_user
         @venues = current_user.venues
