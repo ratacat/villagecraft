@@ -42,9 +42,18 @@ class Location < ActiveRecord::Base
   
   after_validation :lookup_time_zone, :lookup_neighborhood
   after_save :update_point_from_lon_lat
-  
+
+  def md5hash
+    Digest::MD5.hexdigest("#{self.street}#{self.city}#{self.zip}#{self.address}#{self.latitude}#{self.longitude}")
+  end
+
   def Location.by_distance_from(l)
     order("ST_Distance(#{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326))")
+  end
+
+  def Location.distance_spheroid(l)
+    dist_q = %{ST_Distance_Spheroid( "locations"."point", ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326), 'SPHEROID["WGS 84",6378137,298.257223563]')}
+    find_by_sql("SELECT * from locations where #{dist_q}  < 100")
   end
   
   def Location.us_states

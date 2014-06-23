@@ -34,6 +34,27 @@ class VenuesController < ApplicationController
     end
   end
 
+  def prompt
+    @venue = Venue.new(venue_params)
+    respond_to do |format|
+      if @venue.valid?
+        @location = @venue.location
+        @locations = Location.distance_spheroid(@location)
+        @locations_hash = @locations.inject({}){|hsh, sym| hsh[sym.md5hash] = sym.id; hsh}
+
+        if @location_hash.include?(@location.md5hash) or @locations.blank?
+          @venue.location_id = @location_hash[@location.md5hash] if @location_hash.include?(@location.md5hash)
+          @venue.save
+          format.json { render json:  @venue, status: :create }
+        else
+          format.json { render json: { venue: @venue, location: @location, locations: @locations }, status: :ok }
+        end
+      else
+        format.json { render json: @venue.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # GET /venues/1/edit
   def edit
   end

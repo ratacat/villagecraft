@@ -1,0 +1,15 @@
+<div>
+  Do you mean?
+</div>
+<% @locations.each do |location| %>
+  <div>
+    <%= location.address %>
+  </div>
+<% end %>
+
+<div>
+  Or you want create?
+</div>
+<div>
+  <%= @location.address %>
+</div>

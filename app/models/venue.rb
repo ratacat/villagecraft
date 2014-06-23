@@ -15,11 +15,11 @@ class Venue < ActiveRecord::Base
   end
   
   def location=(params)
-    self.create_location(params)
+    self.build_location(params)
   end
 
   def address=(a)
-    self.create_location(address: a)
+    self.build_location(address: a)
   end
 
   def address

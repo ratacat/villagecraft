@@ -137,7 +137,6 @@
     $('#event_venue_uuid').change(function(){
       $('#event_address').val($('option:selected',$(this)).data('address'));
       if($('option:selected',$(this)).data('address') == ''){
-        console.log('modal');
         $('#new_venue_modal').modal('show');
       }
     })
@@ -189,10 +188,8 @@
         url: $(this).attr('href'),
         data: { organization: { name: $('#organizations_name').val() }}
       }).done(function(data, status, xhr){
-        console.log(data);
         $('.help-block', _this.closest('.row')).html('');
         _this.closest('.row').removeClass('has-error');
-        console.log(xhr.getResponseHeader('Location'))
         _div = $("<div>");
         _div.css('display','none');
         _div.load(xhr.getResponseHeader('Location'), function(){
@@ -238,6 +235,7 @@
   });
 
   $(document).on('ajax:success', '#new_venue_modal form', function(e, data, status, xhr) {
+
     $("#new_venue_modal").modal('hide');
     show_bootstrap_alert({text: "Your venue has been add.", type: 'success'});
     _option = $('<option value="'+data.uuid+'" data-address="'+data.address+'">'+data.name+'</option>');
@@ -250,6 +248,7 @@
     });
 
   });
+
 
 
 
