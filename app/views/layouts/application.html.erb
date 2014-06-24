@@ -43,7 +43,7 @@ mixpanel.init("cd5f1afe1374c3c354a379627be6c27d");</script><!-- end Mixpanel -->
 	<%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "hosts_only" if current_user.try(:host?) %>
   <%= render :partial => "layouts/body_and_ready_scripts" %>
-  
+  <%= content_for :addition %>
 </html>
 
 

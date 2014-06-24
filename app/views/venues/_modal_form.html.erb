@@ -2,7 +2,7 @@
    remote ||= false
    venue ||= @venue
 %>
-<%= simple_form_for(venue, :remote => remote, :html => {:class => remote ? 'remote_venue' : nil, :url => prompt_venues_url}) do |f| %>
+<%= simple_form_for(venue, :url => prompt_venues_url, :remote => remote, :html => {:class => remote ? 'remote_venue' : nil}) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -20,3 +20,6 @@
     <%= f.submit :class => "btn btn-primary" %>
   </div>
 <% end %>
+<div class="hidden">
+  <%= link_to "", prompt_save_venues_url, id: 'prompt_save' %>
+</div>

@@ -1,5 +1,21 @@
-<div>
-  <input type="radio" name=""/>
-  <span>{{street}}</span>
-  <span>{{city}}, {{state_code}}</span>
+<div class="form-group">
+  <label>Do you mean?</label>
 </div>
+{{#each locations}}
+  <div class="form-group">
+  <input type="radio" name="location_id" value="{{this.id}}"/>
+  <span>{{this.street}}</span>
+  <span>{{this.city}}, {{this.state_code}}</span>
+</div>
+{{/each}}
+
+<div class="form-group">
+  <label>Or you want create?</label>
+</div>
+<div class="form-group">
+  <input type="radio" name="location_id" value="0" id="location_id"/>
+  <span>{{location.street}}</span>
+  <span>{{location.city}}, {{location.state_code}}</span>
+</div>
+
+

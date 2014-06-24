@@ -42,10 +42,13 @@ class VenuesController < ApplicationController
         @locations = Location.distance_spheroid(@location)
         @locations_hash = @locations.inject({}){|hsh, sym| hsh[sym.md5hash] = sym.id; hsh}
 
-        if @location_hash.include?(@location.md5hash) or @locations.blank?
-          @venue.location_id = @location_hash[@location.md5hash] if @location_hash.include?(@location.md5hash)
-          @venue.save
-          format.json { render json:  @venue, status: :create }
+        if @locations_hash.include?(@location.md5hash) or @locations.blank?
+          @venue.location_id = @locations_hash[@location.md5hash] if @locations_hash.include?(@location.md5hash)
+          if @venue.save
+            format.json { render json:  @venue, status: :created }
+          else
+            format.json { render json: @venue.errors, status: :unprocessable_entity }
+          end
         else
           format.json { render json: { venue: @venue, location: @location, locations: @locations }, status: :ok }
         end
@@ -53,6 +56,26 @@ class VenuesController < ApplicationController
         format.json { render json: @venue.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def prompt_save
+    @venue = Venue.new(venue_params)
+    respond_to do |format|
+      if @venue.valid?
+        if params[:location_id].to_i!=0
+          @venue.location = nil
+          @venue.location_id = params[:location_id]
+        end
+          if @venue.save
+            format.json { render json:  @venue, status: :created }
+          else
+            format.json { render json: @venue.errors, status: :unprocessable_entity }
+          end
+      else
+        format.json { render json: @venue.errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
   # GET /venues/1/edit

@@ -1,0 +1,54 @@
+<div class="text-center">
+  <h4>
+    You are currently editing
+  </h4>
+  <div class="text-success">
+    <%= @event.title %>
+    <% if @event.first_meeting.present? %>
+    -
+    <span class="vc_editable meeting_time">
+      <%= meeting_time(@event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+    </span>
+      <% end %>
+  </div>
+  <div>
+      <span class="text-warning">
+      <%= link_to 'view', event_path(@event), :class => 'text-warning' %>
+        -
+      <%= link_to 'manage', edit_event_path(@event), :icon => 'group', :class => 'text-warning' %>
+        -
+      <%= link_to 'delete', @event, confirm: 'Really delete event?', method: :delete, class: 'text-warning', title: 'delete event' %>
+    </span>
+  </div>
+
+
+  <h4>
+    edit other dates
+  </h4>
+  <ul class="list-unstyled simple_index">
+    <li class="row">
+      <%= link_to '#' do %>
+        Urban Potatoe Wars 3 - April 14th
+      <% end %>
+    </li>
+    <li class="row">
+      <%= link_to '#'  do %>
+        Urban Potatoe Wars 3 - April 14th
+      <% end %>
+    </li>
+    <li class="row">
+      <%= link_to '#' do %>
+        Urban Potatoe Wars 3 - April 14th
+      <% end %>
+    </li>
+  </ul>
+
+  <%= link_to content_tag(:i,'', class: 'fa fa-plus'), '#', class: 'btn btn-warning btn-xs' %> add a new date
+
+
+  <div class="sidebar-padding-top">
+    <span class="text-muted">edit other posts in</span> <%= link_to "my activities", "#" %>
+  </div>
+  <%= link_to "save changes", "#", class: 'btn btn-primary' %>
+  <%= link_to "view & submit", "#", class: 'btn btn-success' %>
+</div>
