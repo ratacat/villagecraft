@@ -9,7 +9,7 @@
 # git clone git://github.com/dcarley/rbenv-sudo.git ~/.rbenv/plugins/rbenv-sudo
 #
 # Once that's all set up, you can do:
-# rbenv sudo god -c confi/god/god.rb
+# rbenv sudo god -c config/god/god.rb
 
 God::Contacts::Email.defaults do |d|
   d.from_email = 'notifications@villagecraft.org'
