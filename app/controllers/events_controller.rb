@@ -183,7 +183,7 @@ class EventsController < ApplicationController
     @event.host = current_user
 
     respond_to do |format|
-      if @event.create_corresponding_workshop
+      if @event.save
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
