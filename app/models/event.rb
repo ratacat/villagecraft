@@ -98,9 +98,9 @@ class Event < ActiveRecord::Base
   end
 
   def create_corresponding_workshop
+    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
+    self.workshop.update_attribute(:image_id, self.image_id)
     if self.valid?
-      self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
-      self.workshop.update_attribute(:image_id, self.image_id)
       self.save!
     end
   end
