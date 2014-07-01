@@ -11,6 +11,12 @@ Villagecraft::Application.routes.draw do
       get 'manage_attendees'
       post 'sms_attendees'
     end
+    resources :e, controller: 'events', as: 'events', only: [] do
+      collection do
+        get '/new' => 'events#new_in_workshop', as: :new
+        post '/' => 'events#create_in_workshop', as: :create
+      end
+    end
   end
   resources :workshops, as: 'oldstyle_workshops'
 

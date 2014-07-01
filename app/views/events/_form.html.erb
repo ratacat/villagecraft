@@ -1,7 +1,9 @@
 <%
    show_submit_button ||= true
+   url ||= nil
+   action = url || url_for(@event)
 %>
-<%= simple_form_for(@event) do |f| %>
+<%= simple_form_for(@event, url: action, html: { class: 'ajax-form' }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs row">
@@ -71,7 +73,7 @@
            </ul>
           <div class="row">
             <div class='col-xs-12 col-sm-3'>
-              <%= f.input :max_attendees %>
+              <%= f.input :max_attendees, required: false %>
             </div>
           </div>
         </div>
@@ -114,7 +116,11 @@
 
       <% if show_submit_button %>
         <div class="form-actions">
-          <%= f.button :submit, :class => "btn btn-primary" %>
+          <%= button_tag :submit, :class => "btn btn-primary ladda-button", data: {:style => "zoom-in"} do %>
+             <span class="ladda-label">
+              Save
+              </span>
+          <% end %>
         </div>
       <% end %>
     </div>

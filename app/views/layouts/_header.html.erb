@@ -31,6 +31,18 @@
       <% end %>
       <li class="dropdown">
         <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
+            <span>Post event</span>
+          <span class="caret"></span>
+        <% end %>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <% if current_user.try(:host?) %>
+            <li><%= link_to 'Post your event', new_event_path %></li>
+            <li><%= link_to "Post someone's else event", new_event_path %></li>
+          <% end %>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
           <% if session[:admin_mode] %>
             <span class="admin_color"><%= "#{current_user.name} (admin mode)" %></span>
           <% else %>
@@ -53,8 +65,8 @@
           <% end %>
           <% if session[:admin_mode] %>
             <li class="divider"></li>
-            <li><%= link_to 'Admin Dashboard', admin_path %></li>                
-            <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>                
+            <li><%= link_to 'Admin Dashboard', admin_path %></li>
+            <li><%= link_to 'Exit Admin Mode', admin_mode_toggle_path, :method => :post %></li>
             <li class="divider"></li>
           <% end %>
           <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>

@@ -81,7 +81,7 @@ class Event < ActiveRecord::Base
   
   # validates :description, :presence => true
   
-  state_machine :initial => :published do
+  state_machine :initial => :staging do
     event :publish do
       transition :staging => :published
     end
@@ -98,9 +98,11 @@ class Event < ActiveRecord::Base
   end
 
   def create_corresponding_workshop
-    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
-    self.workshop.update_attribute(:image_id, self.image_id)
-    self.save!
+    if self.valid?
+      self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
+      self.workshop.update_attribute(:image_id, self.image_id)
+      self.save!
+    end
   end
   
   def occurred? 
@@ -203,6 +205,14 @@ class Event < ActiveRecord::Base
     else
       "event-#{self.uuid}-#{self.updated_at.to_i}"
     end
+  end
+
+  def dup_attributes
+    tab = [
+        "id", "created_at", "updated_at", "course_id", "host_id", "location_id",  "venue_id", "uuid", "image_id",
+        "state", "workshop_id", "first_meeting_id", "deleted_at", "unlocked_at", "open", "max_observers", "secret"
+    ]
+    self.dup.attributes.delete_if{|k,v| tab.include?(k.to_s)}
   end
 
   def self.first_meeting_in_the_future

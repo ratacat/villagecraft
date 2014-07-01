@@ -22,33 +22,31 @@
   </div>
 
 
+  <% if @events.present? %>
   <h4>
     edit other dates
   </h4>
+  <% end %>
+
   <ul class="list-unstyled simple_index">
+    <% @events.each do |event| %>
     <li class="row">
-      <%= link_to '#' do %>
-        Urban Potatoe Wars 3 - April 14th
+      <%= link_to edit_event_path(event) do %>
+        <%= event.title %> <%= event.start_time.to_s %>
       <% end %>
     </li>
-    <li class="row">
-      <%= link_to '#'  do %>
-        Urban Potatoe Wars 3 - April 14th
-      <% end %>
-    </li>
-    <li class="row">
-      <%= link_to '#' do %>
-        Urban Potatoe Wars 3 - April 14th
-      <% end %>
-    </li>
+    <% end %>
   </ul>
 
-  <%= link_to content_tag(:i,'', class: 'fa fa-plus'), '#', class: 'btn btn-warning btn-xs' %> add a new date
+  <%= link_to content_tag(:i,'', class: 'fa fa-plus'), new_workshop_events_path(@event.workshop), class: 'btn btn-warning btn-xs' %> add a new date
 
 
   <div class="sidebar-padding-top">
     <span class="text-muted">edit other posts in</span> <%= link_to "my activities", "#" %>
   </div>
-  <%= link_to "save changes", "#", class: 'btn btn-primary' %>
-  <%= link_to "view & submit", "#", class: 'btn btn-success' %>
+  <%= link_to "save changes", "#", class: 'btn btn-primary event-save' %>
+  <% unless @event.published? %>
+    <%= link_to "view & submit", "#", class: 'btn btn-success event-save-and-publish' %>
+  <% end %>
+
 </div>

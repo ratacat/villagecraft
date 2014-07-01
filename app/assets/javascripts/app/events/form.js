@@ -142,4 +142,58 @@ $(function(){
 
     }
   });
+
+  $(document).on({
+    click: function(e){
+      e.preventDefault();
+      _this = $(this);
+      var _l = Ladda.create(this);
+      _l.start();
+      $('.ajax-form').ajaxSubmit({
+        success: eventSuccess,
+        error: eventError,
+        complete: function(){
+          _l.stop();
+        }
+      })
+    }
+
+  }, ".ajax-form [type='submit'], .event-save");
+
+  $(document).on({
+    click: function(e){
+      e.preventDefault();
+      _this = $(this);
+      var _l = Ladda.create(this);
+      _l.start();
+      $('.ajax-form').ajaxSubmit({
+        beforeSubmit: function(arr, $form, options){
+          arr.push({ name: 'state', value: 'published' });
+
+        },
+        success: eventSuccess,
+        error: eventError,
+        complete: function(){
+          _l.stop();
+        }
+      })
+    }
+
+  }, ".event-save-and-publish");
+
 });
+
+function eventError(response, status, xhr){
+  $('.has-error').removeClass('has-error');
+  $('.help-block').remove();
+  $.each(response.responseJSON, function(k,v){
+    $("#event_"+k).closest(".form-group").addClass('has-error');
+    $("#event_"+k).after("<span class='help-block'>"+v+"</span>");
+  })
+}
+
+function eventSuccess(response, status, xhr) {
+  if (typeof(xhr.getResponseHeader('location')) != 'undefined'){
+    window.location = xhr.getResponseHeader('location');
+  }
+}

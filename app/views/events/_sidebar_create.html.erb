@@ -7,38 +7,30 @@
     schedule a new date for
   </h4>
   <ul class="list-unstyled simple_index text-left list-unstyled-plus">
+    <% @workshops.each do |workshop| %>
     <li class="row">
-      <%= link_to '#' do %>
+      <%= link_to new_workshop_events_path(workshop) do %>
         <span class="btn btn-warning btn-xs">
           <i class='fa fa-plus'></i>
          </span>
-        sour cat car toss
+        <%= workshop.title %>
       <% end %>
     </li>
+    <% end %>
 
-    <li class="row">
-      <%= link_to '#' do %>
-        <span class="btn btn-warning btn-xs">
-          <i class='fa fa-plus'></i>
-        </span>
-        diesel rain celebration
-      <% end %>
-    </li>
-    <li class="row">
-      <%= link_to '#' do %>
-        <span class="btn btn-warning btn-xs">
-          <i class='fa fa-plus'></i>
-        </span>
-        little miss crunchy spiders
-      <% end %>
-    </li>
   </ul>
-
-
   <div class="sidebar-padding-top">
     <h4>Submit a new event</h4>
   </div>
-  <%= link_to "save", "#", class: 'btn btn-primary' %>
-  <%= link_to "view & submit", "#", class: 'btn btn-success' %>
+  <%= link_to  "#", class: "btn btn-primary event-save ladda-button", data: {:style => "zoom-in"}  do%>
+    <span class = "ladda-label">
+      save
+    </span>
+  <% end %>
+  <%= link_to  "#", class: "btn btn-success event-save-and-publish  ladda-button", data: {:style => "zoom-in"}   do %>
+    <span class = "ladda-label">
+      view & submit
+    </span>
+  <% end %>
 
 </div>
