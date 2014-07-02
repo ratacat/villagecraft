@@ -1,0 +1,25 @@
+<%
+  show_host ||= false
+%>
+<table class="table table-bordered table-striped" id="workshops_admin_index">
+  <thead>
+    <tr>
+      <th style="width: 35%">Title</th>
+      <th>Workshop</th>
+      <th>Last Meeting</th>
+      <% if show_host -%><th>Host</th><% end -%>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @events.each do |event| %>
+    <tr>
+      <td>
+        <%= render :partial => 'thumbnail', :locals => {:event => event, :linked => true, :show_manage_buttons => true} %>
+      </td>
+      <td><%= event.workshop.title %></td>
+      <td><%= event_time(event, :short_date => true, :no_tz => true, :show_livestamp => true) %></div></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

@@ -117,4 +117,72 @@ module EventsHelper
     end
   end
 
+  def event_date(event, options = {})
+    defaults = {
+        :short_date => false
+    }
+    options.reverse_merge!(defaults)
+    options[:date_format] ||= (options[:short_date] ? "%A %b" : "%A %B")
+    day = event.localized_start_time.day
+    event.localized_start_time.strftime(options[:date_format] + " #{(options[:short_date] ? day : day.ordinalize)}")
+  end
+
+  def event_time_interval(event)
+    if event.end_time - event.start_time >= 2.days
+      time_interval = "#{I18n.l event.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(event.start_time, event.end_time)} later)"
+    else
+      time_interval = "#{I18n.l event.localized_start_time, format: :short_time} - #{I18n.l event.localized_end_time, format: :short_time}"
+      time_interval += " (+ #{distance_of_time_in_words(event.start_time, event.end_time)})" if event.end_time - event.start_time >= 1.day
+    end
+    time_interval
+  end
+
+  def event_time(event, options = {})
+    defaults = {
+        :short_date => false,
+        :show_date => true,
+        :show_end_time => true,
+        :show_livestamp => false,
+        :no_tz => false,
+        :wrapper_tag => nil,
+        :spacer => nil,
+        :plaintext => false,
+        :wrapper_options => {}
+    }
+    options.reverse_merge!(defaults)
+    html = []
+    if options[:show_date]
+      options[:date_format] = options[:date_format] || (options[:short_date] ? "%A %b" : "%A %B")
+      html << content_tag(:span, event_date(event, options), :class => 'date')
+      html << options[:spacer] if options[:spacer]
+    end
+    if options[:show_end_time]
+      html << content_tag(:span, event_time_interval(event),
+                          :'data-start_time_date' => l(event.localized_start_time, format: :date_picker_date_format).strip,
+                          :'data-start_time_time' => l(event.localized_start_time, format: :time_picker_time_format).strip,
+                          :'data-end_time_date' => l(event.localized_end_time, format: :date_picker_date_format).strip,
+                          :'data-end_time_time' => l(event.localized_end_time, format: :time_picker_time_format).strip,
+                          :'data-uuid' => event.uuid,
+                          :class => 'time_range')
+    else
+      html << content_tag(:span, I18n.l(event.localized_start_time, format: :short_time))
+    end
+    if options[:show_livestamp]
+      html << options[:spacer] if options[:spacer]
+      html << content_tag(:span, '', :class => 'text-muted', :'data-livestamp' => event.start_time)
+    end
+    unless options[:no_tz]
+      html << options[:spacer] if options[:spacer]
+      html << content_tag(:span, friendly_time_zone_name(event.time_zone), :class => 'time_zone')
+    end
+    if options[:wrapper_tag]
+      html.map! {|e| content_tag(options[:wrapper_tag], e, options[:wrapper_options]) }
+    end
+    html = html.join('').html_safe
+    if options[:plaintext]
+      html = strip_tags(html)
+    end
+    return html
+  end
+
 end

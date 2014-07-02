@@ -7,7 +7,7 @@
     <% if @event.first_meeting.present? %>
     -
     <span class="vc_editable meeting_time">
-      <%= meeting_time(@event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+      <%= event_time(@event, :short_date => true, :no_tz => true, :show_livestamp => false) %>
     </span>
       <% end %>
   </div>
@@ -38,11 +38,12 @@
     <% end %>
   </ul>
 
-  <%= link_to content_tag(:i,'', class: 'fa fa-plus'), new_workshop_events_path(@event.workshop), class: 'btn btn-warning btn-xs' %> add a new date
+  <%= link_to content_tag(:i,'', class: 'fa fa-plus'), new_workshop_events_path(@event.workshop), class: 'btn btn-warning btn-xs' %>
+  <%= link_to "Add a new date", new_workshop_events_path(@event.workshop) %>
 
 
   <div class="sidebar-padding-top">
-    <span class="text-muted">edit other posts in</span> <%= link_to "my activities", "#" %>
+    <span class="text-muted">Edit other posts in</span> <%= link_to "my activities", my_events_path %>
   </div>
   <%= link_to "save changes", "#", class: 'btn btn-primary event-save' %>
   <% unless @event.published? %>

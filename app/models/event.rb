@@ -125,6 +125,11 @@ class Event < ActiveRecord::Base
   def locked?
     self.attended? and (self.unlocked_at.nil? or self.unlocked_at < Event::UNLOCK_TIMEOUT.minutes.ago)
   end
+
+  def ongoing?
+    now = Time.now
+    (now >= self.start_time) and (now < self.end_time)
+  end
   
   def venue_tbd?
     self.try(:venue).blank?

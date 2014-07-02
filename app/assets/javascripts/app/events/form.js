@@ -193,7 +193,8 @@ function eventError(response, status, xhr){
 }
 
 function eventSuccess(response, status, xhr) {
-  if (typeof(xhr.getResponseHeader('location')) != 'undefined'){
-    window.location = xhr.getResponseHeader('location');
+  if (typeof(xhr.getResponseHeader('location')) != undefined){
+    console.log(xhr.getResponseHeader('location'));
+//    window.location = xhr.getResponseHeader('location');
   }
 }

@@ -1,5 +1,17 @@
 <div class="vc_navbar">
   <ul class="nav nav-pills pull-right">
+    <li class="dropdown">
+      <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
+          <span>Post event</span>
+          <span class="caret"></span>
+      <% end %>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <% if current_user.try(:host?) %>
+            <li><%= link_to 'Post your event', new_event_path %></li>
+            <li><%= link_to "Post someone's else event", new_event_path %></li>
+        <% end %>
+      </ul>
+    </li>
     <li><%= link_to 'FAQ', faq_path %></li>
     <% if not user_signed_in? %>
       <li><%= link_to "Sign in", new_user_session_path %></li>
@@ -31,18 +43,6 @@
       <% end %>
       <li class="dropdown">
         <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
-            <span>Post event</span>
-          <span class="caret"></span>
-        <% end %>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <% if current_user.try(:host?) %>
-            <li><%= link_to 'Post your event', new_event_path %></li>
-            <li><%= link_to "Post someone's else event", new_event_path %></li>
-          <% end %>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
           <% if session[:admin_mode] %>
             <span class="admin_color"><%= "#{current_user.name} (admin mode)" %></span>
           <% else %>
@@ -55,7 +55,8 @@
           <li><%= link_to 'My Profile', current_user %></li>
           <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
           <li class="divider"></li>
-          <li><%= link_to "My Workshops", my_workshops_path %></li>
+              <!--<li><%#= link_to "My Workshops", my_workshops_path %></li>-->
+          <li><%= link_to "My Events", my_events_path %></li>
           <li><%= link_to "My Venues", my_venues_path %></li>
           <li class="divider"></li>
           <% end %>
