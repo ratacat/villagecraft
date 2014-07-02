@@ -4,12 +4,12 @@
   </h4>
   <div class="text-success">
     <%= @event.title %>
-    <% if @event.first_meeting.present? %>
+    <% if @event.meetings.limit(1).present? %>
     -
     <span class="vc_editable meeting_time">
       <%= meeting_time(@event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
     </span>
-      <% end %>
+    <% end %>
   </div>
   <div>
       <span class="text-warning">

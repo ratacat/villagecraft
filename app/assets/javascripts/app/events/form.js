@@ -5,7 +5,9 @@ $(function(){
   $('#event_venue_uuid').change(function(){
     $('#event_address').val($('option:selected',$(this)).data('address'));
     if($('option:selected',$(this)).data('address') == ''){
-      $('#new_venue_modal').modal('show');
+//      $('#new_venue_modal').modal('show');
+      $("#event_venue_name").show();
+      $(this).hide();
     }
   })
 

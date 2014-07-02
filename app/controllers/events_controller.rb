@@ -134,7 +134,7 @@ class EventsController < ApplicationController
     @venue = Venue.new
     @venue.build_location
     @event.host = current_user
-    @venues = current_user.owned_venues
+    @venues = Venue.get_all_venues_for_dropdown(current_user.id)
     @workshops = current_user.workshops
     # @oranization = @event.organizations.build
 
@@ -149,7 +149,7 @@ class EventsController < ApplicationController
     @venue = Venue.new
     @venue.build_location
     @event.host = current_user
-    @venues = current_user.owned_venues
+    @venues = Venue.get_all_venues_for_dropdown(current_user.id)
     @events = @event.workshop.upcoming_reruns
   end
 
