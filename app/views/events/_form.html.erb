@@ -25,8 +25,10 @@
       <div class="row form-group">
         <div class="col-sm-4">
           <%= f.input :venue_uuid, label: 'Location', input_html: {class: 'col-sm-4'} do %>
-          <%= f.select :venue_uuid, @venues.collect{ |p| [ p.name, p.uuid, {'data-address' => p.location.address} ] }+[["Chose new place", nil, {'data-address' => ''}]],{}, { class: 'form-control'}  %>
+            <%= f.select :venue_uuid, @venues.collect{ |p| [ p.name, p.uuid, {'data-address' => p.location.address} ] }+[["Chose new place", nil, {'data-address' => ''}]],{}, { class: 'form-control'}  %>
+            <%= f.input :venue_name, label: '&nbsp;'.html_safe %>
           <% end %>
+
         </div>
         <div class="col-sm-8 col-xs-nolabel">
           <%= f.input :address, label: '&nbsp;'.html_safe %>

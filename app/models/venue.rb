@@ -34,4 +34,8 @@ class Venue < ActiveRecord::Base
     super.merge({'address' => address})
   end
 
+  def self.get_all_venues_for_dropdown(user_id)
+    joins(:events).where("events.host_id = ?", user_id).group('venues.id')
+  end
+
 end

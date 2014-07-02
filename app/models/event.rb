@@ -6,9 +6,9 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
                   :venue_uuid, :external, :external_url, :rsvp,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
-                  :address, :cost_type, :end_price, :organization_ids, :info_url,
+                  :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name,
                   :as => [:default, :system]
-  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time
+  attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time, :venue_name
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
   normalize_attributes :start_time_date, :end_time_date, :start_time_time, :end_time_time
 
@@ -182,11 +182,19 @@ class Event < ActiveRecord::Base
   end
 
   def address
+    if self.venue.present? and self.venue.location.present?
+      return self.venue.location.address
+    end
     ""
   end
 
   def address=(v)
-
+    if v.present?
+      self.build_venue
+      self.venue.name = self.venue_name
+      self.venue.address = v
+      self.venue.valid?
+    end
   end
   
   def manageable?
