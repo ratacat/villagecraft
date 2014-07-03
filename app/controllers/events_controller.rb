@@ -164,7 +164,7 @@ class EventsController < ApplicationController
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: show_event_path(@event) }
+        format.json { render json: @event, status: :created, location: root_path }
       else
         # @venue = Venue.new
         # @event.host = current_user
@@ -187,7 +187,7 @@ class EventsController < ApplicationController
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: show_event_path(@event) }
+        format.json { render json: @event, status: :created, location: root_path }
       else
         # last_event = @workshop.events.last
         # @event = @workshop.events.new( (last_event.dup_attributes if last_event.present?) )

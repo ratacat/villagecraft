@@ -152,6 +152,7 @@ $(function(){
       var _l = Ladda.create(this);
       _l.start();
       $('.ajax-form').ajaxSubmit({
+          dataType: 'json',
         success: eventSuccess,
         error: eventError,
         complete: function(){
@@ -173,6 +174,7 @@ $(function(){
           arr.push({ name: 'state', value: 'published' });
 
         },
+        dataType: 'json',
         success: eventSuccess,
         error: eventError,
         complete: function(){
@@ -197,6 +199,6 @@ function eventError(response, status, xhr){
 function eventSuccess(response, status, xhr) {
   if (typeof(xhr.getResponseHeader('location')) != undefined){
     console.log(xhr.getResponseHeader('location'));
-//    window.location = xhr.getResponseHeader('location');
+    window.location = xhr.getResponseHeader('location');
   }
 }
