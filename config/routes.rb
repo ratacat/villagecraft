@@ -44,7 +44,11 @@ Villagecraft::Application.routes.draw do
   get 'my_events' => 'events#my_events', :as => :my_events
   resources :e, :controller => :events, :as => :events
   resources :meetings, :only => [:update, :show]
-  resources :organizations, :only => [:create, :show]
+  resources :organizations, :only => [:create, :show] do
+    collection do
+      get 'autocomplete'
+    end
+  end
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
   post 'activities/more' => 'activities#more', :as => :more_activities
@@ -70,7 +74,7 @@ Villagecraft::Application.routes.draw do
   resources :venues do
     collection do
       post 'prompt'
-      post 'prompt_save'
+      # post 'prompt_save'
     end
   end
   resources :neighborhoods do

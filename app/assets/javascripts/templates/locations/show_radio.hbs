@@ -3,9 +3,9 @@
 </div>
 {{#each locations}}
   <div class="form-group">
-  <input type="radio" name="location_id" value="{{this.id}}"/>
-  <span>{{this.street}}</span>
-  <span>{{this.city}}, {{this.state_code}}</span>
+  <input type="radio" name="location_id" value="{{this.id}}" data-address="{{this.address}}"/>
+  <span>{{this.address}}</span>
+
 </div>
 {{/each}}
 
@@ -13,9 +13,9 @@
   <label>Or you want create?</label>
 </div>
 <div class="form-group">
-  <input type="radio" name="location_id" value="0" id="location_id"/>
-  <span>{{location.street}}</span>
-  <span>{{location.city}}, {{location.state_code}}</span>
+  <input type="radio" name="location_id" value="0" id="location_id" data-address="{{location.address}}" checked="checked"/>
+  <span>{{location.address}}</span>
+
 </div>
 
 

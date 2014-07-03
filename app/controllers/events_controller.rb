@@ -166,11 +166,6 @@ class EventsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: root_path }
       else
-        # @venue = Venue.new
-        # @event.host = current_user
-        # @venues = current_user.venues
-        # @venue.build_location
-        # format.html { render action: "new" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -189,14 +184,6 @@ class EventsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: root_path }
       else
-        # last_event = @workshop.events.last
-        # @event = @workshop.events.new( (last_event.dup_attributes if last_event.present?) )
-        # @event.organizations << last_event.organizations  if last_event.present?
-        # @venue = Venue.new
-        # @venue.build_location
-        # @event.host = current_user
-        # @venues = current_user.owned_venues
-        # @workshops = current_user.workshops
         format.html { render action: "new_in_workshop" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -213,12 +200,6 @@ class EventsController < ApplicationController
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
         format.json { head :no_content, location: root_path }
       else
-        # @venue = Venue.new
-        # @event.host = current_user
-        # @venues = current_user.venues
-        # @venue.build_location
-        # @events = @event.workshop.upcoming_reruns
-        # format.html { render action: "edit" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end

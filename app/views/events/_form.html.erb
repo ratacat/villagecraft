@@ -8,6 +8,7 @@
 
   <div class="form-inputs row">
     <div class="col-md-9">
+      <div class="event-form-container">
       <%= f.input :title, label: 'Title', input_html: {class: 'col-md-8'} %>
       <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
       <% if admin_session? and @event.external%>
@@ -31,11 +32,11 @@
 
         </div>
         <div class="col-sm-8 col-xs-nolabel">
-          <%= f.input :address, label: '&nbsp;'.html_safe %>
+          <%= f.input :address, input_html: {readonly: :readonly }%>
         </div>
       </div>
-      <div class="row form-group">
-        <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'datepair col-xs-12 col-sm-3'} do %>
+      <div class="row form-group datepair">
+        <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'col-xs-12 col-sm-3'} do %>
           <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control  col-xs-12 col-sm-3",
                             :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
           <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control  col-xs-12 col-sm-3",
@@ -45,7 +46,7 @@
         <div class="col-sm-1 datepair-to">
           to
         </div>
-        <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'datepair col-sm-3 col-xs-12'} do %>
+        <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'col-sm-3 col-xs-12'} do %>
           <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
                             :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
           <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control col-sm-3  col-xs-12",
@@ -94,7 +95,7 @@
       <%= f.input :organizations do %>
         <div class="row">
         <div class="col-xs-10">
-          <%= text_field_tag 'organizations[name]', '',class: 'string form-control'  %>
+          <%= text_field_tag 'organizations[name]', '',class: 'string form-control', autocomplete: 'off'  %>
           <span class="help-block has-error"></span>
         </div>
         <div class="col-xs-2">
@@ -115,6 +116,11 @@
       </div>
 
       <%= f.input :info_url, label: 'Link to more information' %>
+
+      </div>
+      <div class="multiselect-location-container">
+
+      </div>
 
       <% if show_submit_button %>
         <div class="form-actions">

@@ -23,4 +23,11 @@ class OrganizationsController < ApplicationController
       format.html { render layout: false }
     end
   end
+
+  def autocomplete
+    @organizations = Organization.where("name ilike ?", "%#{params[:organization][:name]}%")
+    respond_to do |format|
+      format.json { render json: @organizations }
+    end
+  end
 end

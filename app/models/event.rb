@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   include PublicActivity::Common
   include ActiveRecord::Has::OrderingThroughMeetings
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
-                  :venue_uuid, :external, :external_url, :rsvp,
+                  :external, :external_url, :rsvp, :venue_uuid,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
                   :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name,
                   :as => [:default, :system]
@@ -57,6 +57,7 @@ class Event < ActiveRecord::Base
   after_save :touch_to_expire_cached_fragments, :propogate_changes_to_parent_workshop
   
   validates :workshop, presence: true
+  validates :address, presence: true
   validates :host_id, presence: true
   validates :title, presence: true
   validates :external_url, url: {allow_blank: true}
@@ -98,8 +99,8 @@ class Event < ActiveRecord::Base
   end
 
   def create_corresponding_workshop
-    self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
-    self.workshop.update_attribute(:image_id, self.image_id)
+    self.workshop = Workshop.new({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
+    self.workshop.image_id = self.image_id
     if self.valid?
       self.save!
     end
@@ -189,12 +190,29 @@ class Event < ActiveRecord::Base
   end
 
   def address=(v)
-    if v.present?
-      self.build_venue
-      self.venue.name = self.venue_name
-      self.venue.address = v
-      self.venue.valid?
+    venue = Venue.new()
+    venue.address = v
+    venue.name = self.venue_name
+    venue.name = venue.address if venue.name.blank?
+    venue.valid?
+
+
+    location = Location.where(latitude: venue.location.latitude, longitude: venue.location.longitude, address: venue.location.address ).first
+
+    if location.present? and location.venues.present?
+      Rails.logger.info "-------------- 1"
+      self.venue = location.venues.first
+    else
+      Rails.logger.info "-------------- 2"
+      self.venue = venue
     end
+
+    # if v.present?
+    #   self.build_venue
+    #   self.venue.name = self.venue_name
+    #   self.venue.address = v
+    #   self.venue.valid?
+    # end
   end
   
   def manageable?

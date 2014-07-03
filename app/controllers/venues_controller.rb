@@ -39,13 +39,13 @@ class VenuesController < ApplicationController
     respond_to do |format|
       if @venue.valid?
         @location = @venue.location
-        @locations = Location.distance_spheroid(@location)
+        @locations = Location.where(latitude: @location.latitude, longitude: @location.longitude)
         @locations_hash = @locations.inject({}){|hsh, sym| hsh[sym.md5hash] = sym.id; hsh}
 
         if @locations_hash.include?(@location.md5hash) or @locations.blank?
           @venue.location_id = @locations_hash[@location.md5hash] if @locations_hash.include?(@location.md5hash)
-          if @venue.save
-            format.json { render json:  @venue, status: :created }
+          if @venue.valid?
+            format.json { render json:  @venue, status: :accepted }
           else
             format.json { render json: @venue.errors, status: :unprocessable_entity }
           end
@@ -58,25 +58,25 @@ class VenuesController < ApplicationController
     end
   end
 
-  def prompt_save
-    @venue = Venue.new(venue_params)
-    respond_to do |format|
-      if @venue.valid?
-        if params[:location_id].to_i!=0
-          @venue.location = nil
-          @venue.location_id = params[:location_id]
-        end
-          if @venue.save
-            format.json { render json:  @venue, status: :created }
-          else
-            format.json { render json: @venue.errors, status: :unprocessable_entity }
-          end
-      else
-        format.json { render json: @venue.errors, status: :unprocessable_entity }
-      end
-    end
-
-  end
+  # def prompt_save
+  #   @venue = Venue.new(venue_params)
+  #   respond_to do |format|
+  #     if @venue.valid?
+  #       if params[:location_id].to_i!=0
+  #         @venue.location = nil
+  #         @venue.location_id = params[:location_id]
+  #       end
+  #         if @venue.save
+  #           format.json { render json:  @venue, status: :created }
+  #         else
+  #           format.json { render json: @venue.errors, status: :unprocessable_entity }
+  #         end
+  #     else
+  #       format.json { render json: @venue.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  #
+  # end
 
   # GET /venues/1/edit
   def edit
