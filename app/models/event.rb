@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
                   :external, :external_url, :rsvp, :venue_uuid,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
-                  :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name, :link_to_rsvp
+                  :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name, :link_to_rsvp,
                   :as => [:default, :system]
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time, :venue_name
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
