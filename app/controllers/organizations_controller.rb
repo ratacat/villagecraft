@@ -27,7 +27,7 @@ class OrganizationsController < ApplicationController
   def autocomplete
     @organizations = Organization.where("name ilike ?", "%#{params[:organization][:name]}%")
     respond_to do |format|
-      format.json { render json: @organizations }
+      format.json { render json: @organizations.map{|x| x.name}.uniq }
     end
   end
 end

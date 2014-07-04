@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   attr_accessible :host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price,
                   :external, :external_url, :rsvp, :venue_uuid,
                   :start_time, :end_time, :start_time_date, :end_time_date, :start_time_time, :end_time_time,
-                  :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name,
+                  :address, :cost_type, :end_price, :organization_ids, :info_url, :venue_name, :link_to_rsvp
                   :as => [:default, :system]
   attr_accessor :start_time_date, :end_time_date, :start_time_time, :end_time_time, :venue_name
   attr_accessible :workshop_id, :venue, :uuid, :as => :system
@@ -194,25 +194,14 @@ class Event < ActiveRecord::Base
     venue.address = v
     venue.name = self.venue_name
     venue.name = venue.address if venue.name.blank?
-    venue.valid?
-
-
-    location = Location.where(latitude: venue.location.latitude, longitude: venue.location.longitude, address: venue.location.address ).first
-
-    if location.present? and location.venues.present?
-      Rails.logger.info "-------------- 1"
-      self.venue = location.venues.first
-    else
-      Rails.logger.info "-------------- 2"
-      self.venue = venue
+    if venue.valid?
+      location = Location.where(latitude: venue.location.latitude, longitude: venue.location.longitude, address: venue.location.address ).first
+      if location.present? and location.venues.present?
+        self.venue = location.venues.first
+      else
+        self.venue = venue
+      end
     end
-
-    # if v.present?
-    #   self.build_venue
-    #   self.venue.name = self.venue_name
-    #   self.venue.address = v
-    #   self.venue.valid?
-    # end
   end
   
   def manageable?

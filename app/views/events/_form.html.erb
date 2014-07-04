@@ -2,6 +2,8 @@
    show_submit_button ||= true
    url ||= nil
    action = url || url_for(@event)
+   aggr_val = true
+   aggr_val = aggr unless aggr.nil?
 %>
 <%= simple_form_for(@event, url: action, html: { class: 'ajax-form' }) do |f| %>
   <%= f.error_notification %>
@@ -47,10 +49,11 @@
           to
         </div>
         <%= f.input :when, label: '&nbsp;'.html_safe, required: false, wrapper_html: {class: 'col-sm-3 col-xs-12'} do %>
-          <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
-                            :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
           <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control col-sm-3  col-xs-12",
                             :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
+          <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control col-sm-3  col-xs-12",
+                            :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
+
         <% end %>
       </div>
 
@@ -66,30 +69,32 @@
         </div>
       </div>
 
-      <%= f.input :rsvp do %>
-        <%= f.input_field :rsvp,  as: :boolean, boolean_style: :inline, data: { 'off-text' => 'NO', 'on-text' => 'YES'} %>
-        <div class="yes">
-           <ul>
-             <li>hides address until folks RSVP</li>
-             <li>enables you to limit attendance</li>
-             <li>enables communication tools</li>
-           </ul>
-          <div class="row">
-            <div class='col-xs-12 col-sm-3'>
-              <%= f.input :max_attendees, required: false %>
+      <% unless aggr_val %>
+        <%= f.input :rsvp do %>
+          <%= f.input_field :rsvp,  as: :boolean, boolean_style: :inline, data: { 'off-text' => 'NO', 'on-text' => 'YES'} %>
+          <div class="yes">
+             <ul>
+               <li>hides address until folks RSVP</li>
+               <li>enables you to limit attendance</li>
+               <li>enables communication tools</li>
+             </ul>
+            <div class="row">
+              <div class='col-xs-12 col-sm-3'>
+                <%= f.input :max_attendees, required: false %>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="no">
-          <ul>
-            <li>
-              location will appear publicly
-            </li>
-            <li>
-              anyone can pop in
-            </li>
-          </ul>
-        </div>
+          <div class="no">
+            <ul>
+              <li>
+                location will appear publicly
+              </li>
+              <li>
+                anyone can pop in
+              </li>
+            </ul>
+          </div>
+        <% end %>
       <% end %>
 
       <%= f.input :organizations do %>
@@ -116,6 +121,9 @@
       </div>
 
       <%= f.input :info_url, label: 'Link to more information' %>
+      <% if aggr_val %>
+        <%= f.input :link_to_rsvp, label: 'Link to an RSVP or tickets' %>
+      <% end %>
 
       </div>
       <div class="multiselect-location-container">
@@ -154,3 +162,7 @@
 <% content_for :addition do %>
   <%= javascript_include_tag 'app/events/form.js' %>
 <% end %>
+
+<div class="hidden">
+  <%= link_to "#", autocomplete_organizations_url, id: 'autocomplete_organizations' %>
+</div>

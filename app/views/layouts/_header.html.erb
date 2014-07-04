@@ -1,17 +1,19 @@
 <div class="vc_navbar">
   <ul class="nav nav-pills pull-right">
-    <li class="dropdown">
-      <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
-          <span>Post event</span>
-          <span class="caret"></span>
-      <% end %>
-      <ul class="dropdown-menu pull-right" role="menu">
-        <% if current_user.try(:host?) %>
-            <li><%= link_to 'Post your event', new_event_path %></li>
-            <li><%= link_to "Post someone's else event", new_event_path %></li>
+    <% if current_user.present? %>
+      <li class="dropdown">
+        <%= link_to '#', :role => 'button', :class => "dropdown-toggle", :'data-toggle' => "dropdown" do -%>
+            <span>Post event</span>
+            <span class="caret"></span>
         <% end %>
-      </ul>
-    </li>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <% if current_user.try(:host?) %>
+              <li><%= link_to 'Post your event', new_event_path %></li>
+              <li><%= link_to "Post someone's else event", new_aggr_events_path %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
     <li><%= link_to 'FAQ', faq_path %></li>
     <% if not user_signed_in? %>
       <li><%= link_to "Sign in", new_user_session_path %></li>

@@ -42,7 +42,11 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/unlock' => 'events#unlock', :as => :unlock_event
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
   get 'my_events' => 'events#my_events', :as => :my_events
-  resources :e, :controller => :events, :as => :events
+  resources :e, :controller => :events, :as => :events  do
+    collection do
+      get 'new_aggr'
+    end
+  end
   resources :meetings, :only => [:update, :show]
   resources :organizations, :only => [:create, :show] do
     collection do
@@ -74,7 +78,6 @@ Villagecraft::Application.routes.draw do
   resources :venues do
     collection do
       post 'prompt'
-      # post 'prompt_save'
     end
   end
   resources :neighborhoods do

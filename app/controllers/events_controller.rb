@@ -124,6 +124,8 @@ class EventsController < ApplicationController
     end
   end
 
+ alias_method :new_aggr, :new
+
   def new_in_workshop
     @workshop = Workshop.where(uuid: params[:workshop_id].to_s.split('-').first).first
     last_event = @workshop.events.last
