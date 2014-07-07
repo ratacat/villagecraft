@@ -3,7 +3,7 @@
    url ||= nil
    action = url || url_for(@event)
    aggr_val = true
-   aggr_val = aggr unless aggr.nil?
+   aggr_val = aggr if defined?(aggr) and !aggr.nil?
 %>
 <%= simple_form_for(@event, url: action, html: { class: 'ajax-form' }) do |f| %>
   <%= f.error_notification %>
