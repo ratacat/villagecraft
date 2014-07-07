@@ -71,14 +71,14 @@ class Event < ActiveRecord::Base
                                :less_than => 1000000,
                                :unless => lambda {|e| e.min_attendees.blank?},
                                :only_integer => true }, 
-            :presence => true
+            :presence => true, if: :rsvp?
   validates :max_attendees, 
             :numericality => { :greater_than => 0, 
                                :greater_than_or_equal_to => lambda {|e| e.min_attendees || e.max_attendees}, 
                                :less_than => 1000000,
                                :unless => lambda {|e| e.max_attendees.blank?},
                                :only_integer => true }, 
-            :presence => true
+            :presence => true, if: :rsvp?
   
   # validates :description, :presence => true
   

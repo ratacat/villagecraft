@@ -166,7 +166,7 @@ class EventsController < ApplicationController
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: root_path }
+        format.json { render json: @event, status: :created, location: url_for(@event) }
       else
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -184,7 +184,7 @@ class EventsController < ApplicationController
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: root_path }
+        format.json { render json: @event, status: :created, location: url_for(@event) }
       else
         format.html { render action: "new_in_workshop" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -200,7 +200,7 @@ class EventsController < ApplicationController
       if @event.save
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
-        format.json { head :no_content, location: root_path }
+        format.json { head :no_content, location: url_for(@event) }
       else
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end

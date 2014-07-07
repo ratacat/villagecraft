@@ -28,7 +28,7 @@
       <div class="row form-group">
         <div class="col-sm-4">
           <%= f.input :venue_uuid, label: 'Location', input_html: {class: 'col-sm-4'} do %>
-            <%= f.select :venue_uuid, @venues.collect{ |p| [ p.name, p.uuid, {'data-address' => p.location.address} ] }+[["Chose new place", nil, {'data-address' => ''}]],{}, { class: 'form-control'}  %>
+            <%= f.select :venue_uuid, @venues.collect{ |p| [ p.name, p.uuid, {'data-address' => p.location.address} ] }+[["Chose new place", nil, {'data-address' => ''}]], {include_blank: true} , { class: 'form-control'}  %>
             <%= f.input :venue_name, label: '&nbsp;'.html_safe %>
           <% end %>
 
@@ -131,7 +131,7 @@
       </div>
 
       <% if show_submit_button %>
-        <div class="form-actions">
+        <div class="form-actions hidden">
           <%= button_tag :submit, :class => "btn btn-primary ladda-button", data: {:style => "zoom-in"} do %>
              <span class="ladda-label">
               Save
@@ -153,7 +153,6 @@
 <% end %>
 <br />
 
-<%= render 'venues/modal_new', :venue => @venue %>
 
 <% body_script do -%>
   <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
@@ -164,5 +163,6 @@
 <% end %>
 
 <div class="hidden">
-  <%= link_to "#", autocomplete_organizations_url, id: 'autocomplete_organizations' %>
+  <%= link_to "", autocomplete_organizations_url, id: 'autocomplete_organizations' %>
+  <%= link_to "", prompt_venues_url, id: 'prompt' %>
 </div>
