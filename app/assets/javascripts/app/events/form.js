@@ -1,4 +1,5 @@
 $(function(){
+  $('.fa-question-circle').tooltip();
   init_datetime_picker();
   $('#event_address').val($('option:selected',$(this)).data('address'));
 
@@ -207,7 +208,7 @@ function locationError(response, status, xhr){
       k='address';
     }
     $("#event_"+k).closest(".form-group").addClass('has-error');
-    $("#event_"+k).after("<span class='help-block'>"+v+"</span>");
+    $("#event_"+k).after("<span class='help-block floatleft'>"+v+"</span>");
   })
 }
 
