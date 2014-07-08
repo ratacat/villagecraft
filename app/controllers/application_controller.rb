@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 #  before_filter :fetch_notifications
   before_filter :possibly_nag_for_phone
   after_filter :store_location, :except => [:attend_by_email]
-  before_filter :set_mixpanel
+  # before_filter :set_mixpanel
 
   ACTIVITIES_PER_PAGE = 100
 

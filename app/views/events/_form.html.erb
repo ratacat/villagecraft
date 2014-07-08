@@ -11,6 +11,7 @@
   <div class="form-inputs row">
     <div class="col-md-9">
       <div class="event-form-container">
+      <%= f.hidden_field :aggr %>
       <%= f.input :title, label: 'Title', input_html: {class: ''}, link_top: (link_to("what kinds of events are appropriate to list", "#") if aggr_val) %>
       <%= f.input :description, as: :text, label: "Description #{content_tag(:i,'', class: "fa fa-question-circle", data: {toggle: "tooltip", placement: "right", title: "Tooltip on right"})}".html_safe, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
       <% if admin_session? and @event.external%>
@@ -143,9 +144,9 @@
     <div class="col-md-3">
 
       <%#= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @event.img_src(:large_orig)} %>
-      <% if @event.new_record? %>
+      <% if sidebar_type == :new %>
         <%= render :partial => 'events/sidebar_create' %>
-      <% else %>
+      <% elsif sidebar_type == :edit %>
         <%= render :partial => 'events/sidebar_edit' %>
       <% end %>
     </div>

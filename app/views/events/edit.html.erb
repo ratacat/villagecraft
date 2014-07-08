@@ -6,6 +6,6 @@
         <h2 class="event-title">edit an event or activity that <span class="bold">you are hosting</span></h2>
       </div>
     </div>
-    <%= render 'form' %>
+    <%= render 'form', :aggr => @event.aggr, :sidebar_type => :edit  %>
   </div>
 </div>

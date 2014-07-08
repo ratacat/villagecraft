@@ -1,9 +1,12 @@
 <div class="row">
   <div class="col-md-12">
-  <span class="panel pull-right">
+   <div class="row">
+    <div class="col-md-9 center-text">
+      <h2 class="event-title">post an event or activity that <span class="bold">you are hosting</span></h2>
+      <div class="event-title-description"><%= link_to "click here", new_aggr_events_path %> to post something that someone else is hosting</div>
+    </div>
+   </div>
 
-  </span>
-    <h2 class="text-muted margin0">post an event or activity that you are hosting</h2>
-    <%= render 'form', url: create_workshop_events_path(@workshop) %>
+    <%= render 'form', url: create_workshop_events_path(@workshop), :aggr => @event.aggr, :sidebar_type => :edit %>
   </div>
 </div>

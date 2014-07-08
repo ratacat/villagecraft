@@ -124,7 +124,20 @@ class EventsController < ApplicationController
     end
   end
 
- alias_method :new_aggr, :new
+  def new_aggr
+    @event = Event.new(aggr: true)
+    @venue = Venue.new
+    @venue.build_location
+    @event.host = current_user
+    @venues = current_user.owned_venues
+    @workshops = current_user.workshops
+    # @oranization = @event.organizations.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @event }
+    end
+  end
 
   def new_in_workshop
     @workshop = Workshop.where(uuid: params[:workshop_id].to_s.split('-').first).first
@@ -138,6 +151,7 @@ class EventsController < ApplicationController
     @event.host = current_user
     @venues = Venue.get_all_venues_for_dropdown(current_user.id)
     @workshops = current_user.workshops
+    @events = @event.workshop.upcoming_reruns
     # @oranization = @event.organizations.build
 
     respond_to do |format|
@@ -148,6 +162,12 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+
+    if @event.meetings.present?
+      @event.start_time = @event.meetings.first.start_time
+      @event.end_time = @event.meetings.first.end_time
+    end
+
     @venue = Venue.new
     @venue.build_location
     @event.host = current_user
@@ -196,6 +216,7 @@ class EventsController < ApplicationController
   # PUT /events/1.json
   def update
     respond_to do |format|
+      params[:event].delete(:aggr)
       @event.assign_attributes(params[:event])
       if @event.save
         @event.publish if params[:state] == 'published'

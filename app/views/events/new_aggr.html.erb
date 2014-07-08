@@ -5,6 +5,6 @@
         <h2 class="event-title">post an event or activity <span class="bold">someone else</span> is organizing</h2>
       </div>
     </div>
-    <%= render 'form', :aggr => true %>
+    <%= render 'form', :aggr => @event.aggr, :sidebar_type => :new  %>
   </div>
 </div>

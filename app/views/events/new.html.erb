@@ -6,6 +6,6 @@
         <div class="event-title-description"><%= link_to "click here", new_aggr_events_path %> to post something that someone else is hosting</div>
       </div>
     </div>
-    <%= render 'form', :aggr => false %>
+    <%= render 'form', :aggr => @event.aggr, :sidebar_type => :new  %>
   </div>
 </div>

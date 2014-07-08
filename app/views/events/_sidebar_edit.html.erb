@@ -32,7 +32,7 @@
     <% @events.each do |event| %>
     <li class="row">
       <%= link_to edit_event_path(event) do %>
-        <%= event.title %> <%= event.start_time.to_s %>
+        <%= event.title %> <%= "- #{event.start_time.strftime("%b %d")}" if event.start_time.present? %>
       <% end %>
     </li>
     <% end %>
@@ -42,10 +42,16 @@
   <%= link_to "Add a new date", new_workshop_events_path(@event.workshop) %>
 
 
-  <div class="sidebar-padding-top">
+  <div class="sidebar-padding-top sidebar-padding-bottom">
     <span class="text-muted">Edit other posts in</span> <%= link_to "my activities", my_events_path %>
   </div>
-  <%= link_to "Save changes", "#", class: 'btn btn-primary event-save' %>
+
+
+  <%= link_to  "#", class: "btn btn-primary event-save ladda-button", data: {:style => "zoom-in"}  do%>
+    <span class = "ladda-label">
+      Save changes
+    </span>
+  <% end %>
   <%# unless @event.published? %>
     <%#= link_to "view & submit", "#", class: 'btn btn-success event-save-and-publish' %>
   <%# end %>
