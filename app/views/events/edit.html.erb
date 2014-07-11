@@ -3,7 +3,11 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-9 center-text">
-        <h2 class="event-title">edit an event or activity that <span class="bold">you are hosting</span></h2>
+        <% if @event.aggr %>
+            <h2 class="event-title">edit an event or activity <span class="bold">someone else</span> is organizing</h2>
+        <% else %>
+            <h2 class="event-title">edit an event or activity that <span class="bold">you are hosting</span></h2>
+        <% end %>
       </div>
     </div>
     <%= render 'form', :aggr => @event.aggr, :sidebar_type => :edit  %>
