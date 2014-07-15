@@ -15,8 +15,8 @@
       <span class="text-warning">
       <%= link_to 'view', event_path(@event), :class => 'text-warning' %>
         -
-      <%= link_to 'manage', edit_event_path(@event), :icon => 'group', :class => 'text-warning' %>
-        -
+      <%#= link_to 'manage', edit_event_path(@event), :icon => 'group', :class => 'text-warning' %>
+        <!----->
       <%= link_to 'delete', @event, confirm: 'Really delete event?', method: :delete, class: 'text-warning', title: 'delete event' %>
     </span>
   </div>

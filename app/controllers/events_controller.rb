@@ -183,7 +183,8 @@ class EventsController < ApplicationController
     @event.host = current_user
     
     respond_to do |format|
-      if @event.create_corresponding_workshop
+      if @event.create_corresponding_workshop_and_meeting
+      # if @event.create_corresponding_workshop
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
@@ -201,7 +202,7 @@ class EventsController < ApplicationController
     @event.host = current_user
 
     respond_to do |format|
-      if @event.save
+      if @event.create_corresponding_meeting
         @event.create_activity :create, owner: current_user
         @event.publish if params[:state] == 'published'
         format.html { redirect_to root_path, notice: 'Event was successfully created.' }
@@ -232,12 +233,12 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @workshop = @event.workshop
+    # @workshop = @event.workshop
     @event.destroy
 
     respond_to do |format|
       format.js { head :no_content }
-      format.html { redirect_to edit_workshop_path(@workshop) }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end

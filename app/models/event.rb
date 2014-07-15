@@ -92,10 +92,12 @@ class Event < ActiveRecord::Base
   def create_corresponding_workshop_and_meeting
     self.workshop = Workshop.create({:title => self.title, :description => self.description, :host => self.host}, :without_protection => true)
     self.workshop.update_attribute(:image_id, self.image_id)
-    self.save!
-    meeting = Meeting.create(:start_time => self.start_time, :end_time => self.end_time)
-    meeting.update_attribute(:venue_id, self.venue_id)
-    meeting.update_attribute(:event_id, self.id)
+    if self.save
+      meeting = Meeting.new(:start_time => self.start_time, :end_time => self.end_time)
+      meeting.event_id = self.id
+      meeting.venue_id = self.venue_id
+      meeting.save!
+    end
   end
 
   def create_corresponding_workshop
@@ -103,6 +105,15 @@ class Event < ActiveRecord::Base
     self.workshop.image_id = self.image_id
     if self.valid?
       self.save!
+    end
+  end
+
+  def create_corresponding_meeting
+    if self.save
+      meeting = Meeting.new(:start_time => self.start_time, :end_time => self.end_time)
+      meeting.event_id = self.id
+      meeting.venue_id = self.venue_id
+      meeting.save!
     end
   end
   
@@ -127,10 +138,10 @@ class Event < ActiveRecord::Base
     self.attended? and (self.unlocked_at.nil? or self.unlocked_at < Event::UNLOCK_TIMEOUT.minutes.ago)
   end
 
-  def ongoing?
-    now = Time.now
-    (now >= self.start_time) and (now < self.end_time)
-  end
+  # def ongoing?
+  #   now = Time.now
+  #   (now >= self.meetingsstart_time) and (now < self.end_time)
+  # end
   
   def venue_tbd?
     self.try(:venue).blank?
