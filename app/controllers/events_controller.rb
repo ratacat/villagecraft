@@ -394,7 +394,8 @@ class EventsController < ApplicationController
   end
 
   def my_events
-    @events = current_user.events.order(:workshop_id)
+    # @events = current_user.events.order(:workshop_id)
+    @workshops = current_user.workshops.includes(:events).order('workshops.id')
   end
   
   protected

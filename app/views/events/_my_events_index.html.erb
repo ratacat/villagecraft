@@ -1,0 +1,37 @@
+
+  <% @workshops.each do |workshop| %>
+    <h3 class="col-xs-12"><%= workshop.title %></h3>
+    <% workshop.events.includes(:meetings).where('meetings.start_time >= ?', DateTime.now).each do |event| %>
+      <div class="col-xs-12 padding10">
+        <div class="col-xs-12 col-md-5 col-lg-4 text-right">
+          <%= link_to event, class: 'text-muted' do %>
+          <%= event.title %>
+          <% end %>
+        </div>
+        <div class="col-xs-12 col-md-7 col-lg-8 text-left">
+          <%#= meeting_date(event.meetings.first) if event.meetings.exists? %>
+          <span class="text-primary">
+            <%= event_time(event.first_meeting, :short_date => true, :no_tz => true, :show_livestamp => false) %>
+          </span>
+          <%= link_to edit_event_path(event), class: 'text-success'  do %>
+             Edit
+          <% end %>
+          <%= link_to event, method: :delete, confirm: "Are you sure?", class: 'text-danger h4' do %>
+            <i class="fa fa-times"></i>
+          <% end %>
+
+         </div>
+      </div>
+    <% end %>
+    <div class="col-xs-12 padding10">
+      <div class="col-xs-12 col-md-5 col-lg-4 text-right">
+        <%= link_to new_workshop_events_path(workshop), class: 'text-warning h4' do %>
+          <span class="btn btn-warning btn-xs">
+            <i class="fa fa-plus"></i>
+          </span>
+          schedule new date
+        <% end %>
+      </div>
+    </div>
+
+  <% end %>
