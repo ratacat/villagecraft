@@ -145,7 +145,8 @@ class EventsController < ApplicationController
     last_event = @workshop.events.last
     @event = @workshop.events.new( (last_event.dup_attributes if last_event.present?) )
     @event.organizations << last_event.organizations  if last_event.present?
-    @event.venue_uuid = last_event.venue.uuid
+    @event.venue_id = last_event.venue_id
+    @event.auto_start_time(@workshop)
 
     @venue = Venue.new
     @venue.build_location
@@ -153,6 +154,7 @@ class EventsController < ApplicationController
     @venues = Venue.get_all_venues_for_dropdown(current_user.id)
     @workshops = current_user.workshops
     @events = @event.workshop.upcoming_reruns
+
     # @oranization = @event.organizations.build
 
     respond_to do |format|

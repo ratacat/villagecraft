@@ -134,9 +134,9 @@ module EventsHelper
   def event_time_interval(event)
     if event.end_time.present? and event.start_time.present?
       if event.end_time - event.start_time >= 2.days
-        time_interval = "#{I18n.l event.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(event.start_time, event.end_time)} later)"
+        time_interval = " #{I18n.l event.localized_start_time, format: :short_time} (ending #{distance_of_time_in_words(event.start_time, event.end_time)} later)"
       else
-        time_interval = "#{I18n.l event.localized_start_time, format: :short_time} - #{I18n.l event.localized_end_time, format: :short_time}"
+        time_interval = " #{I18n.l event.localized_start_time, format: :short_time} - #{I18n.l event.localized_end_time, format: :short_time}"
         time_interval += " (+ #{distance_of_time_in_words(event.start_time, event.end_time)})" if event.end_time - event.start_time >= 1.day
       end
       time_interval

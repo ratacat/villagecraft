@@ -267,7 +267,30 @@ class Event < ActiveRecord::Base
 #    "/assets/event_placeholder_#{size}.png"
     "/assets/event_placeholder.png"
   end
-  
+
+  def auto_start_time(workshop)
+    reruns = workshop.last_scheduled_reruns
+    meetings = reruns.map(&:first_meeting).compact
+    m0, m1 = meetings
+
+    if meetings.size > 0
+      if meetings.size === 1
+        # This is the second scheduled rerun, default to 1 week from the previous rerun with same duration and venue
+        self.start_time = m0.start_time + 1.week
+      else
+        # There are already at least two workshops scheduled. Follow the pattern.
+        self.start_time = m0.start_time + (m0.start_time - m1.start_time)
+      end
+      # If start_time is past, add 1.week now.
+       if self.start_time < Time.now
+         self.start_time = Time.now + 1.week
+       end
+      self.end_time = self.start_time + 2.hours
+    end
+
+  end
+
+
   def Event.auto_create_from_workshop(workshop)
     reruns = workshop.last_scheduled_reruns
     meetings = reruns.map(&:first_meeting).compact
