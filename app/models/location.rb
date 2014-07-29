@@ -5,25 +5,23 @@ class Location < ActiveRecord::Base
   acts_as_paranoid
 
   geocoded_by :address_or_sythesized_address do |obj, results|
-    puts results.first.awesome_inspect
     if geo = results.first
       obj.latitude = geo.latitude
       obj.longitude = geo.longitude
       
-      obj.address ||= geo.formatted_address
+      obj.address = geo.formatted_address
       
-      obj.street ||= geo.street_address
-      obj.city ||= geo.city
-      obj.state ||= geo.state
-      obj.state_code ||= geo.state_code
-      obj.zip ||= geo.postal_code
-      obj.country ||= geo.country_code
+      obj.street = geo.street_address
+      obj.city = geo.city
+      obj.state = geo.state
+      obj.state_code = geo.state_code
+      obj.zip = geo.postal_code
+      obj.country = geo.country_code
       [obj.latitude, obj.longitude]
     end
   end
   
   reverse_geocoded_by :latitude, :longitude do |obj, results|
-    puts results.first.awesome_inspect
     if geo = results.first
       obj.street = geo.street_address  # when given city+state, this is set to some random address at the centroid
       obj.city = geo.city
