@@ -1,4 +1,9 @@
 class InitializeCachedNextMeetingPointers < ActiveRecord::Migration
+  def change
+    add_column :meetings, :deleted_at, :datetime
+    add_index :meetings, :deleted_at
+  end
+  
   def up
     Meeting.find_each do |m|
       m.send(:possibly_update_parents_first_meeting_cache) unless m.event.nil?
