@@ -21,6 +21,15 @@ GIT
     less-rails-bootstrap (3.1.1.0)
       less-rails (~> 2.4.2)
 
+GIT
+  remote: https://github.com/stripe/stripe-ruby
+  revision: 4aed61af42df22d77106558354bd2f5370c04e06
+  specs:
+    stripe (1.15.0)
+      json (~> 1.8.1)
+      mime-types (>= 1.25, < 3.0)
+      rest-client (~> 1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
