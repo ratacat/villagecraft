@@ -19,6 +19,8 @@ class Event < ActiveRecord::Base
   has_one :location, :through => :venue
   
   has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
+
+  has_many :comments
     
   has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)
