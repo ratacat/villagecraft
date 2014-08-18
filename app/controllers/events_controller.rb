@@ -257,7 +257,7 @@ class EventsController < ApplicationController
         if current_user.is_host_of?(@event)
           redirect_to :back, notice: @notice
         else
-          redirect_to @event.workshop, notice: @notice 
+          redirect_to @event, notice: @notice 
         end
       }
       format.json { head :no_content }
