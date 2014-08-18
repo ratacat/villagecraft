@@ -22,6 +22,15 @@
             <% if event.slots_left > 0 %>
                 <% if user_signed_in? %>
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
+
+                        <%= form_tag charges_path do %>
+                        <!-- https://stripe.com/docs/checkout#integration-custom -->
+                          <script src="https://checkout.stripe.com/checkout.js" class="btn btn-success attend_event btn-block"
+                                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                                  data-description="<%= event.description %>"
+                                  data-amount="<%= event.price.to_i * 100 %>">Sign up</script>
+                        <% end %>
+                        
                         <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
                     <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
