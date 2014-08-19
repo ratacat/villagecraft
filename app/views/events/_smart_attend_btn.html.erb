@@ -23,13 +23,31 @@
                 <% if user_signed_in? %>
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
 
-                        <%= form_tag charges_path do %>
-                        <!-- https://stripe.com/docs/checkout#integration-custom -->
-                          <script src="https://checkout.stripe.com/checkout.js" class="btn btn-success attend_event btn-block"
-                                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                                  data-description="<%= event.description %>"
-                                  data-amount="<%= event.price.to_i * 100 %>">Sign up</script>
-                        <% end %>
+                        <script src="https://checkout.stripe.com/checkout.js"></script>
+
+                        <button id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></button>
+
+                        <script>
+                          var handler = StripeCheckout.configure({
+                            key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+                            image: '/villagecraft350.png',
+                            token: function(token) {
+                              // access the token ID with `token.id`
+                              
+                            }
+                          });
+
+                          $('signUp').on('click', function(event) {
+                            event.preventDefault();
+
+                            handler.open({
+                              name: 'Villagcraft',
+                              description: '<%= event.title %>',
+                              amount: <%= (event.price.to_i * 100) %>
+                            });
+                            
+                          });
+                        </script>
                         
                         <%#= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
