@@ -31,7 +31,7 @@
                                   data-amount="<%= event.price.to_i * 100 %>">Sign up</script>
                         <% end %>
                         
-                        <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
+                        <%#= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
                     <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
                 <% else %> <!-- not user_signed_in? -->
