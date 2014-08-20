@@ -28,26 +28,29 @@
                         <a id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></a>
 
                         <script>
-                          var handler = StripeCheckout.configure({
-                            key: "<%= Rails.configuration.stripe[:publishable_key] %>",
-                            image: '/villagecraft350.png',
-                            token: function(token) {
-                              // access the token ID with `token.id`
-                              
-                              $(' #signUp ').remove();
-                            }
-                          });
-
-                          $('signUp').on('click', function(e) {
-                            e.preventDefault();
-
-                            handler.open({
-                              name: 'Villagcraft',
-                              description: '<%= event.title %>',
-                              amount: <%= (event.price.to_i * 100) %>
+                          window.onload = function() {
+                            var handler = StripeCheckout.configure({
+                              key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+                              image: '/villagecraft350.png',
+                              token: function(token) {
+                                $.post('/attend/<%= event.uuid %>', function(response) {
+                                  console.log("success!");
+                                  $(' #signUp ').remove();
+                                  location.reload(); 
+                                });
+                              }
                             });
-                            
-                          });
+
+                            $(' #signUp ').on('click', function(e) {
+                              e.preventDefault();
+
+                              handler.open({
+                                name: 'Villagcraft',
+                                description: '<%= event.title %>',
+                                amount: <%= (event.price.to_i * 100) %>
+                              });
+                            });
+                          }
                         </script>
                         
                         <%#= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
