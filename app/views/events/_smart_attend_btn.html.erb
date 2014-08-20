@@ -22,20 +22,14 @@
             <% if event.slots_left > 0 %>
                 <% if user_signed_in? %>
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
-
-                        <script src="https://checkout.stripe.com/checkout.js"></script>
-
                         <a id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></a>
-
                         <script>
                           window.onload = function() {
                             var handler = StripeCheckout.configure({
                               key: "<%= Rails.configuration.stripe[:publishable_key] %>",
                               image: '/villagecraft350.png',
                               token: function(token) {
-                                $.post('/attend/<%= event.uuid %>', function(response) {
-                                  console.log("success!");
-                                  $(' #signUp ').remove();
+                                $.post('/attend/<%= event.uuid %>.json', function(response) {
                                   location.reload(); 
                                 });
                               }
@@ -52,8 +46,6 @@
                             });
                           }
                         </script>
-                        
-                        <%#= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
                     <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
                 <% else %> <!-- not user_signed_in? -->
