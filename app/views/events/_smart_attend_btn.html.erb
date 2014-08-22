@@ -27,7 +27,7 @@
                           window.onload = function() {
                             var handler = StripeCheckout.configure({
                               key: "<%= Rails.configuration.stripe[:publishable_key] %>",
-                              image: '/villagecraft350.png',
+                              image: "<%= current_user.profile_image.blank? ? '/villagecraft350.png' : current_user.profile_img_src %>",
                               token: function(token) {
                                 $.post('/attend/<%= event.uuid %>.json', function(response) {
                                   location.reload(); 
