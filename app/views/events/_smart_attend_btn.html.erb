@@ -28,7 +28,7 @@
                           window.onload = function() {
                             var handler = StripeCheckout.configure({
                               key: "<%= Rails.configuration.stripe[:publishable_key] %>",
-                              image: "<%= current_user.profile_image.blank? ? '/villagecraft350.png' : current_user.profile_img_src %>",
+                              image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
                               token: function(token) {
                                 $.post('/attend/<%= event.uuid %>.json', function(response) {
                                   location.reload(); 
@@ -40,8 +40,8 @@
                               e.preventDefault();
 
                               handler.open({
-                                name: 'Villagcraft',
-                                description: '<%= event.title %>',
+                                name: "<%= event.host.name %>",
+                                description: "<%= event.title %>",
                                 amount: <%= (event.price.to_i * 100) %>
                               });
                             });
