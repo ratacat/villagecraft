@@ -29,6 +29,7 @@
                             var handler = StripeCheckout.configure({
                               key: "<%= Rails.configuration.stripe[:publishable_key] %>",
                               image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
+                              email: "<%= current_user.email %>",
                               token: function(token) {
                                 $.post('/attend/<%= event.uuid %>.json', function(response) {
                                   location.reload(); 
