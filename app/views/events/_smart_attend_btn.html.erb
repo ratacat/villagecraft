@@ -31,21 +31,31 @@
                               image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
                               email: "<%= current_user.email %>",
                               allowRememberMe: "false",
-                              token: function(token) {
-                                $.post('/attend/<%= event.uuid %>.json', function(response) {
-                                  location.reload(); 
-                                });
+                              name: "<%= event.host.name %>",
+                              description: "<%= event.title %>",
+                              amount: <%= (event.price.to_i * 100) %>,
+                              
+                              token: function(token) { // if checkout success
+                                $.post('/charges', { event_id: <%= event.id %>, stripeToken: token })
+                                  .done(function(){ // if charge success
+                                    $.post('/attend/<%= event.uuid %>.json')
+                                      .done(function(){ // if attendance success
+                                        location.reload(); 
+                                      })
+                                      .fail(function(error){
+                                        // if attendance fail
+                                      });
+                                  })
+                                  .fail(function(error){
+                                    // if charge fail
+                                  });
                               }
                             });
 
                             $(' #signUp ').on('click', function(e) {
                               e.preventDefault();
 
-                              handler.open({
-                                name: "<%= event.host.name %>",
-                                description: "<%= event.title %>",
-                                amount: <%= (event.price.to_i * 100) %>
-                              });
+                              handler.open(); // open checkout form
                             });
                           }
                         </script>
