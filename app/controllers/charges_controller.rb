@@ -1,27 +1,24 @@
 class ChargesController < ApplicationController
 
-  def new
-  end
-
+# POST /charges
   def create
-    # Amount in cents
-    @amount = 500
-
-    customer = Stripe::Customer.create(
-      :email => 'example@stripe.com',
-      :card  => params[:stripeToken]
-    )
+    event = Event.find(params[:event_id])
+    token = params[:stripeToken]
+    amount = (event.price.to_i) * 100
 
     charge = Stripe::Charge.create(
-      :customer    => customer.id,
-      :amount      => @amount,
-      :description => 'Rails Stripe customer',
-      :currency    => 'usd'
+      {
+        :card        => token,
+        :amount      => amount,
+        :description => event.title,
+        :currency    => 'usd'
+      }
     )
 
   rescue Stripe::CardError => e
     flash[:error] = e.message # pass key in view: `error`
-    redirect_to charges_path
+    render json: e
+    return
   end
 
 end
