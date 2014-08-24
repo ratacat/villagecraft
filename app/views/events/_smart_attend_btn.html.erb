@@ -24,41 +24,39 @@
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
                     <% if event.price > 0 %>
                         <a id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></a>
-                        <script>
-                          window.onload = function() {
-                            var handler = StripeCheckout.configure({
-                              key: "<%= Rails.configuration.stripe[:publishable_key] %>",
-                              image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
-                              email: "<%= current_user.email %>",
-                              allowRememberMe: "false",
-                              name: "<%= event.host.name %>",
-                              description: "<%= event.title %>",
-                              amount: <%= (event.price.to_i * 100) %>,
-                              
-                              token: function(token) { // if checkout success
-                                $.post('/charges', { event_id: <%= event.id %>, stripeToken: token })
-                                  .done(function(){ // if charge success
-                                    $.post('/attend/<%= event.uuid %>.json')
-                                      .done(function(){ // if attendance success
-                                        location.reload(); 
-                                      })
-                                      .fail(function(error){
-                                        // if attendance fail
-                                      });
-                                  })
-                                  .fail(function(error){
-                                    // if charge fail
-                                  });
-                              }
-                            });
+                        <% ready_script do -%>
+                          var handler = StripeCheckout.configure({
+                            key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+                            image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
+                            email: "<%= current_user.email %>",
+                            allowRememberMe: "false",
+                            name: "<%= event.host.name %>",
+                            description: "<%= event.title %>",
+                            amount: <%= (event.price.to_i * 100) %>,
+                            
+                            token: function(token) { // if checkout success
+                              $.post('/charges', { event_id: <%= event.id %>, stripeToken: token })
+                                .done(function(){ // if charge success
+                                  $.post('/attend/<%= event.uuid %>.json')
+                                    .done(function(){ // if attendance success
+                                      location.reload(); 
+                                    })
+                                    .fail(function(error){
+                                      // if attendance fail
+                                    });
+                                })
+                                .fail(function(error){
+                                  // if charge fail
+                                });
+                            }
+                          });
 
-                            $(' #signUp ').on('click', function(e) {
-                              e.preventDefault();
+                          $(' #signUp ').on('click', function(e) {
+                            e.preventDefault();
 
-                              handler.open(); // open checkout form
-                            });
-                          }
-                        </script>
+                            handler.open(); // open checkout form
+                          });
+                        <% end %>
                       <% else %>
                         <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                       <% end %>
