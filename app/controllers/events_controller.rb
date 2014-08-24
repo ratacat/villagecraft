@@ -28,7 +28,6 @@ class EventsController < ApplicationController
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     @comment_new = Comment.new
     @comments = @event.comments.all
-    # @comment = @event.comments.find(params[:id])
 
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order

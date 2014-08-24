@@ -15,10 +15,6 @@ class CommentsController < ApplicationController
       render 'new'
     end
   end
-
-  # def show
-  #   @comment = @event.comments.find(params[:id])
-  # end
     
 private
   
