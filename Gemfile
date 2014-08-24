@@ -12,6 +12,9 @@ gem 'daemons-rails'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+# HTTP requests
+gem "typhoeus"
+
 # XML parsing, used for KML processing (or maybe not used at all)
 gem 'nokogiri'
 
