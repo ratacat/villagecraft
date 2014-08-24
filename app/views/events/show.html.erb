@@ -85,9 +85,14 @@
       <%= f.submit "Create comment" %><br></br>
     <% end %>
 
+    <p>COMMENTS</p>
     <% @comments.each do |comment|%>
-      <p><%= comment.body %></p>
+      <p><%= comment.body %></p> 
+      <p>By <%= comment.user.email -%>
+      <%= time_ago_in_words(comment.created_at) %> ago</p>
     <% end %>
+
+    
 
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
