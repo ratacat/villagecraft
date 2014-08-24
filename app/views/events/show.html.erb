@@ -79,6 +79,16 @@
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
 
+    <%= simple_form_for ([@event, @comment_new]) do |f| %>
+      <%= f.hidden_field :id, value: @event.id %>
+      <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
+      <%= f.submit "Create comment" %><br></br>
+    <% end %>
+
+    <% @comments.each do |comment|%>
+    <p><%= comment.body %></p>
+    <% end %>
+
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
       <% if @reviews_recent.count > 3 %>
