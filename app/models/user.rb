@@ -70,6 +70,8 @@ class User < ActiveRecord::Base
   validates :preferred_distance_units, :inclusion => {:in => ['mi', 'km'], :message => "must be miles (mi) or kilometers (km)" }
   
 #  validates_associated :location
+  
+  attr_accessible :stripe_token
 
   def profile_img_src(size = :medium)
     if self.profile_image.blank?
