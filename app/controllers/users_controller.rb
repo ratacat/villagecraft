@@ -43,6 +43,9 @@ class UsersController < ApplicationController
     unless admin_session? and @user
       @user = current_user
     end
+    if params[:code]
+      @user.update_attribute(:stripe_token, params[:code])
+    end
   end
 
   # PUT /update_settings
