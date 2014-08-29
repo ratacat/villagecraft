@@ -86,7 +86,11 @@
       <div class="col-sm-12">
         <h3>Connect With Stripe</h3>
         <div class="col-sm-6">
-         <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>" class="stripe-connect"><span>Connect with Stripe</span></a>
+        <% unless @user.stripe_token %>
+          <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>" class="stripe-connect"><span>Connect with Stripe</span></a>
+        <% else %>
+          <p>You have connected your Stripe account. Manage your Stripe settings <%= link_to("here", "https://dashboard.stripe.com/account/applications") %>.</p>
+        <% end %>
         </div>
       </div>
     </div>
