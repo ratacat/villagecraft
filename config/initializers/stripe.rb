@@ -4,3 +4,5 @@ Rails.configuration.stripe = {
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
+
+CLIENT_ID = Rails.env.production? ? ENV["CLIENT_ID"] : "ca_4g1PNBMeAuMp71H91YNaoeJbgnh4ekBp"
