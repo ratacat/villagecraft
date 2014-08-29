@@ -10,7 +10,7 @@ class ChargesController < ApplicationController
       fee = 100
     end
 
-    charge = Stripe::Charge.create(
+    Stripe::Charge.create(
       {
         :card        => token,
         :amount      => amount,
@@ -18,7 +18,7 @@ class ChargesController < ApplicationController
         :currency    => 'usd',
         :application_fee => fee
       },
-      ACCESS_TOKEN # stripe token for host
+      event.host.stripe_token # token from event host stripe connect
     )
 
   rescue Stripe::CardError => e
