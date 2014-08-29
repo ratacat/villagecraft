@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -566,7 +567,8 @@ CREATE TABLE users (
     email_short_messages boolean DEFAULT false,
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
-    email_system_messages boolean DEFAULT true
+    email_system_messages boolean DEFAULT true,
+    stripe_token character varying(255)
 );
 
 
@@ -1371,27 +1373,6 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
--- Name: geometry_columns_delete; Type: RULE; Schema: public; Owner: -
---
-
-CREATE RULE geometry_columns_delete AS ON DELETE TO geometry_columns DO INSTEAD NOTHING;
-
-
---
--- Name: geometry_columns_insert; Type: RULE; Schema: public; Owner: -
---
-
-CREATE RULE geometry_columns_insert AS ON INSERT TO geometry_columns DO INSTEAD NOTHING;
-
-
---
--- Name: geometry_columns_update; Type: RULE; Schema: public; Owner: -
---
-
-CREATE RULE geometry_columns_update AS ON UPDATE TO geometry_columns DO INSTEAD NOTHING;
-
-
---
 -- PostgreSQL database dump complete
 --
 
@@ -1642,3 +1623,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140403065951');
 INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
+
+INSERT INTO schema_migrations (version) VALUES ('20140829033256');
