@@ -145,8 +145,20 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
+    host = @event.host
+    price = @event.price
+
     respond_to do |format|
-      @event.assign_attributes(params[:event])
+      if @event.rsvp? && (price == 0 && params[:event][:price])
+        if host.stripe_token
+          @event.assign_attributes(params[:event])
+        else
+          format.json {render status: :unauthorized }
+        end
+      else
+        @event.assign_attributes(params[:event])
+      end
+
       if @event.save
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
