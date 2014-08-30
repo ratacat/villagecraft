@@ -155,7 +155,19 @@
     $('.editable[data-name="venue_uuid"]').editable();
     $('.editable[data-name="external"]').editable({display: yes_or_no_display});
     $('.editable[data-name="external_url"]').editable({display: click_to_edit_url_display});
+
+  <% if @workshop.host.stripe_token %>
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
+  <% else %>
+    $('.editable[data-name="price"]').html("Free")
+      .popover({
+        html: true,
+        placement: 'top',
+        container: 'body',
+        title: 'Connect with Stripe',
+        content: '<p>Please your Stripe account in order to collect fees.</p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>" class="stripe-connect"><span>Connect with Stripe</span></a>'
+      });
+  <% end %>
 
     $('span.vc_editable.meeting_time').popover({
       html: true,
