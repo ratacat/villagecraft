@@ -1,0 +1,10 @@
+
+<p>COMMENTS</p>
+  <div>
+    <% @comments.each do |comment|%>
+    <p><%= comment.body %></p> 
+    <p>By <%= comment.user.email -%>
+    <%= time_ago_in_words(comment.created_at) -%> ago</p>
+    <label class="reply">reply</label><br></br>
+    <% end %>
+  </div>

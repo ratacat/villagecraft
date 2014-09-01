@@ -1,0 +1,5 @@
+<%= form_for ([@event, @comment_new]) do |f| %>
+  <%= f.hidden_field :id, value: @event.id %>
+  <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
+  <%= f.submit "Create comment" %><br></br>
+<% end %>
