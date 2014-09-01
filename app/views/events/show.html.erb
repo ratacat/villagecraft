@@ -79,20 +79,9 @@
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
 
-    <%= form_for ([@event, @comment_new]) do |f| %>
-      <%= f.hidden_field :id, value: @event.id %>
-      <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-      <%= f.submit "Create comment" %><br></br>
-    <% end %>
-
-    <p>COMMENTS</p>
-    <% @comments.each do |comment|%>
-      <p><%= comment.body %></p> 
-      <p>By <%= comment.user.email -%>
-      <%= time_ago_in_words(comment.created_at) %> ago</p>
-    <% end %>
-
-    
+    <%= render "comments/comment_form" %>
+  
+    <%= render "comments/comment" %>
 
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
