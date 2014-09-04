@@ -11,7 +11,7 @@
     <% else %>
       <%= content_tag(:i, '&nbsp;'.html_safe, :class => "glyphicon") %>
     <% end %>
-    <%= meeting_time(rerun.first_meeting, date_format: "%a %B", no_tz: true, show_end_time: false, show_livestamp: false) %>
+    <%= meeting_time(rerun.first_meeting, date_format: "%a %b", no_tz: true, show_end_time: false, show_livestamp: false) %>
     <% end %>
     <% if signed_up %>
       (<%= link_to 'cancel', cancel_attend_path(rerun), method: :post, rel: :nofollow, class: 'text-muted' %>)
