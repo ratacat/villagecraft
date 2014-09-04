@@ -10,13 +10,13 @@
           <div class="comment">reply</div>
         </li><br></br>
           <div style="display:none">
-          <%= form_for [@commentable, @comment] do |f| %>
-            <%= f.hidden_field :id, value: @comment.id %>
-            <%= f.hidden_field :commentable_id, value: @comment.commentable_id%>
+          <%= form_for [@event, @comment] do |f| %>
+            <%= f.hidden_field :id, value: @event.id %>
             <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
             <%= f.submit "Reply" %><br></br>
           <% end %>
           </div>
+        </li>
       <% end %>
     </ul>
   </div>
