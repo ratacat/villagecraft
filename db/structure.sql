@@ -128,7 +128,9 @@ CREATE TABLE comments (
     user_id integer,
     event_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    commentable_type character varying(255),
+    commentable_id integer
 );
 
 
@@ -1672,3 +1674,13 @@ INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 
 INSERT INTO schema_migrations (version) VALUES ('20140816222505');
+
+INSERT INTO schema_migrations (version) VALUES ('20140829062843');
+
+INSERT INTO schema_migrations (version) VALUES ('20140829062929');
+
+INSERT INTO schema_migrations (version) VALUES ('20140901014235');
+
+INSERT INTO schema_migrations (version) VALUES ('20140901014304');
+
+INSERT INTO schema_migrations (version) VALUES ('20140901152620');

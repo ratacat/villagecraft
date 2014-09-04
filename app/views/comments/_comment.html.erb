@@ -1,10 +1,22 @@
 
 <p>COMMENTS</p>
   <div>
-    <% @comments.each do |comment|%>
-    <p><%= comment.body %></p> 
-    <p>By <%= comment.user.email -%>
-    <%= time_ago_in_words(comment.created_at) -%> ago</p>
-    <label class="reply">reply</label><br></br>
-    <% end %>
+    <ul>
+      <% @comments.each do |comment|%>
+        <li>
+          <p><%= comment.body %></p>
+          <p>By <%= comment.user.email -%>
+          <%= time_ago_in_words(comment.created_at) -%> ago</p>
+          <div class="comment">reply</div>
+        </li><br></br>
+          <div style="display:none">
+          <%= form_for [@commentable, @comment] do |f| %>
+            <%= f.hidden_field :id, value: @comment.id %>
+            <%= f.hidden_field :commentable_id, value: @comment.commentable_id%>
+            <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
+            <%= f.submit "Reply" %><br></br>
+          <% end %>
+          </div>
+      <% end %>
+    </ul>
   </div>

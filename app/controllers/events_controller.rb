@@ -26,7 +26,7 @@ class EventsController < ApplicationController
     @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
 
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
-    @comment_new = Comment.new
+    @comment = Comment.new
     @comments = @event.comments.all
 
     if @workshop.image
