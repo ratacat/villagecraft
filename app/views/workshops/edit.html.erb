@@ -159,7 +159,7 @@
   <% if @workshop.host.stripe_token %>
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
   <% else %>
-    $('.editable[data-name="price"]').html("Free")
+    $('.editable[data-name="price"]').html("Free").css("border-bottom", "1px dashed #0088CC")
       .popover({
         html: true,
         placement: 'top',
