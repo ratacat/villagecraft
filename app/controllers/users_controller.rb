@@ -46,6 +46,9 @@ class UsersController < ApplicationController
     if params[:code]
       @user.update_attribute(:stripe_token, params[:code])
     end
+    if params[:state]
+      redirect_to params[:state]
+    end
   end
 
   # PUT /update_settings
