@@ -20,7 +20,7 @@
     <% else %>
         <% if event.rsvp? %>
             <% if event.slots_left > 0 %>
-                <% if user_signed_in? %>
+                <% if user_signed_in? && current_user != event.host %>
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
                     <% if event.price > 0 %>
                         <a id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></a>
@@ -65,7 +65,7 @@
                 <% else %> <!-- not user_signed_in? -->
                     <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
                         <h4 class="fee"><%= event_price(event) %></h4>
-                    <% else %>
+                    <% elsif current_user != event.host %>
                         <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
                 <% end %>
