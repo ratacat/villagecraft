@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   after_create :welcome_the_new_user
   
   # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
+  attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications, :stripe_token
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -71,7 +71,6 @@ class User < ActiveRecord::Base
   
 #  validates_associated :location
   
-  attr_accessible :stripe_token
 
   def profile_img_src(size = :medium)
     if self.profile_image.blank?
