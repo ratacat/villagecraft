@@ -1,8 +1,14 @@
-<%= form_for [@event, @comment] do |f| %>
-  <%= f.hidden_field :id, value: @event.id %>
+<%#= form_for [@event, @comment = Comment.new] do |f| %>
+  <%#= f.hidden_field :id, value: @event.id %>
+  <%#= f.text_field :body, placeholder: "Add your comment" %><!-- <br></br> -->
+  <%#= f.submit "Create comment" %><!-- <br></br> -->
+<%# end %>
+<%= form_for [@commentable, @comment] do |f| %>
+  <%= f.hidden_field :parent_id, :value => params[:parent_id] %>         
   <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-  <%= f.submit "Create comment" %><br></br>
+  <%= f.submit "Reply" %><br></br>
 <% end %>
 
 
-  <%= render :partial => '/comments/comment' %>
+
+

@@ -126,11 +126,11 @@ CREATE TABLE comments (
     id integer NOT NULL,
     body character varying(255),
     user_id integer,
-    event_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     commentable_type character varying(255),
-    commentable_id integer
+    commentable_id integer,
+    ancestry character varying(255)
 );
 
 
@@ -1684,3 +1684,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140901014235');
 INSERT INTO schema_migrations (version) VALUES ('20140901014304');
 
 INSERT INTO schema_migrations (version) VALUES ('20140901152620');
+
+INSERT INTO schema_migrations (version) VALUES ('20140915223537');
+
+INSERT INTO schema_migrations (version) VALUES ('20140917220415');

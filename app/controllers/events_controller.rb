@@ -26,8 +26,16 @@ class EventsController < ApplicationController
     @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
 
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
+    @comments = @event.comments.arrange(:order => :created_at)
+    @commentable = @event
+    # @comments = @commentable.comments
     @comment = Comment.new
-    @comments = @event.comments.all
+    # @commentable = find_commentable
+    # @comments = @event.comments.all
+    # @comments = @commentable.comments.arrange(:order => :created_at)
+
+    
+
 
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
@@ -328,4 +336,14 @@ class EventsController < ApplicationController
       raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
     end
   end  
+
+  # def find_commentable
+  #   params.each do |name, value|
+  #     if name =~ /(.+)_id$/
+  #       return $1.classify.constantize.find(value)
+  #     end
+  #   end
+  #   nil
+  # end
+
 end

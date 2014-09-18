@@ -52,6 +52,8 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     addressable (2.3.5)
+    ancestry (2.1.0)
+      activerecord (>= 3.0.0)
     arel (3.0.3)
     atomic (1.1.15)
     attribute_normalizer (1.1.0)
@@ -349,6 +351,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ancestry
   attribute_normalizer
   awesome_print
   aws-sdk

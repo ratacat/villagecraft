@@ -5,6 +5,7 @@ gem 'rails', '3.2.17'
 
 gem 'pry'
 gem 'pry-rails'
+gem 'ancestry'
 
 # For deployment and remote control of the server (e.g. cap deploy)
 gem 'capistrano', '~> 2.15.5'

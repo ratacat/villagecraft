@@ -1,6 +1,7 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :event_id, :user_id
-  belongs_to :event
+  attr_accessible :body, :parent_id, :user_id
+  has_ancestry
+  # belongs_to :event
   belongs_to :user
   belongs_to :commentable, :polymorphic => true
   has_many :comments, :as => :commentable
