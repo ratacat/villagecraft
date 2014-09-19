@@ -119,6 +119,40 @@ ALTER SEQUENCE attendances_id_seq OWNED BY attendances.id;
 
 
 --
+-- Name: charges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE charges (
+    id integer NOT NULL,
+    user_id integer,
+    event_id integer,
+    host_id integer,
+    stripe_charge character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE charges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+
+
+--
 -- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -559,75 +593,6 @@ ALTER SEQUENCE sightings_id_seq OWNED BY sightings.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    first_name character varying(255),
-    last_name character varying(255),
-    username character varying(255),
-    number_of_events_attended integer,
-    number_of_events_hosted integer,
-    number_of_events_reserved integer,
-    number_of_people_met integer,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    location_id integer,
-    uuid character varying(255),
-    profile_image_id integer,
-    auth_provider character varying(255),
-    auth_provider_uid character varying(255),
-    has_set_password boolean DEFAULT true,
-    deleted_at timestamp without time zone,
-    admin boolean,
-    phone character varying(255),
-    name character varying(255),
-    host boolean,
-    authentication_token character varying(255),
-    email_notifications boolean DEFAULT true,
-    external boolean,
-    description text,
-    sms_short_messages boolean DEFAULT true,
-    email_short_messages boolean DEFAULT false,
-    promote_host boolean,
-    preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
-    email_system_messages boolean DEFAULT true,
-    stripe_token character varying(255),
-    stripe_customer_id character varying(255)
-);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE users_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
-
-
---
 -- Name: venues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -725,6 +690,13 @@ ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
 
 
@@ -802,13 +774,6 @@ ALTER TABLE ONLY sightings ALTER COLUMN id SET DEFAULT nextval('sightings_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
 
 
@@ -833,6 +798,14 @@ ALTER TABLE ONLY activities
 
 ALTER TABLE ONLY attendances
     ADD CONSTRAINT attendances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY charges
+    ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -924,14 +897,6 @@ ALTER TABLE ONLY sightings
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-
-
---
 -- Name: venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -987,6 +952,27 @@ CREATE INDEX index_attendances_on_event_id ON attendances USING btree (event_id)
 --
 
 CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
+
+
+--
+-- Name: index_charges_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_event_id ON charges USING btree (event_id);
+
+
+--
+-- Name: index_charges_on_stripe_charge; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_stripe_charge ON charges USING btree (stripe_charge);
+
+
+--
+-- Name: index_charges_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_user_id ON charges USING btree (user_id);
 
 
 --
@@ -1281,76 +1267,6 @@ CREATE INDEX index_sightings_on_location_id ON sightings USING btree (location_i
 --
 
 CREATE INDEX index_sightings_on_user_id ON sightings USING btree (user_id);
-
-
---
--- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (authentication_token);
-
-
---
--- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
-
-
---
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
-
-
---
--- Name: index_users_on_email_short_messages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_email_short_messages ON users USING btree (email_short_messages);
-
-
---
--- Name: index_users_on_external; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_external ON users USING btree (external);
-
-
---
--- Name: index_users_on_location_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_location_id ON users USING btree (location_id);
-
-
---
--- Name: index_users_on_preferred_distance_units; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_preferred_distance_units ON users USING btree (preferred_distance_units);
-
-
---
--- Name: index_users_on_profile_image_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_profile_image_id ON users USING btree (profile_image_id);
-
-
---
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
-
-
---
--- Name: index_users_on_sms_short_messages; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_users_on_sms_short_messages ON users USING btree (sms_short_messages);
 
 
 --
@@ -1678,3 +1594,9 @@ INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 INSERT INTO schema_migrations (version) VALUES ('20140829033256');
 
 INSERT INTO schema_migrations (version) VALUES ('20140917030012');
+
+INSERT INTO schema_migrations (version) VALUES ('20140919040814');
+
+INSERT INTO schema_migrations (version) VALUES ('20140919060322');
+
+INSERT INTO schema_migrations (version) VALUES ('20140919062104');
