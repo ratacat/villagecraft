@@ -128,7 +128,9 @@ CREATE TABLE charges (
     event_id integer,
     stripe_charge character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    amount integer,
+    fee_collected integer
 );
 
 
@@ -178,8 +180,8 @@ CREATE TABLE events (
     image_id integer,
     state character varying(255),
     workshop_id integer,
-    deleted_at timestamp without time zone,
     first_meeting_id integer,
+    deleted_at timestamp without time zone,
     external boolean,
     external_url character varying(255),
     unlocked_at timestamp without time zone,
@@ -1699,3 +1701,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140829033256');
 INSERT INTO schema_migrations (version) VALUES ('20140917030012');
 
 INSERT INTO schema_migrations (version) VALUES ('20140919062104');
+
+INSERT INTO schema_migrations (version) VALUES ('20140920052729');

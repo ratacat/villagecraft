@@ -38,6 +38,8 @@ class ChargesController < ApplicationController
     charge.user_id = current_user.id        #useful for issuing refunds
     charge.event_id = event.id
     charge.stripe_charge = stripe_charge.id
+    charge.amount = stripe_charge.amount
+    charge.fee_collected = fee
     
     if charge.save
       render json: charge, status: :created #if succesful, send back 200
@@ -46,7 +48,7 @@ class ChargesController < ApplicationController
     end
 
   rescue Stripe::CardError => e
-    flash[:error] = e.message # pass key in view: `error`
+    flash[:error] = e.message               # pass key in view: `error`
     render json: e
     return
   rescue => e
