@@ -3,7 +3,6 @@ class CreateCharges < ActiveRecord::Migration
     create_table :charges do |t|
       t.references :user
       t.references :event
-      t.integer :host_id
       t.string :stripe_charge
 
       t.timestamps
