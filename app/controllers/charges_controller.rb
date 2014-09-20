@@ -6,14 +6,13 @@ class ChargesController < ApplicationController
     token = params[:stripeToken]
     amount = (event.price.to_i) * 100
     
-    unless (fee = amount / 10) > 100
+    unless (fee = amount / 10) > 100        #set application fee to 10% or $1
       fee = 100
     end
 
-    unless current_user.stripe_customer_id
-      binding.pry
-      customer = Stripe::Customer.create(
-        :card => token[:id],
+    unless current_user.stripe_customer_id  #find user by stripe customer id
+      customer = Stripe::Customer.create(   #or create new stripe customer 
+        :card => token[:id],                #and set stripe customer id on user
         :description => current_user.name
       )
       if customer
@@ -24,7 +23,7 @@ class ChargesController < ApplicationController
 
     customer_id = current_user.stripe_customer_id
 
-    Stripe::Charge.create(
+    stripe_charge = Stripe::Charge.create(  #create stripe charge to charge customer
       {
         :customer    => customer_id,
         :amount      => amount,
@@ -32,8 +31,19 @@ class ChargesController < ApplicationController
         :currency    => 'usd',
         :application_fee => fee
       },
-      event.host.stripe_token # host token from event host stripe connect
+      event.host.stripe_token               #host token from event host stripe connect
     )
+
+    charge = Charge.new                     #create new record of charge in db
+    charge.user_id = current_user.id        #useful for issuing refunds
+    charge.event_id = event.id
+    charge.stripe_charge = stripe_charge.id
+    
+    if charge.save
+      render json: charge, status: :created #if succesful, send back 200
+    else
+      render status: :internal_server_error #else send back 500
+    end
 
   rescue Stripe::CardError => e
     flash[:error] = e.message # pass key in view: `error`
