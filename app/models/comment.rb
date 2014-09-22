@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :parent_id, :user_id
+  attr_accessible :body, :parent_id, :user_id, :commentable_id, :commentable_type
   has_ancestry
   # belongs_to :event
   belongs_to :user

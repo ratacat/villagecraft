@@ -27,9 +27,9 @@ class EventsController < ApplicationController
 
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
     @comments = @event.comments.arrange(:order => :created_at)
-    @commentable = @event
+    # @commentable = @event
     # @comments = @commentable.comments
-    @comment = Comment.new
+    # @comment = Comment.new
     # @commentable = find_commentable
     # @comments = @event.comments.all
     # @comments = @commentable.comments.arrange(:order => :created_at)

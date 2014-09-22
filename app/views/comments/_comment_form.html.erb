@@ -4,9 +4,10 @@
   <%#= f.submit "Create comment" %><!-- <br></br> -->
 <%# end %>
 <%= form_for [@commentable, @comment] do |f| %>
-  <%= f.hidden_field :parent_id, :value => params[:parent_id] %>         
+  <%= f.hidden_field :commentable_type, :value => @commentable.class.to_s %>    
+  <%= f.hidden_field :commentable_uuid, :value => @commentable.uuid %>         
   <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-  <%= f.submit "Reply" %><br></br>
+  <%= f.submit "Add comment" %><br></br>
 <% end %>
 
 
