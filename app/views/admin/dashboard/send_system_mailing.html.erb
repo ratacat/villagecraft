@@ -12,7 +12,7 @@
         <% end %>
   
         <%= f.input :subject, label: 'Subject' %>
-        <%= f.input :body, label: 'Body', as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+        <%= f.input :body, label: 'Body', as: :text, input_html: {:rows => "20", :'data-provide' => "markdown"} %>
 
         <%= f.hidden_field :system_message, value: true %>
 
