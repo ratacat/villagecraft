@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   
   has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
 
-  has_many :comments
+  has_many :comments, :as => :commentable
     
   has_many :attendances, :dependent => :destroy, :conditions => {:deleted_at => nil} do
     def with_state(state)
