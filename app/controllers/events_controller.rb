@@ -26,8 +26,11 @@ class EventsController < ApplicationController
     @reviews_rating = @workshop.all_reviews(order: :rating, limit: 3)
 
     @future_reruns = @workshop.events.where_first_meeting_starts_in_future.to_a
-    @comment_new = Comment.new
-    @comments = @event.comments.all
+
+    @commentable = @event if @event
+    @commentable = Comment.find(params[:comment_id]) if params[:comment_id]
+    @comment = @commentable.comments.new
+    @comments = @commentable.comments.all 
 
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order

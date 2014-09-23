@@ -1,10 +1,28 @@
 
 <p>COMMENTS</p>
   <div>
-    <% @comments.each do |comment|%>
-    <p><%= comment.body %></p> 
-    <p>By <%= comment.user.email -%>
-    <%= time_ago_in_words(comment.created_at) -%> ago</p>
-    <label class="reply">reply</label><br></br>
-    <% end %>
+    <ul>
+      <% @comments.each do |comment|%>
+        <li>
+          <p><%= comment.body %></p>
+          <p>By <%= comment.user.email -%>
+          <%= time_ago_in_words(comment.created_at) -%> ago</p>
+          <div class="comment">reply</div>
+          <% unless comment.comments.empty? %>
+          <ul class="comment_list">
+            <%= render :partial => 'comments/comment', :collection => comment.comments %>
+          </ul>
+          <% end %>          
+        </li><br></br>
+          <div style="display:none">
+            <%= render :partial => 'comments/comment_form' %>
+          </div>
+          <% unless comment.comments.empty? %>
+          <ul class="comment_list">
+            <%= render :partial => 'comments/comment', :collection => comment.comments %>
+          </ul>
+          <% end %> 
+        </li>
+      <% end %>
+    </ul>
   </div>
