@@ -43,17 +43,16 @@ class ChargesController < ApplicationController
     
     if charge.save
       render json: charge, status: :created #if succesful, send back 200
-    else
-      render status: :internal_server_error #else send back 500
+    else                                    #TODO: if stripe success, but server error
+      render json: "Stripe charge succeeded, but no db record was made"
     end
 
-  rescue Stripe::CardError => e
-    flash[:error] = e.message               # pass key in view: `error`
-    render json: e
-    return
   rescue => e
-    render json: e
-    return
+    puts
+    puts "*******"
+    puts "ERROR: " + e.message
+    puts "*******"
+    render json: e.message
   end
 
 end

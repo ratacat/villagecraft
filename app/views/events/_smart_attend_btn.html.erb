@@ -46,7 +46,11 @@
                                     });
                                 })
                                 .fail(function(error){
-                                  // if charge fail
+                                  console.log(error.responseText);
+
+                                  var $flashError = $(' <div class="alert fade in alert-danger"><button class="close" data-dismiss="alert">×</button>Signup unsuccessful. Your card was not charged.</div> ');
+                                  
+                                  $('#alerts').prepend($flashError);
                                 });
                             }
                           });
