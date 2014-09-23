@@ -1,21 +1,22 @@
 class CommentsController < ApplicationController
+  
   before_filter :find_commentable 
 
   def index
-    # @comments = @parent.comments.all
+    @commentable = find_commentable
     @comments = @commentable.comments
+    # @comments = @parent.comments.all
   end
 
-  def new  
-    # @comment = @parent.comments.new 
-    @comment = Comment.new( :parent_id => @parent_id,
-                            :commentable_id => @commentable.id,
-                            :commentable_type => @commentable.class.to_s)
+  def new
+    @commentable = find_commentable
+    @comment = @commentable.comments.build
   end
  
-  def create   
-    # @comment = @parent.comments.new(comment_params)
-    @comment = @commentable.comments.new(comment_params)
+  def create
+    @commentable = find_commentable
+    @comment = @commentable.comments.build(params[:comment])
+    # @comment = @parent.comments.build(params[:comment])
     @comment.user_id = current_user.id 
     respond_to do |format|
       if @comment.save
@@ -29,23 +30,23 @@ class CommentsController < ApplicationController
       end
     end
   end
-    
 
-protected 
-  def comment_params
-    params.require(:comment).permit(:id, :body, :commentable_id, :commentable_type)
-  end
+protected
+  
+  # def comment_params
+  #   params.require(:comment).permit(:body, :commentable_id, :commentable_type)
+  # end
 
   def find_commentable
-    # binding.pry
-    # @commentable = Event.find(params[:comment][:id]) if params[:comment][:id]
-    @commentable = Comment.find(params[:id]) 
-  #   params.each do |name, value|
-  #     if name =~ /(.+)_id$/
-  #       return $1.classify.constantize.find(value)
-  #     end
-  #   end
-  #   nil
+    params[:commentable_type].constantize.find(params[:commentable_id])
   end
+
+  # def load_parent
+  #   # @event = Event.find(params[:event_id])  
+  #   @parent = Event.find_by_id(params[:comment][:id] ) if params[:comment][:id] 
+  #   @parent = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
+  #   # binding.pry
+  #   # redirect_to root_path unless defined?(@parent)
+  # end
 
 end

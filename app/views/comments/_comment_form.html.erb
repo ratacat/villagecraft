@@ -1,15 +1,16 @@
+
 <%#= form_for [@event, @comment = Comment.new] do |f| %>
   <%#= f.hidden_field :id, value: @event.id %>
   <%#= f.text_field :body, placeholder: "Add your comment" %><!-- <br></br> -->
   <%#= f.submit "Create comment" %><!-- <br></br> -->
 <%# end %>
+
+
 <%= form_for [@commentable, @comment] do |f| %>
-  <%= f.hidden_field :commentable_type, :value => @commentable.class.to_s %>    
-  <%= f.hidden_field :commentable_uuid, :value => @commentable.uuid %>         
+  <%= hidden_field_tag :commentable_type, @commentable.class.to_s %>
+  <%= hidden_field_tag :commentable_id, @commentable.id %>
   <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-  <%= f.submit "Add comment" %><br></br>
+  <%= f.submit "Create comment" %><br></br>
 <% end %>
-
-
 
 

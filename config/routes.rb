@@ -203,20 +203,6 @@ Villagecraft::Application.routes.draw do
 #                    lock_event POST     /events/:id/lock(.:format)               events#lock
 #                  unlock_event POST     /events/:id/unlock(.:format)             events#unlock
 #                 sms_attendees POST     /events/:id/sms_attendees(.:format)      events#sms_attendees
-#              comment_comments GET      /comments/:comment_id/comments(.:format)          comments#index
-#                               POST     /comments/:comment_id/comments(.:format)          comments#create
-#           new_comment_comment GET      /comments/:comment_id/comments/new(.:format)      comments#new
-#          edit_comment_comment GET      /comments/:comment_id/comments/:id/edit(.:format) comments#edit
-#               comment_comment GET      /comments/:comment_id/comments/:id(.:format)      comments#show
-#                               PUT      /comments/:comment_id/comments/:id(.:format)      comments#update
-#                               DELETE   /comments/:comment_id/comments/:id(.:format)      comments#destroy
-#                      comments GET      /comments(.:format)                               comments#index
-#                               POST     /comments(.:format)                               comments#create
-#                   new_comment GET      /comments/new(.:format)                           comments#new
-#                  edit_comment GET      /comments/:id/edit(.:format)                      comments#edit
-#                       comment GET      /comments/:id(.:format)                           comments#show
-#                               PUT      /comments/:id(.:format)                           comments#update
-#                               DELETE   /comments/:id(.:format)                           comments#destroy
 #                event_comments GET      /e/:event_id/comments(.:format)          comments#index
 #                               POST     /e/:event_id/comments(.:format)          comments#create
 #             new_event_comment GET      /e/:event_id/comments/new(.:format)      comments#new

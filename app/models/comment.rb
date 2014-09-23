@@ -1,6 +1,5 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :parent_id, :user_id, :commentable_id, :commentable_type
-  has_ancestry
+  attr_accessible :body, :commentable_id, :commentable_type, :user_id
   # belongs_to :event
   belongs_to :user
   belongs_to :commentable, :polymorphic => true
@@ -11,4 +10,5 @@ class Comment < ActiveRecord::Base
     return @event if defined?(@event)
     @event = commentable.is_a?(Event) ? commentable : commentable.event
   end
+  
 end
