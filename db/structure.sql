@@ -567,7 +567,11 @@ CREATE TABLE users (
     email_short_messages boolean DEFAULT false,
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
-    email_system_messages boolean DEFAULT true
+    email_system_messages boolean DEFAULT true,
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying(255)
 );
 
 
@@ -1239,6 +1243,13 @@ CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (au
 
 
 --
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
 -- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1622,3 +1633,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140403065951');
 INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
+
+INSERT INTO schema_migrations (version) VALUES ('20140925214604');

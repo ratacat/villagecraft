@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
     else
       session[:previous_url] || root_path
     end
+    
   end
   
   def current_ability
