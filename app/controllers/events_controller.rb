@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
+  include ChargesHelper
   load_and_authorize_resource(:find_by => :seod_uuid)
   before_filter :check_lock, :only => [:update, :destroy]
  
