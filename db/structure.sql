@@ -130,7 +130,8 @@ CREATE TABLE charges (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     amount integer,
-    fee_collected integer
+    fee_collected integer,
+    refunded boolean DEFAULT false
 );
 
 
@@ -1702,6 +1703,4 @@ INSERT INTO schema_migrations (version) VALUES ('20140917030012');
 
 INSERT INTO schema_migrations (version) VALUES ('20140919062104');
 
-INSERT INTO schema_migrations (version) VALUES ('20140920052729');
-
-INSERT INTO schema_migrations (version) VALUES ('20140927051205');
+INSERT INTO schema_migrations (version) VALUES ('20140927051925');
