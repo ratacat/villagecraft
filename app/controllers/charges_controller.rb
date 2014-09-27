@@ -1,5 +1,6 @@
 class ChargesController < ApplicationController
-
+  include ChargesHelper
+  
 # POST /charges
   def create
     event = Event.find(params[:event_id])
