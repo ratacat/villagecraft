@@ -1,10 +1,5 @@
 class WorkshopsController < ApplicationController
-  
-  # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
-  before_filter do
-    params[:workshop] &&= workshop_params
-  end
-  load_and_authorize_resource(:find_by => :seod_uuid)
+  load_and_authorize_resource(:find_by => :seod_uuid, :param_method => :workshop_params)
   
   before_filter :get_future_and_past_reruns, :only => [:edit, :update]
   before_filter :get_reviews, :only => [:edit, :update, :show]
