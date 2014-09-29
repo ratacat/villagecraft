@@ -35,7 +35,7 @@ gem 'simple_form'
 gem 'x-editable-rails', '1.5.2'
 
 # centralized authentication and access control (see ability.rb); cancan is showing signs of being an abandoned project, consider replacing it with pundit
-gem 'cancan'
+gem 'cancancan'
 
 # date and time validation
 gem 'validates_timeliness', '~> 3.0'
