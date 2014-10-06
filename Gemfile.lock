@@ -350,11 +350,7 @@ DEPENDENCIES
   awesome_print
   aws-sdk
   bluecloth
-<<<<<<< HEAD
-  cancan
-=======
   cancancan
->>>>>>> 7ab2fa54641b9a182a5bb1cb3e9947e060155351
   capistrano (~> 2.15.5)
   capistrano-unicorn
   capybara (= 1.1.2)
