@@ -164,7 +164,6 @@ group :development do
   # gem 'debugger-ruby_core_source'
   # OR, you might want to install the gem manually from the command line like this:
   # gem install debugger -- --with-ruby-include=~/.rbenv/versions/1.9.3-p448/include/ruby-1.9.1/ruby
-  gem 'debugger'
   gem 'pry'
 end
 
