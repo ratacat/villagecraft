@@ -8,7 +8,7 @@
 
 <%= form_for [@commentable, @comment] do |f| %>
   <%= hidden_field_tag :commentable_type, @commentable.class.to_s %>
-  <%= hidden_field_tag :commentable_id, @commentable.id %>
+  <%= hidden_field_tag :commentable_uuid, @commentable.uuid %>
   <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
   <%= f.submit "Create comment" %><br></br>
 <% end %>

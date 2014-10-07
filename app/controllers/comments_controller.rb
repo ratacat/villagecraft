@@ -1,22 +1,11 @@
 class CommentsController < ApplicationController
   
-  before_filter :find_commentable 
-
-  def index
-    @commentable = find_commentable
-    @comments = @commentable.comments
-    # @comments = @parent.comments.all
-  end
-
-  def new
-    @commentable = find_commentable
-    @comment = @commentable.comments.build
-  end
+  load_and_authorize_resource(:find_by => :uuid, :param_method => :comment_params)
  
   def create
+    # @comment = @parent.comments.build(params[:comment])
     @commentable = find_commentable
     @comment = @commentable.comments.build(params[:comment])
-    # @comment = @parent.comments.build(params[:comment])
     @comment.user_id = current_user.id 
     respond_to do |format|
       if @comment.save
@@ -31,14 +20,14 @@ class CommentsController < ApplicationController
     end
   end
 
-protected
+private
   
-  # def comment_params
-  #   params.require(:comment).permit(:body, :commentable_id, :commentable_type)
-  # end
+  def comment_params
+    params.permit([:body, :commentable_uuid, :commentable_type])
+  end
 
   def find_commentable
-    params[:commentable_type].constantize.find(params[:commentable_id])
+    params[:commentable_type].constantize.find_by_uuid(params[:commentable_uuid])
   end
 
   # def load_parent

@@ -38,7 +38,7 @@ gem 'simple_form'
 gem 'x-editable-rails', '1.5.2'
 
 # centralized authentication and access control (see ability.rb); cancan is showing signs of being an abandoned project, consider replacing it with pundit
-gem 'cancan'
+gem 'cancancan'
 
 # date and time validation
 gem 'validates_timeliness', '~> 3.0'
@@ -165,6 +165,7 @@ group :development do
   # OR, you might want to install the gem manually from the command line like this:
   # gem install debugger -- --with-ruby-include=~/.rbenv/versions/1.9.3-p448/include/ruby-1.9.1/ruby
   gem 'debugger'
+  gem 'pry'
 end
 
 group :production do

@@ -6,23 +6,18 @@
         <li>
           <p><%= comment.body %></p>
           <p>By <%= comment.user.email -%>
-          <%= time_ago_in_words(comment.created_at) -%> ago</p>
-          <div class="comment">reply</div>
-          <% unless comment.comments.empty? %>
-          <ul class="comment_list">
-            <%= render :partial => 'comments/comment', :collection => comment.comments %>
-          </ul>
-          <% end %>          
-        </li><br></br>
+          <%= time_ago_in_words(comment.created_at) -%> ago</p>   
+        
+        <div class="comment">reply</div><br>
           <div style="display:none">
-            <%= render :partial => 'comments/comment_form' %>
+            <%= render :partial => 'comments/comment_form', :locals => {:commentable_type => "Comment", :commentable_uuid => comment.uuid} %>
           </div>
           <% unless comment.comments.empty? %>
           <ul class="comment_list">
             <%= render :partial => 'comments/comment', :collection => comment.comments %>
           </ul>
           <% end %> 
-        </li>
+          </li>
       <% end %>
     </ul>
   </div>

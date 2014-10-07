@@ -1,5 +1,0 @@
-<%= form_for ([@parent_comment, @comment]) do |f| %>
-  <%= f.hidden_field :id, value: @parent_comment.id %>
-  <%= f.text_field :body, placeholder: "Reply to comment" %><br></br>
-  <%= f.submit "Reply to comment" %><br></br>
-<% end %>

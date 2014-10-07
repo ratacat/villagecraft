@@ -128,8 +128,9 @@ CREATE TABLE comments (
     user_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
+    commentable_type character varying(255),
     commentable_id integer,
-    commentable_type character varying(255)
+    uuid character varying(255)
 );
 
 
@@ -601,7 +602,11 @@ CREATE TABLE users (
     email_short_messages boolean DEFAULT false,
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
-    email_system_messages boolean DEFAULT true
+    email_system_messages boolean DEFAULT true,
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying(255)
 );
 
 
@@ -987,6 +992,13 @@ CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
 
 
 --
+-- Name: index_comments_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_uuid ON comments USING btree (uuid);
+
+
+--
 -- Name: index_events_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1285,6 +1297,13 @@ CREATE INDEX index_sightings_on_user_id ON sightings USING btree (user_id);
 --
 
 CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (authentication_token);
+
+
+--
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
 
 
 --
@@ -1674,22 +1693,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 
 INSERT INTO schema_migrations (version) VALUES ('20140816222505');
 
-<<<<<<< HEAD
-INSERT INTO schema_migrations (version) VALUES ('20140829062843');
-
-INSERT INTO schema_migrations (version) VALUES ('20140829062929');
-
-INSERT INTO schema_migrations (version) VALUES ('20140901014235');
-
-INSERT INTO schema_migrations (version) VALUES ('20140901014304');
-
 INSERT INTO schema_migrations (version) VALUES ('20140901152620');
 
-INSERT INTO schema_migrations (version) VALUES ('20140915223537');
+INSERT INTO schema_migrations (version) VALUES ('20140925214604');
 
-INSERT INTO schema_migrations (version) VALUES ('20140917220415');
-=======
-INSERT INTO schema_migrations (version) VALUES ('20140923225948');
+INSERT INTO schema_migrations (version) VALUES ('20141003031803');
 
-INSERT INTO schema_migrations (version) VALUES ('20140923230012');
->>>>>>> threaded_comments
+INSERT INTO schema_migrations (version) VALUES ('20141003031840');
