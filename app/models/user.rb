@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :confirmable # :omniauth_providers => [:facebook]
+         :omniauthable # :confirmable, :omniauth_providers => [:facebook]
   
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
   before_save :ensure_authentication_token
@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
     if Rails.env.development?
       Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)
     else
-      User.nexmo.send_message({:to => self.phone, :from => NEXMO_NUMBER, :text => msg})
+      User.nexmo.send_message({:from => NEXMO_NUMBER, :to => self.phone, :text => msg})
     end
   end
 
@@ -254,7 +254,7 @@ class User < ActiveRecord::Base
   end
 
   def User.nexmo
-    @@nexmo ||= Nexmo::Client.new(NEXMO_API_KEY, NEXMO_API_SECRET)
+    @@nexmo ||= Nexmo::Client.new(key: NEXMO_API_KEY, secret: NEXMO_API_SECRET)
   end
   
   def has_fake_email?
