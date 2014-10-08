@@ -1,7 +1,7 @@
 module ChargesHelper
-  def refund
-    if @event.rsvp && @event.price > 0
-      charge = Charge.where(event_id: @event).where(user_id: current_user).limit(1)[0]
+  def refund(event, attendee=current_user)
+    if event.rsvp && event.price > 0
+      charge = Charge.where(event_id: event).where(user_id: attendee).limit(1)[0]
       stripe_charge = Stripe::Charge.retrieve(charge.stripe_charge) #grab charge record from stripe
       
       if refund = stripe_charge.refunds.create #issue stripe refund
