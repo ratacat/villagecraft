@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  
+  include ChargesHelper
   # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
   before_filter do
     params[:workshop] &&= workshop_params
@@ -166,6 +166,11 @@ class WorkshopsController < ApplicationController
   # DELETE /w/1
   # DELETE /w/1.json
   def destroy
+    @workshop.events.each do |event|
+      event.attendees.each do |attendee|
+        refund(event, attendee)
+      end
+    end
     @workshop.destroy
 
     respond_to do |format|
