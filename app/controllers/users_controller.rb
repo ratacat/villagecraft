@@ -90,7 +90,7 @@ class UsersController < ApplicationController
   
   # GET /users/hostify_me
   def hostify_me
-    hostify_admin = User.find_by_email("samarasteele@gmail.com")
+    hostify_admin = User.find_by_email("hostify@villagecraft.org")
     @message = Message.new(:from_user => current_user, :to_user => hostify_admin, :subject => "Host Interest from #{current_user.name} <#{current_user.email}>")
   end
   
