@@ -14,9 +14,10 @@ module ChargesHelper
       else
         raise "refund unsuccessful"
       end
-
-    else
+      
       return true
+    else
+      return false
     end
 
     rescue => e
