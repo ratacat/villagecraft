@@ -1,7 +1,14 @@
-<p>Welcome <%= @resource.name %>!</p>
+<p>Welcome to Villagecraft, <%= @resourrce.name %>!</p>
 
-<p>The email address <%= @email %> was used to sign up for <a href="http://villagecraft.org/">villagecraft</a></p>
+<p>Click <%= link_to 'here', confirmation_url(@resource, :confirmation_token => @token) %> to confirm that you signed up with <%= @email %></p>
 
-<p>Before you can login, you'll have to confirm your email address by clicking the link below:</p>
+<p>Once you've done that, you'll be able to RSVP for workshops, skillshares, and community events!</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
+<p>Want to offer a workshop or skillshare yourself? Let us know at <%= mail_to "team@villagecraft.org" %> and we'll be in touch.</p>
+
+<p>Do not reply directly to this email, we won't be able to respond.</p>
+
+<p>You can always unsubscribe from the newsletter or change your personal settings <a href="http://villagecraft.org/settings">here</a>.</p>
+
+<p>Ta ta for now,</p>
+<p>The Villagecraft Team</p>
