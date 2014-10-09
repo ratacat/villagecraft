@@ -604,6 +604,10 @@ CREATE TABLE users (
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
     email_system_messages boolean DEFAULT true,
+    confirmation_token character varying(255),
+    confirmed_at timestamp without time zone,
+    confirmation_sent_at timestamp without time zone,
+    unconfirmed_email character varying(255),
     stripe_token character varying(255),
     stripe_customer_id character varying(255)
 );
@@ -1313,6 +1317,13 @@ CREATE UNIQUE INDEX index_users_on_authentication_token ON users USING btree (au
 
 
 --
+-- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+
+
+--
 -- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1702,5 +1713,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140829033256');
 INSERT INTO schema_migrations (version) VALUES ('20140917030012');
 
 INSERT INTO schema_migrations (version) VALUES ('20140919062104');
+
+INSERT INTO schema_migrations (version) VALUES ('20140925214604');
 
 INSERT INTO schema_migrations (version) VALUES ('20140927051925');
