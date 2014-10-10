@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
   has_many :notifications
 
   has_many :rating
+  has_many :comments, :through => :events
 
   normalize_attributes :name, :email, :address
 

@@ -29,6 +29,8 @@ class Ability
       can [:plus, :minus, :create, :index, :destroy], Review, :author_id => user.id
       
       can :simple_index_partial, Workshop
+
+      can [:create], Comment
       # host
       if user.host?
         can :manage_as_host, Workshop, :host_id => user.id

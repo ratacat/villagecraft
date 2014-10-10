@@ -1,0 +1,30 @@
+
+<p>COMMENTS</p>
+  <div>
+    <ul>
+      <% @comments.each do |comment|%>
+        <li>
+          <p><%= comment.body %></p>
+          <p>By <%= comment.user.name if comment.user -%>
+          <%= time_ago_in_words(comment.created_at) -%> ago</p>   
+        
+        <div class="comment">reply</div><br>
+          <div style="display:none">
+            <%= form_for @comment do |f| %>
+              <%= hidden_field_tag :commentable_type, comment.class.to_s %>
+              <%= hidden_field_tag :commentable_uuid, comment.uuid %>
+              <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
+              <%= f.submit "Create comment" %><br></br>
+            <% end %>
+          </div>
+          <!-- to do: unless the commentable is a comment, then show the sub comments -->
+          <% unless comment.comments.empty? %>
+          <ul class="comment_list">
+            <%= render :partial => 'comments/comment', :collection => comment.comments %>
+          </ul>
+          <% end %> 
+          </li>
+      <% end %>
+    </ul>
+  </div>
+

@@ -35,7 +35,12 @@ Villagecraft::Application.routes.draw do
   post 'events/:id/lock' => 'events#lock', :as => :lock_event
   post 'events/:id/unlock' => 'events#unlock', :as => :unlock_event
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
+
+  resources :comments, :only => [:create]
+
   resources :e, :controller => :events, :as => :events
+ 
+
   resources :meetings, :only => [:update, :show]
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
@@ -156,4 +161,5 @@ Villagecraft::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+
 end

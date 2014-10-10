@@ -79,6 +79,11 @@
       <%= BlueCloth.new(@workshop.description, :filter_html).to_html.html_safe %>
     </p>
 
+
+    <%= render "comments/comment_form", :locals => {:commentable_type => "Event", :commentable_uuid => @event.uuid} %>
+    <%= render "/comments/comment" %>
+
+
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
       <% if @reviews_recent.count > 3 %>
