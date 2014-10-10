@@ -30,6 +30,7 @@ class EventsController < ApplicationController
 
     @commentable = @event if @event 
     @commentable = Comment.find(params[:comment_id]) if params[:comment_id]
+    # @commentable = find_commentable
     @comment = @commentable.comments.new
     @comments = @commentable.comments.all
 
@@ -332,6 +333,7 @@ class EventsController < ApplicationController
       raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
     end
   end  
+
 
   # def find_commentable
   #   params.each do |name, value|

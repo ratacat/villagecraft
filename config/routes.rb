@@ -38,9 +38,8 @@ Villagecraft::Application.routes.draw do
 
   resources :comments, :only => [:create]
 
-  resources :e, :controller => :events, :as => :events do
-    resources :comments 
-  end
+  resources :e, :controller => :events, :as => :events
+ 
 
   resources :meetings, :only => [:update, :show]
 

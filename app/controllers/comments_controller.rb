@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
   def create
     # @comment = @parent.comments.build(params[:comment])
     @commentable = find_commentable
+    # @comment = Comment.build(commentable_id: @commentable.id, commentable_type: params[:commentable_type], body: params[:body], user_id: current_user.id)
     @comment = @commentable.comments.build(params[:comment])
     @comment.user_id = current_user.id 
     respond_to do |format|

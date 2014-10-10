@@ -80,7 +80,7 @@
     </p>
 
 
-    <%= render "comments/comment_form" %>
+    <%= render "comments/comment_form", :locals => {:commentable_type => "Event", :commentable_uuid => @event.uuid} %>
     <%= render "/comments/comment" %>
 
 
