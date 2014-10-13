@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :confirmable, :omniauth_providers => [:facebook]
+         :omniauthable, :omniauth_providers => [:facebook]
   
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
   before_save :ensure_authentication_token
