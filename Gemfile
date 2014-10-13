@@ -19,7 +19,7 @@ gem 'nokogiri'
 gem 'pg'
 
 # authentication
-gem 'devise', '3.2.2'
+gem 'devise'
 
 # use of remote authentication providers like Facebook
 gem 'omniauth'
