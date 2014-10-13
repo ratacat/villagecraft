@@ -39,3 +39,15 @@ var Comment = {
 $(function() {
     Comment.init();
 });
+
+// $(document).ready(function(){
+//     $('.comment').click(function(){
+//         $('.form').show();
+//     });
+
+//     $('.cancel').on('click', function(e){
+//         $('.form').hide();
+//         e.preventDefault();
+//     });
+// });
+
