@@ -81,8 +81,13 @@
 
 
     <%= render "comments/comment_form", :locals => {:commentable_type => "Event", :commentable_uuid => @event.uuid} %>
-    <%= render "/comments/comment" %>
 
+  	<p>COMMENTS</p>
+    <div>
+      <ul>
+        <%= render "/comments/comment" %>
+      </ul>
+    </div>
 
     <% if @reviews_recent.count > 0 %>
       <h3>Reviews</h3>
