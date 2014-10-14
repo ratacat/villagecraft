@@ -1,23 +1,22 @@
-<li>
-  <p><%= comment.body %></p>
-  <p>By <%= comment.user.name if comment.user -%>
-  <%= time_ago_in_words(comment.created_at) -%> ago</p>  
-  
-  <% unless comment.commentable.is_a? Comment %>
-  	<div class="form">
-  	  <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
-  	    <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
-  	    <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
-  	    <%= f.input :body, label: false, placeholder: "Reply..." %>
-  	    <%= f.button :submit, "Reply", class: "btn btn-primary" %>
-  	  <% end %>
-  	</div>
+<blockquote class="fancy">
+  <%= comment.body %>
+</blockquote>
+<p>By <%= comment.user.name if comment.user -%>
+<%= time_ago_in_words(comment.created_at) -%> ago</p>  
 
-    <% unless comment.comments.empty? %>
-      <ul class="comment_list">
-        <%= render :partial => 'comments/comment', :collection => comment.comments %>
-      </ul>
-    <% end %> 
-    
-  <% end %>
-</li>
+<% unless comment.commentable.is_a? Comment %>
+	<div class="form">
+	  <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
+	    <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
+	    <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
+	    <%= f.input :body, label: false, placeholder: "Reply..." %>
+	    <%= f.button :submit, "Reply", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
+
+  <% unless comment.comments.empty? %>
+    <ul class="comment_list">
+      <%= render :partial => 'comments/comment', :collection => comment.comments %>
+    </ul>
+  <% end %> 
+<% end %>

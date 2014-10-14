@@ -82,9 +82,7 @@
   	<h4 class="text-uppercase">Comments</h4>
     <%= render "comments/comment_form", :locals => {:commentable_type => "Event", :commentable_uuid => @event.uuid} %>
     <div>
-      <ul>
-        <%= render partial: "comments/comment", collection: @comments %>
-      </ul>
+      <%= render partial: "comments/comment", collection: @comments %>
     </div>
 
     <% if @reviews_recent.count > 0 %>
