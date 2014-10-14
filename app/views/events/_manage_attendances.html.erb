@@ -8,7 +8,6 @@
       <th>Signup Date</th>
       <th>Name</th>
       <th>Email</th>
-      <th>Mobile #</th>
       <th></th>
     </tr>
   </thead>
@@ -27,7 +26,6 @@
         %>
       </td>
       <td><%= attendance.user.email %></td>
-      <td class="user_phone"><%= attendance.user.phone %></td>
       <td>
         <% if can? :cancel_attend, @event %>
           <%= button_to 'Cancel', 
@@ -41,9 +39,6 @@
   </tbody>
 </table>
 
-<% ready_script do -%>
-  $("td.user_phone").format_phone_number_html();
-<% end -%>
 
 <%= render 'messages/modal_new', :message => Message.new(:to_user => User.new, :apropos => @event), :to => :one_person %>
 
