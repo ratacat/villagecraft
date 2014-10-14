@@ -3,9 +3,6 @@ source 'https://rubygems.org'
 # Sometime in the next year, upgrade to Rails 4, which shouldn't be very painful because we already use stong parameters in most places
 gem 'rails', '3.2.17'
 
-gem 'pry'
-gem 'pry-rails'
-
 # For deployment and remote control of the server (e.g. cap deploy)
 gem 'capistrano', '~> 2.15.5'
 
@@ -164,7 +161,7 @@ group :development do
   # gem 'debugger-ruby_core_source'
   # OR, you might want to install the gem manually from the command line like this:
   # gem install debugger -- --with-ruby-include=~/.rbenv/versions/1.9.3-p448/include/ruby-1.9.1/ruby
-  gem 'pry'
+  gem 'pry-rails'
 end
 
 group :production do

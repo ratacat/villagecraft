@@ -375,7 +375,6 @@ DEPENDENCIES
   paranoia (~> 1.0)
   pg
   possessive
-  pry
   pry-rails
   public_activity
   public_suffix
