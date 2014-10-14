@@ -3,17 +3,14 @@
   <p>By <%= comment.user.name if comment.user -%>
   <%= time_ago_in_words(comment.created_at) -%> ago</p>  
   
-  <div class="comment">Reply</div><br>
-    <div class="form" style="display:none">
-  <!-- <div class="reply-comment"> Reply </div> 
-    <div class="reply-comment-form" style="display:none"> -->
-      <%= form_for @comment do |f| %>
-        <%= hidden_field_tag :commentable_type, comment.class.to_s %>
-        <%= hidden_field_tag :commentable_uuid, comment.uuid %>
-        <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-        <%= f.submit "Create comment" %><br></br>
-      <% end %>
-    </div>
+	<div class="form">
+	  <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
+	    <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
+	    <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
+	    <%= f.input :body, label: false, placeholder: "Reply..." %>
+	    <%= f.button :submit, "Reply", class: "btn btn-primary" %>
+	  <% end %>
+	</div>
   <!-- to do: unless the commentable is a comment, then show the sub comments -->
     <% unless comment.comments.empty? %>
       <ul class="comment_list">

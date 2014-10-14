@@ -6,11 +6,11 @@
 <%# end %>
 
 
-<%= form_for @comment do |f| %>
-  <%= hidden_field_tag :commentable_type, @commentable.class.to_s %>
-  <%= hidden_field_tag :commentable_uuid, @commentable.uuid %>
-  <%= f.text_field :body, placeholder: "Add your comment" %><br></br>
-  <%= f.submit "Create comment" %><br></br>
+<%= simple_form_for :comment, as: :comment do |f| %>
+  <%= f.hidden_field :commentable_type, value: @commentable.class.to_s %>
+  <%= f.hidden_field :commentable_uuid, value: @commentable.uuid %>
+  <%= f.input :body, label: false, placeholder: "Add your comment" %>
+  <%= f.button :submit, "Create comment", class: "btn btn-primary" %>
 <% end %>
 
 

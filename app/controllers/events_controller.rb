@@ -31,7 +31,6 @@ class EventsController < ApplicationController
     @commentable = @event if @event 
     @commentable = Comment.find(params[:comment_id]) if params[:comment_id]
     # @commentable = find_commentable
-    @comment = @commentable.comments.new
     @comments = @commentable.comments.all
 
     if @workshop.image
