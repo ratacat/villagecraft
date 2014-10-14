@@ -6,8 +6,10 @@ class CommentsController < ApplicationController
     # @comment = @parent.comments.build(params[:comment])
     @commentable = find_commentable
     # @comment = Comment.build(commentable_id: @commentable.id, commentable_type: params[:commentable_type], body: params[:body], user_id: current_user.id)
-    @comment = @commentable.comments.build(params[:comment])
-    @comment.user_id = current_user.id 
+    @comment = @commentable.comments.build(user_id: current_user.id, 
+                                           body: params[:comment][:body], 
+                                           commentable_type: params[:comment][:commentable_type],
+                                           commentable_id: @commentable.id)
     respond_to do |format|
       if @comment.save
         # format.html { redirect_to event_path(@parent), notice: 'Comment was successfully created.' }
@@ -24,11 +26,11 @@ class CommentsController < ApplicationController
 private
   
   def comment_params
-    params.permit([:body, :commentable_uuid, :commentable_type])
+    params[:comment].permit([:body, :commentable_uuid, :commentable_type])
   end
 
   def find_commentable
-    params[:commentable_type].constantize.find_by_uuid(params[:commentable_uuid])
+    params[:comment][:commentable_type].constantize.find_by_uuid(params[:comment][:commentable_uuid])
   end
 
   # def load_parent
