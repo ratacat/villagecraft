@@ -85,7 +85,7 @@
   	<p>COMMENTS</p>
     <div>
       <ul>
-        <%= render "/comments/comment" %>
+        <%= render partial: "comments/comment", collection: @comments %>
       </ul>
     </div>
 
