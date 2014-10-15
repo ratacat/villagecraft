@@ -21,3 +21,4 @@
 //= require_directory ./everyone
 //= require spinner/spin
 //= require spinner/ladda
+

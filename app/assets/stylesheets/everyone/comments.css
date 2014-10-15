@@ -1,0 +1,33 @@
+
+ul.comment_list {
+  margin-left: 30px;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.all-comments {
+	margin-top: 2em;
+	padding: 0em 2em 2em 2em;
+	border-radius: 5px;
+	background: #F2F2F2;
+	border: 0.1em solid #D8D8D8;
+}
+
+.single-comment {
+	border-top: 1px solid #D8D8D8;
+	padding-top: 7px;
+}
+
+.form {
+	margin-bottom: 1em;
+}
+
+.replies {
+	margin-bottom:1em;
+}
+
+.single-comment-replies {
+list-style-type: none;
+}
+
+
