@@ -7,7 +7,6 @@
     <tr>
       <th>Signup Date</th>
       <th>Name</th>
-      <th>Email</th>
       <th></th>
     </tr>
   </thead>
@@ -25,7 +24,6 @@
             )
         %>
       </td>
-      <td><%= attendance.user.email %></td>
       <td>
         <% if can? :cancel_attend, @event %>
           <%= button_to 'Cancel', 
