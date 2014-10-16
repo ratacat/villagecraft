@@ -27,7 +27,18 @@ ul.comment_list {
 }
 
 .single-comment-replies {
-list-style-type: none;
+	list-style-type: none;
 }
 
+form.simple_form.comment {
+	margin-top: 0.5em;
+}
 
+.all-text {
+	margin-left: 60px;
+}
+
+.media:first-child {
+	margin-top: 0;
+	float: left;
+}

@@ -1,29 +1,39 @@
 <li class="single-comment-replies">
-<div class="single-comment">
-<blockquote class="fancy">
-  <%= comment.body %>
-</blockquote>
-<p>By <%= comment.user.name if comment.user %>
-<%= time_ago_in_words(comment.created_at) %> ago</p>  
-
-<% unless comment.commentable.is_a? Comment %>
-<p class="reply-comment">Reply</p>
-	<div class="form" style="display:none;">
-	  <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
-	    <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
-	    <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
-	    <%= f.input :body, label: false, placeholder: "Reply..." %>
-	    <%= f.button :submit, "Reply", class: "btn btn-primary" %>
-	  <% end %>
-	</div>
-</div>
-
-  <% unless comment.comments.empty? %>
-    <ul class="comment_list">
-      <div class="replies">
-      <%= render :partial => 'comments/comment', :collection => comment.comments %>
-      </div>
-    </ul>
-  <% end %> 
-<% end %>
+  <div class="single-comment">
+    <% user ||= @user
+      linked ||= false
+      thumb_size ||= :small %>
+    <div class="media">
+      <a class="pull-left" href="#">
+        <%= user_thumb(user, {:size => thumb_size, :linked => linked, :class => "media-object img-rounded"}) %>
+      </a>
+    </div>
+    <div class="all-text">
+    <blockquote class="fancy">
+      <%= comment.body %>
+    </blockquote>
+    <p>By <%= comment.user.name if comment.user %>
+    <%= time_ago_in_words(comment.created_at) %> ago</p>  
+    
+    <% unless comment.commentable.is_a? Comment %>
+    <a class="reply-comment" href="#">Reply</a>
+    <div class="form" style="display:none;">
+      <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
+        <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
+        <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
+        <%= f.input :body, label: false, placeholder: "Reply..." %>
+        <%= f.button :submit, "Reply", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+  </div>
+  
+    <% unless comment.comments.empty? %>
+      <ul class="comment_list">
+        <div class="replies">
+        <%= render :partial => 'comments/comment', :collection => comment.comments %>
+        </div>
+      </ul>
+    <% end %> 
+  <% end %>
 </li>
