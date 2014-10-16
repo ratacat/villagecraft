@@ -11,7 +11,7 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody> 
 <% @event.attendances.reject {|a| a.user.nil? }.each do |attendance| %>
     <tr data-user-uuid="<%= attendance.user.uuid %>">
       <td><%= datetime_localized_to_current_user(attendance.created_at) %><br/><%= time_ago(attendance.created_at) %></td>
