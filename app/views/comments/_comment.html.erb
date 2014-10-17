@@ -9,10 +9,10 @@
       </a>
     </div>
     <div class="all-text">
-    <blockquote class="fancy">
-      <%= comment.body %>
+    <blockquote class="quote">
+      <p><%= comment.body %></p>
     </blockquote>
-    <p>By <%= comment.user.name if comment.user %>
+    <p class="comment-username">By <%= comment.user.name if comment.user %>
     <%= time_ago_in_words(comment.created_at) %> ago</p>  
     
     <% unless comment.commentable.is_a? Comment %>

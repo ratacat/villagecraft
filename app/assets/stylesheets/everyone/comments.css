@@ -18,6 +18,10 @@ ul.comment_list {
 	padding-top: 7px;
 }
 
+a.reply-comment {
+	margin-left: 8px;
+}
+
 .form {
 	margin-bottom: 1em;
 }
@@ -41,4 +45,41 @@ form.simple_form.comment {
 .media:first-child {
 	margin-top: 0;
 	float: left;
+}
+
+blockquote p:before { 
+  content: open-quote;
+  font-weight: bold;
+  padding: 5px;
+	font-family: Georgia, serif;
+	font-size: 18px;
+	font-style: italic;
+	line-height: 1.45;
+	position: relative;
+	color: #383838;
+	margin-bottom: 0;
+} 
+
+blockquote p:after { 
+  content: close-quote;
+  font-weight: bold;
+  padding: 3px;
+	font-family: Georgia, serif;
+	font-size: 18px;
+	font-style: italic;
+	line-height: 1.45;
+	position: relative;
+	color: #383838;
+	margin-bottom: 0;
+}
+
+.quote {
+	margin-top: -10px;
+	margin-left: -25px;
+	border:none;
+}
+
+p.comment-username {
+	margin-top: -25px;
+	margin-left: 8px;
 }
