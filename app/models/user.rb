@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:facebook]
+         :omniauthable, :confirmable, :omniauth_providers => [:facebook]
   
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
   before_save :ensure_authentication_token
@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
       self.authentication_token = generate_authentication_token
     end
   end
-  after_create :welcome_the_new_user
   
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
@@ -276,10 +275,6 @@ class User < ActiveRecord::Base
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
-  end
-  
-  def welcome_the_new_user
-    UserMailer.welcome_email(self).deliver unless self.external?
   end
   
   def normalize_phone

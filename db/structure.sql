@@ -119,6 +119,42 @@ ALTER SEQUENCE attendances_id_seq OWNED BY attendances.id;
 
 
 --
+-- Name: charges; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE charges (
+    id integer NOT NULL,
+    user_id integer,
+    event_id integer,
+    stripe_charge character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    amount integer,
+    fee_collected integer,
+    refunded boolean DEFAULT false
+);
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE charges_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+
+
+--
 -- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -571,7 +607,9 @@ CREATE TABLE users (
     confirmation_token character varying(255),
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255)
+    unconfirmed_email character varying(255),
+    stripe_token character varying(255),
+    stripe_customer_id character varying(255)
 );
 
 
@@ -692,6 +730,13 @@ ALTER TABLE ONLY attendances ALTER COLUMN id SET DEFAULT nextval('attendances_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
@@ -793,6 +838,14 @@ ALTER TABLE ONLY activities
 
 ALTER TABLE ONLY attendances
     ADD CONSTRAINT attendances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY charges
+    ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
 
 
 --
@@ -939,6 +992,27 @@ CREATE INDEX index_attendances_on_event_id ON attendances USING btree (event_id)
 --
 
 CREATE INDEX index_attendances_on_user_id ON attendances USING btree (user_id);
+
+
+--
+-- Name: index_charges_on_event_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_event_id ON charges USING btree (event_id);
+
+
+--
+-- Name: index_charges_on_stripe_charge; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_stripe_charge ON charges USING btree (stripe_charge);
+
+
+--
+-- Name: index_charges_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_charges_on_user_id ON charges USING btree (user_id);
 
 
 --
@@ -1634,4 +1708,12 @@ INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 
+INSERT INTO schema_migrations (version) VALUES ('20140829033256');
+
+INSERT INTO schema_migrations (version) VALUES ('20140917030012');
+
+INSERT INTO schema_migrations (version) VALUES ('20140919062104');
+
 INSERT INTO schema_migrations (version) VALUES ('20140925214604');
+
+INSERT INTO schema_migrations (version) VALUES ('20140927051925');

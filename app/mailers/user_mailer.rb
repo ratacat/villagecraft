@@ -62,8 +62,8 @@ class UserMailer < ActionMailer::Base
     end
   end
   
-  def welcome_email(user)
-    @user = user
-    mail(to: @user.email, subject: "Welcome to Villagecraft")
-  end
+  # def welcome_email(user)
+  #   @user = user
+  #   mail(to: @user.email, subject: "Welcome to Villagecraft")
+  # end
 end
