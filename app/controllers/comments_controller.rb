@@ -12,13 +12,9 @@ class CommentsController < ApplicationController
                                            commentable_id: @commentable.id)
     respond_to do |format|
       if @comment.save
-        # format.html { redirect_to event_path(@parent), notice: 'Comment was successfully created.' }
-        format.html { redirect_to @commentable, notice: 'Comment was successfully created.' }
-        format.json { render json: @comment, status: :created }
-        # format.js {render partial:"create"}
+        format.html { render :partial => 'comments/comment', :locals => {:comment => @comment } }
       else
-        format.html { render action: "new" }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+        format.js { render :json => { :errors => @comment.errors.full_messages, :message => "Problem submitting comment" }, :status => :unprocessable_entity }
       end
     end
   end
