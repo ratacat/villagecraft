@@ -38,16 +38,16 @@ form.simple_form.comment {
 	margin-top: 0.5em;
 }
 
-.all-text {
+.single-comment .all-text {
 	margin-left: 60px;
 }
 
-.media:first-child {
+.single-comment .media:first-child {
 	margin-top: 0;
 	float: left;
 }
 
-blockquote p:before { 
+.single-comment blockquote p:before { 
   content: open-quote;
   font-weight: bold;
   padding: 5px;
