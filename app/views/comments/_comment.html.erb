@@ -23,7 +23,7 @@
       <% end %>
   
       <ul class="replies">
-        <%= render :partial => 'comments/comment', :collection => comment.comments %>
+        <%= render :partial => 'comments/comment', :collection => comment.comments.order(:created_at) %>
       </ul>
     <% end %>
   </div>

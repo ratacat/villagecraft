@@ -31,7 +31,7 @@ class EventsController < ApplicationController
     @commentable = @event if @event 
     @commentable = Comment.find(params[:comment_id]) if params[:comment_id]
     # @commentable = find_commentable
-    @comments = @commentable.comments.all
+    @comments = @commentable.comments.order(:created_at).reverse_order.all
 
     if @workshop.image
       @images = @workshop.images.where("#{Image.quoted_table_column(:id)} != ?", @workshop.image).order(:created_at).reverse_order
