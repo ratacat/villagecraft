@@ -1,10 +1,3 @@
-
-ul.comment_list {
-  margin-left: 30px;
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
-
 .all-comments {
 	margin-top: 2em;
 	padding: 0em 2em 2em 2em;
@@ -13,7 +6,8 @@ ul.comment_list {
 	border: 0.1em solid #D8D8D8;
 }
 
-.single-comment {
+li.comment {
+	list-style-type: none;
 	border-top: 1px solid #D8D8D8;
 	padding-top: 7px;
   .all-text {
@@ -62,22 +56,15 @@ ul.comment_list {
 
   .form {
   	margin-bottom: 1em;
+    margin-left: 8px;
   }
 
   p.comment-username {
   	margin-top: -25px;
   	margin-left: 8px;
   }
-}
-
-.replies {
-	margin-bottom:1em;
-}
-
-.single-comment-replies {
-	list-style-type: none;
-}
-
-form.simple_form.comment {
-	margin-top: 0.5em;
+  
+  ul.replies {
+    margin-left: 28px;
+  }
 }
