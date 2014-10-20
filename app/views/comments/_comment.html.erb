@@ -5,7 +5,7 @@
       thumb_size ||= :small %>
     <div class="media">
       <a class="pull-left" href="#">
-        <%= user_thumb(user, {:size => thumb_size, :linked => linked, :class => "media-object img-rounded"}) %>
+        <%= user_thumb(comment.user, {:size => thumb_size, :linked => linked, :class => "media-object img-rounded"}) %>
       </a>
     </div>
     <div class="all-text">
