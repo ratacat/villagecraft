@@ -12,21 +12,19 @@
     <%= time_ago_in_words(comment.created_at) %> ago</p>  
   
     <% unless comment.commentable.is_a? Comment %>
-    <p>
-      <a class="open-reply-form" href="#">Reply</a>
-    </p>
-    <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true, :style => "display: none;"}) do |f| %>
-      <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
-      <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
-      <%= f.input :body, label: false, placeholder: "Reply..." %>
-      <%= f.button :submit, "Reply", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+      <p>
+        <a class="open-reply-form" href="#">Reply</a>
+      </p>
+      <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true, :style => "display: none;", :class => "reply"}) do |f| %>
+        <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
+        <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
+        <%= f.input :body, label: false, placeholder: "Reply..." %>
+        <%= f.button :submit, "Reply", class: "btn btn-primary" %>
+      <% end %>
   
-    <% unless comment.comments.empty? %>
       <ul class="replies">
         <%= render :partial => 'comments/comment', :collection => comment.comments %>
       </ul>
-    <% end %> 
-  <% end %>
+    <% end %>
+  </div>
 </li>

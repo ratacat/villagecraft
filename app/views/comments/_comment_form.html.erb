@@ -5,8 +5,7 @@
   <%#= f.submit "Create comment" %><!-- <br></br> -->
 <%# end %>
 
-
-<%= simple_form_for :comment, url: comments_path do |f| %>
+<%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true, :class => "comment"}) do |f| %>
   <%= f.hidden_field :commentable_type, value: @commentable.class.to_s %>
   <%= f.hidden_field :commentable_uuid, value: @commentable.uuid %>
   <%= f.input :body, label: false, placeholder: "Add your comment" %>
