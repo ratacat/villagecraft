@@ -5,25 +5,23 @@
     </a>
   </div>
   <div class="all-text">
-  <blockquote class="quote">
-    <p><%= comment.body %></p>
-  </blockquote>
-  <p class="comment-username">By <%= comment.user.name if comment.user %>
-  <%= time_ago_in_words(comment.created_at) %> ago</p>  
+    <blockquote class="quote">
+      <p><%= comment.body %></p>
+    </blockquote>
+    <p class="comment-username">By <%= comment.user.name if comment.user %>
+    <%= time_ago_in_words(comment.created_at) %> ago</p>  
   
-  <% unless comment.commentable.is_a? Comment %>
-  <p>
-    <a class="reply-comment" href="#">Reply</a>
-  </p>
-  <div class="form" style="display:none;">
-    <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true}) do |f| %>
+    <% unless comment.commentable.is_a? Comment %>
+    <p>
+      <a class="open-reply-form" href="#">Reply</a>
+    </p>
+    <%= simple_form_for(:comment, url: comments_path, method: :post, html: {:remote => true, :style => "display: none;"}) do |f| %>
       <%= f.hidden_field :commentable_type, value: comment.class.to_s %>
       <%= f.hidden_field :commentable_uuid, value: comment.uuid %>
       <%= f.input :body, label: false, placeholder: "Reply..." %>
       <%= f.button :submit, "Reply", class: "btn btn-primary" %>
     <% end %>
   </div>
-</div>
   
     <% unless comment.comments.empty? %>
       <ul class="replies">
