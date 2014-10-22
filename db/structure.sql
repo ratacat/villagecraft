@@ -609,7 +609,8 @@ CREATE TABLE users (
     confirmation_sent_at timestamp without time zone,
     unconfirmed_email character varying(255),
     stripe_token character varying(255),
-    stripe_customer_id character varying(255)
+    stripe_customer_id character varying(255),
+    cookie character varying(255)
 );
 
 
@@ -1717,3 +1718,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140919062104');
 INSERT INTO schema_migrations (version) VALUES ('20140925214604');
 
 INSERT INTO schema_migrations (version) VALUES ('20140927051925');
+
+INSERT INTO schema_migrations (version) VALUES ('20141022194831');
