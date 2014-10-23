@@ -271,6 +271,14 @@ class User < ActiveRecord::Base
     Event.where(:id => events_id, :workshop_id => workshop).where_first_meeting_starts_in_past.first
   end
 
+  def set_cookie
+    User.cookie = cookies.permanent.signed[:login]
+  end
+
+  def find_by_cookie
+    @users = User.where(:cookie => cookies[:login])
+  end
+
   protected
   def find_or_create_location_from_address
     self.location = Location.find_or_create_by_city_and_state_code(:city => self.city, :state_code => self.state) unless self.city.blank? or self.state.blank?
