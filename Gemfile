@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.17'
 
 # For deployment and remote control of the server (e.g. cap deploy)
-gem 'capistrano', '~> 2.15.5'
+gem 'capistrano', '~> 3.2.0'
 
 # Rake tasks and daemonization; all of our async code is in the daemon: lib/daemons/notifier.rb 
 gem 'daemons-rails'
