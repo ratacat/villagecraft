@@ -23,5 +23,5 @@
   		<%= location.street %> in <%= location.neighborhood ? location.neighborhood.name : city_n_state(location) %>
   	<% end %><br/>
   <% end %>
-	<%= link_to message.from_user.name, user_url(message.from_user, :only_path => false) %> <%= mail_to message.from_user.email %> <%= user_phone(message.from_user) %>
+	<%= link_to message.from_user.name, user_url(message.from_user, :only_path => false) %> <%= mail_to message.from_user.email %>
 </p>

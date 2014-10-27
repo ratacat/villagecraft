@@ -24,6 +24,7 @@ class RegistrationsController < Devise::RegistrationsController
         puts error.message
       end
     end
+    
   end
 
 end

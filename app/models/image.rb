@@ -11,7 +11,10 @@ class Image < ActiveRecord::Base
   AWS_ACCESS_KEY = 'AKIAII3AMFUMVNSGTVDA'
   AWS_SECRET_KEY = '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'
   has_attached_file :i, 
-                    :storage => :s3, :bucket => 'villagecraft', :s3_headers => {'Expires' => 1.year.from_now.httpdate}, :s3_credentials => {:access_key_id => AWS_ACCESS_KEY, :secret_access_key => AWS_SECRET_KEY},
+                    :storage => :s3, :bucket => 'villagecraft', 
+                    :s3_headers => {'Expires' => 1.year.from_now.httpdate}, 
+                    :s3_credentials => {:access_key_id => AWS_ACCESS_KEY, :secret_access_key => AWS_SECRET_KEY},
+                    :s3_protocol => :https,
                     :styles => {:xlarge_orig => "800x800>",
                                 :larger => "400x400>",  # original aspect ratio
                                 :col3 => "270x270#",  # this is Bootstrap col-md-3's width

@@ -3,11 +3,7 @@ class UsersController < ApplicationController
   before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
   skip_before_filter :possibly_nag_for_phone, only: [:edit_settings]
 
-  # hacky inter-op between cancan and strong_parameters (see: https://github.com/ryanb/cancan/issues/571); FIXME: when we upgrade to Rails 4
-  before_filter do
-    params[:user] &&= user_params
-  end
-  load_and_authorize_resource(:find_by => :uuid)
+  load_and_authorize_resource(:find_by => :uuid, :param_method => :user_params)
   
   # GET /users
   # GET /users.json
@@ -100,7 +96,7 @@ class UsersController < ApplicationController
   
   # GET /users/hostify_me
   def hostify_me
-    hostify_admin = User.find_by_email("neuralsplash@gmail.com")
+    hostify_admin = User.find_by_email("hostify@villagecraft.org")
     @message = Message.new(:from_user => current_user, :to_user => hostify_admin, :subject => "Host Interest from #{current_user.name} <#{current_user.email}>")
   end
   

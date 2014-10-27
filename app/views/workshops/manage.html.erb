@@ -53,8 +53,6 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Email</th>
-            <th>Mobile #</th>
           </tr>
         </thead>
 
@@ -82,6 +80,6 @@
   <% end %>
   $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
     $("#new_message_modal").modal('hide');
-    show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+    show_bootstrap_alert({text: "Your message has been sent.", type: 'success'});
   });
 <% end -%>

@@ -48,7 +48,7 @@ module UsersHelper
     end
     if options[:make_messageable_apropos] and (current_user != user) and (not user.external?)
       html << ' '.html_safe
-      html << link_to('(send message)', 
+      html << link_to('(send email)', 
                        new_message_path(:message => {:_apropos_uuid => options[:make_messageable_apropos].try(:uuid), 
                                                      :apropos_type => options[:make_messageable_apropos].try(:class).try(:to_s), 
                                                      :_to_user_uuid => user.uuid}),

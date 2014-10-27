@@ -53,13 +53,7 @@ while($running) do
   Notification.where(:sms_me => true, :smsed_at => nil).each do |n|
     begin
       response = n.user.send_sms(n.to_sms)
-      if Rails.env.development?
-        n.update_attribute(:smsed_at, Time.now)
-      elsif response.ok?
-        n.update_attribute(:smsed_at, Time.now)
-      else
-        @logger.error "Problem sending SMS notification #{n.id}: #{response.response.body}"
-      end
+      n.update_attribute(:smsed_at, Time.now)
       sleep 1
     rescue Exception => e
       handle_exception(e)

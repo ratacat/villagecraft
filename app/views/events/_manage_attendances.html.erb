@@ -7,13 +7,11 @@
     <tr>
       <th>Signup Date</th>
       <th>Name</th>
-      <th>Email</th>
-      <th>Mobile #</th>
       <th></th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody> 
 <% @event.attendances.reject {|a| a.user.nil? }.each do |attendance| %>
     <tr data-user-uuid="<%= attendance.user.uuid %>">
       <td><%= datetime_localized_to_current_user(attendance.created_at) %><br/><%= time_ago(attendance.created_at) %></td>
@@ -26,8 +24,6 @@
             )
         %>
       </td>
-      <td><%= attendance.user.email %></td>
-      <td class="user_phone"><%= attendance.user.phone %></td>
       <td>
         <% if can? :cancel_attend, @event %>
           <%= button_to 'Cancel', 
@@ -41,9 +37,6 @@
   </tbody>
 </table>
 
-<% ready_script do -%>
-  $("td.user_phone").format_phone_number_html();
-<% end -%>
 
 <%= render 'messages/modal_new', :message => Message.new(:to_user => User.new, :apropos => @event), :to => :one_person %>
 
@@ -59,6 +52,6 @@
   <% end %>
   $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
   $("#new_message_modal").modal('hide');
-  show_bootstrap_alert({text: "Your message has been sent.  The host will reply to you by email.", type: 'success'});
+  show_bootstrap_alert({text: "Your message has been sent.", type: 'success'});
   });
 <% end -%>

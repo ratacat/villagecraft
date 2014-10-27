@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       redirect_to admin_path, :alert => "Admin mode enabled for this session."      
     end
   end
+
   
   protected
   def require_adminable

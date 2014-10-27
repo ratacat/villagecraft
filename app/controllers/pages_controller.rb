@@ -50,7 +50,7 @@ class PagesController < ApplicationController
       @events = @events.order(%Q(#{Meeting.quoted_table_column(:start_time)}))
     end
 
-    @events = @events.paginate(:page => params[:page], :per_page => 30).to_a.uniq
+    @events = @events.paginate(:page => params[:page], :per_page => 45).to_a.uniq
   end
 
   def home_events_page
