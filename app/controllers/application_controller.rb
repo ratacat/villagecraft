@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_filter :possibly_nag_for_phone
   after_filter :store_location, :except => [:attend_by_email]
   before_filter :set_mixpanel
-  before_filter :check_for_cookies
 
   ACTIVITIES_PER_PAGE = 100
 
@@ -141,17 +140,6 @@ class ApplicationController < ActionController::Base
       # for every request. If you want the token to work as a
       # sign in token, you can simply remove store: false.
       sign_in user, store: false
-    end
-  end
-
-  def check_for_cookies
-    binding.pry
-    if User.where(:cookie => cookies[:login]).exists?
-      User.find_by_cookie
-      binding.pry
-    else
-      User.set_cookie
-      binding.pry
     end
   end
 end

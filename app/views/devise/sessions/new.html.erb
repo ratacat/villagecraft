@@ -13,7 +13,7 @@
           <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: 'form-horizontal'}) do |f| %>
             <%= f.input :email %>
             <%= f.input :password, :required => true %>
-            <%# f.input :remember_me, as: :boolean %>
+            <%# TODO make the page layout on this better f.input :remember_me, as: :boolean %>
 
             <div class="form-group">
               <%= f.submit "Sign in", class: "btn btn-primary" %>
