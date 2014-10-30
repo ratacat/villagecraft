@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include PublicActivity::ViewHelpers
+  include ChargesHelper
   load_and_authorize_resource(:find_by => :seod_uuid)
   before_filter :check_lock, :only => [:update, :destroy]
  
@@ -145,8 +146,20 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
+    host = @event.host
+    price = @event.price
+
     respond_to do |format|
-      @event.assign_attributes(params[:event])
+      if @event.rsvp? && (price == 0 && params[:event][:price])
+        if host.stripe_token
+          @event.assign_attributes(params[:event])
+        else
+          format.json {render status: :unauthorized }
+        end
+      else
+        @event.assign_attributes(params[:event])
+      end
+
       if @event.save
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
         format.json { head :no_content }
@@ -243,26 +256,37 @@ class EventsController < ApplicationController
       return
     end
 
-    @user.attends.delete(@event)
-    if @user == current_user
-      @event.create_activity key: 'event.cancel_attend', owner: @user
-    else
-      @event.create_activity key: 'event.host_cancels_attend', owner: @user
-    end
-
-    respond_to do |format|
-      @notice = 'Attendence canceled'
-      format.js
-      format.html {
-        if current_user.is_host_of?(@event)
-          redirect_to :back, notice: @notice
-        else
-          redirect_to @event.workshop, notice: @notice 
-        end
-      }
-      format.json { head :no_content }
-    end
+    if refund(@event)
+      @user.attends.delete(@event) #cancel attendance
     
+      if @user == current_user # if user not host
+        # attendee cancels
+        @event.create_activity key: 'event.cancel_attend', owner: @user
+      else
+        @event.create_activity key: 'event.host_cancels_attend', owner: @user
+        # host cancels
+      end
+
+      respond_to do |format|
+        @notice = 'Attendence canceled'
+        format.js
+        format.html {
+          if current_user.is_host_of?(@event)
+            redirect_to :back, notice: @notice
+          else
+            redirect_to @event, notice: @notice 
+          end
+        }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        @alert = 'Refund Unsuccessful.' # please contant admin?
+        format.html {
+          redirect_to @event, alert: @alert
+        }
+      end
+    end
   end
   
   # POST /events/:id/accept_attendee

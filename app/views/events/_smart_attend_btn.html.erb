@@ -20,15 +20,56 @@
     <% else %>
         <% if event.rsvp? %>
             <% if event.slots_left > 0 %>
-                <% if user_signed_in? %>
+                <% if user_signed_in? && current_user != event.host %>
                     <% unless (no_button or current_user.attending_event?(event) or event.first_meeting.ongoing? or not event.rsvp?) %>
+                    <% if event.price > 0 %>
+                        <a id="signUp" class="btn btn-success attend_event btn-block stripe-button"><%= cta %></a>
+                        <% ready_script do -%>
+                          var handler = StripeCheckout.configure({
+                            key: "<%= Rails.configuration.stripe[:publishable_key] %>",
+                            image: "<%= event.host.profile_image.blank? ? "/villagecraft350.png" : event.host.profile_img_src %>",
+                            email: "<%= current_user.email %>",
+                            allowRememberMe: "false",
+                            name: "<%= event.host.name %>",
+                            description: "<%= event.title %>",
+                            amount: <%= (event.price.to_i * 100) %>,
+                            
+                            token: function(token) { // if checkout success
+                              $.post('/charges', { event_id: <%= event.id %>, stripeToken: token })
+                                .done(function(){ // if charge success
+                                  $.post('/attend/<%= event.uuid %>.json')
+                                    .done(function(){ // if attendance success
+                                      location.reload(); 
+                                    })
+                                    .fail(function(error){
+                                      // if attendance fail
+                                    });
+                                })
+                                .fail(function(error){
+                                  console.log(error.responseText);
+
+                                  var $flashError = $(' <div class="alert fade in alert-danger"><button class="close" data-dismiss="alert">×</button>Signup unsuccessful. Your card was not charged.</div> ');
+                                  
+                                  $('#alerts').prepend($flashError);
+                                });
+                            }
+                          });
+
+                          $(' #signUp ').on('click', function(e) {
+                            e.preventDefault();
+
+                            handler.open(); // open checkout form
+                          });
+                        <% end %>
+                      <% else %>
                         <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
+                      <% end %>
                     <% end %>
                     <div class="text-success you_r_signed_up bg-success text-center padding5 <%= ' initially_hidden' unless current_user.attending_event?(event) %>" >you signed up</div>
                 <% else %> <!-- not user_signed_in? -->
                     <% if no_button or event.first_meeting.ongoing? or (event.external? and event.external_url.blank?) %>
                         <h4 class="fee"><%= event_price(event) %></h4>
-                    <% else %>
+                    <% elsif current_user != event.host %>
                         <%= sign_up_link(event, :show_check => show_check, :buttonize => true, :block_buttonize => block_buttonize, :remote => true, :cta => cta) %>
                     <% end %>
                 <% end %>

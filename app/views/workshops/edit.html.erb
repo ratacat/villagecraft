@@ -155,7 +155,28 @@
     $('.editable[data-name="venue_uuid"]').editable();
     $('.editable[data-name="external"]').editable({display: yes_or_no_display});
     $('.editable[data-name="external_url"]').editable({display: click_to_edit_url_display});
+
+  <% if @workshop.host.stripe_token %>
     $('.editable[data-name="price"]').editable({display: editable_currency_display});
+  <% else %>
+    $('.editable[data-name="price"]').html("Free").css("border-bottom", "1px dashed #0088CC")
+      .popover({
+        html: true,
+        placement: 'top',
+        container: 'body',
+        title: 'Connect with Stripe',
+        content: '<p>Please your Stripe account in order to collect fees.</p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>'
+      });
+      $('body').on('click', function (e) {
+          $('.editable[data-name="price"]').each(function () {
+              //the 'is' for buttons that trigger popups
+              //the 'has' for icons within a button that triggers a popup
+              if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                  $(this).popover('hide');
+              }
+          });
+      });
+  <% end %>
 
     $('span.vc_editable.meeting_time').popover({
       html: true,

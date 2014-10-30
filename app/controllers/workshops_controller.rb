@@ -1,6 +1,5 @@
 class WorkshopsController < ApplicationController
   load_and_authorize_resource(:find_by => :seod_uuid, :param_method => :workshop_params)
-
   before_filter :get_future_and_past_reruns, :only => [:edit, :update]
   before_filter :get_reviews, :only => [:edit, :update, :show]
   def my_workshops
@@ -161,6 +160,11 @@ class WorkshopsController < ApplicationController
   # DELETE /w/1
   # DELETE /w/1.json
   def destroy
+    @workshop.events.each do |event|
+      event.attendees.each do |attendee|
+        refund(event, attendee)
+      end
+    end
     @workshop.destroy
 
     respond_to do |format|

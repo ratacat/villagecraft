@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   end
   
   # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications
+  #attr_accessible :email, :password, :remember_me, :name, :city, :state, :profile_image, :location, :has_set_password, :phone, :email_notifications, :stripe_token
   attr_writer :city, :state
   has_uuid(:length => 8)
 
@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   validates :preferred_distance_units, :inclusion => {:in => ['mi', 'km'], :message => "must be miles (mi) or kilometers (km)" }
   
 #  validates_associated :location
+  
 
   def profile_img_src(size = :medium)
     if self.profile_image.blank?

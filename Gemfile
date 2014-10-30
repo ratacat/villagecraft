@@ -12,6 +12,9 @@ gem 'daemons-rails'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+# HTTP requests
+gem "typhoeus"
+
 # XML parsing, used for KML processing (or maybe not used at all)
 gem 'nokogiri'
 
@@ -100,6 +103,9 @@ gem 'nexmo'
 
 # send email when there is an exception on the server
 gem 'exception_notification'
+
+# stripe payment system
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 # Gems used only for assets and not required
 # in production environments by default.

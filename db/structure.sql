@@ -153,6 +153,7 @@ ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
 
 
 --
+<<<<<<< HEAD
 -- Name: event_organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -162,14 +163,35 @@ CREATE TABLE event_organizations (
     organization_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
+=======
+-- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE comments (
+    id integer NOT NULL,
+    body character varying(255),
+    user_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    commentable_type character varying(255),
+    commentable_id integer,
+    uuid character varying(255)
+>>>>>>> c006cf5d637fdc9c38c059242ac078d3d5f75df5
 );
 
 
 --
+<<<<<<< HEAD
 -- Name: event_organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE event_organizations_id_seq
+=======
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comments_id_seq
+>>>>>>> c006cf5d637fdc9c38c059242ac078d3d5f75df5
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -178,10 +200,17 @@ CREATE SEQUENCE event_organizations_id_seq
 
 
 --
+<<<<<<< HEAD
 -- Name: event_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE event_organizations_id_seq OWNED BY event_organizations.id;
+=======
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+>>>>>>> c006cf5d637fdc9c38c059242ac078d3d5f75df5
 
 
 --
@@ -803,7 +832,11 @@ ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+<<<<<<< HEAD
 ALTER TABLE ONLY event_organizations ALTER COLUMN id SET DEFAULT nextval('event_organizations_id_seq'::regclass);
+=======
+ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+>>>>>>> c006cf5d637fdc9c38c059242ac078d3d5f75df5
 
 
 --
@@ -929,11 +962,19 @@ ALTER TABLE ONLY charges
 
 
 --
+<<<<<<< HEAD
 -- Name: event_organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY event_organizations
     ADD CONSTRAINT event_organizations_pkey PRIMARY KEY (id);
+=======
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+>>>>>>> c006cf5d637fdc9c38c059242ac078d3d5f75df5
 
 
 --
@@ -1109,6 +1150,13 @@ CREATE INDEX index_charges_on_stripe_charge ON charges USING btree (stripe_charg
 --
 
 CREATE INDEX index_charges_on_user_id ON charges USING btree (user_id);
+
+
+--
+-- Name: index_comments_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_uuid ON comments USING btree (uuid);
 
 
 --
