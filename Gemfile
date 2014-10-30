@@ -199,6 +199,9 @@ end
 # gem 'capistrano'
 
 # Track events with Mixpanel
-gem 'mixpanel-ruby'
+#gem 'mixpanel-ruby'
+
+#event tracking & user communication
+gem 'intercom-rails'
 
 gem 'will_paginate'

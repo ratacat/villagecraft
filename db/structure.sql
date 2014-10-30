@@ -3,7 +3,6 @@
 --
 
 SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -130,8 +129,7 @@ CREATE TABLE charges (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     amount integer,
-    fee_collected integer,
-    refunded boolean DEFAULT false
+    fee_collected integer
 );
 
 
@@ -152,6 +150,38 @@ CREATE SEQUENCE charges_id_seq
 --
 
 ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+
+
+--
+-- Name: event_organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE event_organizations (
+    id integer NOT NULL,
+    event_id integer,
+    organization_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: event_organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE event_organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: event_organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE event_organizations_id_seq OWNED BY event_organizations.id;
 
 
 --
@@ -186,7 +216,12 @@ CREATE TABLE events (
     external boolean,
     external_url character varying(255),
     unlocked_at timestamp without time zone,
-    rsvp boolean DEFAULT true
+    rsvp boolean DEFAULT true,
+    cost_type character varying(255),
+    end_price numeric(10,2),
+    info_url character varying(255),
+    link_to_rsvp character varying(255),
+    aggr boolean DEFAULT false
 );
 
 
@@ -449,6 +484,37 @@ ALTER SEQUENCE notifications_id_seq OWNED BY notifications.id;
 
 
 --
+-- Name: organizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE organizations (
+    id integer NOT NULL,
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE organizations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: organizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
+
+
+--
 -- Name: ratings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -604,12 +670,12 @@ CREATE TABLE users (
     promote_host boolean,
     preferred_distance_units character varying(255) DEFAULT 'mi'::character varying,
     email_system_messages boolean DEFAULT true,
+    stripe_token character varying(255),
+    stripe_customer_id character varying(255),
     confirmation_token character varying(255),
     confirmed_at timestamp without time zone,
     confirmation_sent_at timestamp without time zone,
-    unconfirmed_email character varying(255),
-    stripe_token character varying(255),
-    stripe_customer_id character varying(255)
+    unconfirmed_email character varying(255)
 );
 
 
@@ -737,6 +803,13 @@ ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY event_organizations ALTER COLUMN id SET DEFAULT nextval('event_organizations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
@@ -780,6 +853,13 @@ ALTER TABLE ONLY neighborhoods ALTER COLUMN id SET DEFAULT nextval('neighborhood
 --
 
 ALTER TABLE ONLY notifications ALTER COLUMN id SET DEFAULT nextval('notifications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organizations_id_seq'::regclass);
 
 
 --
@@ -849,6 +929,14 @@ ALTER TABLE ONLY charges
 
 
 --
+-- Name: event_organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY event_organizations
+    ADD CONSTRAINT event_organizations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -902,6 +990,14 @@ ALTER TABLE ONLY neighborhoods
 
 ALTER TABLE ONLY notifications
     ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1457,6 +1553,27 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 
 --
+-- Name: geometry_columns_delete; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_delete AS ON DELETE TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
+-- Name: geometry_columns_insert; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_insert AS ON INSERT TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
+-- Name: geometry_columns_update; Type: RULE; Schema: public; Owner: -
+--
+
+CREATE RULE geometry_columns_update AS ON UPDATE TO geometry_columns DO INSTEAD NOTHING;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1708,12 +1825,24 @@ INSERT INTO schema_migrations (version) VALUES ('20140403070324');
 
 INSERT INTO schema_migrations (version) VALUES ('20140513055610');
 
+INSERT INTO schema_migrations (version) VALUES ('20140606114438');
+
+INSERT INTO schema_migrations (version) VALUES ('20140609100016');
+
+INSERT INTO schema_migrations (version) VALUES ('20140609100107');
+
+INSERT INTO schema_migrations (version) VALUES ('20140610092248');
+
+INSERT INTO schema_migrations (version) VALUES ('20140704104543');
+
+INSERT INTO schema_migrations (version) VALUES ('20140708105946');
+
 INSERT INTO schema_migrations (version) VALUES ('20140829033256');
 
 INSERT INTO schema_migrations (version) VALUES ('20140917030012');
 
 INSERT INTO schema_migrations (version) VALUES ('20140919062104');
 
-INSERT INTO schema_migrations (version) VALUES ('20140925214604');
+INSERT INTO schema_migrations (version) VALUES ('20140920052729');
 
-INSERT INTO schema_migrations (version) VALUES ('20140927051925');
+INSERT INTO schema_migrations (version) VALUES ('20140925214604');
