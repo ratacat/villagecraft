@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_filter :possibly_nag_for_phone
   after_filter :store_location, :except => [:attend_by_email]
   before_filter :set_mixpanel
+  before_filter :uuid_cookie
 
   ACTIVITIES_PER_PAGE = 100
 
@@ -141,5 +142,20 @@ class ApplicationController < ActionController::Base
       # sign in token, you can simply remove store: false.
       sign_in user, store: false
     end
+  end
+
+  def uuid_cookie
+    if user_signed_in? && (cookies[:uuids] == nil)
+      @uuids = []
+      @uuids.push(current_user.uuid)
+      cookies.permanent[:uuids] = @uuids.to_json
+    elsif user_signed_in? && cookies[:uuids].present?
+      @uuids = JSON.parse(cookies[:uuids])
+      unless @uuids.include?(current_user.uuid)
+        @uuids.push(current_user.uuid)
+        cookies.permanent[:uuids] = @uuids.to_json
+      end
+    end
+    # binding.pry
   end
 end
