@@ -6,8 +6,8 @@ class ChargesController < ApplicationController
     token = params[:stripeToken]
     amount = (event.price.to_i) * 100
     
-    unless (fee = amount / 10) > 100        #set application fee to 10% or $1
-      fee = 100
+    unless (fee = amount / 17) > 200        #set application fee to 17% or $2 whichever is greater
+      fee = 200
     end
 
     unless current_user.stripe_customer_id  #find user by stripe customer id
