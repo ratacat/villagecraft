@@ -121,6 +121,9 @@ group :assets do
   
   # compile Handlebars.js templates from app/assets/javascripts/templates and include them in the asset pipeline
   gem 'handlebars_assets'
+
+  # compile assests only once, and only when changed
+  gem 'turbo-sprockets-rails3'
 end
 
 # fancy printing in the console (pp)
