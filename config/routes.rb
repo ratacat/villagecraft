@@ -100,6 +100,9 @@ Villagecraft::Application.routes.draw do
   # root :to => 'pages#home'
   root :to => 'pages#home_events'
 
+
+  get 'terms_of_use' => 'pages#villagecraft_terms_of_use'
+  get 'privacy_policy' => 'pages#villagecraft_privacy_policy'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
