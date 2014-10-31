@@ -1,0 +1,387 @@
+<div class="row">
+<div class="col-md-12">
+  <span class="panel pull-right">
+    <%= link_to 'View', event_path(@workshop.ongoing_or_next_rerun), :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
+    <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+  </span>
+  <h2 class="text-muted margin0">Edit Workshop</h2>
+  <%= render 'form' %>
+</div>
+<div class="col-md-12">
+  <ul class="nav nav-tabs margin0">
+    <li class="active"><a href="#future_reruns" data-toggle="tab">Coming Up (<span id='future_reruns_count'><%= @future_reruns.count %></span>)</a></li>
+    <li><a href="#past_reruns" data-toggle="tab">Past (<span id='past_reruns_count'><%= @past_reruns.count %></span>)</a></li>
+    <%= iconic_link_to 'Schedule', '#', :icon => 'plus', :class => 'btn btn-success has_help_bubble', :id => "add_rerun_button" %>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane active" id="future_reruns">
+      <% if @future_reruns.count == 0 %>
+        No future workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @future_reruns, :click_to_show => false, :show_icons => true, :editable => true %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="past_reruns">
+      <% if @past_reruns.count == 0 %>
+        No past workshops.
+      <% else %>
+        <%= render 'reruns/index', :reruns => @past_reruns, :click_to_show => false, :show_icons => true, :editable => false %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% unless @workshop.external? %>
+<div class="col-md-12">
+<% if false %>
+  <dl>
+    <dt><h3>Listing</h3></dt>
+    <dd>
+      <ul class="media-list">
+        <div class="day_chunk">
+          <%= render 'workshops/show_in_index', :show_date => true %>
+        </div>
+      </ul>
+    </dd>
+
+    <dt><h3>Signup</h3></dt>
+    <dd>
+      from workshop page: <%= workshop_title(@workshop, :linked_to => true) %>
+    </dd>
+<% end %>
+    <dt>
+      <h3>Confirmation Email</h3>
+      <p class="text-muted">People will get this email when they sign up for your workshop</p>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="col-md-4">
+          <%= render 'workshops/greeting_message_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
+        </div>
+        <div class="col-md-6">
+          <p>
+            Think about including:
+            <ul>
+              <li>more information about your workshop</li>
+              <li>links to additional information</li>
+              <li>personalized directions to your space</li>
+              <li>best ways to contact you</li>
+              <li>things attendees need to bring</li>
+            </ul>
+          </p>
+          <p>
+            <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
+          </p>
+        </div>
+      </div>
+    </dd>
+
+    <dt>
+      <h3>Warm N Fuzzy (optional email)</h3>
+      <p class="text-muted">Sent two days before workshop</p>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="col-md-4">
+          <%= render 'workshops/warmup_message_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
+        </div>
+        <div class="col-md-6">
+          <p>
+            Keep people warm to your workshop with this optional email from villagecraft. Folks will receive it two days before the workshop. Last-minute signups will get it immediately. 
+          <p>
+            <strong>A footer will be added that includes a link to the workshop, the meeting time, location, and your contact info.</strong>
+          </p>
+        </div>
+      </div>
+    </dd>
+
+    <dt>
+      <h3>Reminder (optional sms)</h3>
+      <p class="text-muted">Sent 3+ hours before workshop</p>
+    </dt>
+    <dd>
+      <div class="row">
+        <div class="col-md-4">
+          <%= render 'workshops/reminder_form', :remote => true, :auto_submit => true, :span => 'col-md-4' %>
+        </div>
+        <div class="col-md-6">
+          <p>
+            Sent 3 hours before the workshop, except when that time falls between 9pm and 9am, in which case your attendees will receive the reminder the night before, at 8pm.
+          </p>
+        </div>
+      </div>
+    </dd>
+
+  </dl>
+</div>
+</div>
+<% end %>
+
+<% body_script do -%>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+
+  function hide_vc_editable_popovers(_this) {
+    $('span.vc_editable').not(_this).popover('hide');
+  };
+
+  function hide_or_show_manage_attendees_button(row) {
+    var manage_attendees_button = row.find('.manage_attendees');
+    var rsvp_toggle = row.find("form.rsvp_toggle input:checkbox")
+    var external_toggle = row.find("form.external_toggle input:checkbox")
+    if( rsvp_toggle.is(':checked') && ! external_toggle.is(':checked')) {
+      manage_attendees_button.show();
+    } else {
+      manage_attendees_button.hide();
+    }
+  }
+
+  // auto-submit form when any field is changed
+  $('form.edit_workshop :input').not("#workshop_image").change(function(){
+    show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+    $(this).closest('form').submit();
+  });
+  // hackish special-casing here so that Jansy fileinput has a chance to display the preview before the submit
+  $("#workshop_image").fileinput().on('change.bs.fileinput', function() {
+    var the_form = $(this).closest('form');
+    setTimeout(function () {
+      show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
+      the_form.submit();
+    }, 1000);
+  });
+
+  function editablize_meetings() {
+    $('.editable[data-name="max_attendees"]').editable();
+    $('.editable[data-name="venue_uuid"]').editable();
+    $('.editable[data-name="external"]').editable({display: yes_or_no_display});
+    $('.editable[data-name="external_url"]').editable({display: click_to_edit_url_display});
+
+  <% if @workshop.host.stripe_token %>
+    $('.editable[data-name="price"]').editable({display: editable_currency_display});
+  <% else %>
+    $('.editable[data-name="price"]').html("Free").css("border-bottom", "1px dashed #0088CC")
+      .popover({
+        html: true,
+        placement: 'top',
+        container: 'body',
+        title: 'Connect with Stripe',
+        content: '<p>Please connect your Stripe account to collect fees. It costs nothing and is easy to create.</p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>'
+      });
+      $('body').on('click', function (e) {
+          $('.editable[data-name="price"]').each(function () {
+              //the 'is' for buttons that trigger popups
+              //the 'has' for icons within a button that triggers a popup
+              if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                  $(this).popover('hide');
+              }
+          });
+      });
+  <% end %>
+
+    $('span.vc_editable.meeting_time').popover({
+      html: true,
+      placement: 'top',
+      container: 'body',
+      title: 'Workshop Time',
+      content: function() {
+        var data_span = $(this).find("span:nth-child(2)");
+        return HandlebarsTemplates['datetime/range_form']({
+          auth_token: auth_token(),
+          uuid: data_span.data('uuid'),
+          start_time_date: data_span.data('start_time_date'),
+          start_time_time: data_span.data('start_time_time'),
+          end_time_date: data_span.data('end_time_date'),
+          end_time_time: data_span.data('end_time_time')
+        });
+      }
+    }).on('shown.bs.popover', function() {
+      hide_vc_editable_popovers(this);
+      init_datetime_picker();
+    });
+
+    $('span.vc_editable.venue').popover({
+      html: true,
+      placement: 'top',
+      container: 'body',
+      trigger: 'manual',
+      title: 'Add New Venue',
+      content: function() {
+        var event_uuid = $(this).closest("tr").data("rerun_uuid");
+        return HandlebarsTemplates['venues/add_new']({
+          auth_token: auth_token(),
+          event_uuid: event_uuid
+        });
+      }
+    }).on('shown', function() {
+      hide_vc_editable_popovers(this);
+      $("#venue_name").focus();
+    });
+
+    var vc_highlighter = function() {};
+  };
+<% end %>
+
+<% ready_script do -%>
+  editablize_meetings();
+
+  $(document).on('shown', '.editable', function(e, editable) {
+    hide_vc_editable_popovers(this);
+  });
+
+  $(document).on('click', "button.editable-cancel", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    hide_vc_editable_popovers(this);
+  });
+
+  $("#add_rerun_button").click(function(e) {
+    $(this).popover('hide');
+    $.post("<%= auto_add_rerun_workshop_path(@workshop) %>", function(data, textStatus, jqXHR) {
+      $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+        editablize_meetings();
+        $("#future_reruns tbody tr:last-child td").highlight();
+      });
+    });
+    e.preventDefault();
+  });
+
+  $(document).on('ajax:beforeSend', '#edit_meeting', function(event, xhr, settings) {
+    var uuid = $(this).data('meeting_uuid');
+    vc_highlighter = function() {
+      $('tr[data-meeting_uuid="' + uuid + '"] span.vc_editable.meeting_time').highlight();
+    };
+  });
+
+  $(document).on('ajax:beforeSend', '#new_venue', function(event, xhr, settings) {
+    var uuid = $(this).data('rerun_uuid');
+    vc_highlighter = function() {
+      $('tr[data-rerun_uuid="' + uuid + '"] span.vc_editable.venue').highlight();
+    };
+  });
+
+  $(document).on('ajax:complete', 'form.external_toggle', function(event, data, status, xhr) {
+    var external_url_input = $(this).closest('td').find('.external_url');
+    hide_or_show_manage_attendees_button($(this).closest('tr'))
+    if( $(this).find("input:checkbox").is(':checked') ) {
+      external_url_input.show();
+    } else {
+      external_url_input.hide();
+    }
+  });
+
+  $(document).on('ajax:complete', 'form.rsvp_toggle', function(event, data, status, xhr) {
+    hide_or_show_manage_attendees_button($(this).closest('tr'));
+  });
+
+  $(document).on('ajax:success', '#edit_meeting, a.delete_rerun', function(event, data, status, xhr) {
+    hide_vc_editable_popovers(this);
+    $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop) %>", function(responseText, textStatus, XMLHttpRequest) {
+      editablize_meetings();
+      vc_highlighter();
+    });
+  }).on('ajax:error', function(event, data, status, xhr) {
+    hide_vc_editable_popovers(this);
+  });
+
+  $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
+    var row = $(this).closest('tr');
+    row.replaceWith(data);
+    editablize_meetings();
+  });
+
+  $(document).on('ajax:success', '#new_venue', function(event, data, status, xhr) {
+    hide_vc_editable_popovers(this);
+    $("#future_reruns").load("<%= reruns_partial_workshop_path(@workshop, :clear_source_cache => true) %>", function(responseText, textStatus, XMLHttpRequest) {
+      editablize_meetings();
+      vc_highlighter();
+    });
+  });
+
+  $(document).keydown(function(e){
+    if (e.keyCode === 27)
+      hide_vc_editable_popovers(this);
+  });
+
+  $(".external_check").popover({content: "Use this option to promote an external event on Villagecraft.  Users will be directed off-site to sign up, contact the host or learn more.", trigger: 'hover', placement: 'left'});
+
+  $(document).on('change', "td span.venue form select", function() {
+    if ($(this).val() === "Add new venue...") {
+      var venue_span = $(this).closest("td span.venue");
+      venue_span.find("span.editable").editable('hide');
+      venue_span.popover('show');
+    }
+  });
+
+  $(document).on({
+      click: function(e) {
+        var value = $('form select', $(this)).val();
+        // fire event only when the parent document is clicked
+        if (value != null && value !== "Add new venue..." && value !== "TBD") {
+          if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
+            var old_this = $(this);
+            var url = '/get_venue_address/';
+            $.ajax({
+              url: url + value,
+              dataType: "json",
+              success: function(response){
+                  $('div.popover',$(old_this)).append(HandlebarsTemplates['venues/show_address']({
+                  street: response.address.street,
+                  city: response.address.city,
+                  zip: response.address.zip,
+                  state_code: response.address.state_code,
+                  edit_venue_url: '/venues/' + value + '/edit'
+                  }));
+              }
+            });
+          }
+        }
+      }
+   }, "td span.venue");
+
+  $(document).on({
+      change: function(e) {
+          var value = $(this).val();
+          // fire event only when the parent document is clicked 
+          if (value != null && value !== "Add new venue..." && value !== "TBD") {
+            if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
+              if ($(".venue-popover-content").hasClass('hide')) {
+                  $(".venue-popover-content").removeClass('hide');
+              }
+              var vpc = $(this).closest(".popover").find('.venue-popover-content');
+              var url = '/get_venue_address/';
+              $.ajax({
+                url: url + value,
+                dataType: "json",
+                success: function(response){
+                    vpc.replaceWith(HandlebarsTemplates['venues/show_address']({
+                    street: response.address.street,
+                    city: response.address.city,
+                    zip: response.address.zip,
+                    state_code: response.address.state_code,
+                    edit_venue_url: '/venues/' + value + '/edit'
+                    }));
+                }
+              });
+            }
+          } else {
+            $('.venue-popover-content').addClass('hide');
+          }
+      }
+  }, "td span.venue form select");
+
+  $('#add_rerun_button').popover({
+    placement: 'right',
+    content: '<%= @add_button_help %>',
+    trigger: 'manual'
+  }).popover('show');
+
+  $(document).on('change.bs.fileinput', function() {
+    $('#add_rerun_button').popover('show');
+  }).on('clear.bs.fileinput', function() {
+    $('#add_rerun_button').popover('show');
+  });
+
+
+<% end -%>
+
+
