@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-sm-10">
+	<div class ="col-sm-7">
+	<h3>Ready to charge a fee for your workshop?</h3>
+	 <div class="row">
+		<div class="col-sm-11" style="font-size:120%;">
+			Stripe allows you to collect payments in advance.<br>
+			If you already 7ave a stripe account <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>&stripe_landing=login">click here</a> to connect it.
+		</div>
+	</div>
+	<h3>New to stripe? Create your account.</h3>
+	<div style="width:500px;font-size:120%;">
+	<ul><li style="margin-bottom:20px;">Stripe is a secure online payment processor that deposits money
+	in your bank account when someone signs up for your workshop.</li>
+	<li style="margin-bottom:20px;">It also deposits Villagecraft’s service fee when someone signs up:
+	$2 or %17 of the price— whichever is greater.</li>
+	<li>It's free, quick, and secure to sign up for a Stripe account. You'll need your bank account information, address, and the last four digits of your social security number.</li>
+	</ul>
+	</div>
+	<br><br>
+	
+	<br><br>
+
+	 <% unless @user.stripe_token %>
+		<a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>&stripe_landing=register&stripe_user[url]=<%=u @profile %>"><button type="button" class="btn btn-success">Create a new stripe account</button></a>
+	<% else %>
+		<p>You have connected your Stripe account. Manage your Stripe settings <%= link_to("here", "https://dashboard.stripe.com/account/applications") %>.</p>
+	<% end %>
+
+	<h3>Refunds and Cancellation</h3>
+	<div style="width:550px;font-size:120%;">
+	<ul><li style="margin-bottom:20px;">If you cancel someone’s attendance, they will be automatically refunded in full.</li>
+
+	<li>If an attendee cancels their own attendance more than 24 hours before the workshop,
+	they will immediately receive a full refund debited from your account.</li>
+
+	<li>Refunds are not otherwise available.</li>
+	<br><br>
+	For more information on our refund policy, visit our Terms of Use.
+	<br><br>
+</div>
+	<h3>Existing Workshops</h3>
+	<div style="width:500px;font-size:120%;">
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Existing workshops with a price will continue to display a cost, but will not require prepayment. </p>
+	<br><br>
+	You can schedule as many new reruns of the workshop as you like, and they will continue to run without prepayments.
+	<br><br>
+	If you want to change the price of an existing workshop you will need to connect a stripe account and activate prepayments.
+	</div>
+</div>
+ </div>
+</div>
