@@ -19,9 +19,6 @@
 *.DS_Store*
 *.fuse*
 
-#.rid files from viivo
-**/.rid
-
 # Ignore local Paperclip attachments
 public/system/images/
 
