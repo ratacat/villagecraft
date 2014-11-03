@@ -155,7 +155,7 @@ group :development do
   gem 'letter_opener_web', '~> 1.1.0'
   
   # debugging info and textmate links in browser on exception
-  gem 'rails-footnotes', '>= 3.7.9'
+  gem 'rails-footnotes', '4.1.0'
   
   # turns off the Rails asset pipeline log
   gem 'quiet_assets'
@@ -205,6 +205,9 @@ end
 # gem 'capistrano'
 
 # Track events with Mixpanel
-gem 'mixpanel-ruby'
+#gem 'mixpanel-ruby'
+
+#event tracking & user communication
+gem 'intercom-rails'
 
 gem 'will_paginate'
