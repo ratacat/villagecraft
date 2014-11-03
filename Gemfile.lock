@@ -257,7 +257,7 @@ GEM
       activesupport (= 3.2.17)
       bundler (~> 1.0)
       railties (= 3.2.17)
-    rails-footnotes (4.1.2)
+    rails-footnotes (4.1.0)
       rails (>= 3.2)
     railties (3.2.17)
       actionpack (= 3.2.17)
@@ -401,7 +401,7 @@ DEPENDENCIES
   rack-google_analytics
   rack-rewrite
   rails (= 3.2.17)
-  rails-footnotes (>= 3.7.9)
+  rails-footnotes (= 4.1.0)
   rspec-rails (~> 2.13)
   simple_form
   simplecov

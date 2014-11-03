@@ -17,25 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if cookies[:auto_attend_event]
-      if cookies[:auto_attend_event] =~ /^_HOSTIFY_ME_/
-        cookies.delete :auto_attend_event
-        hostify_me_users_path
-      else
-        @event = Event.find_by_uuid(cookies[:auto_attend_event])
-        cookies.delete :auto_attend_event
-        if @event
-          @user.attends << @event
-          @event.create_activity key: 'event.interested', owner: @user            
-          event_path(@event)
-        else
-          root_path
-        end
-      end
-    else
-      session[:previous_url] || root_path
-    end
-    
+    session[:previous_url] || root_path
   end
   
   def current_ability
