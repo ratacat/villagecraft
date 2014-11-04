@@ -61,4 +61,6 @@ class PagesController < ApplicationController
   end
   def about
   end
+  def what_is_stripe
+  end
 end
