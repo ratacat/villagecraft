@@ -256,7 +256,7 @@ class EventsController < ApplicationController
       return
     end
 
-    if refund(@event)
+    if refund(@event, @user)
       @user.attends.delete(@event) #cancel attendance
     
       if @user == current_user # if user not host
