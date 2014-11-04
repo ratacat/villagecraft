@@ -106,6 +106,7 @@ Villagecraft::Application.routes.draw do
   get 'terms_of_use' => 'pages#villagecraft_terms_of_use'
   get 'privacy_policy' => 'pages#villagecraft_privacy_policy'
   get 'what_is_stripe' => 'pages#what_is_stripe'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
