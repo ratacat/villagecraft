@@ -3,7 +3,9 @@
   <span class="panel pull-right">
     <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
     <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
-    <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+    <% if admin_session? %>
+      <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+    <% end %>
   </span>
   <h2 class="text-muted margin0">Edit Workshop</h2>
   <%= render 'form' %>
