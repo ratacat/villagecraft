@@ -65,8 +65,10 @@ class PagesController < ApplicationController
       format.html { render :layout => false }
     end
   end
-  def about
-  end
+
   def what_is_stripe
+    @user = current_user
+    # req = request.host_with_port
+    # @profile = "http://" + req + "/users/" + @user.uuid
   end
 end
