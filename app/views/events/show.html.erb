@@ -14,7 +14,7 @@
    message = Message.new(:to_user => @workshop.host, :apropos => @workshop)
 %>
 <div class="row">
-  <div class="col-sm-3">lll
+  <div class="col-sm-3">
     <p>
       <%= link_to image_tag(@workshop.img_src(:large), :class => "img-rounded large_page_thumb full_width hidden-xs"), @workshop.img_src(:xlarge_orig),
                   data: {toggle: 'lightbox', gallery: "multiimages", parent: '.container'} %>
