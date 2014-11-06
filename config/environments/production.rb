@@ -86,6 +86,6 @@ Villagecraft::Application.configure do
     :email => {
       :email_prefix => "[Villagecraft Exception] ",
       :sender_address => %{"Villagecraft Exception Notifier" <notifications@villagecraft.org>},
-      :exception_recipients => %w{ben@teitelbaum.us cheshire.in.darkness@gmail.com}
+      :exception_recipients => %w{ben@teitelbaum.us cheshire.in.darkness@gmail.com anthony@villagecraft.org}
     }
 end
