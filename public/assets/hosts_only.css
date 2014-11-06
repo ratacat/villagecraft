@@ -1,0 +1,113 @@
+.md-editor{display:block;border:1px solid #ddd}.md-editor>.md-header,.md-editor .md-footer{display:block;padding:6px 4px;background:#fff}.md-editor>.md-header{margin: 0;}.md-editor>.md-preview{background:#fff;border-top:1px dashed #ddd;border-bottom:1px dashed #ddd;min-height:10px;overflow:auto}.md-editor>textarea{font-family:Monaco,Menlo,Consolas,"Courier New",monospace;font-size:14px;outline:0;outline:thin dotted \9;margin:0;display:block;padding:0;width:100%;border:0;border-top:1px dashed #ddd;border-bottom:1px dashed #ddd;border-radius:0;box-shadow:none;background:#eee}.md-editor>textarea:focus{box-shadow:none;background:#fff}.md-editor.active{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6)}
+table.sortable span.sign {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    font-size: 12px;
+    margin-top: -10px;
+    color: #bfbfc1;
+}
+
+table.sortable span.arrow, span.reversed {
+    border-style: solid;
+    border-width: 5px;
+    font-size: 0;
+    border-color: #ccc transparent transparent transparent;
+    line-height: 0;
+    height: 0;
+    width: 0;
+    margin-top: -2px;
+}
+
+    table.sortable span.arrow.up {
+        border-color: transparent transparent #ccc transparent;
+        margin-top: -7px;
+    }
+
+table.sortable span.reversed {
+    border-color: transparent transparent #ccc transparent;
+    margin-top: -7px;
+}
+
+    table.sortable span.reversed.up {
+        border-color: #ccc transparent transparent transparent;
+        margin-top: -2px;
+    }
+
+
+
+table.sortable span.az:before {
+    content: "a .. z";
+}
+
+table.sortable span.az.up:before {
+    content: "z .. a";
+}
+
+table.sortable span.AZ:before {
+    content: "A .. Z";
+}
+
+table.sortable span.AZ.up:before {
+    content: "Z .. A";
+}
+
+table.sortable span._19:before {
+    content: "1 .. 9";
+}
+
+table.sortable span._19.up:before {
+    content: "9 .. 1";
+}
+
+table.sortable span.month:before {
+    content: "jan .. dec";
+}
+
+table.sortable span.month.up:before {
+    content: "dec .. jan";
+}
+
+table.sortable thead th:not([data-defaultsort=disabled]) {
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+table.sortable thead th:hover:not([data-defaultsort=disabled]) {
+    background: #efefef;
+}
+
+table.sortable thead th div.mozilla {
+    position: relative;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *
+
+ */
+
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *
+
+ */
+
