@@ -114,7 +114,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   
   # compile Bootstrap asset files from LESS into CSS and include in the asset pipeline
-  gem 'less-rails-bootstrap', '3.04'
+  gem 'less-rails-bootstrap', '3.0.4'
   
   # awesome icons
   gem 'font-awesome-rails'
