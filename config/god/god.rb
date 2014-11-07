@@ -34,6 +34,12 @@ God.contact(:email) do |c|
   c.to_email = 'cheshire.in.darkness@gmail.com'
 end
 
+God.contact(:email) do |c|
+  c.name = 'anthony'
+  c.group = 'developers'
+  c.to_email = 'anthony@villagecraft.org'
+end
+
 RAILS_ROOT = "/home/villagecraft/www/current"
 
 God.watch do |w|

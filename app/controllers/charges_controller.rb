@@ -30,7 +30,7 @@ class ChargesController < ApplicationController
         :description => event.title,        #there are a few mods to make this run in development  
         :currency    => 'usd',              #removed a comma
        :application_fee => fee              #commented out
-      }                                     #removed a comma
+      },                                    #removed a comma
      event.host.stripe_token                #commented out #host token from event host stripe connect
     )
 
