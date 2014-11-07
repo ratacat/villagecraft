@@ -25,13 +25,6 @@ class PagesController < ApplicationController
     @workshops = @workshops.to_a.uniq
   end
 
-    # what is stripe page
-  def what_is_stripe
-    @user = current_user
-    req = request.host_with_port
-    @profile = "http://" + req + "/users/" + @user.uuid
-  end
-
   def home_events
     if params[:sort]
       session[:sort_order] = params[:sort]
