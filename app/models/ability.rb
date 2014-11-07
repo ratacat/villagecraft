@@ -32,7 +32,7 @@ class Ability
       # host
       if user.host?
         can :manage_as_host, Workshop, :host_id => user.id
-        cannot :index, Workshop
+        cannot [:index, :destroy], Workshop
         can :my_workshops, Workshop
         
         can [:new], Event
