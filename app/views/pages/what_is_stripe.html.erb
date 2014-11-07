@@ -30,7 +30,6 @@
 		</div>
 		<div class="col-sm-5 text-center">
 			<h3>Connect your Stripe account</h3>
-			<!-- FIXME add tokens and such to make stripe link work -->
 			<a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect Stripe</span></a>
 		</div>
 		<!-- DIVIDER LINE hides on xs screens-->
@@ -51,7 +50,7 @@
 
 <div class="row">
 	<div class="col-sm-10 col-sm-offset-1">
-		<h2>Refunds and cancellation</h2> <!-- this should align with "share skills" line above -->
+		<h2>Refunds and cancellation</h2>
 		<p>You can refund a participant by canceling their attendance.</p>
 		<p>Participants who cancel their own attendance more than 24 hours before the workshop immediately receive a full refund debited from your bank account.</p>
 		<p>If you cancel a workshop, all participants will be refunded in full.</p>
@@ -60,7 +59,7 @@
 
 <div class="row">
 	<div class="col-sm-10 col-sm-offset-1">
-		<h2>Workshops created before we accepted payments</h2> <!-- this should align with "share skills" line above -->
+		<h2>Workshops created before we accepted payments</h2>
 		<p>If you want to accept prepayments, change the price of your workshop and create a Stripe account.</p>
 		<p>If you prefer to handle payments yourself, keep the previous price of your workshop and folks will continue to rsvp without paying, just like old times.</p>
 	</div>
