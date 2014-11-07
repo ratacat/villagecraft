@@ -268,7 +268,7 @@ class EventsController < ApplicationController
       end
 
       respond_to do |format|
-        @notice = 'Attendence canceled'
+        @notice = 'Attendence canceled, if this was a paid event, you will be refunded in a few days :)'
         format.js
         format.html {
           if current_user.is_host_of?(@event)
