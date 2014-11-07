@@ -13,9 +13,9 @@
       <% end %>
       <%= meeting_time(rerun.first_meeting, date_format: "%a %b", no_tz: true, show_end_time: false, show_livestamp: false) %>
       <% end %>
-    <% if current_user.attending_event?(rerun) && (@workshop.next_meeting.start_time - 24.hours) > Time.now %>
+    <% if current_user.try(:attending_event?, rerun) && (@workshop.next_meeting.start_time - 24.hours) > Time.now %>
       (<%= link_to 'cancel', cancel_attend_path(rerun), method: :post, rel: :nofollow, class: 'text-muted' , title: 'Refund will process in a few business days'%>)
-    <% elsif current_user.attending_event?(rerun) && (@workshop.next_meeting.start_time - 24.hours) < Time.now %>
+    <% elsif current_user.try(:attending_event?, rerun) && (@workshop.next_meeting.start_time - 24.hours) < Time.now %>
       (<%= link_to 'cancel', terms_of_use_path(:anchor => 'refund_policy'), rel: :nofollow, class: 'text-muted', title: 'Too late to cancel. Click to see our refund policy.' %>)
     <% else %>
       (<%= meeting_duration_in_hours(rerun.first_meeting) %>)
