@@ -167,7 +167,7 @@
         placement: 'top',
         container: 'body',
         title: 'Connect with Stripe',
-        content: '<p>Please your Stripe account in order to collect fees.</p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>'
+        content: '<p>Set up a Stripe account to start collecting fees.</p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>'
       });
       $('body').on('click', function (e) {
           $('.editable[data-name="price"]').each(function () {
