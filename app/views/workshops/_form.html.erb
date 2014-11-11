@@ -7,7 +7,7 @@
   <div class="form-inputs row">
     <div class="col-md-9">
       <%= f.input :title, label: 'Title', input_html: {class: 'col-md-8'} %>
-      <%= f.input :description, as: :text, input_html: {:rows => "6", :'data-provide' => "markdown"} %>
+      <%= f.input :description, as: :text, input_html: {:rows => "20", :'data-provide' => "markdown"} %>
       <% if admin_session? and @workshop.external%>
         <div class="well admin-only">
           <%= f.input :external %>
