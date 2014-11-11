@@ -158,7 +158,7 @@ class Event < ActiveRecord::Base
   def self.first_meeting_in_the_future
     # I think, should be like that
     # joins(:meetings).where('meetings.end_time > ?', Time.now)
-    joins(:meetings).where(%Q(#{Meeting.quoted_table_column(:end_time)} > ?), Time.now)
+    joins(:meetings).where(%Q(#{Meeting.quoted_table_column(:start_time)} > ?), Time.now)
   end
 
   def self.first_meeting_in_the_past
