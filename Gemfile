@@ -204,9 +204,6 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# Track events with Mixpanel
-#gem 'mixpanel-ruby'
-
 #event tracking & user communication
 gem 'intercom-rails'
 

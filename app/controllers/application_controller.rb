@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 #  before_filter :fetch_notifications
   before_filter :possibly_nag_for_phone
   after_filter :store_location, :except => [:attend_by_email]
-  #before_filter :set_mixpanel
 
   ACTIVITIES_PER_PAGE = 100
 
@@ -99,10 +98,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def set_mixpanel
-  #   #tracker is used to send pushes
-  #   @mixpanel = Mixpanel::Tracker.new(MIXPANEL[:token])
-  # end
   
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
   private
