@@ -5,4 +5,4 @@ Rails.configuration.stripe = {
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
 
-CLIENT_ID = "ca_57lcWYJE6hsyoVJV2ZKrACcDqeZyFBes"
+CLIENT_ID = "ca_4g1P3lQIjbticnXjRyAiU0dAdWjrAWsZ"
