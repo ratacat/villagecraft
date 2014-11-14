@@ -255,6 +255,8 @@ class EventsController < ApplicationController
       render_error(:message => "Attendence not found.", :status => 404)
       return
     end
+    
+    @user.attends.delete(@event)
 
     if refund(@event, @user)
       @user.attends.delete(@event) #cancel attendance
