@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  include ChargesHelper
+  # include ChargesHelper commented out to disable stripe
   load_and_authorize_resource(:find_by => :seod_uuid, :param_method => :workshop_params)
   before_filter :get_future_and_past_reruns, :only => [:edit, :update]
   before_filter :get_reviews, :only => [:edit, :update, :show]

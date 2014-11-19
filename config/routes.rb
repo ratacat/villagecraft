@@ -38,7 +38,7 @@ Villagecraft::Application.routes.draw do
   resources :e, :controller => :events, :as => :events
   resources :meetings, :only => [:update, :show]
 
-  resources :charges
+  # resources :charges commented out to disable stripe
 
   post 'activities/fetch' => 'activities#fetch', :as => :fetch_activities
   post 'activities/more' => 'activities#more', :as => :more_activities

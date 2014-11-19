@@ -14,15 +14,6 @@ GIT
       image_optim (~> 0.9)
       paperclip (>= 3.4)
 
-GIT
-  remote: https://github.com/stripe/stripe-ruby
-  revision: 7aee297980aba1863c7e3294feb3eb4f2ee44911
-  specs:
-    stripe (1.16.0)
-      json (~> 1.8.1)
-      mime-types (>= 1.25, < 3.0)
-      rest-client (~> 1.4)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -190,7 +181,6 @@ GEM
     net-ssh (2.9.1)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    netrc (0.8.0)
     nexmo (2.0.0)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
@@ -268,9 +258,6 @@ GEM
     ref (1.0.5)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
-    rest-client (1.7.2)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.2)
@@ -401,7 +388,6 @@ DEPENDENCIES
   simple_form
   simplecov
   state_machine
-  stripe!
   strong_parameters
   therubyracer
   thin
