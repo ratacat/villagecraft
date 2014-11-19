@@ -150,15 +150,15 @@ class EventsController < ApplicationController
     price = @event.price
 
     respond_to do |format|
-      if @event.rsvp? && (price == 0 && params[:event][:price])
-        if host.stripe_token
-          @event.assign_attributes(params[:event])
-        else
-          format.json {render status: :unauthorized }
-        end
-      else
-        @event.assign_attributes(params[:event])
-      end
+      # if @event.rsvp? && (price == 0 && params[:event][:price])
+      #   if host.stripe_token
+      #     @event.assign_attributes(params[:event])
+      #   else
+      #     format.json {render status: :unauthorized }
+      #   end
+      # else
+      #   @event.assign_attributes(params[:event])
+      # end
 
       if @event.save
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
@@ -258,37 +258,37 @@ class EventsController < ApplicationController
     
     @user.attends.delete(@event)
 
-    if refund(@event, @user)
-      @user.attends.delete(@event) #cancel attendance
+    # if refund(@event, @user)
+    #   @user.attends.delete(@event) #cancel attendance
     
-      if @user == current_user # if user not host
-        # attendee cancels
-        @event.create_activity key: 'event.cancel_attend', owner: @user
-      else
-        @event.create_activity key: 'event.host_cancels_attend', owner: @user
-        # host cancels
-      end
+    #   if @user == current_user # if user not host
+    #     # attendee cancels
+    #     @event.create_activity key: 'event.cancel_attend', owner: @user
+    #   else
+    #     @event.create_activity key: 'event.host_cancels_attend', owner: @user
+    #     # host cancels
+    #   end
 
-      respond_to do |format|
-        @notice = 'Attendence canceled, if this was a paid event, you will be refunded in a few days :)'
-        format.js
-        format.html {
-          if current_user.is_host_of?(@event)
-            redirect_to :back, notice: @notice
-          else
-            redirect_to @event, notice: @notice 
-          end
-        }
-        format.json { head :no_content }
-      end
-    else
-      respond_to do |format|
-        @alert = 'Refund Unsuccessful.' # please contant admin?
-        format.html {
-          redirect_to @event, alert: @alert
-        }
-      end
-    end
+    #   respond_to do |format|
+    #     @notice = 'Attendence canceled, if this was a paid event, you will be refunded in a few days :)'
+    #     format.js
+    #     format.html {
+    #       if current_user.is_host_of?(@event)
+    #         redirect_to :back, notice: @notice
+    #       else
+    #         redirect_to @event, notice: @notice 
+    #       end
+    #     }
+    #     format.json { head :no_content }
+    #   end
+    # else
+    #   respond_to do |format|
+    #     @alert = 'Refund Unsuccessful.' # please contant admin?
+    #     format.html {
+    #       redirect_to @event, alert: @alert
+    #     }
+    #   end
+    # end
   end
   
   # POST /events/:id/accept_attendee
