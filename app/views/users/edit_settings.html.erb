@@ -81,21 +81,21 @@
     </div>
   </div>
 
-<!--   <% if current_user.host? %>
+<!--   <%# if current_user.host? %>
     <div class="row ">
       <div class="col-sm-12">
         <h3>Connect With Stripe</h3>
         <div class="col-sm-6">
-        <% unless @user.stripe_token %>
-          <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%= CLIENT_ID %>&state=<%= request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>
-        <% else %>
-          <p>You have connected your Stripe account. Manage your Stripe settings <%= link_to("here", "https://dashboard.stripe.com/account/applications") %>.</p>
-        <% end %>
+        <%# unless @user.stripe_token %>
+          <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%# CLIENT_ID %>&state=<%# request.original_url %>" class="stripe-connect"><span>Connect with Stripe</span></a>
+        <%# else %>
+          <p>You have connected your Stripe account. Manage your Stripe settings <%# link_to("here", "https://dashboard.stripe.com/account/applications") %>.</p>
+        <%# end %>
         </div>
       </div>
     </div>
     <br>
-  <% end %> -->
+  <%# end %> -->
   
   <div class="row ">
     <div class="col-sm-12">
