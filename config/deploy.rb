@@ -14,7 +14,7 @@ set :default_environment, {
   'PATH' => "/home/villagecraft/.rbenv/shims:/home/#{application}/.rbenv/bin:$PATH"
 }
 
-set :keep_releases, 25
+set :keep_releases, 3
 
 role :web, domain                          # Your HTTP server, Apache/etc
 role :app, domain                          # This may be the same as your `Web` server
