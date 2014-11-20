@@ -51,6 +51,6 @@ Villagecraft::Application.configure do
   }
   
   config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
-    r301 %r{/system/images/(.*)}, 'http://villagecraft.org/system/images/$1'
+    r301 %r{/system/images/(.*)}, 'https://villagecraft.org/system/images/$1'
   end
 end
