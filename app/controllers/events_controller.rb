@@ -159,6 +159,10 @@ class EventsController < ApplicationController
       # else
       #   @event.assign_attributes(params[:event])
       # end
+      
+      # 0d4308768a787ea4296f4d52d8acf1d3cdc83b5d Commented out refund method in events controller
+      # also commented out assign_attributes; so nothing was being updated 
+      @event.assign_attributes(params[:event])
 
       if @event.save
         format.html { redirect_to root_path, notice: 'Event was successfully updated.' }
