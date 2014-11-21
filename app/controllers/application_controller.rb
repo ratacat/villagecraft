@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user_from_token!  # from https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
 #  before_filter :fetch_notifications
   before_filter :possibly_nag_for_phone
+  before_filter :additional_exception_data
   after_filter :store_location, :except => [:attend_by_email]
 
   ACTIVITIES_PER_PAGE = 100
@@ -96,6 +97,13 @@ class ApplicationController < ActionController::Base
     if user_signed_in? and current_user.phone.blank?
       flash.now[:warning] = "To receive notifications of last-minute changes to workshops you are attendings, #{view_context.link_to('edit your settings', edit_settings_path)} to include a mobile number.".html_safe
     end
+  end
+
+  def additional_exception_data
+    request.env["exception_notifier.exception_data"] = {
+      :controller => @kontroller,
+      :request => @request
+    }
   end
 
   
