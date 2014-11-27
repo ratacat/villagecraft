@@ -200,5 +200,6 @@ end
 
 #event tracking & user communication
 gem 'intercom-rails'
+gem 'intercom'
 
 gem 'will_paginate'
