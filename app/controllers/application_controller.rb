@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user_from_token!  # from https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
 #  before_filter :fetch_notifications
   before_filter :possibly_nag_for_phone
-  before_filter :additional_exception_data
   after_filter :store_location, :except => [:attend_by_email]
 
   ACTIVITIES_PER_PAGE = 100
@@ -99,14 +98,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def additional_exception_data
-    request.env["exception_notifier.exception_data"] = {
-      :controller => @kontroller,
-      :request => @request
-    }
-  end
-
-  
   # token_authenticatable was removed from devise 3; this is Jose Valim's suggestion for adding it back in in a secure way (see: https://gist.github.com/josevalim/fb706b1e933ef01e4fb6)
   private
   # For this example, we are simply using token authentication
