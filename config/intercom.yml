@@ -1,0 +1,11 @@
+development:
+ app_id: trde962f
+ app_api_key: a1136d1349e134a53625e0ede21bcda179a87954
+
+test:
+ app_id: trde962f
+ app_api_key: a1136d1349e134a53625e0ede21bcda179a87954
+
+production:
+ app_id: ofhjjssc
+ app_api_key: 0481e1dcec619cfa97c2116e93ac546ac56ae192
