@@ -1,17 +1,17 @@
-INTERCOM_CONFIG = YAML.load_file("#{::Rails.root}/config/intercom.yml")[::Rails.env]
-Intercom.app_id = INTERCOM_CONFIG['app_id']
-Intercom.app_api_key = INTERCOM_CONFIG['app_api_key']
+  #both of these ENV variables are set in /etc/profile.d/ on production and test server
+Intercom.app_id = ENV['INTERCOM_APP_ID']
+Intercom.app_api_key = ENV['INTERCOM_APP_API_KEY']
+
 IntercomRails.config do |config|
   # == Intercom app_id
   #
-  config.app_id = ENV["INTERCOM_APP_ID"] || "ofhjjssc"
+  config.app_id = ENV["INTERCOM_APP_ID"]
 
   # == Intercom secret key
   # This is required to enable secure mode, you can find it on your Intercom
   # "security" configuration page.
   #
-  config.api_secret = ENV["INTERCOM_APP_API_KEY"] || "0481e1dcec619cfa97c2116e93ac546ac56ae192"
-
+  config.api_secret = ENV["INTERCOM_APP_API_KEY"]
   # == Intercom API Key
   # This is required for some Intercom rake tasks like importing your users;
   # you can generate one at https://app.intercom.io/apps/api_keys.
