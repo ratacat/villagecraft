@@ -1,6 +1,6 @@
   #both of these ENV variables are set in /etc/profile.d/ on production and test server
-Intercom.app_id = ENV['INTERCOM_APP_ID']
-Intercom.app_api_key = ENV['INTERCOM_APP_API_KEY']
+Intercom.app_id = ENV["INTERCOM_APP_ID"]
+Intercom.app_api_key = ENV["INTERCOM_APP_API_KEY"]
 
 IntercomRails.config do |config|
   # == Intercom app_id
