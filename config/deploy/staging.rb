@@ -1,5 +1,5 @@
+set :rails_env, 'staging'
 set :domain, 'test.villagecraft.org'
-# UNTESTED the following should exclude .conf files to avoid sending prodcution configurations to staging server
 set :copy_exclude, [".git/", "config/*.conf"]
 server 'test.villagecraft.org', :app, :web, :db, :primary => true
 

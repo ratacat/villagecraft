@@ -192,6 +192,9 @@ group :test do
   gem 'simplecov', :require => false
 end
 
+group :staging do
+  gem 'sanitize_email'
+end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

@@ -5,10 +5,6 @@ set :stages, %w(production staging)
 set :default_stage, "staging"
 require 'capistrano/ext/multistage' #Capistrano reccomends bringing in this code after configuring the stages
 
-# namespace :staging do
-#   set :domain, 'test.villagecraft.org'
-# end
-
 set :application, 'villagecraft'
 set :git_user, 'ratacat'
 set :repository,  "git@github.com:#{git_user}/#{application}.git"
