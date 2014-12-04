@@ -8,7 +8,7 @@
 %>
 <%= simple_form_for(@workshop, options) do |f| %>
   <%= f.error_notification %>
-  <%= f.input :reminder, label: 'Reminder', input_html: {class: span} %>
+  <%= f.input :reminder, label: 'SMS Text Message', input_html: {class: span} %>
 <% end %>
 
 <% if auto_submit %>
