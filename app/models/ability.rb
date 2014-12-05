@@ -22,7 +22,6 @@ class Ability
       can [:show], Venue
       can [:show, :create], Message
       can [:edit, :update], User, :id => user.id
-      can [:edit, :update], User, :id => user.id
       can [:edit_settings, :update_settings], User do |u|
         u.blank? or u.uuid === user.uuid or session[:admin_mode]
       end
