@@ -185,6 +185,11 @@ group :production do
   
   # Google analytics for all pages
   gem 'rack-google_analytics', :require => "rack/google_analytics"
+
+  #event tracking & user communication
+  gem 'intercom-rails'
+  gem 'intercom'
+
 end
 
 group :test do
@@ -200,9 +205,5 @@ end
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
-#event tracking & user communication
-gem 'intercom-rails'
-gem 'intercom'
 
 gem 'will_paginate'

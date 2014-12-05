@@ -41,7 +41,7 @@ class EventsController < ApplicationController
 
     #intercom event for viewing a workshop, calling user.create in case someone tries to view an event without intercom 
     #having caught their account yet
-    if user_signed_in?
+    if user_signed_in? and Rails.env.production?
       Intercom::User.create(:id => current_user.uuid, :email => current_user.email)
       Intercom::Event.create(
         :event_name => "looked-at-workshop", 
