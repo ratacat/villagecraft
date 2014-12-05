@@ -7,6 +7,7 @@ class Ability
     # anyone
     can [:show, :attend_by_email], Event
     can [:show], Workshop
+    can [:show], User
     can [:edit], Location
     can [:show], Message do |message|
       message.system_message?

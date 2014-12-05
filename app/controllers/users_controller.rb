@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :require_admin, :if => lambda {|c| c.is_a?(Admin::UsersController) }
   skip_before_filter :possibly_nag_for_phone, only: [:edit_settings]
 
