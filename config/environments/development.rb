@@ -37,8 +37,8 @@ Villagecraft::Application.configure do
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.default_url_options = { :host => 'localhost', :port => 3000 }
   
-  config.facebook_app_id = "1395047807377616"
-  config.facebook_app_secret = "49a984436ada9d7c3fa69e75ad428edf"
+  config.facebook_app_id = ENV["FACEBOOK_DEV_APP_ID"]
+  config.facebook_app_secret = ENV["FACEBOOK_DEV_APP_SECRET"]
 
   # Precompile handlebars.js templates
   config.assets.precompile += %w( hosts_only.js hosts_only.css ./templates/* )

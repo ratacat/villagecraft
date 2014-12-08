@@ -60,8 +60,8 @@ Villagecraft::Application.configure do
     :port => 587,
     :authentication => :plain,
     :enable_starttls_auto => true,
-    :user_name => 'Jared Smith',
-    :password => 'slack3r101'
+    :user_name => ENV["SENDGRID_USERNAME"],
+    :password => ENV["SENDGRID_PASSWORD"]
   }
   config.action_mailer.default_url_options = { :host => 'villagecraft.org' }
 
@@ -79,8 +79,8 @@ Villagecraft::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.2
   
-  config.facebook_app_id = "215395121943347"
-  config.facebook_app_secret = "82d5e3ab69b26620339c224601c6bac5"
+  config.facebook_app_id = ENV["FACEBOOK_APP_ID"]
+  config.facebook_app_secret = ENV["FACEBOOK_APP_SECRET"]
   
   config.middleware.use ExceptionNotification::Rack,
     :email => {

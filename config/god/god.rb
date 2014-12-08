@@ -18,8 +18,8 @@ God::Contacts::Email.defaults do |d|
   d.server_host = 'smtp.sendgrid.net'
   d.server_port = 587
   d.server_auth = true
-  d.server_user = 'Jared Smith'
-  d.server_password = 'slack3r101'
+  d.server_user = ENV["SENDGRID_USERNAME"]
+  d.server_password = ENV["SENDGRID_PASSWORD"]
 end
 
 God.contact(:email) do |c|
