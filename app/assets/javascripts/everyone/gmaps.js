@@ -78,8 +78,7 @@ function loadGMap(options) {
   gmap_options = $.extend(default_options, options);
 
   var script = document.createElement("script");
-  var api_key = "AIzaSyDggYWKQsOUMu_bGgzP8Mt-QWmzqNZ5BCQ";
   script.type = "text/javascript";
-  script.src = "http://maps.googleapis.com/maps/api/js?key=" + api_key + "&sensor=false&callback=initializeGMap";
+  script.src = "http://maps.googleapis.com/maps/api/js?key=" + ENV.GOOGLE_MAPS_API_KEY + "&sensor=false&callback=initializeGMap";
   document.body.appendChild(script);
 }

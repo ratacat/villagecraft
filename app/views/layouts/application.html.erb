@@ -38,6 +38,7 @@
 
 	<% end %>
 	
+  <%= render :partial => '/layouts/environment' %>
 	<%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "hosts_only" if current_user.try(:host?) %>
   <%= render :partial => "layouts/body_and_ready_scripts" %>
