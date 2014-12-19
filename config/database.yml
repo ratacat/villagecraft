@@ -45,3 +45,15 @@ production:
   password: cats
   su_username: villagecraft
   su_password: cats
+
+
+staging:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: 5
+  database: villagecraft_production
+  username: villagecraft
+  password: cats
+  su_username: villagecraft
+  su_password: cats
