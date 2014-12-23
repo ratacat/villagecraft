@@ -91,6 +91,7 @@ end
 
 # Catching all emails with sanizite gem
 STAGING_EMAIL = 'antmachine.test@gmail.com'
+Mail.register_interceptor(SanitizeEmail::Bleach.new(:engage => true))
 SanitizeEmail::Config.configure do |config|
   config[:sanitized_to] =         "#{STAGING_EMAIL}"
   config[:sanitized_cc] =         "#{STAGING_EMAIL}"
