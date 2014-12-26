@@ -24,7 +24,7 @@ inputs.each do |input_type|
 end
 
 SimpleForm.setup do |config|
-  config.wrappers :bootstrap, :tag => 'div', :class => 'control-group', :error_class => 'error' do |b|
+  config.wrappers :bootstrap, :tag => 'div', :class => 'form-group', :error_class => 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
@@ -35,7 +35,7 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :prepend, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+  config.wrappers :prepend, :tag => 'div', :class => "form-group", :error_class => 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
@@ -48,7 +48,7 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :append, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+  config.wrappers :append, :tag => 'div', :class => "form-group", :error_class => 'error' do |b|
     b.use :html5
     b.use :placeholder
     b.use :label
