@@ -110,7 +110,7 @@ class VenuesController < ApplicationController
     respond_to do |format|
       format.json {
         @venues = [Venue.new(:name => 'TBD')] + @venues
-        @venues += [Venue.new(:name => 'Add new venue...')] if params[:add_new]
+        @venues += [Venue.new(:name => VenuesHelper::ADD_NEW_VENUE_PROMPT)] if params[:add_new]
         render :json => @venues.map {|v| {:value => v.uuid, :text => v.name}}
       }
       format.html

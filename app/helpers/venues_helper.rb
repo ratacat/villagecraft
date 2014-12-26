@@ -1,5 +1,5 @@
 module VenuesHelper
-  ADD_NEW_VENUE_PROMPT = "Add new venue..."
+  ADD_NEW_VENUE_PROMPT = "Add a new location..."
   
   def users_venue_options(user)
     tbd = Venue.new(:name => "TBD")

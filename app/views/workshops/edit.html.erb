@@ -190,7 +190,7 @@
       placement: 'top',
       container: 'body',
       trigger: 'manual',
-      title: 'Add New Venue',
+      title: 'Add New Location',
       content: function() {
         var event_uuid = $(this).closest("tr").data("rerun_uuid");
         return HandlebarsTemplates['venues/add_new']({
@@ -291,7 +291,7 @@
   $(".external_check").popover({content: "Use this option to promote an external event on Villagecraft.  Users will be directed off-site to sign up, contact the host or learn more.", trigger: 'hover', placement: 'left'});
 
   $(document).on('change', "td span.venue form select", function() {
-    if ($(this).val() === "Add new venue...") {
+    if ($(this).val() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
       var venue_span = $(this).closest("td span.venue");
       venue_span.find("span.editable").editable('hide');
       venue_span.popover('show');
@@ -328,7 +328,7 @@
       change: function(e) {
           var value = $(this).val();
           // fire event only when the parent document is clicked 
-          if (value != null && value !== "Add new venue..." && value !== "TBD") {
+          if (value != null && value !== "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>" && value !== "TBD") {
             if ((e.target.className === 'editable editable-click editable-open' || value !== "Add new venue..." && value !== "TBD") && $('.venue-popover-content',$(this)).length == 0) {
               if ($(".venue-popover-content").hasClass('hide')) {
                   $(".venue-popover-content").removeClass('hide');
