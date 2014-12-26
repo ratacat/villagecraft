@@ -173,8 +173,7 @@ class Event < ActiveRecord::Base
 
 
   def Event.placeholder_src(size = :medium)
-#    "/assets/event_placeholder_#{size}.png"
-    "/assets/event_placeholder.png"
+    "/assets/event_placeholder_#{size}.png"
   end
   
   def Event.auto_create_from_workshop(workshop)
