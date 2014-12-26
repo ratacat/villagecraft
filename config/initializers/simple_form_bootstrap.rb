@@ -1,5 +1,6 @@
+# Use this setup block to configure all options available in SimpleForm.
+
 inputs = %w[
-  CollectionSelectInput
   DateTimeInput
   FileInput
   GroupedCollectionSelectInput
@@ -21,55 +22,46 @@ inputs.each do |input_type|
  
   Object.const_set(input_type, new_class)
 end
- 
-# Use this setup block to configure all options available in SimpleForm.
+
 SimpleForm.setup do |config|
-  config.boolean_style = :nested
- 
-  config.wrappers :bootstrap3, tag: 'div', class: 'form-group', error_class: 'has-error',
-      defaults: { input_html: { class: 'default_class' } } do |b|
-    
-    b.use :html5
-    b.use :min_max
-    b.use :maxlength
-    b.use :placeholder
-    
-    b.optional :pattern
-    b.optional :readonly
-    
-    b.use :label_input
-    b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
-    b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
-  end
- 
-  config.wrappers :prepend, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
+  config.wrappers :bootstrap, :tag => 'div', :class => 'control-group', :error_class => 'error' do |b|
     b.use :html5
     b.use :placeholder
-    b.wrapper tag: 'div', class: 'controls' do |input|
-      input.wrapper tag: 'div', class: 'input-group' do |prepend|
-        prepend.use :label , class: 'input-group-addon' ###Please note setting class here fro the label does not currently work (let me know if you know a workaround as this is the final hurdle)
-        prepend.use :input
-      end
-      input.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
-      input.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
-    end
-  end
- 
-  config.wrappers :append, tag: 'div', class: 'form-group', error_class: 'has-error' do |b|
-    b.use :html5
-    b.use :placeholder
-    b.wrapper tag: 'div', class: 'controls' do |input|
-      input.wrapper tag: 'div', class: 'input-group' do |prepend|
-        prepend.use :input
-        prepend.use :label , class: 'input-group-addon' ###Please note setting class here fro the label does not currently work (let me know if you know a workaround as this is the final hurdle)
-      end
-      input.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
-      input.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
+    b.use :label
+    b.wrapper :tag => 'div', :class => 'controls' do |ba|
+      ba.use :input
+      ba.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+      ba.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
     end
   end
 
+  config.wrappers :prepend, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.use :label
+    b.wrapper :tag => 'div', :class => 'controls' do |input|
+      input.wrapper :tag => 'div', :class => 'input-prepend' do |prepend|
+        prepend.use :input
+      end
+      input.use :hint,  :wrap_with => { :tag => 'span', :class => 'help-block' }
+      input.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+    end
+  end
+
+  config.wrappers :append, :tag => 'div', :class => "control-group", :error_class => 'error' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.use :label
+    b.wrapper :tag => 'div', :class => 'controls' do |input|
+      input.wrapper :tag => 'div', :class => 'input-append' do |append|
+        append.use :input
+      end
+      input.use :hint,  :wrap_with => { :tag => 'span', :class => 'help-block' }
+      input.use :error, :wrap_with => { :tag => 'span', :class => 'help-inline' }
+    end
+  end
+  
   config.wrappers :checkbox, tag: :div, class: "checkbox", error_class: "has-error" do |b|
-
     # Form extensions
     b.use :html5
 
@@ -82,10 +74,10 @@ SimpleForm.setup do |config|
     b.use :hint,  wrap_with: { tag: :p, class: "help-block" }
     b.use :error, wrap_with: { tag: :span, class: "help-block text-danger" }
   end
- 
+
   # Wrappers for forms and inputs using the Twitter Bootstrap toolkit.
-  # Check the Bootstrap docs (http://getbootstrap.com/)
+  # Check the Bootstrap docs (http://twitter.github.com/bootstrap)
   # to learn about the different styles for forms and inputs,
   # buttons and other elements.
-  config.default_wrapper = :bootstrap3
+  config.default_wrapper = :bootstrap
 end
