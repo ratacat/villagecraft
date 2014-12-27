@@ -38,6 +38,8 @@ class Event < ActiveRecord::Base
   end
   
   UNLOCK_TIMEOUT = 5 # minutes that unlocking lasts 
+  COST_TYPE = [:free, :donation, :set_price, :sliding_scale]
+  COST_TYPE_LABEL = { free: "Free", donation: "Donation", set_price: "Set price", sliding_scale: "Sliding scale" }
   
   after_initialize :generate_secret_if_missing
   normalize_attributes :title, :short_title, :description
@@ -48,6 +50,8 @@ class Event < ActiveRecord::Base
   validates :host_id, presence: true
   validates :title, presence: true
   validates :external_url, :url => {:allow_blank => true}
+  validates :cost_type, inclusion: COST_TYPE + COST_TYPE.collect{|x| x.to_s}
+  
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
   validates :min_attendees, 
