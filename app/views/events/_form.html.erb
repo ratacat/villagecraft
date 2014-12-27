@@ -1,70 +1,184 @@
-<%= simple_form_for(@event, html: {class: "form-horizontal"}) do |f| %>
+<%= simple_form_for(@event) do |f| %>
   <%= f.error_notification %>
 
-  	<%= f.input :title %>
-  	<%# f.input :short_title, label: 'Short Title' %>
+  <div class="form-inputs row">
+    <div class="col-md-9">
 
-    <%= f.input :when, label: 'When', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
-      <%= f.input_field :start_time_date, :as => :date_select, :class => "start date", 
-          :value => l(@event.localized_start_time, format: :date_picker_date_format).strip %>
-      <%= f.input_field :start_time_time, :as => :time_select, :class => "start time",
-          :value => l(@event.localized_start_time, format: :time_picker_time_format).strip %> to 
-      <%= f.input_field :end_time_time, :as => :time_select, :class => "end time",
-          :value => l(@event.localized_end_time, format: :time_picker_time_format).strip %>
-      <%= f.input_field :end_time_date, :as => :date_select, :class => "end date",
-          :value => l(@event.localized_end_time, format: :date_picker_date_format).strip %>
-    <% end %>
-  	<%= f.association :venue, label: 'Where', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"} %>
-  	<div class="form-group">
-      <%= f.label "Event Image" %>
-      <div class="controls">
-        <%= image_tag @event.img_src(:larger), :class => "img-rounded" %>
-        <%= f.file_field :image %><br/>
+    	<%= f.input :title %>
+    	<%# f.input :short_title, label: 'Short Title' %>
+
+      <%= f.input :description, as: :text, input_html: {:rows => "20", :'data-provide' => "markdown"} %>
+
+    	<%= f.association :venue, label: 'Location', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select"}, hint: raw(link_to("add a new location", '#', id: 'add_new_location_link')) %>
+      
+      <div class="form-group select optional event_add_venue initially_hidden" id="add_new_location">
+        <label class="select optional control-label" for="event_venue_id">New Location</label>
+        <div>
+            <%= f.simple_fields_for :venue do |v| %>
+              <div class="row">
+                  <div class="col-md-3">
+                      <%= v.input :name, :placeholder => "name", :label => false, :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link')) %>
+                  </div>
+                  <div class="col-md-5">
+                    <%= v.input :address, :placeholder => "address", :label => false %>
+                  </div>
+              </div>    
+            <% end %>      
+        </div>
       </div>
-    </div>
-    
-  	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
-  	<%= f.input :max_attendees, input_html: {:min => 0} %>
-  	
-  	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
-  	
-    <%= f.input :description, as: :text, input_html: {:rows => "6", :class => 'col-md-5'} %>
+        
+      <%= f.input :when, label: 'Date and Time', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
+        <table>
+          <tr>
+            <td>
+              <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control", 
+                  :value => l(@event.first_meeting.localized_start_time, format: :date_picker_date_format).strip %>
+              <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control",
+                  :value => l(@event.first_meeting.localized_start_time, format: :time_picker_time_format).strip %>
+            </td>
+            <td style="padding:2em;">
+              to
+            </td>
+            <td>
+              <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control",
+                  :value => l(@event.first_meeting.localized_end_time, format: :date_picker_date_format).strip %>
+              <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control",
+                  :value => l(@event.first_meeting.localized_end_time, format: :time_picker_time_format).strip %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-primary" %>
+      <%= f.input :cost_type, label: 'Cost', required: true, wrapper_html: {class: 'controls-row'} do %>
+        <table>
+          <tr>
+            <td>
+              <%= f.input_field :cost_type, collection: Event::COST_TYPE_LABEL.collect{ |k,v| [ v, k ] }, include_blank: false %>
+            </td>
+            <td id="price_min" class="initially_hidden">
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <%= f.input_field :price %>
+                <div class="input-group-addon">.00</div>
+              </div>
+            </td>
+            <td id="price_dash" class="initially_hidden">
+              —
+            </td>
+            <td id="price_max" class="initially_hidden">
+              <div class="input-group">
+                <div class="input-group-addon">$</div>
+                <%= f.input_field :end_price %>
+                <div class="input-group-addon">.00</div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+    
+    	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
+    	<%= f.input :max_attendees, input_html: {:min => 0} %>
+  	
+    	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
+
+
+      <div class="form-actions">
+        <%= f.button :submit, class: "btn btn-primary" %>
+      </div>
+
+    </div>
+    <div class="col-md-3">
+      <%= render :partial => 'images/fancy_jansy_upload', :locals => {:f => f, :size => :large_orig, :img_url => @event.img_src(:large_orig)} %>
+    </div>
   </div>
 <% end %>
 
-<% ready_script do -%>
-  var DATEPICKER_FORMAT = "<%= t 'time.formats.php_style_time_picker_time_format' %>";
-  var TIMEPICKER_FORMAT = "<%= t 'time.formats.php_style_date_picker_date_format' %>";
-  var DATE_FORMAT = "<%= t 'time.formats.php_style_date_format' %>"; // for this format see http://php.net/manual/function.date.php
-
-  <%= render :partial => 'events/init_datetime_pickers', :formats => [:js] %>
-  
-  $(":file").filestyle({ 
-    textField: false,
-    buttonText: "Choose photo",
-    icon: true 
-  });
-  $("#event_venue_id").selectpicker({rightbutton: '+'});
-  $(".bootstrap-select .rightbutton").on('click', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-  })
-  .popover({html: true, 
-            container: 'body', 
-            title: 'New Venue', 
-            content: "<%= escape_javascript(render :partial => 'venues/form', :locals => { :remote => true, :venue => Venue.new }) %>"});
-  $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
-    $(".bootstrap-select .rightbutton").popover('hide');
-    $("#event_venue_id").selectpicker('refresh');
-  });
-  $('body').on('click', function (e) {
-    $('.bootstrap-select .rightbutton').each(function () {
-      if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-        $(this).popover('hide');
-      }
+<% body_script do -%>
+  <%= render :partial => 'meetings/init_datepair_picker', :formats => [:js] %>
+  function init_rerun_form() {
+    init_datetime_picker();
+    
+    $('#event_description').markdown();
+    $("button.customize_title_and_description").click(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $(".customize_title_and_description").toggle();
     });
-  });
+    
+    $("#event_venue_id").selectpicker();
+    $("#event_cost_type").selectpicker();
+
+    $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
+      $(".bootstrap-select .rightbutton").popover('hide');
+      /* $("#event_venue_id").selectpicker('refresh'); */
+    });
+    $('body').on('click', function (e) {
+      $('.bootstrap-select .rightbutton').each(function () {
+        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          $(this).popover('hide');
+        }
+      });
+    });
+  }
+  
+  function add_new_location() {
+      $("select.venues_select").closest('div.form-group').hide();
+      $("#add_new_location").find("input[type=text], textarea").val("");
+      $("#add_new_location").show();
+  }
+
+  function select_existing_location() {
+      $("#add_new_location").hide();
+      $('select.venues_select').prop('selectedIndex', 0);
+      $("#event_venue_id").selectpicker('render');
+      $("select.venues_select").closest('div.form-group').show();
+  }
+
+  function sync_price_fields_to_cost_type(cost_type) {
+    if (cost_type === "free") {
+      $("#price_min").hide();
+      $("#price_dash").hide();
+      $("#price_max").hide();
+    } else if (cost_type === "donation") {
+      $("#price_min").hide();
+      $("#price_dash").hide();
+      $("#price_max").hide();      
+    } else if (cost_type === "set_price") {
+      $("#price_min").show();
+      $("#price_dash").hide();
+      $("#price_max").hide();
+    } else if (cost_type === "sliding_scale") {
+      $("#price_min").show();
+      $("#price_dash").show();
+      $("#price_max").show();
+    }
+  }
+
 <% end -%>
+
+<% ready_script do -%>
+  init_rerun_form();
+  
+  $(document).on('change', "select.venues_select", function() {
+    if ($("select.venues_select option:selected").text() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
+      add_new_location();
+    }
+  });
+  
+  $(document).on('click', '#add_new_location_link', function(e) {
+    e.preventDefault();
+    add_new_location();
+  });
+
+  $(document).on('click', '#select_existing_location_link', function(e) {
+    e.preventDefault();
+    select_existing_location();
+  });
+
+  $(document).on('change', "select#event_cost_type", function() {
+    var cost_type = $("select#event_cost_type option:selected").val();
+    sync_price_fields_to_cost_type(cost_type);
+  });
+  
+<% end -%>
+
