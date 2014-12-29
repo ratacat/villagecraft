@@ -75,9 +75,27 @@
           </tr>
         </table>
       <% end %>
+      
+      <%= f.input :open, label: "Display address publicly?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }}, hint: 'Address visible with RSVP?' %>
+      <%= f.input :external, label: "Are you organizing this activity?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }} %>
+
+      <%= f.input :rsvp, label: 'Limit RSVPs', wrapper_html: {class: 'controls-row'} do %>
+        <table>
+          <tr>
+            <td>
+              <%= f.input_field :rsvp, label: "Limit RSVPs?", data: {:'on-text' => 'YES', :'off-text' => 'NO' } %>
+            </td>
+            <td style="padding:1em;" id="max_attendees_separator">to</td>
+            <td id="max_attendees_input">
+              <div class="input-group">
+                  <%= f.input_field :max_attendees, :min => 0, :size => 4 %>
+              </div>
+            </td>
+          </tr>
+        </table>
+      <% end %>
     
     	<%= f.hidden_field :min_attendees, input_html: {:min => 0} %>
-    	<%= f.input :max_attendees, input_html: {:min => 0} %>
   	
     	<%= f.hidden_field :secret, hint: "At the event, tell attendees this secret so they can confirm their attendance.", disabled: true %>
 
@@ -107,6 +125,8 @@
     
     $("#event_venue_id").selectpicker();
     $("#event_cost_type").selectpicker();
+    
+    $("input[type='checkbox'").bootstrapSwitch();
 
     $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
       $(".bootstrap-select .rightbutton").popover('hide');
@@ -154,6 +174,16 @@
     }
   }
 
+  function sync_max_attendee_visibility_to_rsvp() {
+    if ($("input#event_rsvp:checked").length > 0) {
+      $("#max_attendees_separator").show();
+      $("#max_attendees_input").show();
+    } else {
+      $("#max_attendees_separator").hide();
+      $("#max_attendees_input").hide();
+    }
+  }
+
 <% end -%>
 
 <% ready_script do -%>
@@ -179,6 +209,10 @@
     var cost_type = $("select#event_cost_type option:selected").val();
     sync_price_fields_to_cost_type(cost_type);
   });
+  
+  $(document).on('switchChange.bootstrapSwitch', function(event, state) {
+    sync_max_attendee_visibility_to_rsvp();
+  });  
   
 <% end -%>
 
