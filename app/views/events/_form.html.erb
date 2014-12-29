@@ -52,7 +52,7 @@
       <%= f.input :cost_type, label: 'Cost', required: true, wrapper_html: {class: 'controls-row'} do %>
         <table>
           <tr>
-            <td>
+            <td style="padding-right:10px;">
               <%= f.input_field :cost_type, collection: Event::COST_TYPE_LABEL.collect{ |k,v| [ v, k ] }, include_blank: false %>
             </td>
             <td id="price_min" class="initially_hidden">
