@@ -128,6 +128,9 @@
     
     $("input[type='checkbox'").bootstrapSwitch();
 
+    sync_price_fields_to_cost_type();
+    sync_max_attendee_visibility_to_rsvp();
+
     $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
       $(".bootstrap-select .rightbutton").popover('hide');
       /* $("#event_venue_id").selectpicker('refresh'); */
@@ -154,7 +157,8 @@
       $("select.venues_select").closest('div.form-group').show();
   }
 
-  function sync_price_fields_to_cost_type(cost_type) {
+  function sync_price_fields_to_cost_type() {
+    var cost_type = $("select#event_cost_type option:selected").val();
     if (cost_type === "free") {
       $("#price_min").hide();
       $("#price_dash").hide();
@@ -206,8 +210,7 @@
   });
 
   $(document).on('change', "select#event_cost_type", function() {
-    var cost_type = $("select#event_cost_type option:selected").val();
-    sync_price_fields_to_cost_type(cost_type);
+    sync_price_fields_to_cost_type();
   });
   
   $(document).on('switchChange.bootstrapSwitch', function(event, state) {
