@@ -41,7 +41,7 @@ class Event < ActiveRecord::Base
   COST_TYPE = [:free, :donation, :set_price, :sliding_scale]
   COST_TYPE_LABEL = { free: "Free", donation: "Donation", set_price: "Set price", sliding_scale: "Sliding scale" }
   
-  after_initialize :generate_secret_if_missing
+  after_initialize :set_defaults
   normalize_attributes :title, :short_title, :description
   before_save :propogate_changes_to_dependant_meetings
   after_save :touch_to_expire_cached_fragments, :propogate_changes_to_parent_workshop
@@ -256,10 +256,11 @@ class Event < ActiveRecord::Base
     "#{web_colors.sample} #{zodiac_animals.sample}"
   end
   
-  def generate_secret_if_missing
+  def set_defaults
     if self.secret.blank?
       self.secret = Event.random_secret
     end
+    self.cost_type ||= :free
   end
   
   def propogate_changes_to_dependant_meetings
