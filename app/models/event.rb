@@ -126,6 +126,10 @@ class Event < ActiveRecord::Base
     self.update_attribute(:venue_id, v.try(:id))
   end
   
+  def _new_venue=(v)
+    # XXX TODO
+  end
+  
   def img_src(size = :medium)
     if self.image.blank?
       Event.placeholder_src(size)
@@ -147,6 +151,13 @@ class Event < ActiveRecord::Base
       self.update_attribute(:first_meeting_id, fm.try(:id))
       fm
     end
+  end
+  
+  def _first_meeting=(m)
+    meeting = Meeting.new(m)
+    meeting.event = self
+    meeting.save!
+    self.first_meeting = meeting
   end
 
   def cache_key(context = nil)

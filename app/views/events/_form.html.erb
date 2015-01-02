@@ -14,7 +14,7 @@
       <div class="form-group select optional event_add_venue initially_hidden" id="add_new_location">
         <label class="select optional control-label" for="event_venue_id">New Location</label>
         <div>
-            <%= f.simple_fields_for :venue do |v| %>
+            <%= f.simple_fields_for :_new_venue do |v| %>
               <div class="row">
                   <div class="col-md-3">
                       <%= v.input :name, :placeholder => "name", :label => false, :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link')) %>
@@ -26,28 +26,33 @@
             <% end %>      
         </div>
       </div>
-        
-      <%= f.input :when, label: 'Date and Time', required: true, wrapper_html: {class: 'controls-row datepair'} do %>
-        <table>
-          <tr>
-            <td>
-              <%= f.input_field :start_time_date, :as => :date_select, :class => "start date form-control", 
-                  :value => l(@event.first_meeting.localized_start_time, format: :date_picker_date_format).strip %>
-              <%= f.input_field :start_time_time, :as => :time_select, :class => "start time form-control",
-                  :value => l(@event.first_meeting.localized_start_time, format: :time_picker_time_format).strip %>
-            </td>
-            <td style="padding:2em;">
-              to
-            </td>
-            <td>
-              <%= f.input_field :end_time_date, :as => :date_select, :class => "end date form-control",
-                  :value => l(@event.first_meeting.localized_end_time, format: :date_picker_date_format).strip %>
-              <%= f.input_field :end_time_time, :as => :time_select, :class => "end time form-control",
-                  :value => l(@event.first_meeting.localized_end_time, format: :time_picker_time_format).strip %>
-            </td>
-          </tr>
-        </table>
-      <% end %>
+      
+      <div class="form-group string required event_when controls-row datepair">
+        <label class="string required control-label" for="event_when"><abbr title="required">*</abbr> Date and Time</label>
+        <div class="controls">
+          <%= f.simple_fields_for :_first_meeting do |m| %>
+            <table>
+              <tr>
+                <td>
+                  <%= m.input_field :start_time_date, :as => :date_select, :class => "start date form-control", 
+                      :value => l(@event.first_meeting.localized_start_time, format: :date_picker_date_format).strip %>
+                  <%= m.input_field :start_time_time, :as => :time_select, :class => "start time form-control",
+                      :value => l(@event.first_meeting.localized_start_time, format: :time_picker_time_format).strip %>
+                </td>
+                <td style="padding:2em;">
+                  to
+                </td>
+                <td>
+                  <%= m.input_field :end_time_date, :as => :date_select, :class => "end date form-control",
+                      :value => l(@event.first_meeting.localized_end_time, format: :date_picker_date_format).strip %>
+                  <%= m.input_field :end_time_time, :as => :time_select, :class => "end time form-control",
+                      :value => l(@event.first_meeting.localized_end_time, format: :time_picker_time_format).strip %>
+                </td>
+              </tr>
+            </table>
+          <% end %>
+        </div>
+      </div>
 
       <%= f.input :cost_type, label: 'Cost', required: true, wrapper_html: {class: 'controls-row'} do %>
         <table>
