@@ -357,5 +357,12 @@ class EventsController < ApplicationController
     if @event.locked?
       raise CanCan::AccessDenied.new("Workshop locked (#{view_context.pluralize(@event.attendances.count, 'person')} attending)", action_name, Event)
     end
-  end  
+  end
+  
+  def event_params
+    ok_params = [:host, :title, :description, :short_title, :min_attendees, :max_attendees, :image, :price, :venue_uuid, :external, :external_url, :rsvp]
+    # XXX possibly some additional ok_params if admin_session? or current_user.host?
+    params[:event].permit(*ok_params)
+  end
+  
 end
