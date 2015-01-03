@@ -10,7 +10,7 @@
             <div class="review-elements">
               <%= f.hidden_field :apropos_id, :value => workshop.id %>
 
-              <%= f.input :body, :wrapper => :bootstrap3 do %>
+              <%= f.input :body, :wrapper => :bootstrap do %>
                   <%= f.input_field :body, :as => :text, :class => 'input-block-level', :rows=>"10" %>
                   <%= content_tag(:span,'', :class => 'help-inline hide') %>
               <% end %>
