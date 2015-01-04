@@ -397,7 +397,7 @@ DEPENDENCIES
   rails-footnotes (= 4.1.0)
   rspec-rails (~> 2.13)
   sanitize_email
-  simple_form
+  simple_form (= 2.1.1)
   simplecov
   state_machine
   strong_parameters

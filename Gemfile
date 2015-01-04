@@ -32,7 +32,7 @@ gem 'omniauth-facebook'
 gem 'paranoia', '~> 1.0'
 
 # syntactic sugar for form creation
-gem 'simple_form'
+gem 'simple_form', '2.1.1'
 
 # inline editing, used extensively on Workshops#edit
 gem 'x-editable-rails', '1.5.2'
