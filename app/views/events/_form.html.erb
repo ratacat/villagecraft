@@ -9,7 +9,7 @@
 
       <%= f.input :description, as: :text, input_html: {:rows => "20", :'data-provide' => "markdown"} %>
 
-    	<%= f.association :venue, label: 'Location', collection: users_venue_options(current_user), label_method: :name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select", :id => "event_venue_uuid", :name => "event[venue_uuid]"}, hint: raw(link_to("add a new location", '#', id: 'add_new_location_link')) %>
+    	<%= f.association :venue, label: 'Location', collection: users_venue_options(current_user), label_method: :display_name, value_method: :uuid, selected: @event.venue.try(:uuid), input_html: {:class => "venues_select", :id => "event_venue_uuid", :name => "event[venue_uuid]"}, hint: raw(link_to("add a new location", '#', id: 'add_new_location_link')) %>
       
       <div class="form-group select optional event_add_venue initially_hidden" id="add_new_location">
         <label class="select optional control-label" for="event_venue_id">New Location</label>
