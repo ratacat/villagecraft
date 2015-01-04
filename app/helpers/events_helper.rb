@@ -116,5 +116,17 @@ module EventsHelper
       "#{(attends < max) ? pluralize(max - attends, 'slot') : 'no slots'} left"
     end
   end
+  
+  def event_locked_title(event)
+    %Q(Event locked because #{pluralize(event.attendances.count, "attendee")} signed up)
+  end
+  
+  def event_unlock_confirmation(event)
+    %Q(This event is locked because #{pluralize(event.attendances.count, "person")} signed up. You may unlock it to make changes, but tread carefully! Anyone signed up will be notified of each change you make.)
+  end
+
+  def event_unlocked_warning(event)
+    %Q(Tread carefully! #{pluralize(event.attendances.count, "attendee")} signed up who will be notified of any changes you make)
+  end
 
 end

@@ -1,0 +1,15 @@
+<%
+  event ||= @event
+%>
+<% if event.locked? or event.attendances.count > 0 %>
+  <div class="alert alert-danger" role="alert" id="lock_alert">
+      <%= render 'lock_toggle' %>
+      <span style="padding-left:1em;">
+        <% if event.locked? %>
+          <%= event_locked_title(event) %>
+        <% else %>
+          <%= event_unlocked_warning(event) %>
+        <% end %>
+      </span>
+  </div>
+<% end %>

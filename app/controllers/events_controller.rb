@@ -92,7 +92,7 @@ class EventsController < ApplicationController
       format.js { head :no_content }
       format.html { 
         if request.xhr?
-          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: false}
+          render :partial => 'events/lock_alert'
         else
           redirect_to edit_workshop_path(@workshop), notice: notice
         end
@@ -114,7 +114,7 @@ class EventsController < ApplicationController
       format.js { head :no_content }
       format.html { 
         if request.xhr?
-          render :partial => 'reruns/row', :locals => {rerun: @event, show_icons: true, click_to_show: false, editable: true}
+          render :partial => 'events/lock_alert'
         else
           redirect_to edit_workshop_path(@workshop), notice: notice
         end

@@ -1,6 +1,7 @@
 <%= simple_form_for(@event) do |f| %>
   <%= f.error_notification %>
 
+  <%= render 'lock_alert' %>  
   <div class="form-inputs row">
     <div class="col-md-9">
 
@@ -134,6 +135,10 @@
     sync_price_fields_to_cost_type();
     sync_max_attendee_visibility_to_rsvp();
 
+    <% if @event.locked? %>
+      disable_all(true);
+    <% end %>
+
     $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
       $(".bootstrap-select .rightbutton").popover('hide');
       /* $("#event_venue_id").selectpicker('refresh'); */
@@ -145,6 +150,40 @@
         }
       });
     });
+ 
+   $(document).on('change', "select.venues_select", function() {
+     if ($("select.venues_select option:selected").text() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
+       add_new_location();
+     }
+   });
+  
+   $(document).on('click', '#add_new_location_link', function(e) {
+     e.preventDefault();
+     add_new_location();
+   });
+
+   $(document).on('click', '#select_existing_location_link', function(e) {
+     e.preventDefault();
+     select_existing_location();
+   });
+
+   $(document).on('change', "select#event_cost_type", function() {
+     sync_price_fields_to_cost_type();
+   });
+  
+   $(document).on('switchChange.bootstrapSwitch', function(event, state) {
+     sync_max_attendee_visibility_to_rsvp();
+   });
+  
+   $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
+     var alert = $("#lock_alert");
+     alert.replaceWith(data);
+     if ($("#lock_alert a").hasClass("locked")) {
+       disable_all(true);
+     } else {
+       disable_all(false);
+     }
+   }); 
   }
   
   function add_new_location() {
@@ -191,35 +230,15 @@
       $("#max_attendees_input").hide();
     }
   }
+  
+  function disable_all(state) {
+    $("input, select, textarea").prop('disabled', state);
+    $("input[type='checkbox'").bootstrapSwitch('disabled', state);
+  }
 
 <% end -%>
 
 <% ready_script do -%>
   init_rerun_form();
-  
-  $(document).on('change', "select.venues_select", function() {
-    if ($("select.venues_select option:selected").text() === "<%= VenuesHelper::ADD_NEW_VENUE_PROMPT %>") {
-      add_new_location();
-    }
-  });
-  
-  $(document).on('click', '#add_new_location_link', function(e) {
-    e.preventDefault();
-    add_new_location();
-  });
-
-  $(document).on('click', '#select_existing_location_link', function(e) {
-    e.preventDefault();
-    select_existing_location();
-  });
-
-  $(document).on('change', "select#event_cost_type", function() {
-    sync_price_fields_to_cost_type();
-  });
-  
-  $(document).on('switchChange.bootstrapSwitch', function(event, state) {
-    sync_max_attendee_visibility_to_rsvp();
-  });  
-  
 <% end -%>
 
