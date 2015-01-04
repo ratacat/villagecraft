@@ -177,6 +177,11 @@ class EventsController < ApplicationController
       
       # 0d4308768a787ea4296f4d52d8acf1d3cdc83b5d Commented out refund method in events controller
       # also commented out assign_attributes; so nothing was being updated 
+      if params[:event][:_new_venue][:address].blank?
+        params[:event].delete(:_new_venue)
+      else
+        params[:event].delete(:venue_uuid)
+      end
       @event.assign_attributes(params[:event])
 
       if @event.save

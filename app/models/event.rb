@@ -40,7 +40,6 @@ class Event < ActiveRecord::Base
   
   after_initialize :set_defaults
   normalize_attributes :title, :short_title, :description
-  before_save :propogate_changes_to_dependant_meetings
   after_save :touch_to_expire_cached_fragments, :propogate_changes_to_parent_workshop
   
   validates :workshop, :presence => true
@@ -48,6 +47,7 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
   validates :external_url, :url => {:allow_blank => true}
   validates :cost_type, inclusion: COST_TYPE + COST_TYPE.collect{|x| x.to_s}
+  validate :venue_valid?
   
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
   # validates :short_title, presence: true
@@ -123,11 +123,15 @@ class Event < ActiveRecord::Base
   
   def venue_uuid=(venue_uuid)
     v = Venue.find_by_uuid(venue_uuid)
-    self.update_attribute(:venue_id, v.try(:id))
+    self.venue = v
   end
   
-  def _new_venue=(v)
-    # XXX TODO
+  def _new_venue=(venue_params)
+    # find (by name) or create a venue from the given hash
+    v = Venue.find_by_name_and_owner_id(venue_params[:name], self.host.id)
+    v ||= Venue.new(venue_params)
+    v.owner = self.host
+    self.venue = v
   end
   
   def img_src(size = :medium)
@@ -153,8 +157,10 @@ class Event < ActiveRecord::Base
     end
   end
   
-  def _first_meeting=(m)
-    meeting = Meeting.new(m)
+  def _first_meeting=(meeting_params)
+    meeting = first_meeting
+    meeting ||= Meeting.new
+    meeting.update_attributes(meeting_params)
     meeting.event = self
     meeting.save!
     self.first_meeting = meeting
@@ -183,7 +189,6 @@ class Event < ActiveRecord::Base
     dist_q = %{ST_Distance_Spheroid( #{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326), 'SPHEROID["WGS 84",6378137,298.257223563]')};
     joins(:location).select(%{"events".*, (#{dist_q}) AS dist}).order(:dist)
   end
-
 
   def Event.placeholder_src(size = :medium)
     "/assets/event_placeholder_#{size}.png"
@@ -271,14 +276,6 @@ class Event < ActiveRecord::Base
     self.cost_type ||= :free
   end
   
-  def propogate_changes_to_dependant_meetings
-    if self.venue_id_changed?
-      self.meetings.find_each do |meeting|
-        meeting.update_attribute(:venue_id, self.venue_id)
-      end
-    end
-  end
-
   def touch_to_expire_cached_fragments
     self.workshop.touch
   end
@@ -286,6 +283,13 @@ class Event < ActiveRecord::Base
   def propogate_changes_to_parent_workshop
     if not self.external_url.blank? and self.workshop.external_url.blank?
       self.workshop.update_attribute(:external_url, self.external_url)
+    end
+  end
+  
+  def venue_valid?
+    return if self.venue.nil?
+    unless self.venue.errors.empty?
+      self.errors.add(:venue, self.venue.errors.full_messages.join("; "))
     end
   end
   
