@@ -1,4 +1,10 @@
+
 <%= simple_form_for(@event) do |f| %>
+  <div class="page-header">
+    <label class="optional" for="event_venue_id">From the series:</label>
+    <h2 class="margin0"><%= @event.workshop.title%> <%= iconic_link_to '', edit_workshop_path(@event.workshop), :icon => 'cog', :class => 'btn btn-default' %></h2>
+  </div>
+  
   <%= f.error_notification %>
 
   <%= render 'lock_alert' %>  
