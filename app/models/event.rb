@@ -47,6 +47,7 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
   validates :external_url, :url => {:allow_blank => true}
   validates :cost_type, inclusion: COST_TYPE + COST_TYPE.collect{|x| x.to_s}
+  validate :sliding_scale_range
   validate :venue_valid?
   
   # validates :short_title, :length => { :minimum => 1, :maximum => 2, :message => "must contain only one or two words", :tokenizer => lambda {|s| s.split }}
@@ -295,6 +296,12 @@ class Event < ActiveRecord::Base
     return if self.venue.nil?
     unless self.venue.errors.empty?
       self.errors.add(:venue, self.venue.errors.full_messages.join("; "))
+    end
+  end
+  
+  def sliding_scale_range
+    if (self.cost_type.to_sym == :sliding_scale) and (self.price >= self.end_price)
+      self.errors.add(:cost_type, "invalid sliding scale range")
     end
   end
   
