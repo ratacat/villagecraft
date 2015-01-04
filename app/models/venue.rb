@@ -6,6 +6,9 @@ class Venue < ActiveRecord::Base
   belongs_to :location
   has_many :meetings
   
+  before_validation :default_name_if_missing
+
+  validates :name, :presence => true  
   validates :location, :presence => true
   validates_associated :location
   
@@ -19,6 +22,13 @@ class Venue < ActiveRecord::Base
 
   def address=(a)
     self.create_location(address: a)
+  end
+  
+  protected
+  def default_name_if_missing
+    if self.name.blank?
+      self.name = self.location.street      
+    end
   end
   
 end
