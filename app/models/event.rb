@@ -117,6 +117,11 @@ class Event < ActiveRecord::Base
     end
   end
   
+  def image=(f)
+    i = Image.create!(:i => f, :user => self.host)
+    self.image_id = i.id
+  end
+  
   def venue_uuid
     self.venue.try(:uuid)
   end
