@@ -28,8 +28,6 @@ class Workshop < ActiveRecord::Base
   belongs_to :venue
   has_one :location, :through => :venue
   
-  after_update :propagate_changes_to_future_events
-  
   def Workshop.by_distance_from(l)
     # get spheroid distance in meters
     dist_q = %{ST_Distance_Spheroid( #{Location.quoted_table_column(:point)}, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326), 'SPHEROID["WGS 84",6378137,298.257223563]')};
@@ -164,14 +162,4 @@ class Workshop < ActiveRecord::Base
     end
   end
   
-  protected
-  
-  def propagate_changes_to_future_events
-    if self.title_changed? or self.description_changed?
-      self.events.where_first_meeting_starts_in_future.readonly(false).each do |event|
-        event.update_attributes(:title => self.title, :description => self.description)
-      end      
-    end
-  end
-
 end
