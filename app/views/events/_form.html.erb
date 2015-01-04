@@ -80,7 +80,7 @@
       <% end %>
       
       <%= f.input :open, label: "Display address publicly?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }}, hint: 'Address visible with RSVP?' %>
-      <%= f.input :external, label: "Are you organizing this activity?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }} %>
+      <%= f.input :_not_external, label: "Are you organizing this activity?", as: :boolean, input_html: {value: (not @event.external), data: {:'on-text' => 'YES', :'off-text' => 'NO'}} %>
 
       <%= f.input :rsvp, label: 'Limit RSVPs', wrapper_html: {class: 'controls-row'} do %>
         <table>

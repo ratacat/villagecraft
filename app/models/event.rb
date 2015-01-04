@@ -152,6 +152,18 @@ class Event < ActiveRecord::Base
     not self.external? and self.rsvp?
   end
 
+  def _not_external
+    not self.external?
+  end
+  
+  def _not_external=(v)
+    if v === "0"
+       self.external = true
+    else
+      self.external = false
+    end
+  end
+  
   def first_meeting
     if fm_id = self.read_attribute(:first_meeting_id)
       Meeting.find(fm_id)
