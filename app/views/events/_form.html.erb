@@ -17,10 +17,10 @@
             <%= f.simple_fields_for :_new_venue do |v| %>
               <div class="row">
                   <div class="col-md-3">
-                      <%= v.input :name, :placeholder => "name", :label => false, :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link')) %>
+                      <%= v.input :name, :placeholder => "name", :label => false, :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link')), :required => false %>
                   </div>
                   <div class="col-md-5">
-                    <%= v.input :address, :placeholder => "address", :label => false %>
+                    <%= v.input :address, :placeholder => "address", :label => false, :required => false %>
                   </div>
               </div>    
             <% end %>      
