@@ -4,9 +4,9 @@ module MeetingsHelper
       :short_date => false
     }
     options.reverse_merge!(defaults)
-    options[:date_format] ||= (options[:short_date] ? "%A %b" : "%A %B")
+    options[:date_format] ||= (options[:short_date] ? "%A %b %e" : "%A %B %e")
     day = meeting.localized_start_time.day
-    meeting.localized_start_time.strftime(options[:date_format] + " #{(options[:short_date] ? day : day.ordinalize)}")
+    meeting.localized_start_time.strftime(options[:date_format])
   end
   
   def meeting_time_interval(meeting)
@@ -42,7 +42,7 @@ module MeetingsHelper
     options.reverse_merge!(defaults)
     html = []
     if options[:show_date]
-      options[:date_format] = options[:date_format] || (options[:short_date] ? "%A %b" : "%A %B")
+      options[:date_format] = options[:date_format] || (options[:short_date] ? "%A %b %e" : "%A %B %e")
       html << content_tag(:span, meeting_date(meeting, options), :class => 'date')      
       html << options[:spacer] if options[:spacer]
     end
