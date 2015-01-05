@@ -34,9 +34,6 @@ gem 'paranoia', '~> 1.0'
 # syntactic sugar for form creation
 gem 'simple_form', '2.1.1'
 
-# inline editing, used extensively on Workshops#edit
-gem 'x-editable-rails', '1.5.2'
-
 # centralized authentication and access control (see ability.rb); cancan is showing signs of being an abandoned project, consider replacing it with pundit
 gem 'cancancan'
 

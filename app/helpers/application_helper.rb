@@ -91,10 +91,6 @@ module ApplicationHelper
     end
   end
   
-  def xeditable?(object = nil)
-    true # Or something like current_user.xeditable?
-  end
-  
   TZ_MAPPING = ActiveSupport::TimeZone::MAPPING.invert
   def friendly_time_zone_name(time_zone)
     TZ_MAPPING[time_zone]

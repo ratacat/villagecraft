@@ -45,7 +45,7 @@
       <% if @workshop.events.count == 0 %>
         None.
       <% else %>
-        <%= render 'reruns/index', :reruns => @workshop.events.ordered_by_first_meeting_start_time.reverse_order, :click_to_show => false, :show_icons => false, :show_manage_buttons => true, :editable => false %>
+        <%= render 'reruns/index', :reruns => @workshop.events.ordered_by_first_meeting_start_time.reverse_order, :click_to_show => false, :show_icons => false, :show_manage_buttons => true %>
       <% end %>
     </div>
     <div class="tab-pane" id="attendees">
