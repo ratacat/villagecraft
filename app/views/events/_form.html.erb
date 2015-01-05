@@ -2,7 +2,7 @@
 <%= simple_form_for(@event) do |f| %>
   <div class="page-header">
     <label class="optional" for="event_venue_id">From the series:</label>
-    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "workshop_#{@event.workshop.uuid}") %></h2>
+    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>
   </div>
   
   <%= f.error_notification %>
