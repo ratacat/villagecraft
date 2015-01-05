@@ -6,7 +6,7 @@ Villagecraft::Application.routes.draw do
       get 'manage'
       get 'reruns_partial'
       match 'upload_photo'
-      post 'auto_add_rerun'
+      get 'auto_add_rerun'
       get 'simple_index_partial'
       get 'manage_attendees'
       post 'sms_attendees'

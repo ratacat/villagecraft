@@ -272,6 +272,7 @@ class Event < ActiveRecord::Base
                            :external_url => external_url,
                            :workshop_id => workshop.id}, :as => :system)
     Meeting.create!({:start_time => start_time, :end_time => end_time, :venue => venue, :event_id => event.id}, :as => :system)
+    return event
   end
   
   def Event.find_by_seod_uuid!(id)
