@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-md-10">
     <% @workshops.each do |workshop| %>
-      <h3 class="margin0"><%= workshop.title %></h3>
+      <h3 class="margin0" id="workshop_<%= workshop.uuid %>"><%= workshop.title %></h3>
       <%= link_to 'configure', edit_workshop_path(workshop) %> | 
       <%= link_to 'new', auto_add_rerun_workshop_path(workshop) %>
      <div class="margin_top10">
