@@ -4,7 +4,7 @@
 %>
 <div class="row">
   <div class="col-md-8">
-    <h4 class="margin0"><%= link_to event.title, edit_event_path(event) %></h4>
+    <h4 class="margin0"><%= link_to event.title, edit_event_path(event), id: "event_#{event.uuid}" %></h4>
     <p>
        <%= meeting_time(first_meeting, :date_format => "%B %e, %Y", :no_tz => true, :spacer => ' ') unless first_meeting.nil? %>
     </p>    

@@ -185,7 +185,7 @@ class EventsController < ApplicationController
       @event.assign_attributes(params[:event])
 
       if @event.save
-        format.html { redirect_to edit_workshop_path(@event.workshop), notice: 'Event was successfully updated.' }
+        format.html { redirect_to my_workshops_path(:anchor => "event_#{@event.uuid}"), notice: 'Event was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
