@@ -1,71 +1,15 @@
-<% 
+<%
   workshops ||= @workshops
-  sort_order ||= (@sort_order || session[:sort_order])
-  scheduled_workshops_with_venue_tbd ||= @scheduled_workshops_with_venue_tbd
-  other_workshops ||= @other_workshops
-  other_workshops = other_workshops
 %>
-<ul class="media-list">
-  <% if sort_order == 'distance' %>
-    <div class="day_chunk">
-      <% (workshops + scheduled_workshops_with_venue_tbd).each do |workshop| %>
-        <%= render 'workshops/show_in_index', :workshop => workshop, :show_date => true %>
-      <% end %>
-    </div>
-    <% unless other_workshops.blank? %>
-      <h3 class="text-muted chunk_header">
-        Workshops with no upcoming dates
-      </h3>
-      <div class="day_chunk">
-        <% other_workshops.each do |workshop| %>
-          <%= render 'workshops/show_in_index', :workshop => workshop %>
-        <% end %>
-      </div>
+<div class="row">
+  <div class="col-md-10">
+    <% @workshops.each do |workshop| %>
+      <h3 class="margin0"><%= workshop.title %></h3>
+      <%= link_to 'configure', edit_workshop_path(workshop) %> | 
+      <%= link_to 'new', auto_add_rerun_workshop_path(workshop) %>
+     <div class="margin_top10">
+        <%= render partial: 'events/simple_host_row', collection: workshop.events.order(:start_time), as: :event %>
+     </div>
     <% end %>
-  <% else %>
-    <%
-      workshops += other_workshops if other_workshops
-      tz = current_user.try(:time_zone) || "America/Los_Angeles"
-      w_by_day = workshops.chunk do |w|
-        w.try(:ongoing_or_next_rerun).try(:first_meeting).try(:start_time).try(:in_time_zone, tz).try(:beginning_of_day) || :none
-      end
-    %>
-    <% w_by_day.each do |day, workshops_that_day| %>
-      <h3 class="text-muted chunk_header">
-        <% if day === :none %>
-          Workshops with no upcoming dates
-        <% else %>
-          <%= datetime_localized_to_current_user(day, :format => :day_month_date) %>
-        <% end %>
-      </h3>
-      <div class="day_chunk">
-        <% external_internal = workshops_that_day.partition(&:external?) %>
-        <% external_internal.last.each do |workshop| %>
-          <%= render 'workshops/show_in_index', workshop: workshop, show_date: true %>
-        <% end %>
-        <% if external_internal.first.size > 0 %>
-          <div class="externals">
-            <ul class="list-unstyled">
-            <% external_internal.first.each_with_index do |workshop, i| %>
-              <%= render 'workshops/show_external_in_index', workshop: workshop, hide: i > 2 %>
-            <% end %>
-            </ul>
-            <% if external_internal.first.size > 3 %>
-              <%= link_to '#', class: 'more_externals' do -%>
-                more (<%= external_internal.first.size - 3 %>) <span class="caret"></span>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  <% end %>
-</ul>
-
-<% ready_script do -%>  
-  $(document).on('click', 'a.more_externals', function(e) {
-    e.preventDefault();
-    $(this).closest('.externals').find('.initially_hidden').show();
-    $(this).hide();
-  });
-<% end -%>
+  </div>
+</div>
