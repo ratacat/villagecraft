@@ -96,12 +96,9 @@ Villagecraft::Application.routes.draw do
   match '/422' => 'errors#server_error'
   match '/500' => 'errors#server_error'
 
-  # get '/new-home' => 'pages#home_events', :as => :home_events
-  get '/home-workshops' => 'pages#home', :as => :home
   get '/home/:page' => 'pages#home_events_page', :as => :home_events_page
   # root :to => 'pages#home'
   root :to => 'pages#home_events'
-
 
   get 'terms_of_use' => 'pages#villagecraft_terms_of_use'
   get 'privacy_policy' => 'pages#villagecraft_privacy_policy'
