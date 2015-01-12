@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-md-10">
     <% @workshops.each do |workshop| %>
-      <h3 class="margin0" id="w_<%= workshop.uuid %>"><%= workshop.title %></h3>
+      <h3 id="w_<%= workshop.uuid %>"><%= workshop.title %></h3>
       <%= link_to 'configure', edit_workshop_path(workshop) %>
      <div class="margin_top10 reruns" data-workshop-uuid="<%= workshop.uuid%>">
         <% c = workshop.events.joins(:first_meeting).count %>
