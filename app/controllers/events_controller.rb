@@ -9,12 +9,25 @@ class EventsController < ApplicationController
   EVENTS_PER_PAGE = 20
 
   def index
-    # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
-    @future_events = Event.where_first_meeting_starts_in_future # .limit(EVENTS_PER_PAGE)
-    @past_events = Event.where_first_meeting_starts_in_past # .limit(EVENTS_PER_PAGE)
+    if params[:workshop_uuid]
+      # XXX better error handling
+      if @workshop = Workshop.find_by_uuid(params[:workshop_uuid])
+        @events = @workshop.events.ordered_by_first_meeting_start_time        
+      end
+    else
+      # FIXME: eventually implement "load more" or auto-load more on scroll to bottom
+      @future_events = Event.where_first_meeting_starts_in_future # .limit(EVENTS_PER_PAGE)
+      @past_events = Event.where_first_meeting_starts_in_past # .limit(EVENTS_PER_PAGE)
+    end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { 
+        if request.xhr?
+          render :partial => 'events/simple_host_row', :collection => @events, :as => :event
+        else
+          render 'index'
+        end
+      }
       format.json { render json: @events }
     end
   end

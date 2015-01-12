@@ -8,3 +8,15 @@
     <%= render 'index', :workshops => @workshops %>
   <% end %>
 </div>
+
+<% ready_script do -%>
+  $(document).on('click', 'a.show_all_reruns', function(e) {
+    e.preventDefault();
+    var workshop_uuid = $(this).closest('div.reruns').data("workshop-uuid");
+    var _this = $(this);
+    $.get("<%= events_path %>" + "?workshop_uuid=" + workshop_uuid, function( data ) {
+      console.log(data);
+      _this.closest('div.reruns').html( data );
+    });
+  });
+<% end %>
