@@ -6,21 +6,19 @@
   <div class="col-md-10">
     <% @workshops.each do |workshop| %>
       <h3 class="margin0" id="w_<%= workshop.uuid %>"><%= workshop.title %></h3>
-      <%= link_to 'configure', edit_workshop_path(workshop) %> | 
-      <%= link_to 'new', auto_add_rerun_workshop_path(workshop) %>
+      <%= link_to 'configure', edit_workshop_path(workshop) %>
      <div class="margin_top10 reruns" data-workshop-uuid="<%= workshop.uuid%>">
         <% c = workshop.events.joins(:first_meeting).count %>
         <% if (c > 0) %>
           <% if (c > show_last) %>
-            <%= link_to '#', class: 'show_all_reruns btn btn-default btn-xs' do -%>
-              <% content_tag(:i, '', :class => "fa fa-caret-up") + " show #{c - show_last} older" %>
-            <% end -%>
+            <%= iconic_link_to "show #{c - show_last} older", '#', :icon => 'caret-up', :class => 'show_all_reruns col-md-offset-1' %>
           <% end %>
           <%= render partial: 'events/simple_host_row', collection: workshop.events.ordered_by_first_meeting_start_time.offset([c - show_last, 0].max), as: :event %>
         <% else %>
           <span class="muted">none scheduled</span>
         <% end %>
      </div>
+     <%= iconic_link_to 'new workshop in series', auto_add_rerun_workshop_path(workshop), :icon => 'plus', class: "btn btn-default btn-xs col-md-offset-1" %>
     <% end %>
   </div>
 </div>
