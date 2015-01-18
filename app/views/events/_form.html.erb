@@ -2,7 +2,9 @@
 <%= simple_form_for(@event) do |f| %>
   <div class="page-header">
     <label class="optional" for="event_venue_id">From the series:</label>
-    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>
+    <%= iconic_link_to 'Delete', @event, confirm: 'Are you sure?', method: :delete, class: 'btn btn-sm btn-danger pull-right disabled', title: 'delete', id: 'delete_event_link' %>
+    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>        
+
   </div>
   
   <%= f.error_notification %>
@@ -239,6 +241,11 @@
   
   function disable_all(state) {
     $("input, select, textarea").prop('disabled', state);
+    if (state) {
+      $("#delete_event_link").addClass('disabled');
+    } else {
+      $("#delete_event_link").removeClass('disabled');
+    }
     $("input[type='checkbox'").bootstrapSwitch('disabled', state);
   }
 

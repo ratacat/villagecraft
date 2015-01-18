@@ -215,7 +215,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       format.js { head :no_content }
-      format.html { redirect_to edit_workshop_path(@workshop) }
+      format.html { redirect_to my_workshops_path(:anchor => "w_#{@workshop.uuid}") }
       format.json { head :no_content }
     end
   end
