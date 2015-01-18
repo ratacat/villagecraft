@@ -1,13 +1,16 @@
 <div class="row">
+  <div class="col-md-9">
+    <span class="panel pull-right">
+      <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
+      <% if admin_session? %>
+        <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+      <% end %>
+    </span>
+    <h2 class="text-muted margin0">Edit Workshop</h2>
+  </div>
+</div>
+<div class="row">
 <div class="col-md-12">
-  <span class="panel pull-right">
-    <%= link_to 'View', workshop_path(@workshop), :class => 'btn btn-default' %>
-    <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
-    <% if admin_session? %>
-      <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
-    <% end %>
-  </span>
-  <h2 class="text-muted margin0">Edit Workshop</h2>
   <%= render 'form' %>
 </div>
 
@@ -102,15 +105,6 @@
   $('form.edit_workshop :input').not("#workshop_image").change(function(){
     show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
     $(this).closest('form').submit();
-  });
-
-  // hackish special-casing here so that Jansy fileinput has a chance to display the preview before the submit
-  $("#workshop_image").fileinput().on('change.bs.fileinput', function() {
-    var the_form = $(this).closest('form');
-    setTimeout(function () {
-      show_bootstrap_alert({text: "Updating workshop...", type: 'success'});
-      the_form.submit();
-    }, 1000);
   });
 <% end %>
 
