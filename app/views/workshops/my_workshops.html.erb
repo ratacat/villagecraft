@@ -19,4 +19,12 @@
       _this.closest('div.reruns').html( data );
     });
   });
+  $('a.configure_workshop').on({
+      mouseenter: function () {
+          $(this).closest('h3').addClass('text-primary').removeClass('text-muted');
+      },
+      mouseleave: function () {
+        $(this).closest('h3').removeClass('text-primary').addClass('text-muted');
+      }
+  });
 <% end %>
