@@ -36,6 +36,8 @@
         </div>
       </div>
       
+      <%= f.input :open, label: "Display address publicly?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }}, hint: 'Address visible with RSVP?' %>
+      
       <div class="form-group string required event_when controls-row datepair">
         <label class="string required control-label" for="event_when"><abbr title="required">*</abbr> Date and Time</label>
         <div class="controls">
@@ -88,7 +90,6 @@
         </table>
       <% end %>
       
-      <%= f.input :open, label: "Display address publicly?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }}, hint: 'Address visible with RSVP?' %>
       <%= f.input :_not_external, label: "Are you organizing this activity?", as: :boolean, input_html: {value: (not @event.external), data: {:'on-text' => 'YES', :'off-text' => 'NO'}} %>
 
       <%= f.input :rsvp, label: 'Limit RSVPs', wrapper_html: {class: 'controls-row'} do %>
