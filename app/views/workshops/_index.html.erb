@@ -11,7 +11,7 @@
         <% c = workshop.events.joins(:first_meeting).count %>
         <% if (c > 0) %>
           <% if (c > show_last) %>
-            <%= iconic_link_to "show #{c - show_last} older", '#', :icon => 'caret-up', :class => 'show_all_reruns col-md-offset-1' %>
+            <%= iconic_link_to "show #{c - show_last} older#{content_tag(:i, '', :class => "fa fa-caret-up")}".html_safe, '#', :icon => 'caret-up', :class => 'show_all_reruns' %>
           <% end %>
           <%= render partial: 'events/simple_host_row', collection: workshop.events.ordered_by_first_meeting_start_time.offset([c - show_last, 0].max), as: :event %>
         <% else %>
