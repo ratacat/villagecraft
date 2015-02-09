@@ -39,7 +39,9 @@
   });  
   $(document).on('ajax:success', 'a.auto_add_rerun', function(event, data, status, xhr) {
     var reruns_div = $(this).prev();
-    reruns_div.append(data);
+    var new_row = $(data);
+    reruns_div.append(new_row);
+    new_row.highlight();
   });
 
 <% end %>
