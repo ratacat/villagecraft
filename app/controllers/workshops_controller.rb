@@ -147,13 +147,20 @@ class WorkshopsController < ApplicationController
     render :json => @workshop.create_activity(key: 'workshop.sms', owner: current_user, parameters: {:message => params[:sms][:message]})
   end
   
-  # GET /w/1/auto_add_rerun
+  # POST /w/1/auto_add_rerun
   def auto_add_rerun
     @workshop.with_lock do
       @event = Event.auto_create_from_workshop(@workshop)
     end
+
     respond_to do |format|
-      format.html { redirect_to edit_event_path(@event), notice: %Q(This is a new workshop from the series: "#{@workshop.title}")}
+      format.html { 
+        if request.xhr?
+          render :partial => 'events/simple_host_row'
+        else
+          redirect_to edit_event_path(@event), notice: %Q(This is a new workshop from the series: "#{@workshop.title}")
+        end
+      }
       format.js { head :no_content }
     end
   end

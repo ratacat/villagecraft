@@ -37,5 +37,9 @@
     var rerun_row = $(this).closest(".row");
     rerun_row.remove();
   });  
+  $(document).on('ajax:success', 'a.auto_add_rerun', function(event, data, status, xhr) {
+    var reruns_div = $(this).prev();
+    reruns_div.append(data);
+  });
 
 <% end %>

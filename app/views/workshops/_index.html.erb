@@ -17,7 +17,7 @@
           <span class="muted">none scheduled</span>
         <% end %>
      </div>
-     <%= iconic_link_to 'schedule new rerun in series', auto_add_rerun_workshop_path(workshop), :icon => 'plus', class: "btn btn-default btn-xs" %>
+     <%= iconic_link_to 'schedule new rerun in series', auto_add_rerun_workshop_path(workshop), icon: 'plus', class: "btn btn-default btn-xs auto_add_rerun", remote: true, method: :post, data: {type: 'html'} %>
     <% end %>
   </div>
 </div>
