@@ -5,6 +5,7 @@
   <% if @workshops.blank? %>
     No workshops.
   <% else %>
+    <%# TODO: last rerun (if any) + all future reruns %>
     <%= render 'index', :workshops => @workshops %>
   <% end %>
 </div>
@@ -27,4 +28,14 @@
         $(this).closest('h3').removeClass('text-primary').addClass('text-muted');
       }
   });
+  $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
+    var new_button = $(data);
+    new_button.addClass('btn-xs');
+    $(this).replaceWith(new_button);
+  });
+  $(document).on('ajax:success', 'a.delete_rerun', function(event, data, status, xhr) {
+    var rerun_row = $(this).closest(".row");
+    rerun_row.remove();
+  });  
+
 <% end %>

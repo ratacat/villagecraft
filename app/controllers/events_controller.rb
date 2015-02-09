@@ -105,7 +105,7 @@ class EventsController < ApplicationController
       format.js { head :no_content }
       format.html { 
         if request.xhr?
-          render :partial => 'events/lock_alert'
+          render :partial => 'events/lock_toggle'
         else
           redirect_to edit_workshop_path(@workshop), notice: notice
         end
@@ -127,7 +127,7 @@ class EventsController < ApplicationController
       format.js { head :no_content }
       format.html { 
         if request.xhr?
-          render :partial => 'events/lock_alert'
+          render :partial => 'events/lock_toggle'
         else
           redirect_to edit_workshop_path(@workshop), notice: notice
         end

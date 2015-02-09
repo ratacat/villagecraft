@@ -1,11 +1,12 @@
 <%
   event ||= @event
+  classes ||= ""
 %>
 <% if event.attended? %>
   <% if event.locked? %>
   <%= iconic_link_to('', unlock_event_path(event), 
                      :icon => 'lock',
-                     :class => "btn btn-danger lock_toggle locked", 
+                     :class => "btn btn-danger lock_toggle locked " + classes, 
                      :title => event_locked_title(event),
                      :method => :post, 
                      :confirm => event_unlock_confirmation(event),
@@ -14,12 +15,12 @@
   <% else %>
   <%= iconic_link_to('', lock_event_path(event), 
                      :icon => 'unlock',
-                     :class => "btn lock_toggle btn-default unlocked", 
+                     :class => "btn lock_toggle btn-default unlocked " + classes, 
                      :title => event_unlocked_warning(event),
                      :method => :post, 
                      :remote => true, 
                      :'data-type' => :html) %>
   <% end %>
 <% else %>
-  <%= iconic_link_to('', event, icon: 'times', class: 'btn btn-danger delete_rerun', title: 'delete', method: :delete, confirm: "Really delete?", remote: true, disable_with: "...") %>
+  <%= iconic_link_to('', event, icon: 'times', class: 'btn btn-danger delete_rerun ' + classes, title: 'delete', method: :delete, confirm: "Really delete?", remote: true, disable_with: "...") %>
 <% end %>
