@@ -31,14 +31,22 @@ class PagesController < ApplicationController
       redirect_to root_path
     end
     if user_signed_in?
-      @location = (current_user.last_sighting.try(:location) || current_user.location)
+      # XXX disable to support durham subdomain
+      # @location = (current_user.last_sighting.try(:location) || current_user.location)
     end
     if session[:location_id]
       @location ||= Location.find(session[:location_id])
     end
-    @location ||= Location.find_or_create_by_address('Berkeley, CA')
+    
+    if request.subdomain.downcase == "durham"
+      @durham = Location.find_or_create_by_address('Durham, NC')
+      @location ||= @durham
+    else
+      @berkeley = Location.find_or_create_by_address('Berkeley, CA')
+      @location ||= @berkeley
+    end
+    @events = Event.first_meeting_in_the_future.within_distance_of(@location, 1000 * 500)
 
-    @events = Event.first_meeting_in_the_future
     if session[:sort_order] == 'distance'
       @scheduled_events_with_venue_tbd = @events.where(:venue_id => nil)
       @other_events = Event.where(%Q(#{Event.quoted_table_column(:id)} NOT IN (#{@events.select(Event.quoted_table_column(:id)).to_sql})))
