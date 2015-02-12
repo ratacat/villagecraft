@@ -208,6 +208,12 @@ class Event < ActiveRecord::Base
     joins(:location).select(%{"events".*, (#{dist_q}) AS dist}).order(:dist)
   end
 
+  def self.within_distance_of(l, d)
+    # select only events withint d meters
+    dist_q = %{ST_DWithin( #{Location.quoted_table_column(:point)}::geography, ST_GeomFromText('POINT(#{l.longitude} #{l.latitude})', 4326)::geography, #{d})};
+    joins(:location).where(dist_q)
+  end
+
   def Event.placeholder_src(size = :medium)
     "/assets/event_placeholder_#{size}.png"
   end
