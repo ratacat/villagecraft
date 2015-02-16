@@ -139,7 +139,7 @@
     $("#event_venue_uuid").selectpicker();
     $("#event_cost_type").selectpicker();
     
-    $("input[type='checkbox'").bootstrapSwitch();
+    $("input[type='checkbox']").bootstrapSwitch();
 
     sync_price_fields_to_cost_type();
     sync_max_attendee_visibility_to_rsvp();
@@ -247,7 +247,7 @@
     } else {
       $("#delete_event_link").removeClass('disabled');
     }
-    $("input[type='checkbox'").bootstrapSwitch('disabled', state);
+    $("input[type='checkbox']").bootstrapSwitch('disabled', state);
   }
 
 <% end -%>
