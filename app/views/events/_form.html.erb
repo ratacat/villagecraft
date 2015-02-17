@@ -23,16 +23,27 @@
       <div class="form-group select optional event_add_venue initially_hidden" id="add_new_location">
         <label class="select optional control-label" for="event_venue_id">New Location</label>
         <div>
-            <%= f.simple_fields_for :_new_venue do |v| %>
-              <div class="row">
-                  <div class="col-md-3">
-                      <%= v.input :name, :placeholder => "name", :label => false, :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link', tabindex: 1)), :required => false %>
-                  </div>
-                  <div class="col-md-5">
-                    <%= v.input :address, :placeholder => "address", :label => false, :required => false %>
-                  </div>
-              </div>    
-            <% end %>      
+          <div class="row">
+            <div class="col-md-3">
+              <%= f.input :_new_venue_name, 
+                          :placeholder => "name", 
+                          :label => false, 
+                          :hint => raw(link_to('select existing location', '#', id: 'select_existing_location_link', tabindex: 1)), 
+                          :required => false, 
+                          :input_html => {id: "event__new_venue_name", 
+                                          name: "event[_new_venue][name]",
+                                          value: @event._new_venue[:name]} %>
+            </div>
+            <div class="col-md-5">
+              <%= f.input :_new_venue_address, 
+                          :placeholder => "address", 
+                          :label => false, 
+                          :required => false,
+                          :input_html => {id: "event__new_venue_address",
+                                          name: "event[_new_venue][address]",
+                                          value: @event._new_venue[:address]} %>
+            </div>
+          </div>    
         </div>
       </div>
       
@@ -147,7 +158,13 @@
     <% if @event.locked? %>
       disable_all(true);
     <% end %>
-
+    
+    <% if @event.venue and not @event.venue.valid? %>
+      $("select.venues_select").closest('div.form-group').hide();
+      $("#add_new_location").show();
+      $("#event__new_venue_name").focus();
+    <% end %>
+    
     $('body').on('ajax:success', '#new_venue', function(event, data, status, xhr) {
       $(".bootstrap-select .rightbutton").popover('hide');
       /* $("#event_venue_id").selectpicker('refresh'); */
@@ -198,6 +215,7 @@
   function add_new_location() {
       $("select.venues_select").closest('div.form-group').hide();
       $("#add_new_location").find("input[type=text], textarea").val("");
+      $("#add_new_location div").removeClass("has-error");
       $("#add_new_location").show();
       $("#event__new_venue_name").focus();
   }
@@ -205,6 +223,7 @@
   function select_existing_location() {
       $("#add_new_location").hide();
       $('select.venues_select').prop('selectedIndex', 0);
+      $("div.event_venue").removeClass("has-error");
       $("#event_venue_uuid").selectpicker('render');
       $("select.venues_select").closest('div.form-group').show();
   }

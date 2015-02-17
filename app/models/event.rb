@@ -140,6 +140,10 @@ class Event < ActiveRecord::Base
     self.venue = v
   end
   
+  def _new_venue
+    {name: self.venue.try(:name), address: self.venue.try(:location).try(:address)}
+  end
+  
   def img_src(size = :medium)
     if self.image.blank?
       Event.placeholder_src(size)
@@ -315,6 +319,7 @@ class Event < ActiveRecord::Base
     return if self.venue.nil?
     unless self.venue.errors.empty?
       self.errors.add(:venue, self.venue.errors.full_messages.join("; "))
+      self.errors.add(:_new_venue_address, "Invalid address")
     end
   end
   
