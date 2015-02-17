@@ -66,6 +66,9 @@
     <%= link_to "/", :class => "undecorated" do -%>
       <%= image_tag "logo143.jpg" %>
       <%= image_tag "vc-head.png" %>
+      <% if request.subdomain.downcase == "durham" %>
+        <span class="badge">Durham</span>
+      <% end %>
     <% end -%>
   </div>
 
