@@ -89,7 +89,7 @@ class Message < ActiveRecord::Base
         raise "Unsupported apropos type"
       end
     end
-    if self.system_message? and not self.from_user.admin?
+    if self.system_message? and not (self.from_user.admin? and ["neuralsplash@gmail.com", "jaredwould@gmail.com"].include?(self.from_user.email))
       errors.add(:base, "Only admins may send system messages") 
     end
   end
