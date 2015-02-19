@@ -6,6 +6,7 @@
       <%= pluralize(@event.attendances.count, 'person') %> signed up · 
       meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %>
     </p>
+    <%= link_to 'message all attendees in series', manage_workshop_path(@event.workshop), class: 'pull-right' %>
     <p>
       <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
     </p>
