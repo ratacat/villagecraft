@@ -2,7 +2,11 @@
 <%= simple_form_for(@event) do |f| %>
   <div class="page-header">
     <label class="optional" for="event_venue_id">From the series:</label>
-    <%= iconic_link_to 'Delete', @event, confirm: 'Are you sure?', method: :delete, class: 'btn btn-sm btn-danger pull-right disabled', title: 'delete', id: 'delete_event_link' %>
+    <div class="pull-right">
+      <%= iconic_link_to 'Message attendees', manage_event_path(@event), class: 'btn btn-sm btn-default', title: 'message all' , icon: 'send' %>
+      <%= iconic_link_to 'Configure alerts', edit_workshop_path(@event.workshop), class: 'btn btn-sm btn-default', title: 'configure alerts' , icon: 'exclamation-circle' %>      
+      <%= iconic_link_to 'Delete', @event, confirm: 'Are you sure?', method: :delete, class: 'btn btn-sm btn-danger', title: 'delete', id: 'delete_event_link' %>
+    </div>    
     <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>        
 
   </div>
