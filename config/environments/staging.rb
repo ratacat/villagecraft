@@ -91,13 +91,12 @@ end
 
 # Catching all emails with sanizite gem
 STAGING_EMAIL = 'antmachine.test@gmail.com'
-Mail.register_interceptor(SanitizeEmail::Bleach.new(:engage => true))
 SanitizeEmail::Config.configure do |config|
   config[:sanitized_to] =         "#{STAGING_EMAIL}"
   config[:sanitized_cc] =         "#{STAGING_EMAIL}"
   config[:sanitized_bcc] =        "#{STAGING_EMAIL}"
   # run/call whatever logic should turn sanitize_email on and off in this Proc:
-  config[:activation_proc] =      Proc.new { %w(staging).include?(Rails.env) }
+  config[:engage] = true
   config[:use_actual_email_prepended_to_subject] = true         # or false
   config[:use_actual_environment_prepended_to_subject] = true   # or false
   config[:use_actual_email_as_sanitized_user_name] = true       # or false
