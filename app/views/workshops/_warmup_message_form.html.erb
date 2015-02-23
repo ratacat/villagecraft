@@ -5,14 +5,12 @@
    span ||= 'col-md-6'
    id = "warmup_message_#{UUIDTools::UUID.random_create.to_s}"
    options = remote ? {:remote => remote, :html => {:'data-type' => 'json', :id => id}} : {}
-	 placeholder_subject ||= "#{workshop.title} is in just 2 days!"
-	 placeholder_body ||= %Q(Looking forward to seeing you at #{workshop.title} in two days! Bring...\n\nTo get there...\n\nYou can reach me...)
 %>
 <%= simple_form_for(@workshop, options) do |f| %>
   <%= f.error_notification %>
 
-  <%= f.input :warmup_subject, label: 'Subject', input_html: {class: span}, placeholder: placeholder_subject %>
-  <%= f.input :warmup_body, label: 'Body', input_html: {rows: 8, class: span}, placeholder: placeholder_body %>
+  <%= f.input :warmup_subject, label: 'Subject', input_html: {class: span} %>
+  <%= f.input :warmup_body, label: 'Body', input_html: {rows: 8, class: span} %>
 <% end %>
 
 <% ready_script do -%>
