@@ -1,0 +1,31 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= iconic_link_to 'Message all attendees in series', message_workshop_path(@event.workshop), class: 'btn btn-sm btn-default', title: 'message all attendees' , icon: 'send' %>
+  </div>
+  <label>Message attendees of:</label>
+  <h2 class="margin0"><%= link_to @event.title, @event %></h2>
+  <p>
+    <%= render 'reruns/meeting_times_list', :rerun => @event, :include_venue => false, :inline => true %>
+  </p>
+  <p>hosted by <%= contextualized_user_link(@event.host, :linked => true) %> · 
+    <%= event_price(@event, :show_materials_fee => true) %> · 
+    <%= @event.max_attendees %> slots · 
+    <%= pluralize(@event.attendances.count, 'person') %> signed up · 
+    meets <%= @event.meetings.count == 1 ? 'once' : (@event.meetings.count == 2 ? 'twice' : pluralize(@event.meetings.count, 'time')) %><br/>
+    part of the series <%= link_to @event.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %>
+  </p>
+</div>
+<div class="well">
+  <ul class="nav nav-pills margin0">
+    <li class="active"><a href="#compose_sms" data-toggle="tab">Short message</a></li>
+    <li><a href="#compose_email" data-toggle="tab">Long message</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class='tab-pane active' id='compose_sms'>
+      <%= render 'reruns/message_attendees', :rerun => @event, :url => sms_attendees_path(@event)  %>
+    </div>
+    <div class='tab-pane' id='compose_email'>
+      <%= render 'messages/form', :message => Message.new(:apropos => @event) %>
+    </div>
+  </div>
+</div>

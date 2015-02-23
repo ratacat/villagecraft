@@ -1,0 +1,38 @@
+<div class="page-header">
+  <label>Message all attendees from the series:</label>
+  <h2 class="margin0"><%= link_to @workshop.title, my_workshops_path(:anchor => "w_#{@workshop.uuid}") %></h2>
+</div>
+<div class="alert alert-danger" role="alert">
+  Messages sent from this page will be broadcast to all <%= @workshop.attendees.where(:sms_short_messages => true).count %> people who have attended one of the <%= @workshop.events.count %> workshops in this series.  Be careful.
+</div>
+<div class="well">
+  <ul class="nav nav-pills margin0">
+    <li class="active"><a href="#compose_sms" data-toggle="tab">Short message</a></li>
+    <li><a href="#compose_email" data-toggle="tab">Long message</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class='tab-pane active' id='compose_sms'>
+      <%= render 'reruns/message_attendees', :rerun => @workshop, :url => sms_attendees_workshop_path(@workshop) %>
+    </div>
+    <div class='tab-pane' id='compose_email'>
+      <%= render 'messages/form', :message => Message.new(:apropos => @workshop) %>
+    </div>
+  </div>
+</div>
+<%= render 'messages/modal_new', :message => Message.new, :to => :one_person %>
+
+
+<% ready_script do -%>
+  <% if user_signed_in? %>
+    $('#event_attendees a.message_user').on('click', function(e) {
+    $('#new_message_modal .modal-header-content').html($(this).data('modal-header-content'));
+    $('#new_message_modal #message__to_user_uuid').attr('value', $(this).data('id'));
+    $('#new_message_modal').modal('show');
+    e.preventDefault();
+    });
+  <% end %>
+  $(document).on('ajax:success', '#new_message_modal form', function(e, data, status, xhr) {
+    $("#new_message_modal").modal('hide');
+    show_bootstrap_alert({text: "Your message has been sent.", type: 'success'});
+  });
+<% end -%>

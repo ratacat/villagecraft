@@ -70,20 +70,33 @@ class EventsController < ApplicationController
   
   # GET /events/1/manage
   # GET /events/1.json/manage
-  def manage_attendees
+  def manage
     if @event.manageable?
       @activities_n_counts = Activity.activities_n_counts(:limit => 20, :trackable => @event)
-      respond_to do |format|
-        format.html { render 'manage' }
-        format.json { render json: @event }
-      end
+      render 'manage'
     else
       if not @event.rsvp
         render_error(:message => 'Cannot manage attendees because RSVP is not set for this workshop', :status => :unauthorized)
       elsif @event.external
         render_error(:message => 'Cannot manage attendees of an external workshop', :status => :unauthorized)
       else
-        render_error(:message => 'Workshop unmanageable for some reason', :status => :unauthorized)
+        raise "workshop unmanageable for some unknown reason"
+      end
+    end
+  end
+
+  # GET /events/1/message
+  # GET /events/1.json/message
+  def message
+    if @event.manageable?
+      render 'message'
+    else
+      if not @event.rsvp
+        render_error(:message => 'Cannot message attendees because RSVP is not set for this workshop', :status => :unauthorized)
+      elsif @event.external
+        render_error(:message => 'Cannot message attendees of an external workshop', :status => :unauthorized)
+      else
+        raise "workshop unmessageable for some unknown reason"
       end
     end
   end

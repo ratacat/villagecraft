@@ -141,6 +141,11 @@ class WorkshopsController < ApplicationController
   def manage
     @attendees = @workshop.attendees.uniq
   end
+
+  # GET /w/:id/message(.:format)
+  def message
+    @attendees = @workshop.attendees.uniq
+  end
   
   # POST /w/1/sms_attendees
   def sms_attendees

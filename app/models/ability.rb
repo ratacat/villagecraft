@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, session)
-    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :manage_attendees, :lock, :unlock, :sms_attendees, :upload_photo, :manage, :to => :manage_as_host
+    alias_action :edit, :update, :destroy, :accept_attendee, :cancel_attend, :lock, :unlock, :sms_attendees, :upload_photo, :manage, :message, :to => :manage_as_host
 
     # anyone
     can [:show, :attend_by_email], Event
@@ -27,7 +27,8 @@ class Ability
       end
       
       can [:plus, :minus, :create, :index, :destroy], Review, :author_id => user.id
-      
+
+      cannot :manage_as_host, Workshop
       can :simple_index_partial, Workshop
       # host
       if user.host?

@@ -4,11 +4,11 @@ Villagecraft::Application.routes.draw do
   resources :w, controller: 'workshops', as: 'workshops' do
     member do
       get 'manage'
+      get 'message'
       get 'reruns_partial'
       match 'upload_photo'
       post 'auto_add_rerun'
       get 'simple_index_partial'
-      get 'manage_attendees'
       post 'sms_attendees'
     end
   end
@@ -31,7 +31,12 @@ Villagecraft::Application.routes.draw do
   get 'events/:id/attendees(.:format)' => 'events#attendees', :as => :attendees
   post 'events/:id/confirm(.:format)' => 'events#confirm', :as => :confirm_attend
   get 'events/:id/accept_attendee(.:format)' => 'events#accept_attendee', :as => :accept_attendee
-  get 'events/:id/manage' => 'events#manage_attendees', :as => :manage_event
+  resources :events, controller: 'events' do
+    member do
+      get 'manage'
+      get 'message'
+    end
+  end
   post 'events/:id/lock' => 'events#lock', :as => :lock_event
   post 'events/:id/unlock' => 'events#unlock', :as => :unlock_event
   post 'events/:id/sms_attendees' => 'events#sms_attendees', :as => :sms_attendees
