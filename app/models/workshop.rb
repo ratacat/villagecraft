@@ -145,7 +145,7 @@ class Workshop < ActiveRecord::Base
   memoize :next_rerun
   
   def last_rerun
-    self.events.where_first_meeting_starts_in_past.first
+    self.past_reruns.first
   end
   memoize :last_rerun
 
