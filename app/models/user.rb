@@ -201,10 +201,10 @@ class User < ActiveRecord::Base
   end
 
   def send_sms(msg)
-    if Rails.env.development?
-      Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)
-    else
+    if Rails.env.production?
       User.nexmo.send_message({:from => NEXMO_NUMBER, :to => self.phone, :text => msg})
+    else
+      Rails.logger.info %Q(\v\nVirtual Nexmo SMS (would be sent in production mode):\n :to => "#{self.phone}", :from => "#{NEXMO_NUMBER}", :message => "#{msg}"\n\n)
     end
   end
 
