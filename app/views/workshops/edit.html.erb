@@ -1,19 +1,15 @@
-<div class="row">
-  <div class="col-md-9">
-    <span class="panel pull-right">
-      <%= iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
-      <% if admin_session? %>
-        <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
-      <% end %>
-    </span>
-    <h2 class="text-muted margin0">Edit Workshop</h2>
-  </div>
-</div>
-<div class="row">
-<div class="col-md-12">
-  <%= render 'form' %>
+<div class="page-header">
+  <span class="panel pull-right">
+    <%# iconic_link_to 'Manage', manage_workshop_path(@workshop), :icon => 'group', :class => 'btn btn-default' %>
+    <% if admin_session? %>
+      <%= iconic_link_to 'Delete', @workshop, confirm: 'Really delete workshop?', method: :delete, class: 'btn btn-danger', title: 'delete workshop' %>
+    <% end %>
+  </span>
+  <label class="optional" for="event_venue_id">Alerts for the series:</label>
+  <h2 class="margin0"><%= link_to @workshop.title, my_workshops_path(:anchor => "w_#{@workshop.uuid}") %></h2>
 </div>
 
+<div class="row">
 <% unless @workshop.external? %>
 <div class="col-md-12">
 <% if false %>
@@ -34,6 +30,8 @@
 <% end %>
     <dt>
       <h3>Confirmation Email</h3>
+      <%# TODO: show boilerplate %>
+      
       <p class="text-muted">Sends when people sign up.</p>
     </dt>
     <dd>
@@ -60,6 +58,8 @@
 
     <dt>
       <h3>Warm Up Email (optional)</h3>
+      <%# TODO: no placeholders %>
+      
       <p class="text-muted">Sends two days before workshop.</p>
     </dt>
     <dd>
