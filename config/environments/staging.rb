@@ -54,15 +54,9 @@ Villagecraft::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true,
-    :user_name => ENV["SENDGRID_USERNAME"],
-    :password => ENV["SENDGRID_PASSWORD"]
-  }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.default_url_options = { :host => 'test.villagecraft.org' }
 
   # Enable threaded mode
   # config.threadsafe!
@@ -96,7 +90,7 @@ SanitizeEmail::Config.configure do |config|
   config[:sanitized_cc] =         "#{STAGING_EMAIL}"
   config[:sanitized_bcc] =        "#{STAGING_EMAIL}"
   # run/call whatever logic should turn sanitize_email on and off in this Proc:
-  config[:engage] = true
+  config[:engage] = false
   config[:use_actual_email_prepended_to_subject] = true         # or false
   config[:use_actual_environment_prepended_to_subject] = true   # or false
   config[:use_actual_email_as_sanitized_user_name] = true       # or false

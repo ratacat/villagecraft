@@ -7,7 +7,7 @@
 <%= link_to 'Sightings', sightings_path %> | 
 <%= link_to 'Activity', admin_recent_activity_path %> | 
 <%= link_to 'Newsletters', admin_send_system_mailing_path %>
-<% if Rails.env.development? %>
+<% unless Rails.env.production? %>
   | <%= link_to 'Sent Email (dev only)', letter_opener_path %>
 <% end %>
 </p>

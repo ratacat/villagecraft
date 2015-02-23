@@ -190,6 +190,9 @@ end
 
 group :staging do
   gem 'sanitize_email'
+  
+  # handle email in staging, reading it through the admin dash (you still need to run the notifier to make sure email is sent)
+  gem 'letter_opener_web', '~> 1.1.0'
 end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
