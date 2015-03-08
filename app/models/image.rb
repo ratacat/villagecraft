@@ -22,5 +22,5 @@ class Image < ActiveRecord::Base
                                 :small => "50x50#", 
                                 :thumb => "32x32#" }, 
                     :default_url => "/assets/homunculus_:style.png",
-                    :processors => [:thumbnail, :paperclip_optimizer]
+                    :processors => [:thumbnail] #, :paperclip_optimizer]
 end
