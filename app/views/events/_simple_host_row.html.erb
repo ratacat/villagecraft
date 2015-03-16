@@ -12,6 +12,8 @@
   <div class="col-md-4">
      <%= render 'events/lock_toggle', event: event, classes: 'btn-xs' %>
      <%= iconic_link_to '', edit_event_path(event), icon: 'pencil', class: 'btn btn-default btn-xs', title: 'edit' %>
-     <%= iconic_link_to '', manage_event_path(event), class: 'btn btn-default btn-xs', title: 'manage / message attendees' , icon: 'group' %>
+     <% if event.rsvp? %>
+       <%= iconic_link_to '', manage_event_path(event), class: 'btn btn-default btn-xs', title: 'manage / message attendees' , icon: 'group' %>
+     <% end %>
   </div>
 </div>
