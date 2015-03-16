@@ -2,15 +2,17 @@
   <div class="page-header">
     <label>From the series:</label>
     <div class="pull-right">
+      <% if @event.locked? or @event.attendances.count > 0 %>
+          <%= render 'lock_toggle', classes: 'btn-sm' %>
+      <% end %>
+      <%= iconic_link_to 'Delete', @event, confirm: 'Are you sure?', method: :delete, class: 'btn btn-sm btn-danger', title: 'delete', id: 'delete_event_link' %>
       <% if @event.rsvp? %>
         <%= iconic_link_to 'Message attendees', message_event_path(@event), class: 'btn btn-sm btn-default', title: 'message attendees' , icon: 'send' %>
         <%= iconic_link_to 'Manage attendees', manage_event_path(@event), class: 'btn btn-sm btn-default', title: 'message attendees' , icon: 'group' %>
       <% end %>
       <%= iconic_link_to 'Configure alerts', edit_workshop_path(@event.workshop), class: 'btn btn-sm btn-default', title: 'configure alerts' , icon: 'exclamation-circle' %>      
-      <%= iconic_link_to 'Delete', @event, confirm: 'Are you sure?', method: :delete, class: 'btn btn-sm btn-danger', title: 'delete', id: 'delete_event_link' %>
     </div>    
-    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>        
-
+    <h2 class="margin0"><%= link_to @event.workshop.title, my_workshops_path(:anchor => "w_#{@event.workshop.uuid}") %></h2>
   </div>
   
   <%= f.error_notification %>
@@ -208,13 +210,16 @@
    });
   
    $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
-     var alert = $("#lock_alert");
-     alert.replaceWith(data);
-     if ($("#lock_alert a").hasClass("locked")) {
+     var new_button = $(data);
+     var alert_body = $("#lock_alert span");
+     new_button.addClass('btn-sm');
+     $(this).replaceWith(new_button);
+     if (new_button.hasClass("locked")) {
        disable_all(true);
      } else {
        disable_all(false);
      }
+     alert_body.text(new_button.attr("title"));
    }); 
   }
   
