@@ -1,5 +1,9 @@
 <div class="row">
-  <%= iconic_link_to 'New Series', new_workshop_path, :icon => 'plus', :title => 'create a new workshop series (not a re-scheduling of one you have hosted before)', :confirm => "Are you sure that you want to create a completely new workshop series?", :class => 'btn btn-default pull-right', :id => 'new_workshop_btn' %>
+  <%= iconic_link_to 'New Series', '#', 
+      :icon => 'plus', 
+      :title => 'create a new workshop series (not a re-scheduling of one you have hosted before)',  
+      :class => 'btn btn-default pull-right', 
+      :id => 'new_workshop_btn' %>
 </div>
 <div>
   <% if @workshops.blank? %>
@@ -9,6 +13,27 @@
     <%= render 'index', :workshops => @workshops %>
   <% end %>
 </div>
+
+<div id="new_series_modal" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Series</h4>
+      </div>
+      <%= simple_form_for(Workshop.new, url: workshops_path) do |f| %>
+        <div class="modal-body">
+          <p>Start a completely new series of workshops.</p>
+          <%= f.input :title, value: '' %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">OK</button>
+        </div>
+      <% end %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <% ready_script do -%>
   $(document).on('click', 'a.show_all_reruns', function(e) {
@@ -20,6 +45,12 @@
       _this.closest('div.reruns').html( data );
     });
   });
+  
+  $("#new_workshop_btn").on('click', function(e) {
+    e.preventDefault();
+    $("#new_series_modal").modal();
+  });
+  
   $('a.configure_workshop').on({
       mouseenter: function () {
           $(this).closest('h3').addClass('text-primary').removeClass('text-muted');
@@ -40,6 +71,7 @@
   $(document).on('ajax:success', 'a.auto_add_rerun', function(event, data, status, xhr) {
     var reruns_div = $(this).prev();
     var new_row = $(data);
+    reruns_div.find(".none_scheduled").remove();
     reruns_div.append(new_row);
     new_row.highlight();
   });

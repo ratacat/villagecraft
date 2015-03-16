@@ -21,7 +21,7 @@ class Workshop < ActiveRecord::Base
   has_many :event_reviews, :through => :events, :source => :reviews
   has_many :reviews, :as => :apropos, :dependent => :destroy, :conditions => {:deleted_at => nil}
   
-  validates :title, presence: true, uniqueness: {:scope => :host_id, :message => 'you already have a workshop with this name; just schedule a new time, and/or modify the old title and description'}
+  validates :title, presence: true, uniqueness: {:scope => :host_id, :message => 'already exists'}
   validates :host_id, presence: true
   validates :external_url, :url => {:if => lambda {|workshop| workshop.external?}}, :allow_blank => true
   

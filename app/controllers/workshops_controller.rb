@@ -108,16 +108,17 @@ class WorkshopsController < ApplicationController
   # POST /workshops.json
   def create
     @workshop = Workshop.new(workshop_params)
-    unless admin_session? and @workshop.external?
-      @workshop.host = current_user
-    end
+    @workshop.host = current_user
     
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to edit_workshop_path(@workshop), notice: 'Workshop created' }
+        @workshop.with_lock do
+          @event = Event.auto_create_from_workshop(@workshop)
+        end        
+        format.html { redirect_to edit_event_path(@event), notice: "New series created.  Now schedule the first workshop." }
         format.json { render json: @workshop, status: :created, location: @workshop }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to my_workshops_path, notice: "Series " + @workshop.errors.full_messages.join("; ") }
         format.json { render json: @workshop.errors, status: :unprocessable_entity }
       end
     end
