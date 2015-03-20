@@ -1,14 +1,11 @@
 require 'bundler/capistrano'
 require 'capistrano-unicorn'
 
-set :stages, %w(production staging)
-set :default_stage, "staging"
-require 'capistrano/ext/multistage' #Capistrano reccomends bringing in this code after configuring the stages
-
 set :application, 'villagecraft'
 set :git_user, 'ratacat'
 set :repository,  "git@github.com:#{git_user}/#{application}.git"
 
+set :domain, 'test.villagecraft.org'
 set :deploy_to, '/home/villagecraft/www'
 # set :deploy_to, "/home/#{application}/www"
 
@@ -19,9 +16,9 @@ set :default_environment, {
 
 set :keep_releases, 3
 
-# role :web, domain                          # Your HTTP server, Apache/etc
-# role :app, domain                          # This may be the same as your `Web` server
-# role :db,  domain, :primary => true # This is where Rails migrations will run
+role :web, domain                          # Your HTTP server, Apache/etc
+role :app, domain                          # This may be the same as your `Web` server
+role :db,  domain, :primary => true # This is where Rails migrations will run
 # role :db,  "your slave db-server here"
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
