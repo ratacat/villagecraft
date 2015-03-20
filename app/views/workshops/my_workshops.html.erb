@@ -51,14 +51,6 @@
     $("#new_series_modal").modal();
   });
   
-  $('a.configure_workshop').on({
-      mouseenter: function () {
-          $(this).closest('h3').addClass('text-primary').removeClass('text-muted');
-      },
-      mouseleave: function () {
-        $(this).closest('h3').removeClass('text-primary').addClass('text-muted');
-      }
-  });
   $(document).on('ajax:success', 'a.lock_toggle', function(event, data, status, xhr) {
     var new_button = $(data);
     new_button.addClass('btn-xs');
