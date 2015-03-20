@@ -2,14 +2,14 @@
    event ||= @event
    first_meeting = event.first_meeting
 %>
-<div class="row">
-  <div class="col-md-8">
+<tr>
+  <td>
+    <%= render 'events/lock_toggle', event: event, classes: 'btn-xs' %>
+  </td>
+  <td>
     <h4 class="margin0"><%= link_to event.title, edit_event_path(event), id: "e_#{event.uuid}" %></h4>
     <p>
        <%= meeting_time(first_meeting, :date_format => "%B %e, %Y", :no_tz => true, :spacer => ' ') unless first_meeting.nil? %>
     </p>
-  </div>
-  <div class="col-md-4">
-     <%= render 'events/lock_toggle', event: event, classes: 'btn-xs' %>
-  </div>
-</div>
+  </td>
+</tr>

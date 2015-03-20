@@ -38,11 +38,10 @@
 <% ready_script do -%>
   $(document).on('click', 'a.show_all_reruns', function(e) {
     e.preventDefault();
-    var workshop_uuid = $(this).closest('div.reruns').data("workshop-uuid");
+    var workshop_uuid = $(this).closest('table.reruns').data("workshop-uuid");
     var _this = $(this);
     $.get("<%= events_path %>" + "?workshop_uuid=" + workshop_uuid, function( data ) {
-      console.log(data);
-      _this.closest('div.reruns').html( data );
+      _this.closest('table.reruns').html( data );
     });
   });
   
@@ -58,7 +57,7 @@
   });
 
   $(document).on('ajax:success', 'a.delete_rerun', function(event, data, status, xhr) {
-    var rerun_row = $(this).closest(".row");
+    var rerun_row = $(this).closest("tr");
     rerun_row.remove();
   });  
 

@@ -5,18 +5,23 @@
   <div class="col-md-10">
     <% @workshops.each do |workshop| %>
       <h3 id="w_<%= workshop.uuid %>" class="text-muted"><%= workshop.title %></h3>
-     <div class="margin_top10 reruns" data-workshop-uuid="<%= workshop.uuid%>">
+     <table class="margin_top10 reruns" data-workshop-uuid="<%= workshop.uuid%>">
         <% c = workshop.events.joins(:first_meeting).count %>
         <% reruns = ([workshop.last_rerun] + workshop.upcoming_reruns.ordered_by_first_meeting_start_time).compact %>
         <% if (c > 0) %>
           <% if (c > reruns.count) %>
-            <%= iconic_link_to "show #{c - reruns.count} older#{content_tag(:i, '', :class => "fa fa-caret-up")}".html_safe, '#', :icon => 'caret-up', :class => 'show_all_reruns' %>
+            <tr>
+              <td></td>
+              <td>
+                <%= iconic_link_to "show #{c - reruns.count} older#{content_tag(:i, '', :class => "fa fa-caret-up")}".html_safe, '#', :icon => 'caret-up', :class => 'show_all_reruns' %>
+              </td>
+            </tr>
           <% end %>
           <%= render partial: 'events/simple_host_row', collection: reruns, as: :event %>
         <% else %>
           <span class="muted none_scheduled">none scheduled</span>
         <% end %>
-     </div>
+     </table>
      <%= iconic_link_to 'schedule new rerun in series', auto_add_rerun_workshop_path(workshop), icon: 'plus', class: "btn btn-default btn-xs auto_add_rerun", remote: true, method: :post, data: {type: 'html'} %>
     <% end %>
   </div>
