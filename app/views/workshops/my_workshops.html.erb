@@ -56,10 +56,12 @@
     new_button.addClass('btn-xs');
     $(this).replaceWith(new_button);
   });
+
   $(document).on('ajax:success', 'a.delete_rerun', function(event, data, status, xhr) {
     var rerun_row = $(this).closest(".row");
     rerun_row.remove();
   });  
+
   $(document).on('ajax:success', 'a.auto_add_rerun', function(event, data, status, xhr) {
     var reruns_div = $(this).prev();
     var new_row = $(data);
