@@ -21,7 +21,7 @@
         <% if br_on %>
           <br/>
         <% end %>
-        <span class="location"><%= meeting.venue.blank? ? 'TBD' : meeting.location.address %></span>
+        <span class="location"><%= (meeting.venue.blank? or meeting.location.blank?) ? 'TBD' : meeting.location.address %></span>
       <% end %>
     </li>
   <% end -%>
