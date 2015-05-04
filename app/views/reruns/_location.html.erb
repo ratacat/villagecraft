@@ -1,12 +1,9 @@
 <%
   rerun ||= @rerun
+  show_street = rerun.external? || rerun.open? || (not rerun.rsvp? or current_user.try(:attending_event?, rerun))
 %>
 <% if rerun.venue.blank? %>
   TBD
 <% else %>
-  <% if rerun.external? %>
-    <%= address(rerun.venue.location, wrapper_tag: :span, show_state: false) %>
-  <% else %>
-   <%= address(rerun.venue.location, wrapper_tag: :span, show_street: ( not rerun.rsvp? or current_user.try(:attending_event?, rerun)), show_state: false) %>
-  <% end %>
+  <%= address(rerun.venue.location, wrapper_tag: :span, show_street: show_street, show_state: false) %>
 <% end %>
