@@ -55,7 +55,7 @@
         </div>
       </div>
       
-      <%= f.input :open, label: "Display address publicly?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }}, hint: 'Address visible with RSVP?' %>
+      <%= f.input :open, label: "Always show address?", input_html: {data: {:'on-text' => 'YES', :'off-text' => 'NO' }} %>
       
       <div class="form-group string required event_when controls-row datepair">
         <label class="string required control-label" for="event_when"><abbr title="required">*</abbr> Date and Time</label>
@@ -111,13 +111,13 @@
       
       <%= f.input :_not_external, label: "Are you organizing this activity?", as: :boolean, input_html: {value: (not @event.external), data: {:'on-text' => 'YES', :'off-text' => 'NO'}} %>
 
-      <%= f.input :rsvp, label: 'Limit RSVPs', wrapper_html: {class: 'controls-row'} do %>
+      <%= f.input :rsvp, label: 'Require RSVPs', wrapper_html: {class: 'controls-row'} do %>
         <table>
           <tr>
             <td>
-              <%= f.input_field :rsvp, label: "Limit RSVPs?", data: {:'on-text' => 'YES', :'off-text' => 'NO' } %>
+              <%= f.input_field :rsvp, label: "Require RSVPs?", data: {:'on-text' => 'YES', :'off-text' => 'NO' } %>
             </td>
-            <td style="padding:1em;" id="max_attendees_separator">to</td>
+            <td style="padding:1em;" id="max_attendees_separator">limit attendance to</td>
             <td id="max_attendees_input">
               <div class="input-group">
                   <%= f.input_field :max_attendees, :min => 0, :size => 4 %>
