@@ -9,7 +9,7 @@
     <%= inline_venue(meeting.venue, :linked => true) %>
   <% end %>
   <% if include_location %>
-    <%= meeting.venue.blank? ? 'TBD' : meeting.location.address %>
+    <%= (meeting.venue.blank? or meeting.location.blank?) ? 'TBD' : meeting.location.address %>
   <% end %>
   
 <% end -%>
