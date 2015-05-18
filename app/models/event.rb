@@ -146,7 +146,7 @@ class Event < ActiveRecord::Base
   
   def img_src(size = :medium)
     if self.image.blank?
-      Event.placeholder_src(size)
+      self.workshop.img_src(size)
     else
       self.image.i.url(size)
     end
